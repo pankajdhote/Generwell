@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Generwell.Web", "src\Generwell.Web\Generwell.Web.xproj", "{70C84B60-E334-4BC3-8451-952A77222165}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Generwell.Core", "src\Generwell.Core\Generwell.Core.xproj", "{686811BE-A566-4809-8A5F-32A2D3372A2E}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Generwell.Modules", "src\Generwell.Modules\Generwell.Modules.xproj", "{85E9B9F1-4532-45B1-BE53-7B8C4220ABC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +26,21 @@ Global
 		{70C84B60-E334-4BC3-8451-952A77222165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70C84B60-E334-4BC3-8451-952A77222165}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70C84B60-E334-4BC3-8451-952A77222165}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686811BE-A566-4809-8A5F-32A2D3372A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686811BE-A566-4809-8A5F-32A2D3372A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686811BE-A566-4809-8A5F-32A2D3372A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686811BE-A566-4809-8A5F-32A2D3372A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85E9B9F1-4532-45B1-BE53-7B8C4220ABC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85E9B9F1-4532-45B1-BE53-7B8C4220ABC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85E9B9F1-4532-45B1-BE53-7B8C4220ABC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85E9B9F1-4532-45B1-BE53-7B8C4220ABC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{70C84B60-E334-4BC3-8451-952A77222165} = {84E96096-600A-45AD-806A-61F1B4866776}
+		{686811BE-A566-4809-8A5F-32A2D3372A2E} = {84E96096-600A-45AD-806A-61F1B4866776}
+		{85E9B9F1-4532-45B1-BE53-7B8C4220ABC9} = {84E96096-600A-45AD-806A-61F1B4866776}
 	EndGlobalSection
 EndGlobal
