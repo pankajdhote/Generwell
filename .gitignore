@@ -7,3 +7,15 @@ Generwell/src/Generwell.Web/obj/Debug/netcoreapp1.0/Generwell.Webdotnet-compile.
 Generwell/src/Generwell.Web/obj/Debug/netcoreapp1.0/dotnet-compile-csc.rsp
 Generwell/src/Generwell.Web/obj/Debug/netcoreapp1.0/dotnet-compile.assemblyinfo.cs
 Generwell/src/Generwell.Web/obj/Debug/netcoreapp1.0/dotnet-compile.rsp
+/Generwell/src/Generwell.Core/*.user
+/Generwell/src/Generwell.Core/bin/Debug/netstandard1.6
+/Generwell/src/Generwell.Core/obj/Debug/netstandard1.6
+/Generwell/src/Generwell.Modules/bin/Debug/netstandard1.6/*.dll
+/Generwell/src/Generwell.Modules/bin/Debug/netstandard1.6/*.pdb
+/Generwell/src/Generwell.Modules/bin/Debug/netstandard1.6
+/Generwell/src/Generwell.Modules/obj/Debug/netstandard1.6
+/Generwell/src/Generwell.Web/bin/Debug/netcoreapp1.0/*.dll
+/Generwell/src/Generwell.Web/bin/Debug/netcoreapp1.0/*.pdb
+/Generwell/src/Generwell.Web/*.user
+/Generwell/src/Generwell.Modules/*.user
+/Generwell/.vs/Generwell/v14/*.suo

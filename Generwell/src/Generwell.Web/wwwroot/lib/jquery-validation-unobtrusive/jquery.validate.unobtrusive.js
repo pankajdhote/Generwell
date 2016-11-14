@@ -1,3 +1,4 @@
+/// <reference path="jquery.validate.unobtrusive.min.js" />
 /*!
 ** Unobtrusive validation support library for jQuery and jQuery Validate
 ** Copyright (C) Microsoft Corporation. All rights reserved.
