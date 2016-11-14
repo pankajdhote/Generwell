@@ -9,23 +9,24 @@ var wellPage = {
     attachEvents: function () {
         debugger;
 
-        $('#IsFavorite').change(function () {
-            debugger;
-            $('#myPleaseWait').modal('show');
-            $.ajax({
-                url: "/Well/Index",
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                data: { isFavorite: $('#IsFavorite').prop('checked') },
-                success: function (data) {
-                    debugger;
-                    var result = $(data).find("table#wellListDivId");
-                    $('#wellListDivId').html(result);
-                },
-                error: function (data) {
-                }
-            });
-        });
+        //$('#IsFavorite').change(function () {
+        //    debugger;
+        //    $('#myPleaseWait').modal('show');
+        //    $.ajax({
+        //        url: "/Well/Index",
+        //        type: "GET",
+        //        contentType: "application/json; charset=utf-8",
+        //        data: { isFavorite: $('#IsFavorite').prop('checked') },
+        //        success: function (data) {
+        //            debugger;
+        //            $('#myPleaseWait').modal('hide');
+        //            var result = $(data).find("table#wellListDivId");
+        //            $('#wellListDivId').html(result);
+        //        },
+        //        error: function (data) {
+        //        }
+        //    });
+        //});
     }
   
 }

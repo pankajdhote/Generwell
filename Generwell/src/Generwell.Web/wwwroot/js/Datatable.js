@@ -8,7 +8,8 @@ var dataTable = {
     },
     attachEvents: function () {
         debugger;
-        $('.wellListDataTable').DataTable({
+
+        var wellListTable=$('#wellListTableId').DataTable({
             "columnDefs": [
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
@@ -22,25 +23,29 @@ var dataTable = {
                 { "visible": false, "targets": [3] }
             ],
         });
+       
+        ///* Init DataTables */
+        //var oTable = $('#editable').dataTable();
 
-        /* Init DataTables */
-        var oTable = $('#editable').dataTable();
-
-        /* Apply the jEditable handlers to the table */
-        oTable.$('td').editable('../example_ajax.php', {
-            "callback": function (sValue, y) {
-                var aPos = oTable.fnGetPosition(this);
-                oTable.fnUpdate(sValue, aPos[0], aPos[1]);
-            },
-            "submitdata": function (value, settings) {
-                return {
-                    "row_id": this.parentNode.getAttribute('id'),
-                    "column": oTable.fnGetPosition(this)[2]
-                };
-            },
-            "width": "90%",
-            "height": "100%"
-        });
+        ///* Apply the jEditable handlers to the table */
+        //oTable.$('td').editable('../example_ajax.php', {
+        //    "callback": function (sValue, y) {
+        //        var aPos = oTable.fnGetPosition(this);
+        //        oTable.fnUpdate(sValue, aPos[0], aPos[1]);
+        //    },
+        //    "submitdata": function (value, settings) {
+        //        return {
+        //            "row_id": this.parentNode.getAttribute('id'),
+        //            "column": oTable.fnGetPosition(this)[2]
+        //        };
+        //    },
+        //    "width": "90%",
+        //    "height": "100%"
+        //});
 
     },
+    filterDataTable: function () {
+        debugger;
+
+    }
 }
