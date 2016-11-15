@@ -19,3 +19,4 @@ Generwell/src/Generwell.Web/obj/Debug/netcoreapp1.0/dotnet-compile.rsp
 /Generwell/src/Generwell.Web/*.user
 /Generwell/src/Generwell.Modules/*.user
 /Generwell/.vs/Generwell/v14/*.suo
+/Generwell/src/Generwell.Web/*.config

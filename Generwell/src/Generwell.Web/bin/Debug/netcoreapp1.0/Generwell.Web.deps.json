@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "00bdacdf5b42a4cbea5cff4cd39b6be88ab7d402"
+    "signature": "99d6b6d59a9b16acc153de72b0d7e1ddcd3445d3"
   },
   "compilationOptions": {
     "defines": [
@@ -36,7 +36,8 @@
           "BundlerMinifier.Core": "2.2.301",
           "Generwell.Core": "1.0.0",
           "Generwell.Modules": "1.0.0",
-          "Microsoft.AspNetCore.Session": "1.0.0"
+          "Microsoft.AspNetCore.Session": "1.0.0",
+          "dnx-clr-win-x86": "1.0.0-rc1-update2"
         },
         "runtime": {
           "Generwell.Web.dll": {}
@@ -58,6 +59,7 @@
           "lib/netcoreapp1.0/dotnet-bundle.dll": {}
         }
       },
+      "dnx-clr-win-x86/1.0.0-rc1-update2": {},
       "Microsoft.AspNetCore.Antiforgery/1.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.DataProtection": "1.0.0",
@@ -3358,6 +3360,11 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-7vWVrVzO8a9NbdJN/ydYl3pjdt7+VTyGqO5ot2NKi7PGwCQt/H1Jckz0q131y8JbOmdXk/MYvN5U4UFhXUWxOw=="
+    },
+    "dnx-clr-win-x86/1.0.0-rc1-update2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-L04cdvN3DJalsmMHrkkiLk0LNccebwjWMQtey7ts5B+6D5pZdjAeKOvs1rHOncKXi/0o8y7T43b8JDSh6Jv+EA=="
     },
     "Microsoft.AspNetCore.Antiforgery/1.0.1": {
       "type": "package",
