@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0/",
-    "signature": "69331bd948b1df9a6ba9048b0b0302088914065f"
+    "signature": "c9def8d6ac88c31c2ef690fbe05fa3a171f0c7d2"
   },
   "compilationOptions": {
     "defines": [
@@ -36,7 +36,8 @@
           "BundlerMinifier.Core": "2.2.301",
           "Generwell.Core": "1.0.0",
           "Generwell.Modules": "1.0.0",
-          "Microsoft.AspNetCore.Session": "1.0.0"
+          "Microsoft.AspNetCore.Session": "1.0.0",
+          "dnx-clr-win-x86": "1.0.0-rc1-update2"
         },
         "compile": {
           "Generwell.Web.dll": {}
@@ -52,6 +53,7 @@
           "lib/netcoreapp1.0/dotnet-bundle.dll": {}
         }
       },
+      "dnx-clr-win-x86/1.0.0-rc1-update2": {},
       "Libuv/1.9.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -2710,7 +2712,8 @@
           "BundlerMinifier.Core": "2.2.301",
           "Generwell.Core": "1.0.0",
           "Generwell.Modules": "1.0.0",
-          "Microsoft.AspNetCore.Session": "1.0.0"
+          "Microsoft.AspNetCore.Session": "1.0.0",
+          "dnx-clr-win-x86": "1.0.0-rc1-update2"
         },
         "runtime": {
           "Generwell.Web.dll": {}
@@ -2726,6 +2729,7 @@
           "lib/netcoreapp1.0/dotnet-bundle.dll": {}
         }
       },
+      "dnx-clr-win-x86/1.0.0-rc1-update2": {},
       "Libuv/1.9.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -5273,6 +5277,11 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-7vWVrVzO8a9NbdJN/ydYl3pjdt7+VTyGqO5ot2NKi7PGwCQt/H1Jckz0q131y8JbOmdXk/MYvN5U4UFhXUWxOw=="
+    },
+    "dnx-clr-win-x86/1.0.0-rc1-update2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-L04cdvN3DJalsmMHrkkiLk0LNccebwjWMQtey7ts5B+6D5pZdjAeKOvs1rHOncKXi/0o8y7T43b8JDSh6Jv+EA=="
     },
     "Libuv/1.9.0": {
       "type": "package",

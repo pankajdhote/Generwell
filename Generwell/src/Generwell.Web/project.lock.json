@@ -17,6 +17,9 @@
           "lib/netcoreapp1.0/dotnet-bundle.dll": {}
         }
       },
+      "dnx-clr-win-x86/1.0.0-rc1-update2": {
+        "type": "package"
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -3962,6 +3965,48 @@
         "lib/net452/dotnet-bundle.exe",
         "lib/netcoreapp1.0/dotnet-bundle.dll",
         "lib/netcoreapp1.0/dotnet-bundle.runtimeconfig.json"
+      ]
+    },
+    "dnx-clr-win-x86/1.0.0-rc1-update2": {
+      "sha512": "L04cdvN3DJalsmMHrkkiLk0LNccebwjWMQtey7ts5B+6D5pZdjAeKOvs1rHOncKXi/0o8y7T43b8JDSh6Jv+EA==",
+      "type": "package",
+      "path": "dnx-clr-win-x86/1.0.0-rc1-update2",
+      "files": [
+        "bin/Microsoft.CodeAnalysis.CSharp.dll",
+        "bin/Microsoft.CodeAnalysis.dll",
+        "bin/Microsoft.Dnx.ApplicationHost.dll",
+        "bin/Microsoft.Dnx.Compilation.Abstractions.dll",
+        "bin/Microsoft.Dnx.Compilation.CSharp.Abstractions.dll",
+        "bin/Microsoft.Dnx.Compilation.CSharp.Common.dll",
+        "bin/Microsoft.Dnx.Compilation.CSharp.dll",
+        "bin/Microsoft.Dnx.Compilation.DesignTime.dll",
+        "bin/Microsoft.Dnx.Compilation.dll",
+        "bin/Microsoft.Dnx.DesignTimeHost.Abstractions.dll",
+        "bin/Microsoft.Dnx.Host.Clr.dll",
+        "bin/Microsoft.Dnx.Host.Mono.dll",
+        "bin/Microsoft.Dnx.Host.dll",
+        "bin/Microsoft.Dnx.Loader.dll",
+        "bin/Microsoft.Dnx.Runtime.Internals.dll",
+        "bin/Microsoft.Dnx.Runtime.dll",
+        "bin/Microsoft.Dnx.dll",
+        "bin/Microsoft.Extensions.PlatformAbstractions.dll",
+        "bin/System.Collections.Immutable.dll",
+        "bin/System.Reflection.Metadata.dll",
+        "bin/dnu.cmd",
+        "bin/dnx.clr.dll",
+        "bin/dnx.exe",
+        "bin/dnx.onecore.dll",
+        "bin/dnx.win32.dll",
+        "bin/lib/Microsoft.Dnx.DesignTimeHost/Microsoft.Dnx.DesignTimeHost.Abstractions.dll",
+        "bin/lib/Microsoft.Dnx.DesignTimeHost/Microsoft.Dnx.DesignTimeHost.dll",
+        "bin/lib/Microsoft.Dnx.DesignTimeHost/Newtonsoft.Json.dll",
+        "bin/lib/Microsoft.Dnx.Project/Microsoft.Dnx.Project.dll",
+        "bin/lib/Microsoft.Dnx.Tooling/Microsoft.Dnx.Project.dll",
+        "bin/lib/Microsoft.Dnx.Tooling/Microsoft.Dnx.Tooling.dll",
+        "bin/lib/Microsoft.Dnx.Tooling/Newtonsoft.Json.dll",
+        "bin/vcruntime140.dll",
+        "dnx-clr-win-x86.1.0.0-rc1-update2.nupkg.sha512",
+        "dnx-clr-win-x86.nuspec"
       ]
     },
     "Libuv/1.9.0": {
@@ -10145,7 +10190,8 @@
       "Microsoft.Extensions.Logging.Debug >= 1.0.0",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
       "Microsoft.NETCore.App >= 1.0.1",
-      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0"
+      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0",
+      "dnx-clr-win-x86 >= 1.0.0-rc1-update2"
     ],
     ".NETCoreApp,Version=v1.0": []
   },
