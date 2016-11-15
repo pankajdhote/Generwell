@@ -40,6 +40,8 @@ namespace Generwell.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                try { 
                 Authorization authorizeUser = new Authorization();
                 //SignInViewModel signInViewModel = JsonConvert.DeserializeObject<SignInViewModel>(model);
                 var responseMsg =await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
@@ -54,6 +56,13 @@ namespace Generwell.Web.Controllers
                 else {
                     TempData["ServerError"] = "UserName or Password is incorrect";
                 }
+             }
+             catch(Exception ex)
+                {
+                  
+                }
+
+
             }
             return View(signInViewModel);
         }
