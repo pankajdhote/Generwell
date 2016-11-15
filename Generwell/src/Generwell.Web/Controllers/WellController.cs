@@ -29,8 +29,8 @@ namespace Generwell.Web.Controllers
                 //fill Filters dropdown list
                 WebClient webClient = new WebClient();
                 var filterList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Filters, GenerwellConstants.Constants.AccessToken);
-               // List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(filterList);
-
+                List<FilterViewModel> filterViewModel = JsonConvert.DeserializeObject<List<FilterViewModel>>(filterList);
+                ViewBag.FilterList = filterViewModel;
 
                 var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
                 List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);

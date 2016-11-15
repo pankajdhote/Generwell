@@ -48,11 +48,7 @@
                     <h2>Well List</h2>
                 </div>
                 <div class="dropdown">
-                    @Html.DropDownList("Mobiledropdown3", new List<SelectListItem>
-     { new SelectListItem { Text = "HTC DESIRE", Value = "1", Selected=true},
-       new SelectListItem { Text = "Moto G", Value = "2"},
-       new SelectListItem { Text = "GO mobiles", Value = "3"}
-       }, "Select Mobile", new { @class = "form-control btn btn-primary dropdown-toggle" })
+                    @Html.DropDownList("FilterList", new List<SelectListItem>() { ViewBag.FilterList }, "Select Filter", new { @class = "form-control btn btn-primary dropdown-toggle" })
                     @*<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                             Dropdown Example
                             <span class="caret"></span>
