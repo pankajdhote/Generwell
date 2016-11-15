@@ -50,7 +50,7 @@ namespace Generwell.Web.Controllers
                     {
                         GenerwellConstants.Constants.AccessToken = accessTokenViewModel.access_token;
                         GenerwellConstants.Constants.TokenType = accessTokenViewModel.token_type;
-                        TempData["ServerError"] = string.Empty;
+                        TempData["ServerError"] = "";
                         return RedirectToAction("Index", "Well");
                     }
                     else

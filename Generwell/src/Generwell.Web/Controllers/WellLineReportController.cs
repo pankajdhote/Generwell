@@ -22,15 +22,15 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index(string wellId,string wellName,string isFollow)
+        public async Task<ActionResult> Index(string wellId, string wellName, string isFollow)
         {
-            TempData["WellId"] = wellId;
+            GenerwellConstants.Constants.WellId = wellId;
             TempData["WellName"] = wellName;
-            TempData["IsFollow"] = isFollow;
+            TempData["IsFollow"] = isFollow=="True"? isFollow="checked": null;
             WebClient webClient = new WebClient();
-            var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
-            List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
-            return View(wellViewModel);
+            var wellLineReportList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellLineReports, GenerwellConstants.Constants.AccessToken);
+            List<WellLineReportViewModel> wellLineReportViewModel = JsonConvert.DeserializeObject<List<WellLineReportViewModel>>(wellLineReportList);
+            return View(wellLineReportViewModel);
         }
 
 
@@ -39,11 +39,11 @@ namespace Generwell.Web.Controllers
             WebClient webClient = new WebClient();
             if (isFollow == "true")
             {
-                var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + id + "/follow", GenerwellConstants.Constants.AccessToken);
+                var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/follow", GenerwellConstants.Constants.AccessToken);
             }
             else
             {
-                var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + id + "/unfollow", GenerwellConstants.Constants.AccessToken);
+                var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/unfollow", GenerwellConstants.Constants.AccessToken);
                 return getResponse.ToString();
             }
             return string.Empty;

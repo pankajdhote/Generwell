@@ -11,34 +11,9 @@
         wellPage.initialize();
         var targetUrl = '/WellLineReport/Index/';
         dataTable.initialize(wellListTableId, targetUrl);
-
     });
 </script>
 
-
-<!-- Loading Modal Start here-->
-<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
-     role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <span class="glyphicon glyphicon-time">
-                    </span>Please Wait
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-info
-                    progress-bar-striped active"
-                         style="width: 100%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal ends Here -->
 
 <div class="wrapper wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
@@ -47,18 +22,7 @@
                 <div class="ibox-title">
                     <h2>Well List</h2>
                 </div>
-                <div class="dropdown">
-                    @Html.DropDownList("FilterList", (IEnumerable<SelectListItem>)ViewBag.FilterList,"--Filter List--", new { @class = "form-control btn btn-primary dropdown-toggle" })
-                    <span class="ml-20"><input type="checkbox" id="IsFavorite" name="IsFavorite" class="ui-checkboxradio-checked" value=""> My Wells<br></span>
-                </div>
-                <br />
                 <div class="ibox-content">
-                    @*@if (Model.Count()==0)
-                        {
-                            @Html.RenderPartialAsync("_NoData");
-                        }
-                        else
-                        {*@
                     <table id="wellListTableId" class="table table-striped table-bordered table-hover wellListDataTable" style="width:100%;">
                         <thead>
                             <tr>
@@ -103,7 +67,6 @@
                             }
                         </tbody>
                     </table>
-                    @* }*@
                 </div>
             </div>
         </div>

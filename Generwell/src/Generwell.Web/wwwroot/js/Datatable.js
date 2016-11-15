@@ -17,11 +17,11 @@ var dataTable = {
                     "visible": false,
                     "searchable": false
                 },
-                 //{
-                 //    "targets": [7],
-                 //    "visible": false,
-                 //    "searchable": false
-                 //},
+                 {
+                     "targets": [7],
+                     "visible": false,
+                     "searchable": true
+                 },
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
                     // `data` option, which defaults to the column being worked with, in
@@ -33,10 +33,8 @@ var dataTable = {
                 },
             ],
         });
-       
         //On checkbox click filter data tables rows
         var oTable = $('#' + dataTableId.id).DataTable();
-
         $("#IsFavorite").on("change", function () {
             debugger;
             if ($(this).is(":checked")) {
@@ -52,14 +50,13 @@ var dataTable = {
             }
 
         });
-
         //On click of datatable row redirect to well line report page.
-        $('#' + dataTableId.id + ' tbody').on('click', 'tr', function () {
+        $('#wellListTableId tbody').on('click', 'tr', function () {
             debugger;
             var data = oTable.row(this).data();
             //Perform your navigation
-            window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1],'isFollow=' + data[7];
-        });
+            window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1]+'&isFollow=' + data[7];
+        });     
 
     }
 }
