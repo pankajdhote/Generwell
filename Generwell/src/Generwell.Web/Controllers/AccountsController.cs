@@ -38,33 +38,32 @@ namespace Generwell.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(SignInViewModel signInViewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-                try { 
-                Authorization authorizeUser = new Authorization();
-                //SignInViewModel signInViewModel = JsonConvert.DeserializeObject<SignInViewModel>(model);
-                var responseMsg =await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
-                AccessTokenViewModel accessTokenViewModel = JsonConvert.DeserializeObject<AccessTokenViewModel>(responseMsg);
-                if (accessTokenViewModel.access_token != null)
+                if (ModelState.IsValid)
                 {
-                    GenerwellConstants.Constants.AccessToken = accessTokenViewModel.access_token;
-                    GenerwellConstants.Constants.TokenType = accessTokenViewModel.token_type;
-                    TempData["ServerError"] = string.Empty;
-                    return RedirectToAction("Index", "Well");
+                    Authorization authorizeUser = new Authorization();
+                    //SignInViewModel signInViewModel = JsonConvert.DeserializeObject<SignInViewModel>(model);
+                    var responseMsg = await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
+                    AccessTokenViewModel accessTokenViewModel = JsonConvert.DeserializeObject<AccessTokenViewModel>(responseMsg);
+                    if (accessTokenViewModel.access_token != null)
+                    {
+                        GenerwellConstants.Constants.AccessToken = accessTokenViewModel.access_token;
+                        GenerwellConstants.Constants.TokenType = accessTokenViewModel.token_type;
+                        TempData["ServerError"] = string.Empty;
+                        return RedirectToAction("Index", "Well");
+                    }
+                    else
+                    {
+                        TempData["ServerError"] = "UserName or Password is incorrect";
+                    }
                 }
-                else {
-                    TempData["ServerError"] = "UserName or Password is incorrect";
-                }
-             }
-             catch(Exception ex)
-                {
-                  
-                }
-
-
+                return View(signInViewModel);
             }
-            return View(signInViewModel);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>

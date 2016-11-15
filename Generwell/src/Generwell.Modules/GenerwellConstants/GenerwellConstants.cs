@@ -24,6 +24,10 @@ namespace Generwell.Modules.GenerwellConstants
             public static string AccessToken = "";
             public static string TokenType = "";
 
+            public const string NoData = "No Data";
+
+
+
         }
     }
 }
