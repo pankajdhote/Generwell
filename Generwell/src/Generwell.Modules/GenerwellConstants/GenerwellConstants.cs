@@ -7,6 +7,13 @@ namespace Generwell.Modules.GenerwellConstants
 {
     public class GenerwellConstants
     {
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 15-11-2016
+        /// Declare constant variable to use globally
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static class Constants
         {
             public const string Token = "api/Token";

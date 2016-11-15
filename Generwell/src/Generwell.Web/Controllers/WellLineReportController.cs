@@ -14,6 +14,13 @@ namespace Generwell.Web.Controllers
 {
     public class WellLineReportController : Controller
     {
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 15-11-2016
+        /// Display well line reports for particular well.
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Index(string wellId,string wellName,string isFollow)
         {

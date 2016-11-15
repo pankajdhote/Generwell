@@ -14,12 +14,27 @@ namespace Generwell.Web.Controllers
 {
     public class AccountsController : Controller
     {
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 10-11-2016
+        /// Login get method
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 10-11-2016
+        /// Login POST method
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Login(SignInViewModel signInViewModel)
         {
@@ -42,6 +57,14 @@ namespace Generwell.Web.Controllers
             }
             return View(signInViewModel);
         }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 10-11-2016
+        /// Display support popup
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<PartialViewResult> Support()
         {

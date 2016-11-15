@@ -9,7 +9,10 @@ namespace Generwell.Modules.Authorization
     public class Authorization
     {
         /// <summary>
-        /// Web Service Call for getting the Default Values of Application
+        /// Added by pankaj
+        /// Date:- 15-11-2016
+        /// Authenticate user for successfull login
+        /// 
         /// </summary>
         /// <returns></returns>
         public async Task<string> AuthenticateUser(string userName,string password,string webApiUrl)
