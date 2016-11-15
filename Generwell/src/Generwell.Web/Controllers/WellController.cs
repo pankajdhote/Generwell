@@ -15,16 +15,28 @@ namespace Generwell.Web.Controllers
     public class WellController : Controller
     {
         [HttpGet]
-        public async Task<ActionResult> Index(string isFavorite)
+        public async Task<ActionResult> Index()
         {
-            WebClient webClient = new WebClient();
-            var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
-            List<WellViewModel>  wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
-            if (isFavorite != null)
+            try
             {
-                wellViewModel = wellViewModel.Where(w => w.isFavorite ==Convert.ToBoolean(isFavorite)).ToList();
+                //fill Filters dropdown list
+                WebClient webClient = new WebClient();
+                var filterList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Filters, GenerwellConstants.Constants.AccessToken);
+               // List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(filterList);
+
+
+                var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
+                List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
+                //if (isFavorite != null)
+                //{
+                //    wellViewModel = wellViewModel.Where(w => w.isFavorite == Convert.ToBoolean(isFavorite)).ToList();
+                //}
+                return View(wellViewModel);
             }
-            return View(wellViewModel);
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http.Extensions;
+using Generwell.Modules.GenerwellConstants;
 
 namespace Generwell.Modules
 {
@@ -18,7 +19,7 @@ namespace Generwell.Modules
         {
             try
             {
-                var tokenServiceUrl ="https://anar.whelby.com/api/Token";
+                var tokenServiceUrl = serverUrl+ "/api/Token";
                 using (var client = new HttpClient())
                 {
                     var requestParams = new List<KeyValuePair<string, string>>{
@@ -45,7 +46,64 @@ namespace Generwell.Modules
             }
         }
 
-        public async Task<string> GetWebApiDetails(string url,string accessToken)
+        public async Task<string> PostWebApiData(string url, string accessToken)
+        {
+            try
+            {
+                var tokenServiceUrl = url;
+                using (var client = new HttpClient())
+                {
+                    var requestParams = new List<KeyValuePair<string, string>>
+                    {
+                    };
+                    if (accessToken != null)
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    }
+                    var requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
+                    var tokenServiceResponse = await client.PostAsync(tokenServiceUrl, requestParamsFormUrlEncoded);
+                    var responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    var responseCode = tokenServiceResponse.StatusCode;
+                    var responseMsg = new HttpResponseMessage(responseCode)
+                    {
+                        Content = new StringContent(responseString, Encoding.UTF8, "application/json")
+                    };
+                    return responseString;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<string> DeleteWebApiData(string url, string accessToken)
+        {
+            try
+            {
+                var tokenServiceUrl = url;
+                using (var client = new HttpClient())
+                {
+                    if (accessToken != null)
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    }
+                    var tokenServiceResponse = await client.DeleteAsync(tokenServiceUrl);
+                    var responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    var responseCode = tokenServiceResponse.StatusCode;
+                    var responseMsg = new HttpResponseMessage(responseCode)
+                    {
+                        Content = new StringContent(responseString, Encoding.UTF8, "application/json")
+                    };
+                    return responseString;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<string> GetWebApiDetails(string url, string accessToken)
         {
             try
             {

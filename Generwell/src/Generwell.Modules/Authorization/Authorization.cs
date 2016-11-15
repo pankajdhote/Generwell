@@ -12,12 +12,12 @@ namespace Generwell.Modules.Authorization
         /// Web Service Call for getting the Default Values of Application
         /// </summary>
         /// <returns></returns>
-        public async Task<string> AuthenticateUser(string userName,string password,string serverUrl)
+        public async Task<string> AuthenticateUser(string userName,string password,string webApiUrl)
         {
             try
             {
                 WebClient webClient = new WebClient();                
-                var  webApiDetails= await webClient.ProcessRequest(userName,password,serverUrl);
+                var  webApiDetails= await webClient.ProcessRequest(userName,password, webApiUrl);
                 return webApiDetails;
             }
             catch (Exception ex)
