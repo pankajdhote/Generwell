@@ -27,7 +27,7 @@ namespace Generwell.Web.Controllers
             {
                 Authorization authorizeUser = new Authorization();
                 //SignInViewModel signInViewModel = JsonConvert.DeserializeObject<SignInViewModel>(model);
-                var responseMsg =await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.Server);
+                var responseMsg =await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
                 AccessTokenViewModel accessTokenViewModel = JsonConvert.DeserializeObject<AccessTokenViewModel>(responseMsg);
                 if (accessTokenViewModel.access_token != null)
                 {

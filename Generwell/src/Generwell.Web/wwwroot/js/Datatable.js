@@ -2,15 +2,26 @@
 
 var dataTable = {
 
-    initialize: function (data) {
+    initialize: function (dataTableId,targetUrl) {
         //debugger;
-        dataTable.attachEvents();
+        dataTable.attachEvents(dataTableId, targetUrl);
     },
-    attachEvents: function () {
+    attachEvents: function (dataTableId, targetUrl) {
         debugger;
 
-        var wellListTable=$('#wellListTableId').DataTable({
+        //create Generic datatable
+        var dataTable = $('#' + dataTableId.id).DataTable({
             "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                },
+                 //{
+                 //    "targets": [7],
+                 //    "visible": false,
+                 //    "searchable": false
+                 //},
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
                     // `data` option, which defaults to the column being worked with, in
@@ -20,32 +31,35 @@ var dataTable = {
                     },
                     "targets": 0
                 },
-                { "visible": false, "targets": [3] }
             ],
         });
        
-        ///* Init DataTables */
-        //var oTable = $('#editable').dataTable();
+        //On checkbox click filter data tables rows
+        var oTable = $('#' + dataTableId.id).DataTable();
 
-        ///* Apply the jEditable handlers to the table */
-        //oTable.$('td').editable('../example_ajax.php', {
-        //    "callback": function (sValue, y) {
-        //        var aPos = oTable.fnGetPosition(this);
-        //        oTable.fnUpdate(sValue, aPos[0], aPos[1]);
-        //    },
-        //    "submitdata": function (value, settings) {
-        //        return {
-        //            "row_id": this.parentNode.getAttribute('id'),
-        //            "column": oTable.fnGetPosition(this)[2]
-        //        };
-        //    },
-        //    "width": "90%",
-        //    "height": "100%"
-        //});
+        $("#IsFavorite").on("change", function () {
+            debugger;
+            if ($(this).is(":checked")) {
+                oTable
+                  .columns(7)
+                  .search("^" + "True" + "$", true, false, false)
+                  .draw();
+            } else {
+                oTable
+                  .columns(7)
+                  .search("")
+                  .draw();
+            }
 
-    },
-    filterDataTable: function () {
-        debugger;
+        });
+
+        //On click of datatable row redirect to well line report page.
+        $('#' + dataTableId.id + ' tbody').on('click', 'tr', function () {
+            debugger;
+            var data = oTable.row(this).data();
+            //Perform your navigation
+            window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1],'isFollow=' + data[7];
+        });
 
     }
 }

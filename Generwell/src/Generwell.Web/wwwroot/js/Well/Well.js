@@ -2,31 +2,41 @@
 
 var wellPage = {
 
-    initialize: function (data) {
+    initialize: function (wellId) {
         //debugger;
-        wellPage.attachEvents();
+        wellPage.attachEvents(wellId);
     },
-    attachEvents: function () {
+    attachEvents: function (wellId) {
         debugger;
 
-        //$('#IsFavorite').change(function () {
-        //    debugger;
-        //    $('#myPleaseWait').modal('show');
-        //    $.ajax({
-        //        url: "/Well/Index",
-        //        type: "GET",
-        //        contentType: "application/json; charset=utf-8",
-        //        data: { isFavorite: $('#IsFavorite').prop('checked') },
-        //        success: function (data) {
-        //            debugger;
-        //            $('#myPleaseWait').modal('hide');
-        //            var result = $(data).find("table#wellListDivId");
-        //            $('#wellListDivId').html(result);
-        //        },
-        //        error: function (data) {
-        //        }
-        //    });
-        //});
+        $('#followWellId').change(function () {
+            debugger;
+            $('#myPleaseWait').modal('show');
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/WellLineReport/Follow',
+                data: { id: wellId, isFollow: $('#followWellId').prop('checked') },
+                success: function (Data) {
+                    $('#myPleaseWait').modal('hide');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                }
+            });
+            //$.ajax({
+            //    url: "/WellLineReport/Follow",
+            //    type: "POST",
+            //    contentType: "application/json; charset=utf-8",
+            //    data:{isFollow:true},
+            //    success: function (data) {
+            //        debugger;
+            //        $('#myPleaseWait').modal('hide');
+            //    },
+            //    error: function (data) {
+            //    }
+            //});
+        });
     }
   
 }

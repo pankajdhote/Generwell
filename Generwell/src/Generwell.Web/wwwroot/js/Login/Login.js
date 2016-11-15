@@ -36,10 +36,6 @@ var loginPage = {
     MakeAjax: function (requestUrl, parameter1, event) {
         //show loading... image
         debugger;
-        //$('#loginPageForm').validate();
-        if ($('#form').has('.has-error')) {
-
-        }
         $('#myPleaseWait').modal('show');
         var param1 = loginPage.serializeObject($(parameter1).serializeArray());
         $.ajax({
