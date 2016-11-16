@@ -1,7 +1,7 @@
 ﻿@model Generwell.Web.ViewModels.SignInViewModel
 
 @{
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     string error = (TempData["ServerError"] != null) ? TempData["ServerError"].ToString() : string.Empty;
 }
 
@@ -9,6 +9,7 @@
     $(document).ready(function () {
         debugger;
         loginPage.initialize();
+        $("#menu").css("display", "none");
     });
 </script>
 
