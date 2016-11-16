@@ -8,9 +8,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        wellPage.initialize();
+      
         var targetUrl = '/WellLineReport/Index/';
-        dataTable.initialize(wellListTableId, targetUrl);
+        wellPage.initialize(targetUrl);
+        //dataTable.initialize(wellListTableId, targetUrl);
 
     });
 </script>
@@ -88,6 +89,7 @@
                     <h2>Well List</h2>
                 </div>
                 <div class="dropdown">
+<<<<<<< HEAD
                     @*<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                             Dropdown Example
                             <span class="caret"></span>
@@ -97,6 +99,9 @@
                             <li><a href="#">Filter-2</a></li>
                             <li><a href="#">Filter-3</a></li>
                         </ul>*@
+=======
+                    @Html.DropDownList("FilterList", (IEnumerable<SelectListItem>)ViewBag.FilterList,"--Filter List--", new { @class = "form-control btn btn-primary dropdown-toggle" })
+>>>>>>> 457905fc65a8a15167d794b68fc72b22c53c1c8b
                     <span class="ml-20"><input type="checkbox" id="IsFavorite" name="IsFavorite" class="ui-checkboxradio-checked" value=""> My Wells<br></span>
                 </div>
                 <br />

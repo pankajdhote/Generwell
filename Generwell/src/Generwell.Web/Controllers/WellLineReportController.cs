@@ -7,6 +7,7 @@ using Generwell.Modules;
 using Generwell.Web.ViewModels;
 using Generwell.Modules.GenerwellConstants;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,28 +23,32 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index(string wellId,string wellName,string isFollow)
+        public async Task<ActionResult> Index(string wellId, string wellName, string isFollow)
         {
-            TempData["WellId"] = wellId;
+            GenerwellConstants.Constants.WellId = wellId;
+            if (string.IsNullOrEmpty(wellId))
+            {
+                GenerwellConstants.Constants.WellId = wellId;
+            }
             TempData["WellName"] = wellName;
-            TempData["IsFollow"] = isFollow;
+            TempData["IsFollow"] = isFollow=="True"? isFollow="checked": null;
             WebClient webClient = new WebClient();
-            var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
-            List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
-            return View(wellViewModel);
+            var wellLineReportList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellLineReports, GenerwellConstants.Constants.AccessToken);
+            List<WellLineReportViewModel> wellLineReportViewModel = JsonConvert.DeserializeObject<List<WellLineReportViewModel>>(wellLineReportList);
+            return View(wellLineReportViewModel);
         }
 
-
-        public async Task<string> Follow(string id, string isFollow)
+        public async Task<string> Follow(string isFollow)
         {
+            string id = GenerwellConstants.Constants.WellId; 
             WebClient webClient = new WebClient();
             if (isFollow == "true")
             {
-                var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + id + "/follow", GenerwellConstants.Constants.AccessToken);
+                var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/follow", GenerwellConstants.Constants.AccessToken);
             }
             else
             {
-                var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + id + "/unfollow", GenerwellConstants.Constants.AccessToken);
+                var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/unfollow", GenerwellConstants.Constants.AccessToken);
                 return getResponse.ToString();
             }
             return string.Empty;

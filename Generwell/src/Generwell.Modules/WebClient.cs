@@ -58,6 +58,7 @@ namespace Generwell.Modules
                     };
                     if (accessToken != null)
                     {
+                        client.DefaultRequestHeaders.Clear();
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                     }
                     var requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
@@ -112,6 +113,31 @@ namespace Generwell.Modules
                 {
                     if (accessToken != null)
                     {
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    }
+                    var tokenServiceResponse = await client.GetAsync(tokenServiceUrl);
+                    var responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    return responseString;
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<string> GetWebApiWithTimeZone(string url, string accessToken)
+        {
+            try
+            {
+                var tokenServiceUrl = url;
+                using (var client = new HttpClient())
+                {
+                    if (accessToken != null)
+                    {
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Add("Time-Zone", "UTC");
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                     }
                     var tokenServiceResponse = await client.GetAsync(tokenServiceUrl);
