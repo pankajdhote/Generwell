@@ -8,54 +8,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-      
+        wellPage.initialize();
         var targetUrl = '/WellLineReport/Index/';
-        wellPage.initialize(targetUrl);
-        //dataTable.initialize(wellListTableId, targetUrl);
+        dataTable.initialize(wellListTableId, targetUrl);
 
     });
 </script>
-
-<style>
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 12px;
-        overflow: hidden;
-        /*background-color: #333;*/
-       background-color: #f6f6f6;
-    }
-
-    li {
-        float: right;
-    }
-
-        li a {
-            display: block;
-            color: black;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-            li a:hover:not(.active) {
-                background-color: #111;
-            }
-
-    .active {
-        background-color: #4CAF50;
-    }
-</style>
-
-<!--TOP menuebar-->
-<ul>    
-    <li><a href="#">LOCATIONS</a></li>
-    <li><a href="#>PROJECTS</a></li>    
-    <li><a href="#about">PIPELINES</a></li>
-    <li><a href="#contact">FACILITIES</a></li>
-    <li><a class="active" href="/Well/Index">WELLS</a></li>
-    <li><a href="/Task/Index">TASKS</a></li>
-</ul>
 
 <!-- Loading Modal Start here-->
 <div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
@@ -89,29 +47,10 @@
                     <h2>Well List</h2>
                 </div>
                 <div class="dropdown">
-<<<<<<< HEAD
-                    @*<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                            Dropdown Example
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Filter-1</a></li>
-                            <li><a href="#">Filter-2</a></li>
-                            <li><a href="#">Filter-3</a></li>
-                        </ul>*@
-=======
-                    @Html.DropDownList("FilterList", (IEnumerable<SelectListItem>)ViewBag.FilterList,"--Filter List--", new { @class = "form-control btn btn-primary dropdown-toggle" })
->>>>>>> 457905fc65a8a15167d794b68fc72b22c53c1c8b
                     <span class="ml-20"><input type="checkbox" id="IsFavorite" name="IsFavorite" class="ui-checkboxradio-checked" value=""> My Wells<br></span>
                 </div>
                 <br />
                 <div class="ibox-content">
-                    @*@if (Model.Count()==0)
-                        {
-                            @Html.RenderPartialAsync("_NoData");
-                        }
-                        else
-                        {*@
                     <table id="wellListTableId" class="table table-striped table-bordered table-hover wellListDataTable" style="width:100%;">
                         <thead>
                             <tr>
