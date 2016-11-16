@@ -74,5 +74,7 @@ textarea {
   }
 }
  
- 
+ .pagination {
+    padding-left: 12px!important;
+}
    

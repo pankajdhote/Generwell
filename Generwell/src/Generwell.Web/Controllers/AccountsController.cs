@@ -59,12 +59,12 @@ namespace Generwell.Web.Controllers
                     }
                 }
                 return View(signInViewModel);
-            }
+        }
             catch (Exception ex)
             {
                 throw ex;
             }
-        }
+}
 
         /// <summary>
         /// Added by pankaj

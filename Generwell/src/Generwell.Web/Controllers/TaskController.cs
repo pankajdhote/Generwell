@@ -12,12 +12,12 @@ using Generwell.Modules.GenerwellConstants;
 
 namespace Generwell.Web.Controllers
 {
-    public class WellController : Controller
+    public class TaskController : Controller
     {
         /// <summary>
-        /// Added by pankaj
-        /// Date:- 13-11-2016
-        /// Fetch all wells from web api and display on well list page.
+        /// Added by rohit
+        /// Date:- 15-11-2016
+        /// Fetch all task from web api and display on task list page.
         /// 
         /// </summary>
         /// <returns></returns>
@@ -32,9 +32,11 @@ namespace Generwell.Web.Controllers
                 List<FilterViewModel> filterViewModel = JsonConvert.DeserializeObject<List<FilterViewModel>>(filterList);
                 ViewBag.FilterList = filterViewModel;
 
-                var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
-                List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);              
-                return View(wellViewModel);
+                var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);                   
+               
+                List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+
+                return View(taskViewModel);
             }
             catch (Exception ex)
             {
