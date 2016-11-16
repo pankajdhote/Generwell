@@ -8,9 +8,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        wellPage.initialize();
+      
         var targetUrl = '/WellLineReport/Index/';
-        dataTable.initialize(wellListTableId, targetUrl);
+        wellPage.initialize(targetUrl);
+        //dataTable.initialize(wellListTableId, targetUrl);
 
     });
 </script>

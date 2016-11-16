@@ -62,7 +62,7 @@
                                     <tr class="gradeU">
                                         <td>@item.id</td>
                                         <td>@item.description</td>
-                                        <td><input type="text" name="@item.value" value="@item.value" class="form-control col-md-12"></td>
+                                        <td><label>@item.value</label></td>
                                     </tr>
                                 }
                             }
@@ -71,15 +71,16 @@
                                 <tr class="gradeU">
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
+                                     <td>@GenerwellConstants.Constants.NoData</td>
                                 </tr>
 
                             }
                         </tbody>
                     </table>
                     @* }*@
-                    <button class="btn btn-primary" type="button" data-toggle="Back">Back</button>
-                    <button class="btn btn-primary" type="button" data-toggle="Back">Location</button>
-                    <button class="btn btn-primary" type="button" data-toggle="Back">Back</button>
+                    <button id="backDetailsPageId" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
+                    <button id="" class="btn btn-primary" type="button" data-toggle="Back">Location</button>
+                    <button id="" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
                 </div>
             </div>
         </div>

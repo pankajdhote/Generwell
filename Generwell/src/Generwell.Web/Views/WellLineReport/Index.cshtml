@@ -9,8 +9,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var targetUrl = '/WellDetails/Index/';
-        wellPage.initialize(@GenerwellConstants.Constants.WellId ,targetUrl);
-        //dataTable.initialize(wellLineReportListTableId, targetUrl);
+        wellLineReportPage.initialize(targetUrl);
     });
 </script>
 
@@ -88,9 +87,9 @@
                         </tbody>
                     </table>
                     @* }*@
-                    <button class="btn btn-primary" type="button" data-toggle="Back">Back</button>
-                    <button class="btn btn-primary" type="button" data-toggle="Back">Location</button>
-                    <button class="btn btn-primary" type="button" data-toggle="Back">Back</button>
+                    <button id="backLineReportId" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
+                    <button id="locationLineReportId" class="btn btn-primary" type="button" data-toggle="Back">Location</button>
+                    <button id="taskLineReportId" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
                 </div>
             </div>
         </div>

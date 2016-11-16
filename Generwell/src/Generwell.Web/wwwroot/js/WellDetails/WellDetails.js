@@ -40,6 +40,13 @@ var wellDetailsPage = {
         //});
         //End datatable
 
+        //on back button click redirect to well line report page
+        $('#backDetailsPageId').on('click', function () {
+            debugger;
+            var targetUrl = '/WellLineReport/Index/';
+            window.location.href = targetUrl;
+        });
+
     }
   
 }

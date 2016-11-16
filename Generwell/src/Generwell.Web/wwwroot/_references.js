@@ -4,6 +4,7 @@
 /// <reference path="js/site.js" />
 /// <reference path="js/Well/Well.js" />
 /// <reference path="js/welldetails/welldetails.js" />
+/// <reference path="js/welllinereport/welllinereport.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
 /// <reference path="lib/jquery/dist/jquery.js" />
 /// <reference path="lib/jquery-validation/dist/jquery.validate.js" />

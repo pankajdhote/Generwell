@@ -7,6 +7,7 @@ using Generwell.Modules;
 using Generwell.Web.ViewModels;
 using Generwell.Modules.GenerwellConstants;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +26,10 @@ namespace Generwell.Web.Controllers
         public async Task<ActionResult> Index(string wellId, string wellName, string isFollow)
         {
             GenerwellConstants.Constants.WellId = wellId;
+            if (string.IsNullOrEmpty(wellId))
+            {
+                GenerwellConstants.Constants.WellId = wellId;
+            }
             TempData["WellName"] = wellName;
             TempData["IsFollow"] = isFollow=="True"? isFollow="checked": null;
             WebClient webClient = new WebClient();
@@ -33,9 +38,9 @@ namespace Generwell.Web.Controllers
             return View(wellLineReportViewModel);
         }
 
-
-        public async Task<string> Follow(string id, string isFollow)
+        public async Task<string> Follow(string isFollow)
         {
+            string id = GenerwellConstants.Constants.WellId; 
             WebClient webClient = new WebClient();
             if (isFollow == "true")
             {

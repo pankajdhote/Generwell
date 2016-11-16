@@ -2,21 +2,26 @@
 
 var wellPage = {
 
-    initialize: function (wellId,targetUrl) {
+    initialize: function (targetUrl) {
         //debugger;
-        wellPage.attachEvents(wellId,targetUrl);
+        wellPage.attachEvents(targetUrl);
     },
-    attachEvents: function (wellId, targetUrl) {
+    attachEvents: function (targetUrl) {
         debugger;
 
-        //start datatable
-        var dataTable = $('#wellLineReportListTableId').DataTable({
+        //create Generic datatable
+        var dataTable = $('#wellListTableId').DataTable({
             "columnDefs": [
                 {
                     "targets": [0],
                     "visible": false,
                     "searchable": false
                 },
+                 {
+                     "targets": [7],
+                     "visible": false,
+                     "searchable": true
+                 },
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
                     // `data` option, which defaults to the column being worked with, in
@@ -29,65 +34,29 @@ var wellPage = {
             ],
         });
         //On checkbox click filter data tables rows
-        var oTable = $('#wellLineReportListTableId').DataTable();
-        
+        var oTable = $('#wellListTableId').DataTable();
+        $("#IsFavorite").on("change", function () {
+            debugger;
+            if ($(this).is(":checked")) {
+                oTable
+                  .columns(7)
+                  .search("^" + "True" + "$", true, false, false)
+                  .draw();
+            } else {
+                oTable
+                  .columns(7)
+                  .search("")
+                  .draw();
+            }
+
+        });
         //On click of datatable row redirect to well line report page.
-        $('#wellLineReportListTableId tbody').on('click', 'tr', function () {
+        $('#wellListTableId tbody').on('click', 'tr', function () {
             debugger;
             var data = oTable.row(this).data();
             //Perform your navigation
-            window.location.href = targetUrl + '?reportId=' + data[0];
-        });
-        //End datatable
-
-        $('#FilterList').change(function () {
-            debugger;
-            $.ajax({
-                type: 'GET',
-                dataType: 'html',
-                url: '/Well/FilterWell',
-                data: { id: $("#FilterList option:selected").text() },
-                success: function (Data) {
-                    debugger;
-                    if (data != undefined || data != "" || data != null) {
-                        $('#myModalContent').html(data);
-                        $('#myPleaseWait').modal('hide');
-                        $('#myModal').modal('show');
-                    }
-                    $('#myPleaseWait').modal('hide');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    debugger;
-                }
-            });
+            window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1] + '&isFollow=' + data[7];
         });
 
-        $('#followWellId').change(function () {
-            debugger;
-            $('#myPleaseWait').modal('show');
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: '/WellLineReport/Follow',
-                data: { id: wellId, isFollow: $('#followWellId').prop('checked') },
-                success: function (Data) {
-                    debugger;                    
-                    $('#myPleaseWait').modal('hide');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#myPleaseWait').modal('hide');
-                }
-            });
-           
-            $('#wellListTableId tbody').on('click', 'tr', function () {
-                debugger;
-                var data = oTable.row(this).data();
-                //Perform your navigation
-                window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1], 'isFollow=' + data[7];
-            });
-
-
-        });
     }
-  
 }
