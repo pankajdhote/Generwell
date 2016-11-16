@@ -40,5 +40,21 @@ namespace Generwell.Web.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        public async Task<PartialViewResult> FilterTask(string id)
+        {
+            try
+            {
+                WebClient webClient = new WebClient();
+                var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskFilter + "=" + id, GenerwellConstants.Constants.AccessToken);
+                List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+                return PartialView("_FilterTask", taskViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

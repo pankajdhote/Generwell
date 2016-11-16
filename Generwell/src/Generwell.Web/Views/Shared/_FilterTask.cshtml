@@ -9,7 +9,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         //taskPage.initialize();
-        //var targetUrl = '';       
+        //var targetUrl = '';
         //dataTable.initialize(taskListTableId, targetUrl);
         taskPage.initialize(@TempData["TaskId"]);
         var targetUrl = '/TaskDetails/Index/';
@@ -89,7 +89,7 @@
                                     <tr class="gradeU" style="cursor:pointer;width:70%">
                                         @*<td>@item.id</td>*@
                                         <td style="width:5%;">
-                                          
+
                                             @*    @item.Status*@
                                             @{
                                                 if (@item.Completed == GenerwellConstants.Constants.Status)
@@ -127,10 +127,6 @@
                     </table>
                     @* }*@
                 </div>
-                @*<br />
-                <div id="taskTableDivId" class="ibox-content">
-                    @Html.Partial("_FilterTask", Model)
-                </div>*@
             </div>
         </div>
     </div>
