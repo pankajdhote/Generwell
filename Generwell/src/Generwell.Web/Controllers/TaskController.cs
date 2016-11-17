@@ -22,20 +22,22 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string isWellId)
         {
             try
             {
-                //fill Filters dropdown list
                 WebClient webClient = new WebClient();
-                var filterList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Filters, GenerwellConstants.Constants.AccessToken);
-                List<FilterViewModel> filterViewModel = JsonConvert.DeserializeObject<List<FilterViewModel>>(filterList);
-                ViewBag.FilterList = filterViewModel;
-
-                var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);                   
-               
-                List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
-
+                List<TaskViewModel> taskViewModel;
+                if (!string.IsNullOrEmpty(isWellId))
+                {
+                    var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task+ "?keyId=" + GenerwellConstants.Constants.WellId, GenerwellConstants.Constants.AccessToken);
+                    taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+                }
+                else
+                {
+                    var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
+                    taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+                }
                 return View(taskViewModel);
             }
             catch (Exception ex)

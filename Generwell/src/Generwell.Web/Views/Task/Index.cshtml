@@ -15,70 +15,8 @@
     });
 </script>
 
-<style>
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 12px;
-        overflow: hidden;
-        /*background-color: #333;*/
-       background-color: #f6f6f6;
-    }
-
-    li {
-        float: right;
-    }
-
-        li a {
-            display: block;
-            color: black;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-            li a:hover:not(.active) {
-                background-color: #111;
-            }
-
-    .active {
-        background-color: #4CAF50;
-    }
-</style>
-
-<!--TOP menuebar-->
-<ul>
-    <li><a href="#">LOCATIONS</a></li>
-    <li><a href="#>PROJECTS</a></li>
-    <li><a href="#about">PIPELINES</a></li>
-    <li><a href="#contact">FACILITIES</a></li>
-    <li><a href="/Well/Index">WELLS</a></li>
-    <li><a class="active" href="/Task/Index">TASKS</a></li>
-</ul>
-
-
 <!-- Loading Modal Start here-->
-<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
-     role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <span class="glyphicon glyphicon-time">
-                    </span>Please Wait
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-info
-                    progress-bar-striped active"
-                         style="width: 100%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
 <div class="wrapper wrapper-content animated fadeInRight mr-20 ml-20">
@@ -89,15 +27,6 @@
                     <h2>Task Listing</h2>
                 </div>
                 <div class="dropdown">
-                    @*<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                            Dropdown Example
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Filter-1</a></li>
-                            <li><a href="#">Filter-2</a></li>
-                            <li><a href="#">Filter-3</a></li>
-                        </ul>*@
                     <span class="ml-20"><input type="checkbox" id="IsFavorite" name="IsFavorite" class="ui-checkboxradio-checked" value=""> My Tasks<br></span>
                 </div>
                 <br />

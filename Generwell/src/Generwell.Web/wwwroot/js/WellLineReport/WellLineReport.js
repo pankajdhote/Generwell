@@ -34,6 +34,7 @@ var wellLineReportPage = {
         //On click of datatable row redirect to well line report page.
         $('#wellLineReportListTableId tbody').on('click', 'tr', function () {
             debugger;
+            $('#processing-modal').modal("show");
             var data = oTable.row(this).data();
             //Perform your navigation
             window.location.href = targetUrl + '?reportId=' + data[0];
@@ -44,7 +45,7 @@ var wellLineReportPage = {
         //Follow or unfollow particular well 
         $('#followWellId').change(function () {
             debugger;
-            $('#myPleaseWait').modal('show');
+            $('#processing-modal').modal("show");
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -52,10 +53,10 @@ var wellLineReportPage = {
                 data: {isFollow: $('#followWellId').prop('checked') },
                 success: function (Data) {
                     debugger;
-                    $('#myPleaseWait').modal('hide');
+                    $('#processing-modal').modal("hide");
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#myPleaseWait').modal('hide');
+                    $('#processing-modal').modal("hide");
                 }
             });
         });
@@ -63,7 +64,16 @@ var wellLineReportPage = {
         //On back button click redirect to well page
         $('#backLineReportId').on('click', function () {
             debugger;
+            $('#processing-modal').modal("show");
             var targetUrl = '/Well/Index/';
+            window.location.href = targetUrl;
+        });
+
+        //on task button click redirect to task page
+        $('#taskPageId').on('click', function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            var targetUrl = '/Task/Index?isWellId="1"';
             window.location.href = targetUrl;
         });
     }
