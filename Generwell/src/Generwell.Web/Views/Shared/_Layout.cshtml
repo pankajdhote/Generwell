@@ -28,75 +28,13 @@
 
     @*//Added for checkbox filter*@
     @*<link href="~/Scripts/yadcf-0.9.1/jquery.dataTables.yadcf.css" rel="stylesheet" />
-        <script src="~/Scripts/yadcf-0.9.1/jquery.dataTables.yadcf.js"></script>*@
-
-    <style>
-        /*table data width*/
-        
-        /*To add navignation menues(15.11.2016)-rohit*/
-
-       #menu ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0px;
-            overflow: hidden;
-            /*background-color: #333;*/
-            background-color: #1B365D;
-        }
-
-        li {
-            float: right;
-            font-family:"'Open Sans', sans-serif";
-        }
-
-            li a {
-                display: inline-block;
-                color: white;
-                text-align: center;
-                /*padding: 19px 16px;*/
-                padding: 40px 20px;
-                text-decoration: none !important;
-            }
-
-                li a:hover:not(.active) {
-                    background-color: #c5cfda;
-                }
-
-                li a:hover {
-                    color: #e29f35 !important;
-                }
-
-         li a:active{
-            background-color: #4CAF50;
-        }      
-        
-
-
-          
-    </style>
-
-   
-
+    <script src="~/Scripts/yadcf-0.9.1/jquery.dataTables.yadcf.js"></script>*@
+    
     <title>@ViewBag.Title</title>
 </head>
-
-
 <body>
-    <div id="menu">
-        <ul>
-            <li><a href="#">LOCATIONS</a></li>
-            <li><a href="#">PROJECTS</a></li>
-            <li><a href="#">PIPELINES</a></li>
-            <li><a href="#">FACILITIES</a></li>
-            <li><a href="/Well/Index">WELLS</a></li>
-            <li><a href="/Task/Index">TASKS</a></li>
-        </ul>
-    </div>
     <div>
         @RenderBody()
     </div>
 </body>
-  <!--TOP menuebar-->
-
-
 </html>
