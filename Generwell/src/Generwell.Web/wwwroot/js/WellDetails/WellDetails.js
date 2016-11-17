@@ -11,12 +11,18 @@ var wellDetailsPage = {
 
         //start datatable
         var dataTable = $('#wellDetailsListTableId').DataTable({
+            "bPaginate": false,
             "columnDefs": [
                 {
                     "targets": [0],
                     "visible": false,
                     "searchable": false
                 },
+                 {
+                     "targets": [3],
+                     "visible": false,
+                     "searchable": false
+                 },                 
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
                     // `data` option, which defaults to the column being worked with, in
@@ -24,29 +30,49 @@ var wellDetailsPage = {
                     "render": function (data, type, row) {
                         return data + ' (' + row[3] + ')';
                     },
-                    "targets": 0
+                    "targets": 0                    
                 },
             ],
         });
         //On checkbox click filter data tables rows
         var oTable = $('#wellDetailsListTableId').DataTable();
         
-        //On click of datatable row redirect to well line report page.
-        //$('#wellDetailsListTableId tbody').on('click', 'tr', function () {
-        //    debugger;
-        //    var data = oTable.row(this).data();
-        //    //Perform your navigation
-        //    window.location.href = targetUrl + '?reportId=' + data[0];
-        //});
         //End datatable
 
         //on back button click redirect to well line report page
         $('#backDetailsPageId').on('click', function () {
             debugger;
+            $('#processing-modal').modal("show");
             var targetUrl = '/WellLineReport/Index/';
             window.location.href = targetUrl;
         });
 
+        //on task button click redirect to task page
+        $('#taskPageId').on('click', function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            var targetUrl = '/Task/Index?isWellId="1"';
+            window.location.href = targetUrl;
+        });
+
+        //Follow or unfollow particular well 
+        $('#followWellId').change(function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/WellDetails/Follow',
+                data: { isFollow: $('#followWellId').prop('checked') },
+                success: function (Data) {
+                    debugger;
+                    $('#processing-modal').modal("hide");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#processing-modal').modal("hide");
+                }
+            });
+        });
     }
   
 }

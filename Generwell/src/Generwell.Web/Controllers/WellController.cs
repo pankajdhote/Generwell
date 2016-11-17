@@ -49,8 +49,17 @@ namespace Generwell.Web.Controllers
             try
             {
                 WebClient webClient = new WebClient();
-                var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellFilter+"="+ id , GenerwellConstants.Constants.AccessToken);
-                List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
+                List<WellViewModel> wellViewModel;
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellFilter + "=" + id, GenerwellConstants.Constants.AccessToken);
+                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
+                }
+                else
+                {
+                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
+                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
+                }
                 return PartialView("_FilterWell", wellViewModel);
             }
             catch (Exception ex)

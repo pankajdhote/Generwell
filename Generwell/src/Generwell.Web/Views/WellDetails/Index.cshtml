@@ -2,7 +2,7 @@
 @using Generwell.Modules.GenerwellConstants;
 
 @{
-    ViewBag.Title = "DataTables";
+    ViewBag.Title = "Well Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,29 +12,8 @@
     });
 </script>
 
-
 <!-- Loading Modal Start here-->
-<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
-     role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <span class="glyphicon glyphicon-time">
-                    </span>Please Wait
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-info
-                    progress-bar-striped active"
-                         style="width: 100%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
 <div class="wrapper wrapper-content animated fadeInRight mr-20 ml-20">
@@ -44,26 +23,51 @@
                 <div class="ibox-title">
                     <h2> Well Details</h2>
                 </div>
+                <hr />
+                <div>
+                    <button id="backDetailsPageId" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
+                    <button id="locationPageId" class="btn btn-primary" type="button" data-toggle="Back">Location</button>
+                    <button id="taskPageId" class="btn btn-primary" type="button" data-toggle="Back">Tasks</button>
+                </div>
+                <br />
+                <div>
+                    <span class="ml-20"><input type="checkbox" id="followWellId" name="followWell" class="ui-checkboxradio-checked" @GenerwellConstants.Constants.IsFollow value=""> Follow Well<br></span>
+                </div>
+                <hr />
                 <br />
                 <div class="ibox-content">
                     <table id="wellDetailsListTableId" class="table table-striped table-bordered table-hover wellDetailsListTableDataTable" style="width:100%;">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Value</th>
+                                <th class="wd-width25">Id<i class="fa fa-fw fa-sort"></i></th>
+                                <th class="wd-width25">Name<i class="fa fa-fw fa-sort"></i></th>
+                                <th class="wd-width25">Value<i class="fa fa-fw fa-sort"></i></th>
+                                <th class="wd-width25">Id<i class="fa fa-fw fa-sort"></i></th>
+                                <th class="wd-width25">Name<i class="fa fa-fw fa-sort"></i></th>
+                                <th class="wd-width25">Value<i class="fa fa-fw fa-sort"></i></th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (Model.Count() > 0)
                             {
+                                int count = 1;
                                 @foreach (var item in Model)
                                 {
-                                    <tr class="gradeU">
+                                    @if (count % 2 == 1)
+                                    {
+                                        @:<tr class="gradeU">
+                                            <td>@item.id</td>
+                                            <td>@item.description</td>
+                                            <td><label>@item.value</label></td>
+                                    }
+                                    @if (count % 2 == 0)
+                                    {
                                         <td>@item.id</td>
-                                        <td>@item.description</td>
-                                        <td><label>@item.value</label></td>
-                                    </tr>
+                                                <td>@item.description</td>
+                                                <td><label>@item.value</label></td>
+                                            @:</tr>
+                                            }
+                                    count++;
                                 }
                             }
                             else
@@ -71,20 +75,14 @@
                                 <tr class="gradeU">
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
-                                     <td>@GenerwellConstants.Constants.NoData</td>
+                                    <td>@GenerwellConstants.Constants.NoData</td>
                                 </tr>
 
                             }
                         </tbody>
-                    </table>
-                    @* }*@
-                    <button id="backDetailsPageId" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
-                    <button id="" class="btn btn-primary" type="button" data-toggle="Back">Location</button>
-                    <button id="" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
+                    </table>                                       
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-

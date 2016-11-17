@@ -11,7 +11,7 @@ var loginPage = {
 
         $('#supportId').click(function () {
             debugger;
-            $('#myPleaseWait').modal('show');
+            $('#processing-modal').modal("show");
             $.ajax({
                 url: "/Accounts/Support",
                 type: "GET",
@@ -23,7 +23,7 @@ var loginPage = {
                     debugger;
                     if (data != undefined || data != "" || data != null) {
                         $('#myModalContent').html(data);
-                        $('#myPleaseWait').modal('hide');
+                        $('#processing-modal').modal("hide");
                         $('#myModal').modal('show');
                     }
                 },
@@ -36,7 +36,7 @@ var loginPage = {
     MakeAjax: function (requestUrl, parameter1, event) {
         //show loading... image
         debugger;
-        $('#myPleaseWait').modal('show');
+        $('#processing-modal').modal("show");
         var param1 = loginPage.serializeObject($(parameter1).serializeArray());
         $.ajax({
             url: requestUrl,
@@ -45,16 +45,16 @@ var loginPage = {
             async: true,
             data: { model: JSON.stringify(param1) },
             success: function (data, status, jqXHR) {
-                $('#myPleaseWait').modal('hide');
+                $('#processing-modal').modal("hide");
                 debugger;
             },
             error: function (jqXHR, status, err) {
                 debugger;
-                $('#myPleaseWait').modal('hide');
+                $('#processing-modal').modal("hide");
             },
             complete: function (jqXHR, status) {
                 debugger;
-                $('#pleaseWaitDialog').hide();
+                $('#processing-modal').modal("show");
             }
         });
     },
@@ -72,11 +72,5 @@ var loginPage = {
             }
         })
         return object;
-    },
-    showPleaseWait: function () {
-        $('#pleaseWaitDialog').modal('show');
-    },
-    hidePleaseWait: function () {
-        $('#pleaseWaitDialog').modal('hide');
     }
 }

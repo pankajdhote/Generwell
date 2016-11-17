@@ -24,17 +24,19 @@ namespace Generwell.Modules.GenerwellConstants
             public const string WellLineReports = "https://anar.whelby.com/api/v2016.1/linereports?fieldLevelId=1";
             public const string WellDetails = "https://anar.whelby.com/api/v2016.1/wells/7361/linereports/5006";
             public const string Filters = "https://anar.whelby.com/api/v2016.1/filters";
-            public const bool Status = true;
-            public const string TaskFilter = "https://anar.whelby.com/api/v2016.1/personnel/current";
 
-
-
+            public const string Status = "Active";
             public static string AccessToken = "";
             public static string TokenType = "";
 
             public const string NoData = "No Data";
             public static string WellId = string.Empty;
-            public static string TaskId = string.Empty;
+            public static string WellName = string.Empty;
+            public static string IsFollow = string.Empty;
+            public static string trueState = "true";
+            public static string falseState = "true";
+            public static string checkedState = "checked";
+            public static string uncheckedState = "unchecked";
 
             public static string TimeZone = "EDT";
 

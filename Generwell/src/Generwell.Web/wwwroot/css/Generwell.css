@@ -22,3 +22,24 @@ margin-right:20px;
 margin-left:20px;
 }
 
+.wd-width25 {
+    width:25% !important;
+}
+.w-10 {
+        width:10% !important;
+}
+.w-50 {
+        width:50% !important;
+}
+table tr {
+    cursor: pointer;
+}
+
+.icheckbox_square-green, .iradio_square-green {
+    width: 23px !important;
+}
+.iradio_square-green {
+        background-image: url(green@2x.png);
+        -webkit-background-size: 240px 24px;
+        background-size: 240px 24px;
+    }

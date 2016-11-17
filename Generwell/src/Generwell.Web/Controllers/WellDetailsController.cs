@@ -29,5 +29,30 @@ namespace Generwell.Web.Controllers
             LineReportsViewModel wellDetailsViewModel = JsonConvert.DeserializeObject<LineReportsViewModel>(wellDetailsList);
             return View(wellDetailsViewModel.fields);
         }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 14-11-2016
+        /// follow or unfollow well by id
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> Follow(string isFollow)
+        {
+            string id = GenerwellConstants.Constants.WellId;
+            WebClient webClient = new WebClient();
+            if (isFollow == GenerwellConstants.Constants.trueState)
+            {
+                GenerwellConstants.Constants.IsFollow = GenerwellConstants.Constants.checkedState;
+                var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/follow", GenerwellConstants.Constants.AccessToken);
+            }
+            else
+            {
+                GenerwellConstants.Constants.IsFollow = GenerwellConstants.Constants.uncheckedState;
+                var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/unfollow", GenerwellConstants.Constants.AccessToken);
+                return getResponse.ToString();
+            }
+            return string.Empty;
+        }
+
     }
 }
