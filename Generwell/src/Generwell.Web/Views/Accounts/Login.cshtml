@@ -1,17 +1,15 @@
 ﻿@model Generwell.Web.ViewModels.SignInViewModel
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string error = (TempData["ServerError"] != null) ? TempData["ServerError"].ToString() : string.Empty;
 }
-
 <script type="text/javascript">
     $(document).ready(function () {
         debugger;
         loginPage.initialize();
+        $("#menu").css("display", "none");
     });
 </script>
-
 @* Support Modal popup display *@
 <div id='myModal' class='modal'>
     <div class="modal-dialog w-26">
@@ -20,7 +18,6 @@
         </div>
     </div>
 </div>
-
 <!-- Loading Modal Start here-->
 <div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
      role="dialog" aria-hidden="true" data-backdrop="static">
@@ -44,7 +41,6 @@
     </div>
 </div>
 <!-- Modal ends Here -->
-
 <div class="container center-screen">
     <div class="row">
         <div class="Absolute-Center is-Responsive">
@@ -56,31 +52,29 @@
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "UserName" })
                     </div>
-                   
+
                     @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-red" })
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                         @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Password" })
                     </div>
-                   
+
                     @Html.ValidationMessageFor(model => model.WebApiUrl, null, new { @class = "text-red" })
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                         @Html.TextBoxFor(model => model.WebApiUrl, new { @class = "form-control", placeholder = "Url" })
                     </div>
-                   
+
                     <div class="form-group">
-                        <button type="submit" id="submitData" value="Login" class="btn btn-def btn-block" >Login</button>
+                        <button type="submit" id="submitData" value="Login" class="btn btn-def btn-block">Login</button>
                         @*<button type="button" id="submitData" value="Login" class="btn btn-def btn-block" onclick="loginPage.MakeAjax('/Accounts/Login', $('#loginPageForm :input'),this)">Login</button>*@
                     </div>
                     <div class="form-group text-center">
                         <!-- Trigger the modal with a button -->
                         <a id="supportId" href="#">Support</a>
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
 </div>
-
