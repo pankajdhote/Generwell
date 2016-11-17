@@ -56,7 +56,15 @@ var dataTable = {
             var data = oTable.row(this).data();
             //Perform your navigation
             window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1]+'&isFollow=' + data[7];
-        });     
+        });
+
+        //On click of datatable row redirect to Task Details  page.
+        $('#taskListTableId tbody').on('click', 'tr', function () {
+            debugger;
+            var data = oTable.row(this).data();
+            //Perform your navigation
+            window.location.href = targetUrl + '?taskId=' + data[0] + '&taskName=' + data[1] + '&isFollow=' + data[7];
+        });
 
     }
 }

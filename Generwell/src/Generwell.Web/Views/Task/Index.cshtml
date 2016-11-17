@@ -9,11 +9,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
         taskPage.initialize();
-        var targetUrl = '';       
-        dataTable.initialize(taskListTableId, targetUrl);
-        @*taskPage.initialize(@TempData["TaskId"]);
         var targetUrl = '/TaskDetails/Index/';
-        dataTable.initialize(taskListTableId, targetUrl);*@
+        dataTable.initialize(taskListTableId, targetUrl);    
 
     });
 </script>
@@ -51,25 +48,11 @@
                     <h2>Task Listing</h2>
                 </div>
                 <div class="dropdown">
-                    @*<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                            Dropdown Example
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Filter-1</a></li>
-                            <li><a href="#">Filter-2</a></li>
-                            <li><a href="#">Filter-3</a></li>
-                        </ul>*@
+                    
                     <span class="ml-20"><input type="checkbox" id="IsFavorite" name="IsFavorite" class="ui-checkboxradio-checked" value=""> My Tasks<br></span>
                 </div>
                 <br />
-                <div class="ibox-content">
-                    @*@if (Model.Count()==0)
-                        {
-                            @Html.RenderPartialAsync("_NoData");
-                        }
-                        else
-                        {*@
+                <div class="ibox-content">                  
                     <table id="taskListTableId" class="table table-striped table-bordered table-hover wellListDataTable" style="width:100%;">
                         <thead>
                             <tr>
