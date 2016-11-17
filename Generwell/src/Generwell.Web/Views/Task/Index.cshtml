@@ -8,12 +8,13 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //taskPage.initialize();
-        //var targetUrl = '';       
-        //dataTable.initialize(taskListTableId, targetUrl);
-        taskPage.initialize(@TempData["TaskId"]);
-        var targetUrl = '/TaskDetails/Index/';
+        taskPage.initialize();
+        var targetUrl = '';       
         dataTable.initialize(taskListTableId, targetUrl);
+        @*taskPage.initialize(@TempData["TaskId"]);
+        var targetUrl = '/TaskDetails/Index/';
+        dataTable.initialize(taskListTableId, targetUrl);*@
+
     });
 </script>
 
