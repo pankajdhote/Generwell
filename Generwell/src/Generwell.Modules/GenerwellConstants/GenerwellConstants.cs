@@ -26,6 +26,11 @@ namespace Generwell.Modules.GenerwellConstants
             public const string Filters = "https://anar.whelby.com/api/v2016.1/filters";
 
             public const string Status = "Active";
+            public const bool Status = true;
+            public const string TaskFilter = "https://anar.whelby.com/api/v2016.1/personnel/current";
+
+
+
             public static string AccessToken = "";
             public static string TokenType = "";
 
@@ -37,6 +42,7 @@ namespace Generwell.Modules.GenerwellConstants
             public static string falseState = "true";
             public static string checkedState = "checked";
             public static string uncheckedState = "unchecked";
+            public static string TaskId = string.Empty;
 
             public static string TimeZone = "EDT";
 

@@ -73,8 +73,10 @@ textarea {
     display: none
   }
 }
- 
+
+/* To set full width for pagination(15.11.2016)-rohit*/ 
  .pagination {
     padding-left: 12px!important;
 }
-   
+
+ 

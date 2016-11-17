@@ -2,6 +2,7 @@
 /// <reference path="js/Datatable.js" />
 /// <reference path="js/login/login.js" />
 /// <reference path="js/site.js" />
+/// <reference path="js/task/Task.js" />
 /// <reference path="js/Well/Well.js" />
 /// <reference path="js/welldetails/welldetails.js" />
 /// <reference path="js/welllinereport/WellLineReport.js" />
