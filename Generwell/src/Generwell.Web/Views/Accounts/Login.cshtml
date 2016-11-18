@@ -4,9 +4,13 @@
     string error = (TempData["ServerError"] != null) ? TempData["ServerError"].ToString() : string.Empty;
 }
 
-@* Support Modal popup display *@
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        loginPage.initialize();
+    });
+</script>
 
-<!-- Modal ends Here -->
 <div class="container center-screen">
     <div class="row">
         <div class="Absolute-Center is-Responsive">
@@ -36,12 +40,13 @@
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" id="submitData" value="Login" class="btn btn-primary btn-block">Login</button>
+                        <button type="submit" id="submitData" value="Login" class="btn login-button btn-block">Login</button>
                         @*<button type="button" id="submitData" value="Login" class="btn btn-def btn-block" onclick="loginPage.MakeAjax('/Accounts/Login', $('#loginPageForm :input'),this)">Login</button>*@
                     </div>
                     <div class="form-group text-center">
                         <!-- Trigger the modal with a button -->
                         <a id="supportId" href="#">Support</a>
+                        <img src="~/images/support.png" />
                     </div>
                 </form>
             </div>
@@ -56,25 +61,5 @@
         </div>
     </div>
 </div>
-<!-- Loading Modal Start here-->
-<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
-     role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <span class="glyphicon glyphicon-time">
-                    </span>Please Wait
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-info
-                    progress-bar-striped active"
-                         style="width: 100%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@Html.Partial("_LoadingPopup")
+

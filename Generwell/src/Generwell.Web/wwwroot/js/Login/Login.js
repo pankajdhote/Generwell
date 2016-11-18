@@ -9,7 +9,28 @@ var loginPage = {
     attachEvents: function () {
         debugger;
 
-        $("#menu").css("display", "none");
+        //  Bind the event handler to the "submit" JavaScript event
+        $('form').submit(function () {
+            debugger;
+
+            // Get the Login Name value and trim it
+            var name = $.trim($('#UserName').val());
+            var password = $.trim($('#Password').val());
+            var webApiUrl = $.trim($('#WebApiUrl').val());
+
+            // Check if empty of not
+            if (name === '') {
+                return false;
+            }
+            if (password === '') {
+                return false;
+            }
+            if (webApiUrl === '') {
+                return false;
+            }
+
+            $('#processing-modal').modal("show");
+        });
 
         $('#supportId').click(function () {
             debugger;
@@ -18,7 +39,7 @@ var loginPage = {
                 url: "/Accounts/Support",
                 type: "GET",
                 cache: false,
-                async: true,
+                async: false,
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 success: function (data) {
