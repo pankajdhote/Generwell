@@ -9,6 +9,12 @@ var taskPage = {
     attachEvents: function (taskId) {
         debugger;
 
+         //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        });
+
         $('#followTaskId').change(function () {
             debugger;
             $('#myPleaseWait').modal('show');
