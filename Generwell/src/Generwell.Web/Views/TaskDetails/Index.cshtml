@@ -1,97 +1,56 @@
-﻿@model List<Generwell.Web.ViewModels.TaskDetailsViewModel>
-@using Generwell.Modules.GenerwellConstants;
+﻿@model Generwell.Web.ViewModels.TaskDetailsViewModel
+
 
 @{
-    ViewBag.Title = "DataTables";
+    ViewBag.Title = "Task Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        @*taskDetailsPage.initialize(@GenerwellConstants.Constants.TaskId);*@
-        taskPage.initialize(@TempData["TaskId"]);
-        var targetUrl = '';
-        dataTable.initialize(TaskDetailsListTableId, targetUrl);
-    });
-</script>
-
-
 <!-- Loading Modal Start here-->
-<div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
-     role="dialog" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <span class="glyphicon glyphicon-time">
-                    </span>Please Wait
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-info
-                    progress-bar-striped active"
-                         style="width: 100%">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-<div class="wrapper wrapper-content animated fadeInRight mr-20 ml-20">
+<div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h2> Task Details</h2>
+                    <h2>Task Details</h2>
+                </div>
+                <div id="taskDetailsTableDivId" class="ibox-content">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="col-md-6 col-lg-6">
+                            <div class="col-md-12 col-lg-12">
+                                <label>Task Name:</label>
+                                <label>@Model.name</label>
+                            </div>
+                            <div class="col-md-12 col-lg-12">
+                                <label>Activity Date:</label>
+                                <label>@Model.activatedDate</label>
+                            </div>
+                            <div class="col-md-12 col-lg-12">
+                                <label>Forecast Date:</label>
+                                <label>@Model.forecastDate</label>
+                            </div>
+                            <div class="col-md-12 col-lg-12">
+                                <label>Due Date:</label>
+                                <label>@Model.expectedCompletionDate</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+
+                            <div id="taskFieldsDiv" class="col-md-12 col-lg-12">
+                                @Html.Partial("_ContactField", Model.fields)
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
                 <br />
-                <div class="ibox-content">
-                    <table id="TaskDetailsListTableId" class="table table-striped table-bordered table-hover wellDetailsListTableDataTable" style="width:100%;">
-                        <thead>
-                            <tr>
-                             <th>Id</th>                            
-                            <th>Task Name</th>
-                            <th>Activated Date</th>
-                            <th>Forecast Date</th>
-                            <th>Due Date</th>                          
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Count() > 0)
-                            {
-                                @foreach (var item in Model)
-                                {
-                                    <tr class="gradeU">
-                                        <td>@item.id</td>
-                                        <td>@item.Name</td>
-                                        <td>>@item.ActivatedDate</td>
-                                        <td>@item.ForecastDate</td>
-                                        <td>@item.ExpectedCompletionDate</td>                                        
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr class="gradeU">
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                     <td>@GenerwellConstants.Constants.NoData</td>
-                                </tr>
-
-                            }
-                        </tbody>
-                    </table>
-                    @* }*@
-                    <button id="backDetailsPageId" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
-                    <button id="" class="btn btn-primary" type="button" data-toggle="Back">Location</button>
-                    <button id="" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
+                <div id="taskFieldsDiv">
+                    @Html.Partial("_TaskFields", Model.fields)
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-

@@ -3,7 +3,7 @@
 var wellPage = {
 
     initialize: function (targetUrl) {
-        //debugger;
+        debugger;
        wellPage.attachEvents(targetUrl); 
     },
     attachEvents: function (targetUrl) {

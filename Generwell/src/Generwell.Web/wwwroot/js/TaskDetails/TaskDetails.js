@@ -2,15 +2,16 @@
 
 var TaskDetailsPage = {
 
-    initialize: function (targetUrl) {
+    initialize: function (taskId, targetUrl) {
         //debugger;
-        TaskDetailsPage.attachEvents(targetUrl);
+        TaskDetailsPage.attachEvents(taskId, targetUrl);
     },
-    attachEvents: function (targetUrl) {
+    attachEvents: function (taskId, targetUrl) {
         debugger;
 
         //start datatable
-        var dataTable = $('#TaskDetailsListTableId').DataTable({
+        var dataTable = $('#taskDetailsListTableId').DataTable({
+            "bPaginate": false,
             "columnDefs": [
                 {
                     "targets": [0],
@@ -29,10 +30,10 @@ var TaskDetailsPage = {
             ],
         });
         //On checkbox click filter data tables rows
-        var oTable = $('#TaskDetailsListTableId').DataTable();
+        var oTable = $('#taskDetailsListTableId').DataTable();
 
         //On click of datatable row redirect to well line report page.
-        $('#TaskDetailsListTableId tbody').on('click', 'tr', function () {
+        $('#taskDetailsListTableId tbody').on('click', 'tr', function () {
             debugger;
             var data = oTable.row(this).data();
             //Perform your navigation
