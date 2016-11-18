@@ -1,45 +1,157 @@
 ﻿
- .center-screen {
-     margin-top: 20% !important;
-    width: 36% !important;
-  }
- .input-validation-error {
-    border:1px solid red;
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    font-size: 14px;
+    /* font-weight: 400; */
 }
-   
+
+.center-screen {
+    margin-top: 20% !important;
+    width: 36% !important;
+}
+
+.input-validation-error {
+    border: 1px solid red;
+}
+
 .text-red {
-color:red;
+    color: red;
 }
 
 .w-26 {
-width:26% !important;
+    width: 26% !important;
 }
 
 .mr-20 {
-margin-right:20px;
+    margin-right: 20px;
 }
+
 .ml-20 {
-margin-left:20px;
+    margin-left: 20px;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.mt-70 {
+    margin-top: 70px;
 }
 
 .wd-width25 {
-    width:25% !important;
+    width: 25% !important;
 }
+
 .w-10 {
-        width:10% !important;
+    width: 10% !important;
 }
+
 .w-50 {
-        width:50% !important;
+    width: 50% !important;
 }
+
 table tr {
     cursor: pointer;
 }
 
-.icheckbox_square-green, .iradio_square-green {
-    width: 23px !important;
+.button {
+    color: #fff !important;
+    border-color: white !important;
+    background-color: #cf7f00 !important;
+    font-size: 15px !important;
+    width: auto !important;
+    border-radius: 8px !important;
 }
-.iradio_square-green {
-        background-image: url(green@2x.png);
-        -webkit-background-size: 240px 24px;
-        background-size: 240px 24px;
+
+.pagination > .active > a, .pagination > .active > span {
+    z-index: 3;
+    color: #fff !important;
+    border-color: white !important;
+    cursor: default;
+    background-color: #cf7f00 !important;
+}
+
+h1, .title h1 {
+    color: #1b365d !important;
+    font-family: 'Play', sans-serif !important;
+    font-size: 45px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0px !important;
+    text-transform: none !important;
+}
+
+h4 {
+    color: #1b365d;
+    font-family: 'Play', sans-serif;
+    font-size: 45px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    text-transform: none;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    background: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    outline: 0;
+}
+
+p {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.border-bottom {
+    border-bottom: 1px solid !important;
+    border-color: #eeeeee !important;
+}
+
+table.dataTable {
+    border-collapse: collapse !important;
+}
+
+table th {
+    border: thin;
+    background-color: #1a355e;
+    color: #fff !important;
+    border-color: #1a355e !important;
+}
+
+table tr {
+    border-color: #1a355e !important;
+}
+
+    table tr td {
+        border: thin;
+        border-color: #1a355e !important;
     }
+
+.button:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    color: #fff !important;
+    background-color: #1a355e !important;
+    border-color: #1a355e !important; /*set the color you want here*/
+}
+
+.pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    color: #fff !important;
+    background-color: #1a355e !important;
+    border-color: #1a355e !important; /*set the color you want here*/
+}
+
+
+.float-right {
+    float: right;
+}
+
+.pt-pb-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.pt {
+padding-top:10px;
+}

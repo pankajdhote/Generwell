@@ -9,6 +9,8 @@ var loginPage = {
     attachEvents: function () {
         debugger;
 
+        $("#menu").css("display", "none");
+
         $('#supportId').click(function () {
             debugger;
             $('#processing-modal').modal("show");

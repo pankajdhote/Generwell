@@ -1,0 +1,51 @@
+﻿/*table data width*/
+/*To add navignation menues(15.11.2016)-rohit*/
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0px;
+    overflow: hidden;
+    /*background-color: #333;*/
+}
+/*nav {
+         float: right !important;
+            width: 60% !important;
+        }*/
+li {
+    display: inline;
+    font-family: "'Open Sans', sans-serif";
+}
+
+    li a {
+        display: inline-block;
+        color: #000;
+        text-align: center;
+        /*padding: 19px 16px;*/
+        padding: 40px 20px;
+        text-decoration: none !important;
+    }
+
+        li a:hover:not(.active) {
+            background-color: #edf1ff;
+        }
+
+        li a:hover {
+            color: #e29f35 !important;
+        }
+
+        li a:active {
+            background-color: #4CAF50;
+        }
+.div-menu {
+background-color: #e5ebff;
+min-height: 100px;
+}
+
+.logo {
+margin-left: 14%; 
+margin-top:20px;
+}

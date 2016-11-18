@@ -2,16 +2,23 @@
 
 var wellDetailsPage = {
 
-    initialize: function (wellId,targetUrl) {
+    initialize: function (wellId, targetUrl) {
         //debugger;
         wellDetailsPage.attachEvents(wellId, targetUrl);
     },
     attachEvents: function (wellId, targetUrl) {
         debugger;
 
+        //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        });
+
         //start datatable
         var dataTable = $('#wellDetailsListTableId').DataTable({
             "bPaginate": false,
+            "bInfo" : false,
             "columnDefs": [
                 {
                     "targets": [0],
@@ -22,7 +29,7 @@ var wellDetailsPage = {
                      "targets": [3],
                      "visible": false,
                      "searchable": false
-                 },                 
+                 },
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
                     // `data` option, which defaults to the column being worked with, in
@@ -30,13 +37,13 @@ var wellDetailsPage = {
                     "render": function (data, type, row) {
                         return data + ' (' + row[3] + ')';
                     },
-                    "targets": 0                    
+                    "targets": 0
                 },
             ],
         });
         //On checkbox click filter data tables rows
         var oTable = $('#wellDetailsListTableId').DataTable();
-        
+
         //End datatable
 
         //on back button click redirect to well line report page
@@ -56,7 +63,7 @@ var wellDetailsPage = {
         });
 
         //Follow or unfollow particular well 
-        $('#followWellId').change(function () {
+        $('.iCheck-helper').click(function () {
             debugger;
             $('#processing-modal').modal("show");
             $.ajax({
@@ -74,5 +81,5 @@ var wellDetailsPage = {
             });
         });
     }
-  
+
 }
