@@ -2,46 +2,35 @@
 
 var taskPage = {
 
-    initialize: function (targetUrl) {
-        debugger;
-        taskPage.attachEvents(targetUrl);
+    initialize: function (taskId) {
+        //debugger;
+        wellPage.attachEvents(taskId);
     },
-    attachEvents: function (targetUrl) {
+    attachEvents: function (taskId) {
         debugger;
 
-        //create Generic datatable
-        var dataTable = $('#taskListTableId').DataTable({
-            "columnDefs": [
-                { "orderable": false, "targets": 0 },
-                {
-                    "targets": [0],
-                    "visible": false,
-                    "searchable": false
-                },
-                {
-                    // The `data` parameter refers to the data for the cell (defined by the
-                    // `data` option, which defaults to the column being worked with, in
-                    // this case `data: 0`.
-                    "render": function (data, type, row) {
-                        return data + ' (' + row[3] + ')';
-                    },
-                    "targets": 0
-                },
-            ],
+         //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
         });
-      
-        //On click of datatable row redirect to well line report page.
-        var oTable = $('#taskListTableId').DataTable();
-        $('#taskListTableId tbody').on('click', 'tr', function () {
+
+        $('#followTaskId').change(function () {
             debugger;
-            $('#processing-modal').modal("show");
-            var data = oTable.row(this).data();
-            //Perform your navigation
-            window.location.href = targetUrl + '?taskId=' + data[0] + '&taskName=' + data[2] + '&isFollow=' + data[7];
+            $('#myPleaseWait').modal('show');
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/TaskDetails/Follow',
+                data: { id: taskId, isFollow: $('#followTaskId').prop('checked') },
+                success: function (Data) {
+                    $('#myPleaseWait').modal('hide');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                }
+            });           
         });
-
-
-   
-
     }
+
 }
