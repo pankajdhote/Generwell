@@ -11,8 +11,8 @@ var wellLineReportPage = {
 
         //Added for checkbox style
         $(".i-checks").iCheck({
-            checkboxClass: "icheckbox_square-green",
-            radioClass: "iradio_square-green"
+            checkboxClass: "icheckbox_square-star",
+            radioClass: "iradio_square-star"
         });
 
         //start datatable
@@ -51,12 +51,13 @@ var wellLineReportPage = {
         //Follow or unfollow particular well 
         $('.iCheck-helper').click(function () {
             debugger;
+            var followChecked = $('#followCheckDiv').find('div').hasClass('checked');
             $('#processing-modal').modal("show");
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: '/WellLineReport/Follow',
-                data: {isFollow: $('#followWellId').prop('checked') },
+                data: { isFollow: followChecked },
                 success: function (Data) {
                     debugger;
                     $('#processing-modal').modal("hide");

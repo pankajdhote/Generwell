@@ -20,3 +20,14 @@ Generwell/src/Generwell.Web/obj/Debug/netcoreapp1.0/dotnet-compile.rsp
 /Generwell/src/Generwell.Modules/*.user
 /Generwell/.vs/Generwell/v14/*.suo
 /Generwell/src/Generwell.Web/*.config
+/Generwell/src/Generwell.Core/bin/Release/netstandard1.6
+/Generwell/src/Generwell.Core/obj/Release/netstandard1.6
+/Generwell/src/Generwell.Modules/bin/Release/netstandard1.6/*.dll
+/Generwell/src/Generwell.Modules/bin/Release/netstandard1.6/*.pdb
+/Generwell/src/Generwell.Modules/bin/Release/netstandard1.6
+/Generwell/src/Generwell.Modules/obj/Release/netstandard1.6
+/Generwell/src/Generwell.Web/Properties/PublishProfiles/*.psm1
+/Generwell/src/Generwell.Web/Properties/PublishProfiles
+/Generwell/src/Generwell.Web/bin/Release/netcoreapp1.0
+/Generwell/src/Generwell.Web/obj/PublishTemp/TestProfilesForFilePreview
+/Generwell/src/Generwell.Web/obj/Release/netcoreapp1.0
