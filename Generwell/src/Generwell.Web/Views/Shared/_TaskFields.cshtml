@@ -2,7 +2,7 @@
 @using Generwell.Modules.GenerwellConstants;
 
 <script type="text/javascript">
-    $(document).ready(function () {      
+    $(document).ready(function () {
         TaskDetailsPage.initialize(@GenerwellConstants.Constants.TaskId);
     });
 </script>
@@ -11,10 +11,10 @@
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
         <tr>
-            <th>Id<i class="fa fa-fw fa-sort"></i></th>              
+            <th>Id<i class="fa fa-fw fa-sort"></i></th>
             <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
-            <th>Display Value<i class="fa fa-fw fa-sort"></i></th>   
-          
+            <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
+
         </tr>
     </thead>
     <tbody>
@@ -23,16 +23,17 @@
             @foreach (var item in Model)
             {
                 <tr class="gradeU">
-                    <td>@item.fieldId</td>                   
+                    <td>@item.fieldId</td>
                     <td>@item.fieldDesc</td>
                     <td>@item.displayValue</td>
-                   
+
                 </tr>
             }
         }
         else
         {
             <tr class="gradeU">
+                <td>@GenerwellConstants.Constants.NoData</td>
                 <td>@GenerwellConstants.Constants.NoData</td>
                 <td>@GenerwellConstants.Constants.NoData</td>
             </tr>

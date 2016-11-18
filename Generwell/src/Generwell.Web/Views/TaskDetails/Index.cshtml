@@ -17,34 +17,21 @@
                     <h2>Task Details</h2>
                 </div>
                 <div id="taskDetailsTableDivId" class="ibox-content">
-                    <div class="col-md-12 col-lg-12">
-                        <div class="col-md-6 col-lg-6">
-                            <div class="col-md-12 col-lg-12">
-                                <label>Task Name:</label>
-                                <label>@Model.name</label>
-                            </div>
-                            <div class="col-md-12 col-lg-12">
-                                <label>Activity Date:</label>
-                                <label>@Model.activatedDate</label>
-                            </div>
-                            <div class="col-md-12 col-lg-12">
-                                <label>Forecast Date:</label>
-                                <label>@Model.forecastDate</label>
-                            </div>
-                            <div class="col-md-12 col-lg-12">
-                                <label>Due Date:</label>
-                                <label>@Model.expectedCompletionDate</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6">
-
-                            <div id="taskFieldsDiv" class="col-md-12 col-lg-12">
-                                @Html.Partial("_ContactField", Model.fields)
-                            </div>
+                    
+                    <label>Task Name:</label>
+                           @Model.name<br />
 
 
-                        </div>
-                    </div>
+                    <label>Activity Date:</label>
+                           @Model.activatedDate<br />
+
+
+                    <label>Forecast Date:</label>
+                           @Model.forecastDate<br />
+
+                    <label>Due Date:</label>
+                          @Model.expectedCompletionDate
+
                 </div>
                 <br />
                 <div id="taskFieldsDiv">

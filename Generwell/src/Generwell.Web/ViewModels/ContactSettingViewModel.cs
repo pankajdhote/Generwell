@@ -8,8 +8,8 @@ namespace Generwell.Web.ViewModels
     public class ContactSettingViewModel
     {
         public int heartbeat { get; set; }
-        public string iosDateFormat { get; set; }
-        public string iosTimestampFormat { get; set; }
+        public DateTime iosDateFormat { get; set; }
+        public DateTime iosTimestampFormat { get; set; }
         public string nativeUnits { get; set; }        
     }
 }

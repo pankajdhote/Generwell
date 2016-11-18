@@ -12,6 +12,7 @@ var TaskDetailsPage = {
         //start datatable
         var dataTable = $('#taskDetailsListTableId').DataTable({
             "bPaginate": false,
+            "bInfo": false,
             "columnDefs": [
                 {
                     "targets": [0],
@@ -60,6 +61,7 @@ var TaskDetailsPage = {
                 }
             });
         });
+
 
         
     }

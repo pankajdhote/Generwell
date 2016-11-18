@@ -8,6 +8,7 @@ using Generwell.Web.ViewModels;
 using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 
+
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
@@ -21,7 +22,8 @@ namespace Generwell.Web.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [Httpget]
+
         public async Task<ActionResult> Index(string taskId, string taskName, string isFollow)
         {
 
@@ -38,10 +40,6 @@ namespace Generwell.Web.Controllers
                 var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + taskId, GenerwellConstants.Constants.AccessToken);
                 TaskDetailsViewModel taskdetailsViewModel = JsonConvert.DeserializeObject<TaskDetailsViewModel>(getTaskDetailsList);
                 return View(taskdetailsViewModel);
-
-
-
-
             }
             catch (Exception ex)
             {
@@ -55,22 +53,26 @@ namespace Generwell.Web.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<PartialViewResult> ContactField()
-        {
-            try
-            {
-                WebClient webClient = new WebClient();
-                var getContactList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GenerwellConstants.Constants.AccessToken);
-                List<ContactFieldsViewModel> contactViewModel = JsonConvert.DeserializeObject<List<ContactFieldsViewModel>>(getContactList);
-                return PartialView("_ContactField", contactViewModel);
+    //    [HttpGet]
+    //    public async Task<PartialViewResult> ContactField()
+    //    {
+    //        try
+    //        {
+    //            WebClient webClient = new WebClient();
+    //            var getContactList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GenerwellConstants.Constants.AccessToken);
+    //            ContactFieldsViewModel contactViewModel = JsonConvert.DeserializeObject <ContactFieldsViewModel>(getContactList);
+    //            return PartialView("_ContactField", contactViewModel);
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            throw ex;
+    //        }
+    //    }
 
+    }
+
+    internal class HttpgetAttribute : Attribute
+    {
     }
 }

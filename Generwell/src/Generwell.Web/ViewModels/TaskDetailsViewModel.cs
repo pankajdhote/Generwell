@@ -28,5 +28,7 @@ namespace Generwell.Web.ViewModels
         public List<TaskFieldsViewModel> fields;
         public string name { get; set; }
         public string url { get; set; }
+
+        //public List<ContactFieldsViewModel> contactFields;
     }
 }

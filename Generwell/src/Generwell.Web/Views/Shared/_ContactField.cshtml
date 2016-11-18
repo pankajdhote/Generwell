@@ -1,50 +1,33 @@
-﻿@model List<Generwell.Web.ViewModels.ContactFieldsViewModel>
-@using Generwell.Modules.GenerwellConstants;
-
-<script type="text/javascript">
-    $(document).ready(function () {      
-        TaskDetailsPage.initialize(@GenerwellConstants.Constants.TaskId);
-    });
-</script>
+﻿@model Generwell.Web.ViewModels.ContactFieldsViewModel
 
 
-<table id="contactFieldsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
-    <thead>
-        <tr>
-            <th>Id<i class="fa fa-fw fa-sort"></i></th>              
-            <th>User Name<i class="fa fa-fw fa-sort"></i></th>
-            <th>Email Business<i class="fa fa-fw fa-sort"></i></th>
-            <th>Phone Business<i class="fa fa-fw fa-sort"></i></th>   
-          
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Count() > 0)
-        {
-            @foreach (var item in Model)
-            {
-                <tr class="gradeU">
-                    <td>@item.id</td>
-                    <td>@item.userName</td>                   
-                    <td>@item.emailBusiness</td>
-                    <td>@item.phoneBusiness</td>
-                 
-                       
-                   
-                </tr>
-            }
-        }
-        else
-        {
-            <tr class="gradeU">
-                <td>@GenerwellConstants.Constants.NoData</td>
-                <td>@GenerwellConstants.Constants.NoData</td>
-            </tr>
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            TaskDetailsPage.initialize(@GenerwellConstants.Constants.TaskId);
+        });
+    </script>*@
 
-        }
-    </tbody>
-</table>
 
+<div id="contactFieldsListTableId" class="col-md-12 col-lg-12">
+
+    <div class="col-md-12 col-lg-12">
+        <label>Id</label>
+       <label>>@Model.id</label>
+    </div>
+    <div class="col-md-12 col-lg-12">
+        <label>User Name:</label>
+        <label>@Model.userName</label>
+    </div>
+    <div class="col-md-12 col-lg-12">
+        <label>Email Business:</label>
+        <label>@Model.emailBusiness</label>
+    </div>
+    <div class="col-md-12 col-lg-12">
+        <label>Phone Business:</label>
+        <label>@Model.phoneBusiness</label>
+    </div>
+
+</div>
 
 
 
