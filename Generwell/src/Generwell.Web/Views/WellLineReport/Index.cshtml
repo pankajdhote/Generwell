@@ -18,21 +18,19 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-<div class="wrapper wrapper-content animated fadeInRight mr-20 ml-20">
+<div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h2> Well Line Reports</h2>
-                    @GenerwellConstants.Constants.WellName
+                <div class="ibox-title border-bottom">
+                    <h1> Well Line Reports</h1>
+                    <h4><label>Well: </label>  @GenerwellConstants.Constants.WellName</h4>
                 </div>
-                <hr />               
                 <br />
-                <div>
-                    <span class="ml-20"><input type="checkbox" id="followWellId" name="followWell" class="ui-checkboxradio-checked" @GenerwellConstants.Constants.IsFollow value=""> Follow Well<br></span>
+                <div class="i-checks chk border-bottom">
+                    <span class=""><input type="checkbox" id="followWellId" name="followWell" class="ui-checkboxradio-checked" @GenerwellConstants.Constants.IsFollow value=""> Follow Well<br></span>
                 </div>
-                <hr />
-                <br/>
+                <br />
                 <div class="ibox-content w-50">
                     <table id="wellLineReportListTableId" class="table table-striped table-bordered table-hover wellLineReportListDataTable" style="width:100%;">
                         <thead>
@@ -61,12 +59,12 @@
 
                             }
                         </tbody>
-                    </table>                    
+                    </table>
                 </div>
                 <div>
-                    <button id="backLineReportId" class="btn btn-primary" type="button" data-toggle="Back">Back</button>
-                    <button id="locationPageId" class="btn btn-primary" type="button" data-toggle="Back">Location</button>
-                    <button id="taskPageId" class="btn btn-primary" type="button" data-toggle="Back">Tasks</button>
+                    <button id="backLineReportId" class="btn button" type="button" data-toggle="Back">Back</button>
+                    <button id="taskPageId" class="btn button" type="button" data-toggle="Back">Tasks</button>
+                    <button id="locationPageId" class="btn button" type="button" data-toggle="Back">Location</button>                    
                 </div>
             </div>
         </div>

@@ -9,6 +9,12 @@ var wellLineReportPage = {
     attachEvents: function (targetUrl) {
         debugger;
 
+        //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        });
+
         //start datatable
         var dataTable = $('#wellLineReportListTableId').DataTable({
             "columnDefs": [
@@ -43,7 +49,7 @@ var wellLineReportPage = {
 
 
         //Follow or unfollow particular well 
-        $('#followWellId').change(function () {
+        $('.iCheck-helper').click(function () {
             debugger;
             $('#processing-modal').modal("show");
             $.ajax({

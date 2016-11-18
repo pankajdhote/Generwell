@@ -9,6 +9,12 @@ var wellPage = {
     attachEvents: function (targetUrl) {
         debugger;
 
+        //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        });
+
         //create Generic datatable
         var dataTable = $('#wellListTableId').DataTable({            
             "columnDefs": [
@@ -36,9 +42,9 @@ var wellPage = {
         });
         //On checkbox click filter data tables rows
         var oTable = $('#wellListTableId').DataTable();
-        $("#IsFavorite").on("change", function () {
+        $('.iCheck-helper').on("click", function () {
             debugger;
-            if ($(this).is(":checked")) {
+            if ($(this).parent().attr("class").indexOf("checked")>-1) {
                 oTable
                   .columns(7)
                   .search("^" + "True" + "$", true, false, false)

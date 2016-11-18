@@ -9,26 +9,21 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-<div class="wrapper wrapper-content animated fadeInRight mr-20 ml-20">
+<div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h2>Well Listing</h2>
+                <div class="title ibox-title border-bottom">
+                    <h1>Well Listing</h1>
                 </div>
-                <hr />
-                <div class="dropdown">
-                    <label>Filter</label>
-                    @Html.DropDownList("FilterList", (IEnumerable<SelectListItem>)ViewBag.FilterList, "--Select--", new { @class = "form-control btn btn-primary dropdown-toggle w-10" })
-                    <span class="ml-20 iradio_square-green"><input type="checkbox" id="IsFavorite" name="IsFavorite" /> My Wells<br></span>
-                    @*<span id="IsFavorite" class="ml-20 iradio_square-green">
-                        <img src="~/images/checkbox.png" alt="Alternate Text" />
-                        <label>My Wells</label>
-                    </span>*@
+                <div class="i-checks chk border-bottom pt-pb-20">
+                    <span class=""><input type="checkbox" id="IsFavorite" name="IsFavorite" /><label class="ml-10">  My Wells</label></span>
+                    <span class="float-right">
+                        <label class="mr-20">Filter</label>
+                        @Html.DropDownList("FilterList", (IEnumerable<SelectListItem>)ViewBag.FilterList, "--Select--", new { @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20" })
+                    </span>
                 </div>
-                <br />
-                <hr />
-                <div id="wellTableDivId" class="ibox-content">
+                <div id="wellTableDivId" class="ibox-content pt">
                     @Html.Partial("_FilterWell", Model)
                 </div>
             </div>
