@@ -14,20 +14,45 @@
             <th>Id<i class="fa fa-fw fa-sort"></i></th>
             <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
             <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
+            <th>Id<i class="fa fa-fw fa-sort"></i></th>
+            <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
+            <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
 
         </tr>
     </thead>
     <tbody>
         @if (Model.Count() > 0)
         {
+            int count = 1;
             @foreach (var item in Model)
             {
-                <tr class="gradeU">
+                if (count % 2 == 1)
+                {
+                @:<tr class="gradeU">
+                 
+                        <td>@item.fieldId</td>
+                        <td>@item.fieldDesc</td>
+                        <td>@item.displayValue</td>                 
+
+                }
+                @if (count % 2 == 0)
+                {
                     <td>@item.fieldId</td>
                     <td>@item.fieldDesc</td>
-                    <td>@item.displayValue</td>
+                    <td>
+                      @*@Html.DropDownList("Status")*@
+                      @item.displayValue
+                    </td>
 
-                </tr>
+
+                @:</tr>
+                }
+                
+           
+                count++;
+
+                
+
             }
         }
         else
@@ -40,6 +65,7 @@
 
         }
     </tbody>
+
 </table>
 
 

@@ -18,7 +18,12 @@ var TaskDetailsPage = {
                     "targets": [0],
                     "visible": false,
                     "searchable": false
-                },
+                },               
+                 {
+                     "targets": [3],
+                     "visible": false,
+                     "searchable": false
+                 },
                 {
                     // The `data` parameter refers to the data for the cell (defined by the
                     // `data` option, which defaults to the column being worked with, in
@@ -62,6 +67,26 @@ var TaskDetailsPage = {
             });
         });
 
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'html',
+            url: '/TaskDetails/ContactField',
+            data: { id: filterId },
+            success: function (data) {
+                debugger;
+                if (data != undefined || data != "")
+                {
+                    $("#taskFieldsDiv").html(data);
+                    $('#processing-modal').modal("hide");
+
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#processing-modal').modal("hide");
+            }
+        });
+    });
 
         
     }

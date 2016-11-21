@@ -9,6 +9,11 @@ var taskPage = {
     attachEvents: function (targetUrl) {
         debugger;
 
+        //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        });
         //create Generic datatable
         var dataTable = $('#taskListTableId').DataTable({
             "columnDefs": [
@@ -28,6 +33,23 @@ var taskPage = {
                     "targets": 0
                 },
             ],
+        });
+        //On checkbox click filter data tables rows
+        var oTable = $('#taskListTableId').DataTable();
+        $('.iCheck-helper').on("click", function () {
+            debugger;
+            if ($(this).parent().attr("class").indexOf("checked") > -1) {
+                oTable
+                  .columns(7)
+                  .search("^" + "True" + "$", true, false, false)
+                  .draw();
+            } else {
+                oTable
+                  .columns(7)
+                  .search("")
+                  .draw();
+            }
+
         });
 
         //On click of datatable row redirect to well line report page.

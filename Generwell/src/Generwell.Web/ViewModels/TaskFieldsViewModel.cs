@@ -32,8 +32,7 @@ namespace Generwell.Web.ViewModels
         public int fieldComma { get; set; }
         public int? fieldIdParent { get; set; }
         public int? albumMaxCount { get; set; }
-        public int? value { get; set; }
-        public int? displayValue { get; set; }
-
+       public object value { get; set; }
+        public string displayValue { get; set; }
     }
 }
