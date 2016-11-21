@@ -23,7 +23,7 @@ namespace Generwell.Modules.GenerwellConstants
             public const string WellFilter = "https://anar.whelby.com/api/v2016.1/wells?filterId";
             public const string WellLineReports = "https://anar.whelby.com/api/v2016.1/linereports?fieldLevelId=1";
             public const string WellDetails = "https://anar.whelby.com/api/v2016.1/wells/7361/linereports/5006";
-            public const string Filters = "https://anar.whelby.com/api/v2016.1/filters";            
+            public const string Filters = "https://anar.whelby.com/api/v2016.1/filters";
             public const string TaskFilter = "https://anar.whelby.com/api/v2016.1/personnel/current";
             public const string TaskDetails = "https://anar.whelby.com/api/v2016.1/tasks";
             public const string ContactDetails = "https://anar.whelby.com/api/v2016.1/personnel/current";
