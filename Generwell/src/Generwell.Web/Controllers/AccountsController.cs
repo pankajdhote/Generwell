@@ -43,8 +43,8 @@ namespace Generwell.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     Authorization authorizeUser = new Authorization();
-                    //SignInViewModel signInViewModel = JsonConvert.DeserializeObject<SignInViewModel>(model);
                     var responseMsg = await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
+                    GenerwellConstants.Constants.UserName = signInViewModel.UserName;
                     AccessTokenViewModel accessTokenViewModel = JsonConvert.DeserializeObject<AccessTokenViewModel>(responseMsg);
                     if (accessTokenViewModel.access_token != null)
                     {
@@ -81,5 +81,20 @@ namespace Generwell.Web.Controllers
             ContactDetailsViewModel contactDetailsViewModel = JsonConvert.DeserializeObject<ContactDetailsViewModel>(getContactDetails);
             return PartialView("_Support", contactDetailsViewModel);
         }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 21-11-2016
+        /// Logout page functionality
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
     }
 }

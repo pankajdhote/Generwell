@@ -170,7 +170,7 @@ table tr {
 }
 @media(min-width:992px)
 {
-    .m-t-20
+    .mt-20
     {
         margin-top:20px;
     }
@@ -190,3 +190,38 @@ table tr {
     background-color: #1a355e !important;
     border-color: #1a355e !important; /*set the color you want here*/
 }
+
+.pb-10 {
+padding-bottom:10px;
+}
+
+.pb-5 {
+padding-bottom:5px;
+}
+
+
+.active {
+     color: #da9f54 !important;
+    background-color: #1a355e !important;
+}
+
+
+li a:hover {
+    background-color: #edf1ff !important;
+}
+
+.user-name {
+    color: #1a355e !important;
+}
+
+.h-20 {
+height:20px;
+}
+
+.h-fourty {
+height:40px;
+}
+
+/*.h-244 {
+height:244% !important;
+}*/

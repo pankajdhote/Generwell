@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace Generwell.Web.ViewModels
         public int? ForecastDate  { get; set; }
         public int? CompletedDate { get; set; }
         public int? ExpectedCompletionDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:MMM-yyyy}")]
         public int ActivatedDate { get; set; }
         public bool Completed { get; set; }
         public int? CompletedByUserId { get; set; }

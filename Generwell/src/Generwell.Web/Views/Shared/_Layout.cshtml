@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Generwell.Modules.GenerwellConstants;
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -39,7 +41,7 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div id="menu" class="container-flude div-menu">
+    <div id="menu" class="container-flude div-menu h-40">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -54,13 +56,14 @@
 
                         </button>
                         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="/Task/Index">TASKS</a></li>
-                                <li><a href="/Well/Index">WELLS</a></li>
-                                <li><a href="#">FACILITIES</a></li>
-                                <li><a href="#">PIPELINES</a></li>
-                                <li><a href="#">PROJECTS</a></li>
-                                <li><a href="#">LOCATIONS</a></li>
+                            <ul id="menu" class="nav navbar-nav navbar-right h-244">
+                                <li><a href="/Task/Index" class="@GenerwellConstants.Constants.TaskActive">TASKS <br /><img src="~/images/task-icon.png" class="h-20" /></a></li>
+                                <li><a href="/Well/Index" class="@GenerwellConstants.Constants.WellActive">WELLS <br/><img src="~/images/well-icon.png" class="h-20" /></a></li>
+                                <li><a href="#" class="@GenerwellConstants.Constants.FacilityActive">FACILITIES <br /><img src="~/images/facility-icon.png" class="h-20" /></a></li>
+                                <li><a href="#" class="@GenerwellConstants.Constants.PipelineActive">PIPELINES <br /><img src="~/images/pipeline-icon.png" class="h-20" /></a></li>
+                                <li><a href="#" class="@GenerwellConstants.Constants.ProjectActive">PROJECTS <br /><img src="~/images/project-icon.png" class="h-20" /></a></li>
+                                <li><a href="#" class="@GenerwellConstants.Constants.LocationActive">LOCATIONS <br /><img src="~/images/location-icon.png" class="h-20" /></a></li>
+                                <li><a href="/Accounts/Logout" class="@GenerwellConstants.Constants.LogoutActive">LOGOUT <br /><img src="~/images/logout-icon.png" class="h-20" /></a></li>
                             </ul>
                         </div>
                     </div>
@@ -76,3 +79,9 @@
 </body>
 <!--TOP menuebar-->
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loginPage.initialize();
+    });
+</script>

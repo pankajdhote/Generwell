@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Generwell.Modules;
@@ -22,25 +20,27 @@ namespace Generwell.Web.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [Httpget]
-
+        [HttpGet]
         public async Task<ActionResult> Index(string taskId, string taskName, string isFollow)
         {
-
-            if (!string.IsNullOrEmpty(taskId))
-            {
-                GenerwellConstants.Constants.TaskId = taskId;
-                GenerwellConstants.Constants.TaskName = taskName;
-                GenerwellConstants.Constants.IsFollow = isFollow == "True" ? isFollow = "checked" : null;
-            }
-
             try
             {
+                if (!string.IsNullOrEmpty(taskId))
+                {
+                    GenerwellConstants.Constants.TaskId = taskId;
+                    GenerwellConstants.Constants.TaskName = taskName;
+                    GenerwellConstants.Constants.IsFollow = isFollow == "True" ? isFollow = "checked" : null;
+                }
                 WebClient webClient = new WebClient();
-                var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + taskId, GenerwellConstants.Constants.AccessToken);
+                var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + GenerwellConstants.Constants.TaskId, GenerwellConstants.Constants.AccessToken);
                 var getContactDetail = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GenerwellConstants.Constants.AccessToken);
                 TaskDetailsViewModel taskdetailsViewModel = JsonConvert.DeserializeObject<TaskDetailsViewModel>(getTaskDetailsList);
                 taskdetailsViewModel.contactFields = JsonConvert.DeserializeObject<ContactFieldsViewModel>(getContactDetail); ;
+                if (taskdetailsViewModel != null)
+                {
+                    GenerwellConstants.Constants.FieldLevelId = taskdetailsViewModel.fieldLevelId;
+                    GenerwellConstants.Constants.KeyId = taskdetailsViewModel.keyId;
+                }
                 return View(taskdetailsViewModel);
             }
             catch (Exception ex)
@@ -71,11 +71,5 @@ namespace Generwell.Web.Controllers
         //        throw ex;
         //    }
         //}
-    }
-
-
-
-    internal class HttpgetAttribute : Attribute
-    {
     }
 }

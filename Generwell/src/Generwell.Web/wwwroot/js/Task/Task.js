@@ -60,10 +60,7 @@ var taskPage = {
             var data = oTable.row(this).data();
             //Perform your navigation
             window.location.href = targetUrl + '?taskId=' + data[0] + '&taskName=' + data[2] + '&isFollow=' + data[7];
-        });
-
-
-
+        });       
 
     }
 }

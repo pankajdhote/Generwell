@@ -1,10 +1,11 @@
 ﻿@model List<Generwell.Web.ViewModels.TaskViewModel>
-
+@using Generwell.Modules.GenerwellConstants;
 
 @{
-    ViewBag.Title = "DataTables";
+    ViewBag.Title = "Task Listing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
@@ -12,10 +13,12 @@
 <div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GenerwellConstants.Constants.UserName</div>
             <div class="ibox float-e-margins">
-                <div class="title ibox-title border-bottom">
-                    <h4>Task Listing</h4>
+                <div class="ibox-title">
+                    <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Listing</h4>
                 </div>
+                <div class="dropdown">
                 <div class="i-checks chk border-bottom pt-pb-20">
                     <span class=""><input type="checkbox" id="IsFavorite" name="IsFavorite" /><label class="ml-10">  My Tasks</label></span>
                 </div>               

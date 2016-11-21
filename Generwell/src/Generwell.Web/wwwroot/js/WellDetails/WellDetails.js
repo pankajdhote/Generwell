@@ -81,6 +81,12 @@ var wellDetailsPage = {
                 }
             });
         });
+
+        //Move page up on image click
+        $("#moveTop").on("click", function () {
+            $("body").scrollTop(0);
+        });
+
     }
 
 }

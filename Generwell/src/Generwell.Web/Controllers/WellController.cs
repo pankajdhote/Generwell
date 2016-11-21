@@ -28,6 +28,10 @@ namespace Generwell.Web.Controllers
         {
             try
             {
+                //change active menu class
+                GenerwellConstants.Constants.WellActive = GenerwellConstants.Constants.Active;
+                GenerwellConstants.Constants.TaskActive = string.Empty;
+
                 //fill Filters dropdown list
                 WebClient webClient = new WebClient();
                 var filterList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Filters, GenerwellConstants.Constants.AccessToken);
@@ -68,6 +72,27 @@ namespace Generwell.Web.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(string id)
+        {
+            try
+            {
+                WebClient webClient = new WebClient();
+                WellViewModel wellViewModel=new WellViewModel();
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well + "/" + id, GenerwellConstants.Constants.AccessToken);
+                    wellViewModel = JsonConvert.DeserializeObject<WellViewModel>(getWellList);
+                }
+                return View(wellViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
     }
 }

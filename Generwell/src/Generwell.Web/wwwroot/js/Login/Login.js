@@ -2,12 +2,18 @@
 
 var loginPage = {
 
-    initialize: function (data) {
+    initialize: function () {
         //debugger;
         loginPage.attachEvents();
     },
     attachEvents: function () {
         debugger;
+ 
+        $('#menu li').click(function () {
+            debugger;
+            $('#processing-modal').modal("show");
+
+        });
 
         //  Bind the event handler to the "submit" JavaScript event
         $('form').submit(function () {
@@ -55,45 +61,5 @@ var loginPage = {
                 }
             });
         });
-    },
-    MakeAjax: function (requestUrl, parameter1, event) {
-        //show loading... image
-        debugger;
-        $('#processing-modal').modal("show");
-        var param1 = loginPage.serializeObject($(parameter1).serializeArray());
-        $.ajax({
-            url: requestUrl,
-            method: 'POST',
-            dataType: 'json',
-            async: true,
-            data: { model: JSON.stringify(param1) },
-            success: function (data, status, jqXHR) {
-                $('#processing-modal').modal("hide");
-                debugger;
-            },
-            error: function (jqXHR, status, err) {
-                debugger;
-                $('#processing-modal').modal("hide");
-            },
-            complete: function (jqXHR, status) {
-                debugger;
-                $('#processing-modal').modal("show");
-            }
-        });
-    },
-    serializeObject: function (serializeArray) {
-        var object = {};
-        var array = serializeArray;
-        $.each(array, function () {
-            if (object[this.name] !== undefined) {
-                if (!object[this.name].push) {
-                    object[this.name] = [object[this.name]];
-                }
-                object[this.name].push(this.value || '');
-            } else {
-                object[this.name] = this.value || '';
-            }
-        })
-        return object;
     }
 }

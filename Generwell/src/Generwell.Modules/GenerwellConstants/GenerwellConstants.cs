@@ -42,8 +42,22 @@ namespace Generwell.Modules.GenerwellConstants
             public static string uncheckedState = "unchecked";
             public static string TaskId = string.Empty;
             public static string TaskName = string.Empty;
+            public static int FieldLevelId = 0;
+            public static int KeyId = 0;
 
             public static string TimeZone = "EDT";
+
+            public static string Active = "active";
+            public static string TaskActive = "";
+            public static string WellActive = "active";
+            public static string FacilityActive = "";
+            public static string PipelineActive = "";
+            public static string ProjectActive = "";
+            public static string LocationActive = "";
+            public static string LogoutActive = "";
+
+            public static string UserName = string.Empty;
+
 
         }
     }
