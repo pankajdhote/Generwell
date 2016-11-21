@@ -4,7 +4,7 @@ var wellPage = {
 
     initialize: function (targetUrl) {
         debugger;
-       wellPage.attachEvents(targetUrl); 
+        wellPage.attachEvents(targetUrl);
     },
     attachEvents: function (targetUrl) {
         debugger;
@@ -16,7 +16,7 @@ var wellPage = {
         });
 
         //create Generic datatable
-        var dataTable = $('#wellListTableId').DataTable({            
+        var dataTable = $('#wellListTableId').DataTable({
             "columnDefs": [
                 { "orderable": false, "targets": 0 },
                 {
@@ -44,7 +44,7 @@ var wellPage = {
         var oTable = $('#wellListTableId').DataTable();
         $('.iCheck-helper').on("click", function () {
             debugger;
-            if ($(this).parent().attr("class").indexOf("checked")>-1) {
+            if ($(this).parent().attr("class").indexOf("checked") > -1) {
                 oTable
                   .columns(7)
                   .search("^" + "True" + "$", true, false, false)
@@ -60,21 +60,27 @@ var wellPage = {
         //On click of datatable row redirect to well line report page.
         $('#wellListTableId tbody').on('click', 'tr', function () {
             debugger;
-             $('#processing-modal').modal("show");
+            $('#processing-modal').modal("show");
             var data = oTable.row(this).data();
             //Perform your navigation
             window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1] + '&isFollow=' + data[7];
         });
 
+        //on back button click redirect to task details report page
+        $('#backTaskDetailsId').click(function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            var targetUrl = '/TaskDetails/Index/';
+            window.location.href = targetUrl;
+        });
 
         //filter particular record on filter value
         //Follow or unfollow particular well 
-        $('#FilterList').change(function () {
+        $('#FilterList').unbind().bind("change",function () {
             debugger;
             $('#processing-modal').modal("show");
             var filterId = $('#FilterList option:selected').text();
-            if (filterId.indexOf("Select") > -1)
-            {
+            if (filterId.indexOf("Select") > -1) {
                 filterId = null;
             }
             $.ajax({
@@ -84,11 +90,24 @@ var wellPage = {
                 data: { id: filterId },
                 success: function (data) {
                     debugger;
-                    if (data != undefined || data != "")
-                    {
+                    if (data != undefined || data != "") {
                         $("#wellTableDivId").html(data);
                         $('#processing-modal').modal("hide");
 
+                        //display only my wells
+                        //On checkbox click filter data tables rows
+                        var oTable = $('#wellListTableId').DataTable();
+                        if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
+                            oTable
+                              .columns(7)
+                              .search("^" + "True" + "$", true, false, false)
+                              .draw();
+                        } else {
+                            oTable
+                              .columns(7)
+                              .search("")
+                              .draw();
+                        }
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

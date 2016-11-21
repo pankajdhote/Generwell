@@ -7,6 +7,16 @@ namespace Generwell.Modules.GenerwellEnum
 {
     public enum GenerwellEnum
     {
-       
+        Well = 1,
+        Facility= 4,
+        Pipelilne= 6,
+        Project= 9
+    }
+    public enum GenerwellEnumNumber
+    {
+        First = 1,
+        Fourth = 4,
+        Sixth = 6,
+        Nineth = 9
     }
 }

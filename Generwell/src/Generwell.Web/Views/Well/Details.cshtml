@@ -1,0 +1,54 @@
+﻿@model Generwell.Web.ViewModels.WellViewModel
+@using Generwell.Modules.GenerwellConstants;
+
+@{
+    ViewBag.Title = "Well Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        wellPage.initialize(@GenerwellConstants.Constants.WellId);
+    });
+</script>
+
+
+<!-- Loading Modal Start here-->
+@Html.Partial("_LoadingPopup")
+<!-- Modal ends Here -->
+
+<div class="container wrapper-content animated fadeInRight mr-20 ml-20">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GenerwellConstants.Constants.UserName</div>
+            <div class="ibox float-e-margins">
+                <div class="title ibox-title border-bottom">
+                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Well Details</h4>
+                </div>
+                <div id="wellDetailsDivId" class="ibox-content pt">
+
+                    <label>Well Name : </label>
+                    @Model.name<br />
+
+                    <label>Bottom Hole Location : </label>
+                    @Model.bottomHoleLocation<br />
+
+                    <label>Surface Hole Location : </label>
+                    @Model.surfaceHoleLocation<br />
+
+                    <label>Active Task Count : </label>
+                    @Model.activeTaskCount<br />
+
+                    <label>Lattitude : </label>
+                    @Model.latitude<br />
+
+                    <label>Longitude : </label>
+                    @Model.longitude<br />
+                </div>
+                <div class="pt-pb-20">
+                    <button id="backTaskDetailsId" class="btn button" type="button" data-toggle="Back">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

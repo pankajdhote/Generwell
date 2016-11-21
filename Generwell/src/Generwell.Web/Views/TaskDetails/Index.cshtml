@@ -1,5 +1,6 @@
 ﻿@model Generwell.Web.ViewModels.TaskDetailsViewModel
-
+@using Generwell.Modules.GenerwellConstants;
+@using Generwell.Modules.GenerwellEnum;
 
 @{
     ViewBag.Title = "Task Page";
@@ -12,19 +13,17 @@
 <div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GenerwellConstants.Constants.UserName</div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h2>Task Details</h2>
-                </div>
+                    <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Details</h4>
+                </div>                
                 <div id="taskDetailsTableDivId" class="ibox-content">
-                    
                     <label>Task Name:</label>
                            @Model.name<br />
 
-
                     <label>Activity Date:</label>
                            @Model.activatedDate<br />
-
 
                     <label>Forecast Date:</label>
                            @Model.forecastDate<br />
@@ -34,6 +33,7 @@
 
                 </div>
                 <br />
+                    <div class="float-right pb-10"><button id="detailsId" class="btn button" type="button" onclick="location.href='@Url.Action("Details", Enum.GetName(typeof(GenerwellEnum), GenerwellConstants.Constants.FieldLevelId), new { id = GenerwellConstants.Constants.KeyId })'" data-toggle="">@Enum.GetName(typeof(GenerwellEnum), GenerwellConstants.Constants.FieldLevelId) Details</button></div>
                 <div id="taskFieldsDiv">
                     @Html.Partial("_TaskFields", Model.fields)
                 </div>

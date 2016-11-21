@@ -3,16 +3,17 @@
 var TaskDetailsPage = {
 
     initialize: function (taskId, targetUrl) {
-        //debugger;
+        debugger;
         TaskDetailsPage.attachEvents(taskId, targetUrl);
     },
     attachEvents: function (taskId, targetUrl) {
-        debugger;
+        debugger;       
 
         //start datatable
         var dataTable = $('#taskDetailsListTableId').DataTable({
             "bPaginate": false,
             "bInfo": false,
+            "searching":false,
             "columnDefs": [
                 {
                     "targets": [0],
@@ -62,6 +63,7 @@ var TaskDetailsPage = {
             });
         });
 
+      
 
         
     }
