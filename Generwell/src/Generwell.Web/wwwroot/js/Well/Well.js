@@ -79,7 +79,7 @@ var wellPage = {
         $('#FilterList').unbind().bind("change",function () {
             debugger;
             $('#processing-modal').modal("show");
-            var filterId = $('#FilterList option:selected').text();
+            var filterId = $('#FilterList option:selected').val();
             if (filterId.indexOf("Select") > -1) {
                 filterId = null;
             }
