@@ -7,19 +7,19 @@ var TaskDetailsPage = {
         TaskDetailsPage.attachEvents(taskId, targetUrl);
     },
     attachEvents: function (taskId, targetUrl) {
-        debugger;       
+        debugger;
 
         //start datatable
         var dataTable = $('#taskDetailsListTableId').DataTable({
             "bPaginate": false,
             "bInfo": false,
-            "searching":false,
+            "searching": false,
             "columnDefs": [
                 {
                     "targets": [0],
                     "visible": false,
                     "searchable": false
-                },               
+                },
                  {
                      "targets": [3],
                      "visible": false,
@@ -57,7 +57,7 @@ var TaskDetailsPage = {
                 type: 'POST',
                 dataType: 'json',
                 url: '/TaskDetails/Follow',
-                data: {isFollow: $('#followTaskId').prop('checked') },
+                data: { isFollow: $('#followTaskId').prop('checked') },
                 success: function (Data) {
                     debugger;
                     $('#myPleaseWait').modal('hide');
@@ -68,7 +68,7 @@ var TaskDetailsPage = {
             });
         });
 
-      
+
 
         $.ajax({
             type: 'GET',
@@ -77,8 +77,7 @@ var TaskDetailsPage = {
             data: { id: filterId },
             success: function (data) {
                 debugger;
-                if (data != undefined || data != "")
-                {
+                if (data != undefined || data != "") {
                     $("#taskFieldsDiv").html(data);
                     $('#processing-modal').modal("hide");
 
@@ -88,9 +87,5 @@ var TaskDetailsPage = {
                 $('#processing-modal').modal("hide");
             }
         });
-    });
-
-        
     }
-
 }
