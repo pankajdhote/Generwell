@@ -15,32 +15,33 @@
         <div class="col-lg-12">
             <div class="float-right user-name"><label>Welcome &nbsp;</label>@GenerwellConstants.Constants.UserName</div>
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
+                <div class="title ibox-title border-bottom">
                     <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Details</h4>
                 </div>                
                 <br/>
-                <div class="col-md-12 col-lg-12">
-                    <div class="col-md-6 col-lg-6">
-                        <div id="taskDetailsTableDivId" class="ibox-content">
-                            <label>Task Name:</label>
-                            @Model.name<br />
+                <div class="row">
+                   
+                        <div class="col-md-6 col-lg-6  border-bottom pt-pb-20">
+                            <div id="taskDetailsTableDivId" class="ibox-content">
+                                <label>Task Name:</label>
+                                @Model.name<br />
 
-                            <label>Activity Date:</label>
-                            @Model.activatedDate<br />
+                                <label>Activity Date:</label>
+                                @Model.activatedDate<br />
 
-                            <label>Forecast Date:</label>
-                            @Model.forecastDate<br />
+                                <label>Forecast Date:</label>
+                                @Model.forecastDate<br />
 
-                            <label>Due Date:</label>
-                            @Model.expectedCompletionDate
+                                <label>Due Date:</label>
+                                @Model.expectedCompletionDate
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-6">
-                        <div id="taskFieldsDiv">
-                            @Html.Partial("_ContactField", Model.contactFields)
+                        <div class="col-md-6 col-lg-6  border-bottom pt-pb-20">
+                            <div id="taskFieldsDiv">
+                                @Html.Partial("_ContactField", Model.contactFields)
+                            </div>
                         </div>
-                    </div>
+                 
                 </div>
                 <br />
                     <div class="float-right pb-10"><button id="detailsId" class="btn button" type="button" onclick="location.href='@Url.Action("Details", Enum.GetName(typeof(GenerwellEnum), GenerwellConstants.Constants.FieldLevelId), new { id = GenerwellConstants.Constants.KeyId })'" data-toggle="">@Enum.GetName(typeof(GenerwellEnum), GenerwellConstants.Constants.FieldLevelId) Details</button></div>

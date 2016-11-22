@@ -11,12 +11,15 @@
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
         <tr>
-            <th>Id<i class="fa fa-fw fa-sort"></i></th>
+            @*<th>Id<i class="fa fa-fw fa-sort"></i></th>*@
             <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
             <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
-            <th>Id<i class="fa fa-fw fa-sort"></i></th>
+            @*<th>Id<i class="fa fa-fw fa-sort"></i></th>*@
+@if (Model.Count() > 1)
+{
             <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
             <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
+}
 
         </tr>
     </thead>
@@ -30,29 +33,21 @@
                 {
                 @:<tr class="gradeU">
                  
-                        <td>@item.fieldId</td>
+                        @*<td>@item.fieldId</td>*@
                         <td>@item.fieldDesc</td>
-                        <td>@item.displayValue</td>                 
+                        <td>@item.displayValue</td>   
+                       
 
                 }
                 @if (count % 2 == 0)
                 {
-                    <td>@item.fieldId</td>
+                    @*<td>@item.fieldId</td>*@
                     <td>@item.fieldDesc</td>
-                    <td>
-                      @*@Html.DropDownList("Status")*@
-                      @item.displayValue
-                    </td>
-
-
+                    <td>@item.displayValue</td>           
+                                     
                 @:</tr>
-                }
-                
-           
+                } 
                 count++;
-
-                
-
             }
         }
         else
