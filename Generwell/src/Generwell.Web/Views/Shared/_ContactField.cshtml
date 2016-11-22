@@ -1,26 +1,29 @@
 ﻿@model Generwell.Web.ViewModels.ContactFieldsViewModel
 
-
-@*<script type="text/javascript">
-        $(document).ready(function () {
-            TaskDetailsPage.initialize(@GenerwellConstants.Constants.TaskId);
-        });
-    </script>*@
-
-
-<div id="contactFieldsListTableId" class="col-md-12 col-lg-12">      
-    <div class="col-md-12 col-lg-12">
-        @*<label>User Name:</label>*@
-        <span><i class="glyphicon glyphicon-user"></i></span>: 
-        @Model.userName
+<div id="contactFieldsListTableId" class="col-md-12 col-lg-12">   
+    <div class="title ibox-title">
+        <h4>@*<img src="~/images/taskContactIcon@2x.png" class="pb-5" />&nbsp;*@Contact User</h4>
+    </div>   
+    <div class="col-md-12 col-lg-12">      
+        <span>
+            <img src="~/images/user_male.png" />
+        </span>
+            @Model.firstName,@Model.lastName
+        
     </div>
+    <div class="col-md-12 col-lg-12 SpaceBottom">
+        <span>
+            <img style="vertical-align:bottom!important" src="~/images/email@1x.png" />
+        </span>
+            @Model.emailBusiness      
+        
+    </div>   
     <div class="col-md-12 col-lg-12">
-        <label>Email Business:</label>
-        @Model.emailBusiness
-    </div>
-    <div class="col-md-12 col-lg-12">
-        <label>Phone Business:</label>
-        @Model.phoneBusiness
+        <span>
+            <img src="~/images/phone@1x.png" />
+        </span>
+            @Model.phoneBusiness
+        
     </div>
 
 </div>

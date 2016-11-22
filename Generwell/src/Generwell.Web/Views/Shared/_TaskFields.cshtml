@@ -10,7 +10,11 @@
 
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
+
+    
+       
         <tr>
+           
             @*<th>Id<i class="fa fa-fw fa-sort"></i></th>*@
             <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
             <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
@@ -22,6 +26,8 @@
 }
 
         </tr>
+       
+ 
     </thead>
     <tbody>
         @if (Model.Count() > 0)
@@ -29,24 +35,60 @@
             int count = 1;
             @foreach (var item in Model)
             {
+                @if(@item.permissionId != 0)
+                { 
                 if (count % 2 == 1)
                 {
                 @:<tr class="gradeU">
-                 
+
+        
                         @*<td>@item.fieldId</td>*@
                         <td>@item.fieldDesc</td>
-                        <td>@item.displayValue</td>   
-                       
+                            
+                          @if (@item.fieldTypeId == 4)
+                              {
+                                <td>
+                                     @Html.DisplayFor(model => @item.displayValue, new { @class = "selecttext ", @id = "ddlDisplayValue" })
+                                </td>
 
-                }
+                              }
+                              else
+                              {                               
+                            <td>
+                                @Html.EditorFor(model => @item.displayValue, new { @class = "selecttext selectwidth isActive", @id = "ddlDisplayValue" })
+                              
+                            </td>
+                          }
+
+                    }
                 @if (count % 2 == 0)
-                {
-                    @*<td>@item.fieldId</td>*@
+                {                 
                     <td>@item.fieldDesc</td>
-                    <td>@item.displayValue</td>           
-                                     
+                    @if (@item.fieldTypeId == 4)
+                    {
+                        <td>
+                            @Html.DisplayFor(model => @item.displayValue, new { @class = "selecttext ", @id = "ddlDisplayValue" })
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td>                            
+                            @Html.DropDownListFor(model => @item.displayValue, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "--Select--"  },
+                       new { value = 1 , text = @item.displayValue }
+                      
+                    },
+                  "value",
+                  "text",
+                   2))
+                        </td>
+                    }
+
                 @:</tr>
                 } 
+                }
                 count++;
             }
         }
