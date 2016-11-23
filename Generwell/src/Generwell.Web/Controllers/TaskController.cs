@@ -23,25 +23,16 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index(string currentWellId)
+        public async Task<ActionResult> Index()
         {
             try
             {
                 //change active menu class
                 GenerwellConstants.Constants.TaskActive = GenerwellConstants.Constants.Active;
                 GenerwellConstants.Constants.WellActive = string.Empty;
-
-                List<TaskViewModel> taskViewModel;
-                WebClient webClient = new WebClient();
-                if (!string.IsNullOrEmpty(currentWellId))
-                {
-                    var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well+"/"+currentWellId+"/tasks", GenerwellConstants.Constants.AccessToken);
-                    taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
-                }
-                else {
-                    var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
-                    taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
-                }
+                WebClient webClient = new WebClient();               
+                var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
+                List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
                 return View(taskViewModel);
             }
             catch (Exception ex)

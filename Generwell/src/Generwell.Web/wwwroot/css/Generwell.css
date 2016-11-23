@@ -115,8 +115,7 @@ p {
 
 .border-bottom {
     border-bottom: 1px solid !important;
-    border-color: #eeeeee !important;
-    margin-bottom: 7px;
+    border-color: #eeeeee !important;   
 
 }
 
@@ -160,6 +159,7 @@ table tr {
 .pt-pb-20 {
     padding-top: 20px;
     padding-bottom: 20px;
+    margin-bottom:10px;
 }
 
 .pt {
@@ -231,4 +231,28 @@ height:244% !important;
 .map {
 /*width:1000px;*/
 height:600px;
+}
+}*/
+
+/* Added by rohit to give space after logo in task details page*/
+.ContactLogo{
+    margin-right:2px!important;
+}
+.SpaceBottom{
+    margin-bottom:5px!important;
+}
+.ContactBlock{
+    margin-top:-22px!important;
+}
+
+.line {
+    position: relative;
+}
+.line:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    border-right: 1px solid #cfc7c0;
+    top: 0%;
+    bottom: 0%;
 }
