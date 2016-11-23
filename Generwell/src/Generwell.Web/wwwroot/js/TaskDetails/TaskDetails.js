@@ -80,7 +80,6 @@ var TaskDetailsPage = {
                 if (data != undefined || data != "") {
                     $("#taskFieldsDiv").html(data);
                     $('#processing-modal').modal("hide");
-
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

@@ -23,23 +23,25 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string currentWellId)
         {
             try
             {
                 //change active menu class
                 GenerwellConstants.Constants.TaskActive = GenerwellConstants.Constants.Active;
                 GenerwellConstants.Constants.WellActive = string.Empty;
-                WebClient webClient = new WebClient();               
-                var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
-                //if (getTaskList!=null)
-                //{
-                //    CultureInfo provider = CultureInfo.InvariantCulture;
-                //    string dateString = "08082010";
-                //    string format = "MMddyyyy";
-                //    DateTime result = DateTime.ParseExact(dateString, format, provider);
-                //}
-                List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+
+                List<TaskViewModel> taskViewModel;
+                WebClient webClient = new WebClient();
+                if (!string.IsNullOrEmpty(currentWellId))
+                {
+                    var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well+"/"+currentWellId+"/tasks", GenerwellConstants.Constants.AccessToken);
+                    taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+                }
+                else {
+                    var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
+                    taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+                }
                 return View(taskViewModel);
             }
             catch (Exception ex)
@@ -47,23 +49,5 @@ namespace Generwell.Web.Controllers
                 throw ex;
             }
         }
-
-        [HttpGet]
-        public async Task<PartialViewResult> FilterTask(string id)
-        {
-            try
-            {
-                WebClient webClient = new WebClient();
-                var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskFilter + "=" + id, GenerwellConstants.Constants.AccessToken);
-                List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
-                return PartialView("_FilterTask", taskViewModel);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
     }
 }

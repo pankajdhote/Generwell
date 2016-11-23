@@ -25,7 +25,7 @@ var wellPage = {
                     "searchable": false
                 },
                  {
-                     "targets": [7],
+                     "targets": [8],
                      "visible": false,
                      "searchable": true
                  },
@@ -46,24 +46,59 @@ var wellPage = {
             debugger;
             if ($(this).parent().attr("class").indexOf("checked") > -1) {
                 oTable
-                  .columns(7)
+                  .columns(8)
                   .search("^" + "True" + "$", true, false, false)
                   .draw();
             } else {
                 oTable
-                  .columns(7)
+                  .columns(8)
                   .search("")
                   .draw();
             }
 
         });
         //On click of datatable row redirect to well line report page.
-        $('#wellListTableId tbody').on('click', 'tr', function () {
+        $('#wellListTableId tbody').on('click', 'tr td', function (event) {
             debugger;
             $('#processing-modal').modal("show");
-            var data = oTable.row(this).data();
-            //Perform your navigation
-            window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[1] + '&isFollow=' + data[7];
+            if (event.currentTarget.children[0] != undefined) {
+                var followChecked = event.currentTarget.children[0].id;
+                var wellId = event.currentTarget.children[0].name;
+                if (followChecked != undefined) {
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        url: '/Well/Follow',
+                        data: { isFollow: followChecked, wellId: wellId },
+                        success: function (Data) {
+                            debugger;
+                            $.ajax({
+                                type: 'GET',
+                                dataType: 'html',
+                                url: '/Well/FilterWell',
+                                data: { id: null },
+                                success: function (data) {
+                                    debugger;
+                                    if (data != undefined || data != "") {
+                                        $("#wellTableDivId").html(data);
+                                        $('#processing-modal').modal("hide");
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    $('#processing-modal').modal("hide");
+                                }
+                            });
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $('#processing-modal').modal("hide");
+                        }
+                    });
+                } 
+            } else {
+                var data = oTable.row($(this).parent()).data();
+                //Perform your navigation
+                window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[2] + '&isFollow=' + data[8];
+            }
         });
 
         //on back button click redirect to task details report page
@@ -76,7 +111,7 @@ var wellPage = {
 
         //filter particular record on filter value
         //Follow or unfollow particular well 
-        $('#FilterList').unbind().bind("change",function () {
+        $('#FilterList').unbind().bind("change", function () {
             debugger;
             $('#processing-modal').modal("show");
             var filterId = $('#FilterList option:selected').val();
@@ -115,6 +150,26 @@ var wellPage = {
                 }
             });
         });
+    },
 
+    followedWell: function (event) {
+        debugger;
+        var followChecked = event.id;
+        var wellId = event.name;
+        $('#processing-modal').modal("show");
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '/Well/Follow',
+            async: false,
+            data: { isFollow: followChecked, wellId: wellId },
+            success: function (Data) {
+                debugger;
+                $('#processing-modal').modal("hide");
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $('#processing-modal').modal("hide");
+            }
+        });
     }
 }

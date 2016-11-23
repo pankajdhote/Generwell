@@ -2,11 +2,11 @@
 
 var taskPage = {
 
-    initialize: function (targetUrl) {
+    initialize: function (targetUrl, assignedName) {
         debugger;
-        taskPage.attachEvents(targetUrl);
+        taskPage.attachEvents(targetUrl, assignedName);
     },
-    attachEvents: function (targetUrl) {
+    attachEvents: function (targetUrl, assignedName) {
         debugger;
 
         //Added for checkbox style
@@ -38,14 +38,14 @@ var taskPage = {
         var oTable = $('#taskListTableId').DataTable();
         $('.iCheck-helper').on("click", function () {
             debugger;
-            if ($(this).parent().attr("class").indexOf("checked") > -1) {
+            if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
                 oTable
-                  .columns(7)
-                  .search("^" + "True" + "$", true, false, false)
+                  .columns(6)
+                  .search(assignedName)
                   .draw();
             } else {
                 oTable
-                  .columns(7)
+                  .columns(6)
                   .search("")
                   .draw();
             }
@@ -53,14 +53,13 @@ var taskPage = {
         });
 
         //On click of datatable row redirect to well line report page.
-        var oTable = $('#taskListTableId').DataTable();
         $('#taskListTableId tbody').on('click', 'tr', function () {
             debugger;
             $('#processing-modal').modal("show");
             var data = oTable.row(this).data();
             //Perform your navigation
             window.location.href = targetUrl + '?taskId=' + data[0] + '&taskName=' + data[2] + '&isFollow=' + data[7];
-        });       
+        });
 
     }
 }

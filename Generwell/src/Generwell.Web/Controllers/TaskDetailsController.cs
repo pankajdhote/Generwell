@@ -48,28 +48,5 @@ namespace Generwell.Web.Controllers
                 throw ex;
             }               
         }
-        /// <summary>
-        /// Added by rohit
-        /// Date:- 18-11-2016
-        /// Fetch Contact details from web api and display on task details page.
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        //[HttpGet]
-        //public async Task<PartialViewResult> ContactField()
-        //{
-        //    try
-        //    {
-        //        WebClient webClient = new WebClient();
-        //        var getContactList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GenerwellConstants.Constants.AccessToken);
-        //        ContactFieldsViewModel contactViewModel = JsonConvert.DeserializeObject<ContactFieldsViewModel>(getContactList);
-        //        return PartialView("_ContactField", contactViewModel);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
     }
 }

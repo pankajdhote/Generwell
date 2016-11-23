@@ -19,11 +19,12 @@
                     <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Listing</h4>
                 </div>
                 <div class="dropdown">
-                <div class="i-checks chk border-bottom pt-pb-20">
-                    <span class=""><input type="checkbox" id="IsFavorite" name="IsFavorite" /><label class="ml-10">  My Tasks</label></span>
-                </div>               
-                <div id="taskTableDivId" class="ibox-content">
-                    @Html.Partial("_FilterTask", Model)
+                    <div class="i-checks chk border-bottom pt-pb-20">
+                        <span class=""><input type="checkbox" id="IsFavorite" name="IsFavorite" /><label class="ml-10">  My Tasks</label></span>
+                    </div>
+                    <div id="taskTableDivId" class="ibox-content">
+                        @Html.Partial("_FilterTask", Model)
+                    </div>
                 </div>
             </div>
         </div>

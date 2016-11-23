@@ -31,6 +31,7 @@ namespace Generwell.Web.Controllers
                 //change active menu class
                 GenerwellConstants.Constants.WellActive = GenerwellConstants.Constants.Active;
                 GenerwellConstants.Constants.TaskActive = string.Empty;
+                GenerwellConstants.Constants.MapActive = string.Empty;
 
                 //fill Filters dropdown list
                 WebClient webClient = new WebClient();
@@ -48,6 +49,13 @@ namespace Generwell.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 18-11-2016
+        /// filter wells by filter id.
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<PartialViewResult> FilterWell(string id)
         {
@@ -73,6 +81,13 @@ namespace Generwell.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 21-11-2016
+        /// display well details from task details page.
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Details(string id)
         {
@@ -93,6 +108,29 @@ namespace Generwell.Web.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 22-11-2016
+        /// follow or unfollow well by id
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<JsonResult> Follow(string isFollow,string wellId )
+        {
+            string id = wellId;
+            WebClient webClient = new WebClient();
+            if (isFollow == GenerwellConstants.Constants.trueState)
+            {
+                GenerwellConstants.Constants.IsFollow = GenerwellConstants.Constants.checkedState;
+                var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/follow", GenerwellConstants.Constants.AccessToken);
+                return Json(getResponse);
+            }
+            else
+            {
+                GenerwellConstants.Constants.IsFollow = GenerwellConstants.Constants.uncheckedState;
+                var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/unfollow", GenerwellConstants.Constants.AccessToken);
+                return Json(getResponse);
+            }
+        }
     }
 }

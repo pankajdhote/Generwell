@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Generwell.Modules.GenerwellConstants
 {
@@ -24,7 +25,6 @@ namespace Generwell.Modules.GenerwellConstants
             public const string WellLineReports = "https://anar.whelby.com/api/v2016.1/linereports?fieldLevelId=1";
             public const string WellDetails = "https://anar.whelby.com/api/v2016.1/wells/7361/linereports/5006";
             public const string Filters = "https://anar.whelby.com/api/v2016.1/filters";
-            public const string TaskFilter = "https://anar.whelby.com/api/v2016.1/personnel/current";
             public const string TaskDetails = "https://anar.whelby.com/api/v2016.1/tasks";
             public const string ContactDetails = "https://anar.whelby.com/api/v2016.1/personnel/current";
 
@@ -53,12 +53,13 @@ namespace Generwell.Modules.GenerwellConstants
             public static string FacilityActive = "";
             public static string PipelineActive = "";
             public static string ProjectActive = "";
-            public static string LocationActive = "";
+            public static string MapActive = "";
             public static string LogoutActive = "";
 
-            public static string UserName = string.Empty;
+            public static string UserName = string.Empty;            
 
-
+           
         }
+       
     }
 }

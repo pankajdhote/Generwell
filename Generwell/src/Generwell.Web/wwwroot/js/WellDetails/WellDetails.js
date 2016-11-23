@@ -43,7 +43,6 @@ var wellDetailsPage = {
         });
         //On checkbox click filter data tables rows
         var oTable = $('#wellDetailsListTableId').DataTable();
-
         //End datatable
 
         //on back button click redirect to well line report page
@@ -85,6 +84,14 @@ var wellDetailsPage = {
         //Move page up on image click
         $("#moveTop").on("click", function () {
             $("body").scrollTop(0);
+        });
+
+         //on task button click redirect to task page
+        $('#locationPageId').click(function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            var targetUrl = '/Map/Index';
+            window.location.href = targetUrl;
         });
 
     }

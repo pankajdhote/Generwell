@@ -9,7 +9,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var targetUrl = '/WellDetails/Index/';
-        wellLineReportPage.initialize(targetUrl);
+        wellLineReportPage.initialize(targetUrl,"@GenerwellConstants.Constants.WellId");
     });
 </script>
 
@@ -55,7 +55,6 @@
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                 </tr>
-
                             }
                         </tbody>
                     </table>
