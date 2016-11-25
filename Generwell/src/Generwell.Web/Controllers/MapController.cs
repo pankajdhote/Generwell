@@ -52,7 +52,7 @@ namespace Generwell.Web.Controllers
             WebClient webClient = new WebClient();
             var wellData = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
             List<MapViewModel> wellRecords = JsonConvert.DeserializeObject<List<MapViewModel>>(wellData);
-
+            wellRecords = wellRecords.Where(w=>w.latitude!=null).ToList();
             return Json(wellRecords);
         }
 

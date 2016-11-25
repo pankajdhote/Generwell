@@ -6,48 +6,111 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk">
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
+
+@*<script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk&callback=initMap">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>*@
+
 <script>
     $(document).ready(function () {
-            debugger;
-            $.ajax({
-                type: "GET",
-                url: '/Map/plotMarker', 
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    debugger;
-                    var locations = data;
+        debugger;    
+        $.ajax({
+            type: "GET",
+            url: '/Map/plotMarker',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                var locations = data;
 
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 3,
-                        minZoom: 3,
-                        center: new google.maps.LatLng(locations[0].latitude, locations[0].longitude),
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    });
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 25,
+                    minZoom: 5,
+                    center: new google.maps.LatLng(locations[0].latitude, locations[0].longitue),
+                    disableDefaultUI: true,
+                    scaleControl: true,
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        style: google.maps.ZoomControlStyle.SMALL
+                    },
+                    mapTypeControl: true,
+                    draggableCursor: 'move',
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
 
-                    var infowindow = new google.maps.InfoWindow();
+                var infowindow = new google.maps.InfoWindow({
+                    maxWidth: 160
+                });
 
-                    var marker, i;
+                ////show geological location
+                //if (navigator.geolocation) {
+                //    navigator.geolocation.getCurrentPosition(showPosition);
+                //} else {
+                //    alert("Geolocation is not supported by this browser.");
+                //}
 
-                    for (i = 0; i < locations.length; i++) {
-                        marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
-                            map: map
-                        });
+                //function showPosition(position) {
+                //    var lat = position.coords.latitude;
+                //    var lng = position.coords.longitude;
+                //    map.setCenter(new google.maps.LatLng(lat, lng));
+                //}
 
-                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                            return function () {
-                                infowindow.setContent(locations[i].latitude);
-                                infowindow.open(map, marker);
-                            }
-                        })(marker, i));
+                var markers = new Array();
+
+                // Add the markers and infowindows to the map
+                var markers = [];
+                for (var i = 0; i < locations.length; i++) {
+                    var latLng = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
+                    var marker = new google.maps.Marker({ 'position': latLng });
+                    if (locations[i].isFavorite == true) {
+                        marker.setIcon('/images/favorite-location.png');
                     }
+                    else {
+                        marker.setIcon('/images/location.png');
+                    }
+
+                    markers.push(marker);
+
+                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                        return function () {
+                            infowindow.setContent('<img src="/images/car-Icon.png" /> &nbsp; <a href="/Well/Index">' + locations[i].name) + '</a>';
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
                 }
-            });
+                //var markerCluster = new MarkerClusterer(map, markers, { imagePath: '~/images/m1.png' });
+                var markerCluster = new MarkerClusterer(map, markers,
+                                    {
+                                        imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+                                    });
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        infowindow.setContent(locations[i].name);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+
+
+                function autoCenter() {
+                    //  Create a new viewpoint bound
+                    var bounds = new google.maps.LatLngBounds();
+                    //  Go through each...
+                    for (var i = 0; i < markers.length; i++) {
+                        bounds.extend(markers[i].position);
+                    }
+                    //  Fit these bounds to the map
+                    map.fitBounds(bounds);
+                }
+                autoCenter();
+            }
         });
-    </script>
+    });
+</script>
 
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")

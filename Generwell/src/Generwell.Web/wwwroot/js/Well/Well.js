@@ -8,6 +8,13 @@ var wellPage = {
     },
     attachEvents: function (targetUrl) {
         debugger;
+        //on page unload get datatable rows and store in collection
+        $(window).unload(function () {
+            debugger;
+            var table = $('#wellListTableId').DataTable();
+            var data = table.rows().data();
+
+        });
 
         //Added for checkbox style
         $(".i-checks").iCheck({
