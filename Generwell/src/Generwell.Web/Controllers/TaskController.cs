@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Generwell.Modules;
 using Generwell.Web.ViewModels;
 using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
-using System.Globalization;
+using Generwell.Modules.GenerwellEnum;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,9 +26,9 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                //change active menu class
-                GenerwellConstants.Constants.TaskActive = GenerwellConstants.Constants.Active;
-                GenerwellConstants.Constants.WellActive = string.Empty;
+                //set menu
+                GenerwellConstants.Constants.setMenu(Menu.Task.ToString());
+
                 WebClient webClient = new WebClient();               
                 var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
                 List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);

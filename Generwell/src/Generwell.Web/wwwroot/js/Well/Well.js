@@ -11,9 +11,29 @@ var wellPage = {
         //on page unload get datatable rows and store in collection
         $(window).unload(function () {
             debugger;
-            var table = $('#wellListTableId').DataTable();
-            var data = table.rows().data();
+            //store my well checkbox value and filter id.
+            var filterId = $('#FilterList option:selected').val();
 
+            var isMyWell;
+            if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
+                isMyWell = true;
+            } else {
+                isMyWell = false;
+            }
+            
+            $.ajax({
+                type: 'GET',
+                dataType: 'html',
+                url: '/Map/SetGooleMapObjects',
+                async:false,
+                data: { isMyWell: isMyWell,filterId:filterId, previousPage: "1" },
+                success: function (data) {
+                    debugger;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#processing-modal').modal("hide");
+                }
+            });
         });
 
         //Added for checkbox style
@@ -62,7 +82,6 @@ var wellPage = {
                   .search("")
                   .draw();
             }
-
         });
         //On click of datatable row redirect to well line report page.
         $('#wellListTableId tbody').on('click', 'tr td', function (event) {
@@ -79,15 +98,20 @@ var wellPage = {
                         data: { isFollow: followChecked, wellId: wellId },
                         success: function (Data) {
                             debugger;
+                            var filterId = $('#FilterList option:selected').val();
                             $.ajax({
                                 type: 'GET',
                                 dataType: 'html',
                                 url: '/Well/FilterWell',
-                                data: { id: null },
+                                data: { id: filterId },
                                 success: function (data) {
                                     debugger;
                                     if (data != undefined || data != "") {
                                         $("#wellTableDivId").html(data);
+                                        //display only my wells
+                                        //On checkbox click filter data tables rows
+                                        debugger;
+                                        wellPage.mywellFilter();
                                         $('#processing-modal').modal("hide");
                                     }
                                 },
@@ -135,21 +159,10 @@ var wellPage = {
                     if (data != undefined || data != "") {
                         $("#wellTableDivId").html(data);
                         $('#processing-modal').modal("hide");
-
                         //display only my wells
                         //On checkbox click filter data tables rows
-                        var oTable = $('#wellListTableId').DataTable();
-                        if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
-                            oTable
-                              .columns(7)
-                              .search("^" + "True" + "$", true, false, false)
-                              .draw();
-                        } else {
-                            oTable
-                              .columns(7)
-                              .search("")
-                              .draw();
-                        }
+                        debugger;
+                        wellPage.mywellFilter();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -159,6 +172,20 @@ var wellPage = {
         });
     },
 
+    mywellFilter:function(){
+        var oTable = $('#wellListTableId').DataTable();
+        if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
+            oTable
+              .columns(8)
+              .search("^" + "True" + "$", true, false, false)
+              .draw();
+        } else {
+            oTable
+              .columns(8)
+              .search("")
+              .draw();
+        }
+    },
     followedWell: function (event) {
         debugger;
         var followChecked = event.id;

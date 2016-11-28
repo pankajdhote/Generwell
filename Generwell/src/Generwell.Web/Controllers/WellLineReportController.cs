@@ -29,7 +29,7 @@ namespace Generwell.Web.Controllers
             {
                 GenerwellConstants.Constants.WellId = wellId;
                 GenerwellConstants.Constants.WellName = wellName;                
-                GenerwellConstants.Constants.IsFollow = isFollow == "True" ? isFollow = "checked" : null;                
+                GenerwellConstants.Constants.IsFollow = isFollow.ToLower() == "true" ? isFollow = "checked" : null;                
             }
            
             WebClient webClient = new WebClient();

@@ -7,6 +7,7 @@ using Generwell.Modules;
 using Generwell.Web.ViewModels;
 using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
+using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,10 +29,9 @@ namespace Generwell.Web.Controllers
         {
             try
             {
+
                 //change active menu class
-                GenerwellConstants.Constants.WellActive = GenerwellConstants.Constants.Active;
-                GenerwellConstants.Constants.TaskActive = string.Empty;
-                GenerwellConstants.Constants.MapActive = string.Empty;
+                GenerwellConstants.Constants.setMenu(Menu.Well.ToString());                                
 
                 //fill Filters dropdown list
                 WebClient webClient = new WebClient();

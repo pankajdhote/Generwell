@@ -2,6 +2,7 @@
 /// <reference path="js/Datatable.js" />
 /// <reference path="js/icheck.min.js" />
 /// <reference path="js/login/login.js" />
+/// <reference path="js/map/map.js" />
 /// <reference path="js/markerclusterer.js" />
 /// <reference path="js/site.js" />
 /// <reference path="js/task/Task.js" />

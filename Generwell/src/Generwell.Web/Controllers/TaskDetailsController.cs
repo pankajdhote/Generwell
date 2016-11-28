@@ -29,7 +29,7 @@ namespace Generwell.Web.Controllers
                 {
                     GenerwellConstants.Constants.TaskId = taskId;
                     GenerwellConstants.Constants.TaskName = taskName;
-                    GenerwellConstants.Constants.IsFollow = isFollow == "True" ? isFollow = "checked" : null;
+                    GenerwellConstants.Constants.IsFollow = isFollow.ToLower() == "true" ? isFollow = "checked" : null;
                 }
                 WebClient webClient = new WebClient();
                 var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + GenerwellConstants.Constants.TaskId, GenerwellConstants.Constants.AccessToken);

@@ -56,9 +56,44 @@ namespace Generwell.Modules.GenerwellConstants
             public static string MapActive = "";
             public static string LogoutActive = "";
 
-            public static string UserName = string.Empty;            
+            // Find the server name on the previous page
+            public static string UserName = string.Empty;
 
-           
+
+            //find out objects to display on google map.
+            public static string previousPage=string.Empty;
+            public static string myWellCheck = string.Empty;
+            public static string defaultFilter = string.Empty;
+
+
+
+            //set Menus
+            public static string setMenu(string param) {
+                // Change active menu class
+                switch (param)
+                {
+                    case "Task":
+                        GenerwellConstants.Constants.WellActive = string.Empty;
+                        GenerwellConstants.Constants.TaskActive = GenerwellConstants.Constants.Active;
+                        GenerwellConstants.Constants.MapActive = string.Empty;
+                        break;
+                    case "Well":
+                        GenerwellConstants.Constants.WellActive = GenerwellConstants.Constants.Active;
+                        GenerwellConstants.Constants.TaskActive = string.Empty;
+                        GenerwellConstants.Constants.MapActive = string.Empty;
+                        break;
+                    case "Map":
+                        GenerwellConstants.Constants.MapActive = GenerwellConstants.Constants.Active;
+                        GenerwellConstants.Constants.TaskActive = string.Empty;
+                        GenerwellConstants.Constants.WellActive = string.Empty;
+                        break;
+                    default:
+                        break;
+                }
+              
+                return string.Empty;
+            }
+
         }
        
     }
