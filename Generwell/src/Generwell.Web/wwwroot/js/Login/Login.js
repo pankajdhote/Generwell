@@ -58,8 +58,7 @@ var loginPage = {
             }
 
             $('#processing-modal').modal("show");
-
-            $('.modal-open').removeClass();
+            //$('.modal-open').removeClass();
 
         });
 

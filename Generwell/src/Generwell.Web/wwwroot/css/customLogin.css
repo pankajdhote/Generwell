@@ -36,3 +36,7 @@ h1
 input, select, textarea {
     max-width: none;
 }
+.modal-open
+{
+    background-color: transparent!important;
+}

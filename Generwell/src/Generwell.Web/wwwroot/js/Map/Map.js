@@ -4,11 +4,11 @@ var mapPage = {
 
     initialize: function () {
         debugger;
-        mapPage.attachEvents();
+        mapPage.attachEvents();                
     },
     attachEvents: function () {
         debugger;
-
+        $('#processing-modal').modal("show");
         $.ajax({
             type: "GET",
             url: '/Map/PlotMarker',
@@ -118,6 +118,7 @@ var mapPage = {
                         return function () {
                             infowindow.setContent('<img src="/images/car-Icon.png" /> &nbsp; <a href="/WellLineReport/Index?wellId=' + locations[i].id + '&wellName=' + locations[i].name + '&isFollow=' + locations[i].isFavorite + '">' + locations[i].name) + '</a>';
                             infowindow.open(map, marker);
+                             getForecast();
                         }
                     })(marker, i));
                 }
@@ -142,8 +143,8 @@ var mapPage = {
                     //  Fit these bounds to the map
                     map.fitBounds(bounds);
                 }
-                autoCenter();
-
+                autoCenter();               
+                $('#processing-modal').modal("hide");
             }
         });
     }
