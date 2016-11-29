@@ -7,6 +7,7 @@ using Generwell.Modules;
 using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Web.ViewModels;
+using Generwell.Modules.GenerwellEnum;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,10 +25,21 @@ namespace Generwell.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(string reportId)
         {
+            try
+            {
+                //set previous page value for google map filteration
+                GenerwellConstants.Constants.previousPage = PageOrder.WellDetails.ToString();
+
             WebClient webClient = new WebClient();
             var wellDetailsList = await webClient.GetWebApiWithTimeZone(GenerwellConstants.Constants.Well+"/"+ GenerwellConstants.Constants.WellId + "/linereports/"+reportId, GenerwellConstants.Constants.AccessToken);
             LineReportsViewModel wellDetailsViewModel = JsonConvert.DeserializeObject<LineReportsViewModel>(wellDetailsList);
             return View(wellDetailsViewModel.fields);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         /// <summary>
         /// Added by pankaj
@@ -38,6 +50,8 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<string> Follow(string isFollow)
         {
+            try
+            {            
             string id = GenerwellConstants.Constants.WellId;
             WebClient webClient = new WebClient();
             if (isFollow == GenerwellConstants.Constants.trueState)
@@ -52,7 +66,12 @@ namespace Generwell.Web.Controllers
                 return getResponse.ToString();
             }
             return string.Empty;
-        }
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
     }
 }

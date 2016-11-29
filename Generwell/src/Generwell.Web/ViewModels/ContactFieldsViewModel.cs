@@ -7,6 +7,7 @@ namespace Generwell.Web.ViewModels
 {
     public class ContactFieldsViewModel
     {
+        //need to implement later by rohit. do not remove.
         //public List<ContactSettingViewModel> settings;
         public object id { get; set; }
         public string userName { get; set; }

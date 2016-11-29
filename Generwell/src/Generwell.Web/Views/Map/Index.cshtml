@@ -1,0 +1,37 @@
+﻿@model List<Generwell.Web.ViewModels.MapViewModel>
+@using Generwell.Modules.GenerwellConstants;
+
+@{
+    ViewBag.Title = "Map";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        debugger;       
+        mapPage.initialize();             
+    });
+</script>
+
+<!-- Loading Modal Start here-->
+@Html.Partial("_LoadingPopup")
+<!-- Modal ends Here -->
+
+<!-- Alert Modal Start here-->
+@Html.Partial("_alertPopup")
+<!-- Modal ends Here -->
+
+<div class="container wrapper-content animated fadeInRight mr-20 ml-20">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GenerwellConstants.Constants.UserName</div>
+            <div class="title ibox-title border-bottom">
+                <h4>Map</h4>
+            </div>
+            <div class="ibox float-e-margins">
+                <div id="map" class="ibox-content map"></div>
+                <div class="float-right form-group"><img id="moveTop" src="~/images/back-to-top.png" class="h-fourty" /></div>
+            </div>
+        </div>
+    </div>
+</div>

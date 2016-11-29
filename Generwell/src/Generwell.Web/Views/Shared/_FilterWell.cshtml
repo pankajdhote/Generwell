@@ -13,6 +13,7 @@
     <thead>
         <tr>
             <th>Id<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">Followed Wells<i class=""></i></th>
             <th>Well Name<i class="fa fa-fw fa-sort"></i></th>
             <th class="text-center">Bottomhole Location<i class="fa fa-fw fa-sort"></i></th>
             <th class="text-center">Surface Location<i class="fa fa-fw fa-sort"></i></th>
@@ -29,6 +30,16 @@
             {
                 <tr class="gradeU">
                     <td>@item.id</td>
+                    <td id="followedWell" class="text-center h-20">
+                    @if (item.isFavorite == true)
+                    {
+                        <img id="false" name="@item.id" src = "/images/mywell-selected.png" />
+                    }
+                    else
+                    {
+                        <img id="true" name="@item.id" src = "/images/mywell-disable.png" />
+                    }
+                    </td>
                     <td>@item.name</td>
                     <td class="text-center">@item.bottomHoleLocation</td>
                     <td class="text-center">@item.surfaceHoleLocation</td>

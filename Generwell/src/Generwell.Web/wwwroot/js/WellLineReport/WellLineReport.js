@@ -2,11 +2,11 @@
 
 var wellLineReportPage = {
 
-    initialize: function (targetUrl) {
+    initialize: function (targetUrl,currentWellId) {
         //debugger;
-        wellLineReportPage.attachEvents(targetUrl);
+        wellLineReportPage.attachEvents(targetUrl,currentWellId);
     },
-    attachEvents: function (targetUrl) {
+    attachEvents: function (targetUrl,currentWellId) {
         debugger;
 
         //Added for checkbox style
@@ -80,9 +80,19 @@ var wellLineReportPage = {
         $('#taskPageId').on('click', function () {
             debugger;
             $('#processing-modal').modal("show");
-            var targetUrl = '/Task/Index?isWellId="1"';
+            var targetUrl = '/Task/Index?currentWellId=' + currentWellId + '';
             window.location.href = targetUrl;
         });
+
+        //on task button click redirect to task page
+        $('#locationPageId').click(function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            var targetUrl = '/Map/Index';
+            window.location.href = targetUrl;
+        });
+        
+
     }
 
 }

@@ -1,7 +1,6 @@
 ﻿@using Generwell.Modules.GenerwellConstants;
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -35,8 +34,15 @@
     <script src="~/js/WellDetails/WellDetails.js"></script>
     <script src="~/js/WellLineReport/WellLineReport.js"></script>
     <script src="~/js/icheck.min.js"></script>
+
+    @*for google map references*@
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
+    <script src="~/js/Map/Map.js"></script>
+
     <style>
-        
     </style>
     <title>@ViewBag.Title</title>
 </head>
@@ -48,7 +54,7 @@
                     <span class="col-md-3 text-center">
                         <img src="~/images/logo.png" class="img-responsive " style="padding-top:20px;" />
                     </span>
-                    
+
                     <div class="navbar navbar-right">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
@@ -58,30 +64,24 @@
                         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
                             <ul id="menu" class="nav navbar-nav navbar-right h-244">
                                 <li><a href="/Task/Index" class="@GenerwellConstants.Constants.TaskActive">TASKS <br /><img src="~/images/task-icon.png" class="h-20" /></a></li>
-                                <li><a href="/Well/Index" class="@GenerwellConstants.Constants.WellActive">WELLS <br/><img src="~/images/well-icon.png" class="h-20" /></a></li>
+                                <li><a href="/Well/Index" class="@GenerwellConstants.Constants.WellActive">WELLS <br /><img src="~/images/well-icon.png" class="h-20" /></a></li>
                                 <li><a href="#" class="@GenerwellConstants.Constants.FacilityActive">FACILITIES <br /><img src="~/images/facility-icon.png" class="h-20" /></a></li>
                                 <li><a href="#" class="@GenerwellConstants.Constants.PipelineActive">PIPELINES <br /><img src="~/images/pipeline-icon.png" class="h-20" /></a></li>
                                 <li><a href="#" class="@GenerwellConstants.Constants.ProjectActive">PROJECTS <br /><img src="~/images/project-icon.png" class="h-20" /></a></li>
-                                <li><a href="#" class="@GenerwellConstants.Constants.LocationActive">MAP <br /><img src="~/images/location-icon.png" class="h-20" /></a></li>
+                                <li><a href="/Map/Index" class="@GenerwellConstants.Constants.MapActive">MAP <br /><img src="~/images/location-icon.png" class="h-20" /></a></li>
                                 <li><a href="/Accounts/Logout" class="@GenerwellConstants.Constants.LogoutActive">LOGOUT <br /><img src="~/images/logout-icon.png" class="h-20" /></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        
-         </div>
+
+        </div>
     </div>
-  
     <div>
         @RenderBody()
     </div>
 </body>
-<!--TOP menuebar-->
 </html>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        loginPage.initialize();
-    });
-</script>
+

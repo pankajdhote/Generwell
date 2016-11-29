@@ -41,15 +41,21 @@ namespace Generwell.Web.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {
+                {                    
                     Authorization authorizeUser = new Authorization();
                     var responseMsg = await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
-                    GenerwellConstants.Constants.UserName = signInViewModel.UserName;
                     AccessTokenViewModel accessTokenViewModel = JsonConvert.DeserializeObject<AccessTokenViewModel>(responseMsg);
                     if (accessTokenViewModel.access_token != null)
                     {
                         GenerwellConstants.Constants.AccessToken = accessTokenViewModel.access_token;
                         GenerwellConstants.Constants.TokenType = accessTokenViewModel.token_type;
+
+                        //Fetch user name from api/v{apiVersion}/personnel/current api and disaply on every page.
+                        WebClient webClient = new WebClient();
+                        var personnelRecord = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GenerwellConstants.Constants.AccessToken);
+                        ContactFieldsViewModel contactFieldRecord = JsonConvert.DeserializeObject<ContactFieldsViewModel>(personnelRecord);
+                        GenerwellConstants.Constants.UserName = contactFieldRecord.firstName+" "+contactFieldRecord.lastName;
+
                         TempData["ServerError"] = "";
                         return RedirectToAction("Index", "Well");
                     }

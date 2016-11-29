@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Generwell.Modules.GenerwellConstants
 {
@@ -24,7 +25,6 @@ namespace Generwell.Modules.GenerwellConstants
             public const string WellLineReports = "https://anar.whelby.com/api/v2016.1/linereports?fieldLevelId=1";
             public const string WellDetails = "https://anar.whelby.com/api/v2016.1/wells/7361/linereports/5006";
             public const string Filters = "https://anar.whelby.com/api/v2016.1/filters";
-            public const string TaskFilter = "https://anar.whelby.com/api/v2016.1/personnel/current";
             public const string TaskDetails = "https://anar.whelby.com/api/v2016.1/tasks";
             public const string ContactDetails = "https://anar.whelby.com/api/v2016.1/personnel/current";
 
@@ -55,12 +55,48 @@ namespace Generwell.Modules.GenerwellConstants
             public static string FacilityActive = "";
             public static string PipelineActive = "";
             public static string ProjectActive = "";
-            public static string LocationActive = "";
+            public static string MapActive = "";
             public static string LogoutActive = "";
 
+            // Find the server name on the previous page
             public static string UserName = string.Empty;
 
 
+            //find out objects to display on google map.
+            public static string previousPage = string.Empty;
+            public static string myWellCheck = string.Empty;
+            public static string defaultFilter = string.Empty;
+
+
+
+            //set Menus
+            public static string setMenu(string param) {
+                // Change active menu class
+                switch (param)
+                {
+                    case "Task":
+                        GenerwellConstants.Constants.WellActive = string.Empty;
+                        GenerwellConstants.Constants.TaskActive = GenerwellConstants.Constants.Active;
+                        GenerwellConstants.Constants.MapActive = string.Empty;
+                        break;
+                    case "Well":
+                        GenerwellConstants.Constants.WellActive = GenerwellConstants.Constants.Active;
+                        GenerwellConstants.Constants.TaskActive = string.Empty;
+                        GenerwellConstants.Constants.MapActive = string.Empty;
+                        break;
+                    case "Map":
+                        GenerwellConstants.Constants.MapActive = GenerwellConstants.Constants.Active;
+                        GenerwellConstants.Constants.TaskActive = string.Empty;
+                        GenerwellConstants.Constants.WellActive = string.Empty;
+                        break;
+                    default:
+                        break;
+                }
+              
+                return string.Empty;
+            }
+
         }
+       
     }
 }
