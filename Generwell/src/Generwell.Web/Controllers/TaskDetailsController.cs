@@ -5,6 +5,7 @@ using Generwell.Modules;
 using Generwell.Web.ViewModels;
 using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
+using Generwell.Modules.GenerwellEnum;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,6 +26,9 @@ namespace Generwell.Web.Controllers
         {
             try
             {
+                //set previous page value for google map filteration
+                GenerwellConstants.Constants.previousPage = PageOrder.TaskDetails.ToString();
+
                 if (!string.IsNullOrEmpty(taskId))
                 {
                     GenerwellConstants.Constants.TaskId = taskId;

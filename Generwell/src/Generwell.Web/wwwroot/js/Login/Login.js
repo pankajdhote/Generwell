@@ -8,11 +8,33 @@ var loginPage = {
     },
     attachEvents: function () {
         debugger;
- 
+        //on page unload get datatable rows and store in collection
         $('#menu li').click(function () {
             debugger;
             $('#processing-modal').modal("show");
-
+            var menuName = $(this).text().trim();
+            if (menuName.indexOf("MAP") > -1) {
+                var filterId = $('#FilterList option:selected').val();
+                var isMyWell;
+                if ($('.iCheck-helper').parent().attr("class") != undefined && $('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
+                    isMyWell = true;
+                } else {
+                    isMyWell = false;
+                }
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'html',
+                    url: '/Map/SetGooleMapObjects',
+                    async: false,
+                    data: { isMyWell: isMyWell, filterId: filterId },
+                    success: function (data) {
+                        debugger;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#processing-modal').modal("hide");
+                    }
+                });
+            }
         });
 
         //  Bind the event handler to the "submit" JavaScript event
@@ -36,6 +58,9 @@ var loginPage = {
             }
 
             $('#processing-modal').modal("show");
+
+            $('.modal-open').removeClass();
+
         });
 
         $('#supportId').click(function () {

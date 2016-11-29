@@ -8,6 +8,7 @@ using Generwell.Web.ViewModels;
 using Generwell.Modules.GenerwellConstants;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Generwell.Modules.GenerwellEnum;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,17 +26,26 @@ namespace Generwell.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(string wellId, string wellName, string isFollow)
         {
+            try
+            {
+                //set previous page value for google map filteration
+                GenerwellConstants.Constants.previousPage = PageOrder.WellLineReports.ToString();
+
             if (!string.IsNullOrEmpty(wellId))
             {
                 GenerwellConstants.Constants.WellId = wellId;
                 GenerwellConstants.Constants.WellName = wellName;                
                 GenerwellConstants.Constants.IsFollow = isFollow.ToLower() == "true" ? isFollow = "checked" : null;                
             }
-           
-            WebClient webClient = new WebClient();
-            var wellLineReportList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellLineReports, GenerwellConstants.Constants.AccessToken);
-            List<WellLineReportViewModel> wellLineReportViewModel = JsonConvert.DeserializeObject<List<WellLineReportViewModel>>(wellLineReportList);
-            return View(wellLineReportViewModel);
+                WebClient webClient = new WebClient();
+                var wellLineReportList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellLineReports, GenerwellConstants.Constants.AccessToken);
+                List<WellLineReportViewModel> wellLineReportViewModel = JsonConvert.DeserializeObject<List<WellLineReportViewModel>>(wellLineReportList);
+                return View(wellLineReportViewModel);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>

@@ -9,35 +9,6 @@ var wellDetailsPage = {
     attachEvents: function (wellId, targetUrl) {
         debugger;
 
-
-        //on page unload get datatable rows and store in collection
-        $(window).unload(function () {
-            debugger;
-            //store my well checkbox value and filter id.
-            var filterId = $('#FilterList option:selected').val();
-
-            var isMyWell;
-            if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
-                isMyWell = true;
-            } else {
-                isMyWell = false;
-            }
-
-            $.ajax({
-                type: 'GET',
-                dataType: 'html',
-                url: '/Map/SetGooleMapObjects',
-                async: false,
-                data: { isMyWell: isMyWell, filterId: filterId, previousPage: "3" },
-                success: function (data) {
-                    debugger;
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#processing-modal').modal("hide");
-                }
-            });
-        });
-
         //Added for checkbox style
         $(".i-checks").iCheck({
             checkboxClass: "icheckbox_square-star",

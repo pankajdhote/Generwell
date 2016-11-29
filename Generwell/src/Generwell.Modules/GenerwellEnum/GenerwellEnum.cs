@@ -29,4 +29,17 @@ namespace Generwell.Modules.GenerwellEnum
         Project = 5,
         Map = 6
     }
+
+    public enum PageOrder
+    {
+        Welllisting = 1,
+        WellLineReports = 2,
+        WellDetails = 3,
+        Tasklisting = 4,
+        TaskDetails = 5,
+        Pipeline = 6,
+        Project = 7,
+        Map = 12
+    }
+
 }

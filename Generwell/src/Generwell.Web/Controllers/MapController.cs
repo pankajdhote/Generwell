@@ -40,22 +40,20 @@ namespace Generwell.Web.Controllers
         public async Task<JsonResult> PlotMarker()
         {
             try
-            {
+            {               
                 WebClient webClient = new WebClient();
                 List<MapViewModel> mapViewModel = new List<MapViewModel>();
-                MapViewModel emptyMapViewModel = new MapViewModel()
-                {
-                    id = 0,
-                    name = null,
-                    latitude = 56.1304,
-                    longitude = 106.3468,
-                    isFavorite = false
-                };
+                MapViewModel emptyMapViewModel = new MapViewModel();
+                
+                //get previous page value for google map filteration
+                int previousPageValue = (int)Enum.Parse(typeof(PageOrder), GenerwellConstants.Constants.previousPage);
+                //set previous page value for google map filteration
+                GenerwellConstants.Constants.previousPage = PageOrder.Map.ToString();
 
                 #region Switch
-                switch (GenerwellConstants.Constants.previousPage)
+                switch (previousPageValue)
                 {
-                    case "1":
+                    case 1:
 
                         if (GenerwellConstants.Constants.myWellCheck == GenerwellConstants.Constants.trueState && ((!string.IsNullOrEmpty(GenerwellConstants.Constants.defaultFilter))))
                         {
@@ -92,17 +90,18 @@ namespace Generwell.Web.Controllers
                         }
 
                         break;
-                    case "2":
+                    case 2:
                         var wellRecord5 = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
                         mapViewModel = JsonConvert.DeserializeObject<List<MapViewModel>>(wellRecord5);
                         mapViewModel = mapViewModel.Where(w => w.id == Convert.ToInt32(GenerwellConstants.Constants.WellId)).ToList();
                         break;
-                    case "3":
+                    case 3:
                         var wellRecord6 = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
                         mapViewModel = JsonConvert.DeserializeObject<List<MapViewModel>>(wellRecord6);
                         mapViewModel = mapViewModel.Where(w => w.id == Convert.ToInt32(GenerwellConstants.Constants.WellId)).ToList();
                         break;
-                    case "6":
+                    case 4:
+                    case 12:
                         var wellRecord7 = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
                         mapViewModel = JsonConvert.DeserializeObject<List<MapViewModel>>(wellRecord7);
                         break;
@@ -127,10 +126,9 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: /<controller>/
-        public JsonResult SetGooleMapObjects(string isMyWell, string filterId, string previousPage)
+        public JsonResult SetGooleMapObjects(string isMyWell, string filterId)
         {
-            //find out previous page url
-            GenerwellConstants.Constants.previousPage = previousPage;
+            //find out previous page url                
             GenerwellConstants.Constants.myWellCheck = isMyWell;
             GenerwellConstants.Constants.defaultFilter = filterId;
 

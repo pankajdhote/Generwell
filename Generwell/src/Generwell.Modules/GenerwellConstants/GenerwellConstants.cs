@@ -61,7 +61,7 @@ namespace Generwell.Modules.GenerwellConstants
 
 
             //find out objects to display on google map.
-            public static string previousPage=string.Empty;
+            public static string previousPage = string.Empty;
             public static string myWellCheck = string.Empty;
             public static string defaultFilter = string.Empty;
 

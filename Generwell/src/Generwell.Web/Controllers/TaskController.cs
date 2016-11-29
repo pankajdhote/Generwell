@@ -28,10 +28,30 @@ namespace Generwell.Web.Controllers
             {
                 //set menu
                 GenerwellConstants.Constants.setMenu(Menu.Task.ToString());
+                WebClient webClient = new WebClient();
+                List<TaskViewModel> taskViewModel=new List<TaskViewModel>();
+                int previousPageValue = (int)Enum.Parse(typeof(PageOrder), GenerwellConstants.Constants.previousPage);
+                //set previous page value for google map filteration
+                GenerwellConstants.Constants.previousPage = PageOrder.Tasklisting.ToString();
 
-                WebClient webClient = new WebClient();               
-                var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
-                List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
+                switch (previousPageValue)
+                {
+                    case 1:
+                    case 4:
+                    case 5:
+                    case 6:
+                        var taskFromWellListing = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
+                        taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskFromWellListing);
+                        break;
+                    case 2:
+                    case 3:
+                        var taskFromWellDetails = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well+"/"+GenerwellConstants.Constants.WellId+"/tasks", GenerwellConstants.Constants.AccessToken);
+                        taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskFromWellDetails);
+                        break;
+                    default:
+                        break;
+                }
+
                 return View(taskViewModel);
             }
             catch (Exception ex)
