@@ -44,6 +44,8 @@ namespace Generwell.Modules.GenerwellConstants
             public static string TaskName = string.Empty;
             public static int FieldLevelId = 0;
             public static int KeyId = 0;
+            public static string TaskFieldId = string.Empty;
+
 
             public static string TimeZone = "EDT";
 

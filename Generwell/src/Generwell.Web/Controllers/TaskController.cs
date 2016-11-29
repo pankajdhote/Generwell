@@ -26,11 +26,9 @@ namespace Generwell.Web.Controllers
         public async Task<ActionResult> Index()
         {
             try
-            {
-                //change active menu class
-                GenerwellConstants.Constants.TaskActive = GenerwellConstants.Constants.Active;
-                GenerwellConstants.Constants.WellActive = string.Empty;
-                WebClient webClient = new WebClient();               
+            {               
+                //GenerwellConstants.Constants.TaskActive = GenerwellConstants.Constants.Active;               
+                WebClient webClient = new WebClient();
                 var getTaskList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GenerwellConstants.Constants.AccessToken);
                 List<TaskViewModel> taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(getTaskList);
                 return View(taskViewModel);

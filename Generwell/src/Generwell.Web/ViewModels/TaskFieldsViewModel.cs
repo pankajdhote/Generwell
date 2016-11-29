@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,6 +34,8 @@ namespace Generwell.Web.ViewModels
         public int? fieldIdParent { get; set; }
         public int? albumMaxCount { get; set; }
        public object value { get; set; }
+
+        [Required]
         public string displayValue { get; set; }
     }
 }

@@ -250,3 +250,8 @@ height:244% !important;
     top: 0%;
     bottom: 0%;
 }
+
+.taskdetailsbuttons{
+    margin-top:10px!important;
+    float:right!important;
+}

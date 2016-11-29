@@ -7,87 +7,91 @@
     });
 </script>
 
-
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
-
-    
-       
         <tr>
-           
-            @*<th>Id<i class="fa fa-fw fa-sort"></i></th>*@
-            <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
-            <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
-            @*<th>Id<i class="fa fa-fw fa-sort"></i></th>*@
-@if (Model.Count() > 1)
-{
-            <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
-            <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
-}
-
+            @*<th>Field Description<i class="fa fa-fw fa-sort"></i></th>
+            <th>Display Value<i class="fa fa-fw fa-sort"></i></th>*@
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
+                <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
+              }
+            }
         </tr>
-       
- 
     </thead>
-    <tbody>
+    <tbody>        
+        @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@ 
         @if (Model.Count() > 0)
         {
             int count = 1;
             @foreach (var item in Model)
             {
-                @if(@item.permissionId != 0)
-                { 
-                if (count % 2 == 1)
+                @if(@item.fieldControlType !=2)
                 {
-                @:<tr class="gradeU">
+                    var fieldId = @item.fieldId;
 
-        
-                        @*<td>@item.fieldId</td>*@
-                        <td>@item.fieldDesc</td>
-                            
-                          @if (@item.fieldTypeId == 4)
-                              {
+                }
+                @if (@item.permissionId != 0)
+                {
+                    if (count % 2 == 1)
+                    {
+                        @:<tr class="gradeU">
+                            <td>@item.fieldDesc</td>
+
+                          
+                           
+                            @if (@item.fieldTypeId == 4)
+                            {
                                 <td>
-                                     @Html.DisplayFor(model => @item.displayValue, new { @class = "selecttext ", @id = "ddlDisplayValue" })
+                                    @Html.EditorFor(model => @item.displayValue, new { @class = "selecttext ", @id = "displayValue1" })
                                 </td>
+                            }                              
 
-                              }
-                              else
-                              {                               
-                            <td>
-                                @Html.EditorFor(model => @item.displayValue, new { @class = "selecttext selectwidth isActive", @id = "ddlDisplayValue" })
-                              
-                            </td>
-                          }
+                       else
+                            {
+                                <td>
+                                    @Html.DropDownListFor(model => @item.displayValue, new SelectList(
+                  new List<Object>{                       
+                       new { value = 0 , text = @item.displayValue, @id = "displayValue2" }
 
-                    }
-                @if (count % 2 == 0)
-                {                 
-                    <td>@item.fieldDesc</td>
-                    @if (@item.fieldTypeId == 4)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => @item.displayValue, new { @class = "selecttext ", @id = "ddlDisplayValue" })
-                        </td>
-
-                    }
-                    else
-                    {
-                        <td>                            
-                            @Html.DropDownListFor(model => @item.displayValue, new SelectList(
-                  new List<Object>{
-                       new { value = 0 , text = "--Select--"  },
-                       new { value = 1 , text = @item.displayValue }
-                      
                     },
                   "value",
                   "text",
                    2))
-                        </td>
-                    }
+                                   
+                                </td>
+                                            }
+                                       
+                                    }
+                                    @if (count % 2 == 0)
+                    {
+                        <td>@item.fieldDesc</td>
+                        @if (@item.fieldTypeId == 4)
+                        {
+                            <td>
+                                @Html.EditorFor(model => @item.displayValue, new { @class = "selecttext ", @id = "displayValue3" })
+                               
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DropDownListFor(model => @item.displayValue, new SelectList(
+                  new List<Object>{                       
+                       new { value = 0 , text = @item.displayValue, @id ="displayValue4" }
 
-                @:</tr>
-                } 
+                    },
+                  "value",
+                  "text",
+                   2))
+                            
+                            </td>
+                        }
+                        @: </tr>
+                }
                 }
                 count++;
             }
@@ -99,11 +103,14 @@
                 <td>@GenerwellConstants.Constants.NoData</td>
                 <td>@GenerwellConstants.Constants.NoData</td>
             </tr>
-
         }
+ 
+       
     </tbody>
-
 </table>
+<div>
+    <button id="SaveTaskFieldDetailsId" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>   
+</div>
 
 
 

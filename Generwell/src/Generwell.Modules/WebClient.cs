@@ -31,12 +31,7 @@ namespace Generwell.Modules
                  };
                     var requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
                     var tokenServiceResponse = await client.PostAsync(tokenServiceUrl, requestParamsFormUrlEncoded);
-                    var responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    //var responseCode = tokenServiceResponse.StatusCode;
-                    //var responseMsg = new HttpResponseMessage(responseCode)
-                    //{
-                    //    Content = new StringContent(responseString, Encoding.UTF8, "application/json")
-                    //};
+                    var responseString = await tokenServiceResponse.Content.ReadAsStringAsync();                   
                     return responseString;
                 }
             }
@@ -77,6 +72,49 @@ namespace Generwell.Modules
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Added by Rohit
+        /// Date:- 25-11-2016
+        /// Post data using update url
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> UpdateTaskData(string url, string accessToken)
+        {
+            try
+            {
+                var tokenServiceUrl = url;
+                using (var client = new HttpClient())
+                {
+                    var requestParams = new List<KeyValuePair<string, string>>
+                    {
+                    };
+                    if (accessToken != null)
+                    {
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                        //client.DefaultRequestHeaders.TimeZone = new AuthenticationHeaderValue("EDT");
+                        client.DefaultRequestHeaders.Add("Time-Zone", "EDT");
+                    }
+                    var requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
+                    var tokenServiceResponse = await client.PostAsync(tokenServiceUrl, requestParamsFormUrlEncoded);
+                    var responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    var responseCode = tokenServiceResponse.StatusCode;
+                    var responseMsg = new HttpResponseMessage(responseCode)
+                    {
+                        Content = new StringContent(responseString, Encoding.UTF8, "application/json")
+
+                    };
+                    return responseString;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public async Task<string> DeleteWebApiData(string url, string accessToken)
         {
