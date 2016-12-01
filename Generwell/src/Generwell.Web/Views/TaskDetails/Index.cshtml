@@ -1,6 +1,7 @@
 ﻿@model Generwell.Web.ViewModels.TaskDetailsViewModel
 @using Generwell.Modules.GenerwellConstants;
 @using Generwell.Modules.GenerwellEnum;
+@using Generwell.Modules.Global;
 
 @{
     ViewBag.Title = "Task Page";
@@ -13,7 +14,7 @@
 <div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
-            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GenerwellConstants.Constants.UserName</div>
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GlobalFields.UserName</div>
             <div class="ibox float-e-margins">
                 <div class="title ibox-title border-bottom">
                     <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Details</h4>
