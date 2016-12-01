@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Generwell.Web.ViewModels;
 using Generwell.Modules.Authorization;
 using Generwell.Modules.GenerwellConstants;
-using Generwell.Modules.Authorization.Global;
+using Generwell.Modules.Global;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 

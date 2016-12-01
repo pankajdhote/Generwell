@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Generwell.Modules.Authorization.Global
+﻿namespace Generwell.Modules.Global
 {
     public static class GlobalFields
     {
