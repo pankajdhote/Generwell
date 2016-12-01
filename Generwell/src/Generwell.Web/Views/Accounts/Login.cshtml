@@ -5,15 +5,12 @@
     string error = (TempData["ServerError"] != null) ? TempData["ServerError"].ToString() : string.Empty;
 }
 
-<script type="text/javascript" src="~/js/Login/Login.js">
+<script type="text/javascript">
     $(document).ready(function () {
         debugger;
         loginPage.initialize();
     });
 </script>
-
-
-@Html.Partial("_LoadingPopup")
 
 <div class="container center-screen">
     <div class="row">
@@ -58,13 +55,12 @@
     </div>
 </div>
 
-<div id='myModal' class='modal'>
-    <div class="modal-dialog w-40">
+@*<div id='myModal' class='modal'>
+    <div class="modal-dialog w-50">
         <div class="modal-content">
             <div id='myModalContent'></div>
         </div>
     </div>
-</div>
-
-
+</div>*@
+@Html.Partial("_LoadingPopup")
 

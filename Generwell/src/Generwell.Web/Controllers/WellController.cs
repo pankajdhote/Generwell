@@ -40,7 +40,7 @@ namespace Generwell.Web.Controllers
                 ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString()}); 
 
                 var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
-                List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);              
+                List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);             
                 return View(wellViewModel);
             }
             catch (Exception ex)
@@ -115,7 +115,7 @@ namespace Generwell.Web.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<JsonResult> Follow(string isFollow,string wellId )
+        public async Task<PartialViewResult> Follow(string isFollow,string wellId, string filterId=null)
         {
             try
             {
@@ -124,20 +124,60 @@ namespace Generwell.Web.Controllers
                 {
                     GenerwellConstants.Constants.IsFollow = GenerwellConstants.Constants.checkedState;
                     var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + "/" + wellId + "/follow", GenerwellConstants.Constants.AccessToken);
-                    return Json(getResponse);
+
+                    //get filtered wells
+                    List<WellViewModel> wellViewModel=await GetFilteredWell(filterId);
+                    return PartialView("_FilterWell", wellViewModel);
+                    
                 }
                 else
                 {
                     GenerwellConstants.Constants.IsFollow = GenerwellConstants.Constants.uncheckedState;
                     var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + "/" + wellId + "/unfollow", GenerwellConstants.Constants.AccessToken);
-                    return Json(getResponse);
+
+                    //get filtered wells
+                    List<WellViewModel> wellViewModel = await GetFilteredWell(filterId);
+                    return PartialView("_FilterWell", wellViewModel);
                 }
+
+               
             }
             catch (Exception ex)
             {
                 throw ex;
             }
            
+        }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 29-11-2016
+        /// Get Filtered well
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<WellViewModel>> GetFilteredWell(string id = null)
+        {
+            try
+            {
+                WebClient webClient = new WebClient();
+                List<WellViewModel> wellViewModel;
+                if (!string.IsNullOrEmpty(id))
+                {
+                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellFilter + "=" + id, GenerwellConstants.Constants.AccessToken);
+                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
+                }
+                else
+                {
+                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GenerwellConstants.Constants.AccessToken);
+                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
+                }
+                return wellViewModel;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

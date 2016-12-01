@@ -8,7 +8,7 @@ var wellPage = {
     },
     attachEvents: function (targetUrl) {
         debugger;
-       
+
         //Added for checkbox style
         $(".i-checks").iCheck({
             checkboxClass: "icheckbox_square-green",
@@ -61,43 +61,33 @@ var wellPage = {
             debugger;
             $('#processing-modal').modal("show");
             if (event.currentTarget.children[0] != undefined) {
+                var wellId = parseInt(event.currentTarget.children[0].name);
                 var followChecked = event.currentTarget.children[0].id;
-                var wellId = event.currentTarget.children[0].name;
+
                 if (followChecked != undefined) {
+                    var filterId = $('#FilterList option:selected').val();
                     $.ajax({
-                        type: 'POST',
-                        dataType: 'json',
                         url: '/Well/Follow',
-                        data: { isFollow: followChecked, wellId: wellId },
-                        success: function (Data) {
+                        type: 'GET',
+                        dataType: 'html',
+                        cache: false,
+                        data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
+                        success: function (response) {
                             debugger;
-                            var filterId = $('#FilterList option:selected').val();
-                            $.ajax({
-                                type: 'GET',
-                                dataType: 'html',
-                                url: '/Well/FilterWell',
-                                data: { id: filterId },
-                                success: function (data) {
-                                    debugger;
-                                    if (data != undefined || data != "") {
-                                        $("#wellTableDivId").html(data);
-                                        //display only my wells
-                                        //On checkbox click filter data tables rows
-                                        debugger;
-                                        wellPage.mywellFilter();
-                                        $('#processing-modal').modal("hide");
-                                    }
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    $('#processing-modal').modal("hide");
-                                }
-                            });
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            $('#processing-modal').modal("hide");
+
+                            if (response != undefined || response != "") {
+                                $("#wellTableDivId").html(response);
+                                //display only my wells
+                                //On checkbox click filter data tables rows
+                                debugger;
+                                wellPage.mywellFilter();
+                                $('#processing-modal').modal("hide");
+                            }
+                        }, error: function (err) {
+                            debugger;
                         }
                     });
-                } 
+                }
             } else {
                 var data = oTable.row($(this).parent()).data();
                 //Perform your navigation
@@ -127,6 +117,7 @@ var wellPage = {
                 dataType: 'html',
                 url: '/Well/FilterWell',
                 data: { id: filterId },
+                cache: false,
                 success: function (data) {
                     debugger;
                     if (data != undefined || data != "") {
@@ -145,7 +136,7 @@ var wellPage = {
         });
     },
 
-    mywellFilter:function(){
+    mywellFilter: function () {
         var oTable = $('#wellListTableId').DataTable();
         if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
             oTable
@@ -169,6 +160,7 @@ var wellPage = {
             dataType: 'json',
             url: '/Well/Follow',
             async: false,
+            cache: false,
             data: { isFollow: followChecked, wellId: wellId },
             success: function (Data) {
                 debugger;
