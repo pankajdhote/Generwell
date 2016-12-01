@@ -8,10 +8,8 @@ namespace Generwell.Web.ViewModels
 {
     public class SignInViewModel
     {
-        //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Use letters only.")]
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
-        //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Please Use letters only.")]
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         public string Server { get; set; }

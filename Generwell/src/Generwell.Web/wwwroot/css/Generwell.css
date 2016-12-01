@@ -166,6 +166,11 @@ table tr {
     margin-bottom:10px;
 }
 
+.pt-pb-10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .pt {
     padding-top: 10px;
 }
