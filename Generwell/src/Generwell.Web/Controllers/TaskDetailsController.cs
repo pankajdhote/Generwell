@@ -6,10 +6,7 @@ using Generwell.Web.ViewModels;
 using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Collections;
-using System.Text;
+
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,7 +19,6 @@ namespace Generwell.Web.Controllers
         /// Added by rohit
         /// Date:- 15-11-2016
         /// Fetch all task from web api and display on task list page.
-        /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
