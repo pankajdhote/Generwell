@@ -28,7 +28,7 @@ namespace Generwell.Web.Controllers
             try
             {
                 //set previous page value for google map filteration
-                GenerwellConstants.Constants.previousPage = PageOrder.TaskDetails.ToString();
+                GlobalFields.previousPage = PageOrder.TaskDetails.ToString();
 
                 if (!string.IsNullOrEmpty(taskId))
                 {
