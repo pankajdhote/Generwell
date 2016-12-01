@@ -1,11 +1,12 @@
 ﻿@model List<Generwell.Web.ViewModels.TaskFieldsViewModel>
 @using Generwell.Modules.GenerwellConstants;
+@using Generwell.Modules.Global;
 
 <script type="text/javascript">
     $(document).ready(function () {
-        TaskDetailsPage.initialize(@GenerwellConstants.Constants.TaskId);
+        TaskDetailsPage.initialize(@GlobalFields.TaskId);
     });
-   
+
 </script>
 
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">

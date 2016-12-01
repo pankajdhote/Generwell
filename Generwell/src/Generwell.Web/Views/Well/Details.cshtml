@@ -1,5 +1,6 @@
 ﻿@model Generwell.Web.ViewModels.WellViewModel
 @using Generwell.Modules.GenerwellConstants;
+@using Generwell.Modules.Global;
 
 @{
     ViewBag.Title = "Well Details";
@@ -8,7 +9,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        wellPage.initialize(@GenerwellConstants.Constants.WellId);
+        wellPage.initialize(@GlobalFields.WellId);
     });
 </script>
 
@@ -20,7 +21,7 @@
 <div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
-            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GenerwellConstants.Constants.UserName</div>
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@GlobalFields.UserName</div>
             <div class="ibox float-e-margins">
                 <div class="title ibox-title border-bottom">
                     <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Well Details</h4>
