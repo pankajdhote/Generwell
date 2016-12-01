@@ -8,8 +8,6 @@ using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Generwell.Modules.Global;
 
-
-
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
@@ -32,19 +30,19 @@ namespace Generwell.Web.Controllers
 
                 if (!string.IsNullOrEmpty(taskId))
                 {
-                    GenerwellConstants.Constants.TaskId = taskId;
-                    GenerwellConstants.Constants.TaskName = taskName;
-                    GenerwellConstants.Constants.IsFollow = isFollow.ToLower() == "true" ? isFollow = "checked" : null;
+                    GlobalFields.TaskId = taskId;
+                    GlobalFields.TaskName = taskName;
+                    GlobalFields.IsFollow = isFollow.ToLower() == "true" ? isFollow = "checked" : null;
                 }
                 WebClient webClient = new WebClient();
-                var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + GenerwellConstants.Constants.TaskId, GenerwellConstants.Constants.AccessToken);
-                var getContactDetail = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GenerwellConstants.Constants.AccessToken);
+                var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + GlobalFields.TaskId, GlobalFields.AccessToken);
+                var getContactDetail = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GlobalFields.AccessToken);
                 TaskDetailsViewModel taskdetailsViewModel = JsonConvert.DeserializeObject<TaskDetailsViewModel>(getTaskDetailsList);
                 taskdetailsViewModel.contactFields = JsonConvert.DeserializeObject<ContactFieldsViewModel>(getContactDetail);
                 if (taskdetailsViewModel != null)
                 {
-                    GenerwellConstants.Constants.FieldLevelId = taskdetailsViewModel.fieldLevelId;
-                    GenerwellConstants.Constants.KeyId = taskdetailsViewModel.keyId;
+                    GlobalFields.FieldLevelId = taskdetailsViewModel.fieldLevelId;
+                    GlobalFields.KeyId = taskdetailsViewModel.keyId;
                 }
                 return View(taskdetailsViewModel);
             }
@@ -69,7 +67,7 @@ namespace Generwell.Web.Controllers
             try
             {              
                 WebClient webClient = new WebClient();
-                var taskDetailsReecord = await webClient.UpdateTaskData(GenerwellConstants.Constants.TaskDetails + "/" + GenerwellConstants.Constants.TaskId, GenerwellConstants.Constants.AccessToken, value, fieldId);
+                var taskDetailsReecord = await webClient.UpdateTaskData(GenerwellConstants.Constants.TaskDetails + "/" + GlobalFields.TaskId, GlobalFields.AccessToken, value, fieldId);
                 return View(taskDetailsReecord);
 
             }
