@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Generwell.Modules.Authorization.Global;
+using Generwell.Modules.Global;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
