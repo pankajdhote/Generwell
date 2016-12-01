@@ -24,11 +24,14 @@ namespace Generwell.Web.ViewModels
         public int? taskIconId { get; set; }
         public string assigneeName { get; set; }
         public string groupName { get; set; }
-
+       
         public List<TaskFieldsViewModel> fields;
         public string name { get; set; }
         public string url { get; set; }
 
         public ContactFieldsViewModel contactFields { get; set; }
+
+        public TaskFieldsUpdateViewModel TaskFields { get; set; }
+
     }
 }

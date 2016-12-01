@@ -10,46 +10,44 @@ var TaskDetailsPage = {
         debugger;
 
         //start datatable
-        var dataTable = $('#taskDetailsListTableId').DataTable({
-            "bPaginate": false,
-            "bInfo": false,
-            "searching": false,
-            "columnDefs": [
-                {
-                    "targets": [0],
-                    "visible": false,
-                    "searchable": false
-                },
-                 {
-                     "targets": [3],
-                     "visible": false,
-                     "searchable": false
-                 },
-                {
-                    // The `data` parameter refers to the data for the cell (defined by the
-                    // `data` option, which defaults to the column being worked with, in
-                    // this case `data: 0`.
-                    "render": function (data, type, row) {
-                        return data + ' (' + row[3] + ')';
-                    },
-                    "targets": 0
-                },
-            ],
-        });
+        //var dataTable = $('#taskDetailsListTableId').DataTable({
+        //    //"bPaginate": false,
+        //    //"bInfo": false,
+        //    //"searching": false,
+        //    //"columnDefs": [       
+        //        {
+        //            "targets": [0],
+        //            "visible": false,
+        //            "searchable": false
+        //        },
+        //         {
+        //             "targets": [3],
+        //             "visible": false,
+        //             "searchable": false
+        //         },
+        //        {
+        //            // The `data` parameter refers to the data for the cell (defined by the
+        //            // `data` option, which defaults to the column being worked with, in
+        //            // this case `data: 0`.
+        //            "render": function (data, type, row) {
+        //                return data + ' (' + row[3] + ')';
+        //            },
+        //            "targets": 0
+        //        },
+        //    ],
+        //});
         //On checkbox click filter data tables rows
-        var oTable = $('#taskDetailsListTableId').DataTable();
-
-        //On click of datatable row redirect to well line report page.
-        $('#taskDetailsListTableId tbody').on('click', 'tr', function () {
-            debugger;
-            var data = oTable.row(this).data();
-            //Perform your navigation
-            window.location.href = targetUrl + '?reportId=' + data[0];
-        });
+        //var oTable = $('#taskDetailsListTableId').DataTable();       
+        //$('#taskDetailsListTableId tbody').on('click', 'tr', function () {
+        //    debugger;
+        //    var data = oTable.row(this).data();
+        //    //Perform your navigation
+        //    window.location.href = targetUrl + '?reportId=' + data[0];
+        //});
         //End datatable
 
 
-        //Follow or unfollow particular well 
+        //Follow or unfollow particular task 
         $('#followTaskId').change(function () {
             debugger;
             $('#myPleaseWait').modal('show');
@@ -68,23 +66,32 @@ var TaskDetailsPage = {
             });
         });
 
-
-
-        $.ajax({
-            type: 'GET',
-            dataType: 'html',
-            url: '/TaskDetails/ContactField',
-            data: { id: filterId },
-            success: function (data) {
-                debugger;
-                if (data != undefined || data != "") {
-                    $("#taskFieldsDiv").html(data);
-                    $('#processing-modal').modal("hide");
+        $("#SaveTaskFieldDetailsId").click(function () {
+            debugger;           
+           //var fieldId = "6";      
+            var fieldId = document.getElementById("FieldId").value;
+            var value = document.getElementById("item_displayValue").value;            
+            $.ajax({
+                type: "POST",               
+                url: '/TaskDetails/UpdateTaskFields',
+                data: { fieldId: fieldId, value: value },
+                dataType: "json",
+                processData: true,
+                success: function (data, status, xhr) {
+                    alert(status);
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $('#processing-modal').modal("hide");
-            }
+            });
         });
     }
 }
+
+
+
+
+
+
+
+

@@ -18,7 +18,7 @@ namespace Generwell.Modules.Authorization
             {
                 WebClient webClient = new WebClient();                
                 var  webApiDetails= await webClient.ProcessRequest(userName,password, webApiUrl);
-                return webApiDetails;
+                    return webApiDetails;
             }
             catch (Exception ex)
             {
