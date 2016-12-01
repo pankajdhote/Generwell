@@ -37,13 +37,13 @@ var TaskDetailsPage = {
         //    ],
         //});
         //On checkbox click filter data tables rows
-        var oTable = $('#taskDetailsListTableId').DataTable();       
-        $('#taskDetailsListTableId tbody').on('click', 'tr', function () {
-            debugger;
-            var data = oTable.row(this).data();
-            //Perform your navigation
-            window.location.href = targetUrl + '?reportId=' + data[0];
-        });
+        //var oTable = $('#taskDetailsListTableId').DataTable();       
+        //$('#taskDetailsListTableId tbody').on('click', 'tr', function () {
+        //    debugger;
+        //    var data = oTable.row(this).data();
+        //    //Perform your navigation
+        //    window.location.href = targetUrl + '?reportId=' + data[0];
+        //});
         //End datatable
 
 
@@ -67,19 +67,14 @@ var TaskDetailsPage = {
         });
 
         $("#SaveTaskFieldDetailsId").click(function () {
-            debugger;
-            // //var fieldId = $('#fieldId').val();           
-            //// var displayValue = $("#displayValue1 option:selected").val();
-            // alert($("#displayValue1 option:selected").val());
-            //var fieldId = $('#fieldId').val();
-            var fieldId = "6";
-            var displayValue = "Directional2";
-
+            debugger;           
+           //var fieldId = "6";      
+            var fieldId = document.getElementById("FieldId").value;
+            var value = document.getElementById("item_displayValue").value;            
             $.ajax({
-                type: "POST",
-                //url: 'https://anar.whelby.com/api/v2016.1/tasks/5322-7392-1',                
-                url: '/TaskDetails/UpdateContactFields',
-                data: { fieldId: fieldId, displayValue: displayValue },
+                type: "POST",               
+                url: '/TaskDetails/UpdateTaskFields',
+                data: { fieldId: fieldId, value: value },
                 dataType: "json",
                 processData: true,
                 success: function (data, status, xhr) {
@@ -90,8 +85,6 @@ var TaskDetailsPage = {
                 }
             });
         });
-
-        //});
     }
 }
 

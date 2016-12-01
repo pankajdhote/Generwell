@@ -27,6 +27,8 @@ namespace Generwell.Modules.GenerwellConstants
             public const string Filters = "https://anar.whelby.com/api/v2016.1/filters";
             public const string TaskDetails = "https://anar.whelby.com/api/v2016.1/tasks";
             public const string ContactDetails = "https://anar.whelby.com/api/v2016.1/personnel/current";
+           
+
 
             public const bool Status = true;
             public static string AccessToken = "";

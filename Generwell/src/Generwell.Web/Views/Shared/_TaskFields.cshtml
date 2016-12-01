@@ -5,6 +5,7 @@
     $(document).ready(function () {
         TaskDetailsPage.initialize(@GenerwellConstants.Constants.TaskId);
     });
+   
 </script>
 
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
@@ -16,9 +17,19 @@
             {
                 @foreach (var item in Model)
                 {
+                    @if (@item.fieldControlType != 2)
+                    {
+                        @if (@item.permissionId == 2 || @item.permissionId == 9)
+                        {
+                            //var FieldId = @item.fieldId;
+                            @Html.HiddenFor(model => @item.fieldId, new
+                             { id = "FieldId" });
+                        }
+                    }
                 <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
                 <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
-              }
+               
+            }
             }
         </tr>
     </thead>
@@ -26,14 +37,12 @@
         @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@ 
         @if (Model.Count() > 0)
         {
+          
             int count = 1;
             @foreach (var item in Model)
             {
-                @if(@item.fieldControlType !=2)
-                {
-                    var fieldId = @item.fieldId;
-
-                }
+               
+                
                 @if (@item.permissionId != 0)
                 {
                     if (count % 2 == 1)
@@ -41,17 +50,16 @@
                         @:<tr class="gradeU">
                             <td>@item.fieldDesc</td>
 
-                          
-                           
-                            @if (@item.fieldTypeId == 4)
+                            @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
                             {
                                 <td>
-                                    @Html.EditorFor(model => @item.displayValue, new { @class = "selecttext ", @id = "displayValue1" })
-                                </td>
-                            }                              
+                                   @Html.TextBoxFor(model => @item.displayValue, "{0:MM/dd/yyyy}", new { @class = "form-control date-inputField" })
 
-                       else
-                            {
+                                </td>
+                            }
+
+                       @if (@item.fieldTypeId == 2)
+                       {
                                 <td>
                                     @Html.DropDownListFor(model => @item.displayValue, new SelectList(
                   new List<Object>{                       
@@ -64,32 +72,136 @@
                                    
                                 </td>
                                             }
-                                       
-                                    }
-                                    @if (count % 2 == 0)
-                    {
-                        <td>@item.fieldDesc</td>
+                        @if (@item.fieldTypeId == 3)
+                            {
+                            <td>
+                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1" })
+                            </td>
+                        }
+
                         @if (@item.fieldTypeId == 4)
                         {
                             <td>
-                                @Html.EditorFor(model => @item.displayValue, new { @class = "selecttext ", @id = "displayValue3" })
-                               
+                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1", @Max="100" })
                             </td>
                         }
-                        else
+
+                        @if (@item.fieldTypeId == 6)
                         {
                             <td>
                                 @Html.DropDownListFor(model => @item.displayValue, new SelectList(
-                  new List<Object>{                       
-                       new { value = 0 , text = @item.displayValue, @id ="displayValue4" }
+                  new List<Object>{
+                       new { value = 0 , text = @item.displayValue, @id = "displayValue2" }
 
                     },
                   "value",
                   "text",
                    2))
-                            
                             </td>
                         }
+
+                        @if (@item.fieldTypeId == 7)
+                        {
+                            <td>
+                              @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1", @Max = "100" })
+
+                            </td>
+                        }
+
+                        @if (@item.fieldTypeId == 9 || @item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1" })
+
+                            </td>
+                        }
+                        @if (@item.fieldTypeId == 10)
+                        {
+                            <td>
+                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1" })
+
+                            </td>
+                        }
+
+                    }
+                                    @if (count % 2 == 0)
+                                    {
+
+                                        @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
+                                        {
+                                            <td>
+                                                @Html.TextBoxFor(model => @item.displayValue, "{0:MM/dd/yyyy}", new { @class = "form-control date-inputField" })
+
+                                            </td>
+                                        }
+
+                        <td>@item.fieldDesc</td>
+
+                        @if (@item.fieldTypeId == 2)
+                        {
+                            <td>
+                                @Html.DropDownListFor(model => @item.displayValue, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = @item.displayValue, @id = "displayValue2" }
+
+                    },
+                  "value",
+                  "text",
+                   2))
+
+                            </td>
+                        }
+                                        @if (@item.fieldTypeId == 3)
+                            {
+                                            <td>
+                                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1" })
+                                            </td>
+                                        }
+
+                                        @if (@item.fieldTypeId == 4)
+                                        {
+                                            <td>
+                                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1", @Max = "100" })
+
+                                            </td>
+                                        }
+
+                                        @if (@item.fieldTypeId == 6)
+                                        {
+                                            <td>
+                                                @Html.DropDownListFor(model => @item.displayValue, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = @item.displayValue, @id = "displayValue2" }
+
+                    },
+                  "value",
+                  "text",
+                   2))
+                                            </td>
+                                        }
+
+                                        @if (@item.fieldTypeId == 7)
+                                        {
+                                            <td>
+                                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1", @Max = "100" })
+
+                                            </td>
+                                        }
+
+                                        @if (@item.fieldTypeId == 9 || @item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1" })
+
+                                            </td>
+                                        }
+                                        @if (@item.fieldTypeId == 10)
+                                        {
+                                            <td>
+                                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @Id = "textbox1" })
+
+                                            </td>
+                                        }
                         @: </tr>
                 }
                 }

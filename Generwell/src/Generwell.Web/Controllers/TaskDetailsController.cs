@@ -6,6 +6,10 @@ using Generwell.Web.ViewModels;
 using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
+using System.Net.Http;
+using System.Collections.Generic;
+using System.Collections;
+using System.Text;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -39,7 +43,7 @@ namespace Generwell.Web.Controllers
                 var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + GenerwellConstants.Constants.TaskId, GenerwellConstants.Constants.AccessToken);
                 var getContactDetail = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GenerwellConstants.Constants.AccessToken);
                 TaskDetailsViewModel taskdetailsViewModel = JsonConvert.DeserializeObject<TaskDetailsViewModel>(getTaskDetailsList);
-                taskdetailsViewModel.contactFields = JsonConvert.DeserializeObject<ContactFieldsViewModel>(getContactDetail); ;
+                taskdetailsViewModel.contactFields = JsonConvert.DeserializeObject<ContactFieldsViewModel>(getContactDetail);
                 if (taskdetailsViewModel != null)
                 {
                     GenerwellConstants.Constants.FieldLevelId = taskdetailsViewModel.fieldLevelId;
@@ -50,7 +54,32 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 throw ex;
-            }               
+            }
+        }
+
+        /// <summary>
+        /// Added by rohit
+        /// Date:- 29-11-2016
+        /// to save fields data
+        /// 
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateTaskFields(int fieldId, string value)
+        {
+           
+            try
+            {              
+                WebClient webClient = new WebClient();
+                var taskDetailsReecord = await webClient.UpdateTaskData(GenerwellConstants.Constants.TaskDetails + "/" + GenerwellConstants.Constants.TaskId, GenerwellConstants.Constants.AccessToken, value, fieldId);
+                return View(taskDetailsReecord);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
