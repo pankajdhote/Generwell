@@ -17,7 +17,9 @@ var mapPage = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: true,
+            cache:false,
             success: function (result) {
+
                 debugger;
                 var currentUserLatLong;
                 var locations = result;
@@ -121,6 +123,7 @@ var mapPage = {
                 }
                 $('#processing-modal').modal("hide");
             }
+            
         });
     },
 

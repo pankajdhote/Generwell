@@ -1,6 +1,4 @@
 ﻿@model Generwell.Web.ViewModels.TaskDetailsViewModel
-@using Generwell.Modules.GenerwellConstants;
-@using Generwell.Modules.GenerwellEnum;
 @using Generwell.Modules.Global;
 
 @{
@@ -19,21 +17,17 @@
                 <div class="title ibox-title border-bottom">
                     <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Details</h4>
                 </div>
-
                 <div class="row border-bottom pt-pb-20">
-
                     <div class="col-md-6 col-lg-6 line">
                         <div id="taskDetailsTableDivId" class="ibox-content">
                             <label>Task Name:</label>
                             @Model.name<br />
-
                             <label>Activity Date:</label>
                             @if (@Model.activatedDate.ToString() != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.activatedDate));
                                 @date.ToString("MMM dd, yyyy")
-
                             }                          
                            <br/>
                             <label>Forecast Date:</label>                          
@@ -42,17 +36,14 @@
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.forecastDate));
                                 @date.ToString("MMM dd, yyyy")
-
                             }  
                             <br/>
                             <label>Due Date:</label>
-                           
                             @if (@Model.expectedCompletionDate.ToString() != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.expectedCompletionDate));
                                 @date.ToString("MMM dd, yyyy")
-
                             }
                         </div>
                     </div>
@@ -62,7 +53,6 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="float-right pb-10"><button id="detailsId" class="btn button" type="button" onclick="location.href='@Url.Action("Details", Enum.GetName(typeof(GenerwellEnum), GenerwellConstants.Constants.FieldLevelId), new { id = GenerwellConstants.Constants.KeyId })'" data-toggle="">@Enum.GetName(typeof(GenerwellEnum), GenerwellConstants.Constants.FieldLevelId) Details</button></div>*@       
                 <div id="taskFieldsDiv">
                     @Html.Partial("_TaskFields", Model.fields)
                 </div>

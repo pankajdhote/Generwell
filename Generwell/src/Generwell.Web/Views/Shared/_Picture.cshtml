@@ -1,0 +1,37 @@
+﻿@*@model List<Generwell.Web.ViewModels.WellViewModel>*@
+@using Generwell.Modules.GenerwellConstants;
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+
+
+<table id="wellListTableId" class="table-striped table table-bordered table-hover wellListDataTable dataTable no-footer" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Id<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">Followed Wells<i class=""></i></th>
+            <th>Well Name<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">Bottomhole Location<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">Surface Location<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">Active Task Count<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">Lattitude<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">Longitude<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center">IsFavorite<i class="fa fa-fw fa-sort"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="gradeU">
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+            <td>@GenerwellConstants.Constants.NoData</td>
+        </tr>
+    </tbody>
+</table>

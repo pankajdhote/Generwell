@@ -26,6 +26,7 @@ var loginPage = {
                     dataType: 'html',
                     url: '/Map/SetGooleMapObjects',
                     async: false,
+                    cache:false,
                     data: { isMyWell: isMyWell, filterId: filterId },
                     success: function (data) {
                         debugger;
