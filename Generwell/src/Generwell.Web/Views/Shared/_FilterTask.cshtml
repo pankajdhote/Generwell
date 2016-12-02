@@ -45,23 +45,47 @@
                     </td>
                     <td style="width:25%;">@item.Name</td>
 
-                    <td style="width:10%;">@item.ActivatedDate</td>
+                    @*<td style="width:10%;">@item.ActivatedDate</td>*@
 
-                    @*@if (item.ActivatedDate.ToString() != null)
+                    @if (item.ActivatedDate.ToString() != null)
                     {
                         DateTime startDate = new DateTime(1970, 1, 1);
                         DateTime date = startDate.AddSeconds(item.ActivatedDate);
                         <td class="text-center" style="width:10%;">
                             @date.ToString("MMM dd, yyyy")
                         </td>
-                    }*@
-                    @*else
+                    }
+                    else
                     {
                         <td class="text-center" style="width:10%;"></td>
-                    }*@
+                    }
 
-                    <td class="text-center" style="width:10%;">@item.ForecastDate</td>
-                    <td class="text-center" style="width:10%;">@item.ExpectedCompletionDate</td>
+                    @*<td class="text-center" style="width:10%;">@item.ForecastDate</td>*@
+                    @if (item.ForecastDate.ToString() != null)
+                    {
+                        DateTime startDate = new DateTime(1970, 1, 1);
+                        DateTime date = startDate.AddSeconds(Convert.ToDouble(item.ForecastDate));
+                        <td class="text-center" style="width:10%;">
+                            @date.ToString("MMM dd, yyyy")
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center" style="width:10%;"></td>
+                    }
+                    @*<td class="text-center" style="width:10%;">@item.ExpectedCompletionDate</td>*@
+                    @if (item.ExpectedCompletionDate.ToString() != null)
+                    {
+                        DateTime startDate = new DateTime(1970, 1, 1);
+                        DateTime date = startDate.AddSeconds(Convert.ToDouble(item.ExpectedCompletionDate));
+                        <td class="text-center" style="width:10%;">
+                            @date.ToString("MMM dd, yyyy")
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center" style="width:10%;"></td>
+                    }
                     <td class="text-center" style="width:10%;">@item.AssigneeName</td>
 
                 </tr>

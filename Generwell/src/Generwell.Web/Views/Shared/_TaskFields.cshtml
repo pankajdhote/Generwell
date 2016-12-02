@@ -5,27 +5,64 @@
 <script type="text/javascript">
     $(document).ready(function () {
         TaskDetailsPage.initialize(@GlobalFields.TaskId);
+
+    });
+
+    $(document).ready(function () {
+        @if (Model.Count() > 0)
+          {
+                @foreach (var item in Model)
+                {
+                     @if (@item.fieldControlType == 2) {
+
+                          @if (@item.permissionId == 2 || @item.permissionId == 9 || @item.permissionId == 1)
+                          {
+                                 @:  $('.displayValue').prop("disabled", true)
+
+                              }
+                          @if (@item.permissionId == 0)
+                          {
+                                 @:  $('.displayValue').prop("visible", false)
+
+                              }
+
+                          }
+                     @if (@item.fieldControlType == 0) {
+
+                          @if (@item.permissionId == 2 || @item.permissionId == 9)
+                          {
+                                 @:  $('.displayValue').prop("disabled", false)
+
+                              }
+                          }
+
+
+
+                     }
+          }
+
     });
 
 </script>
 
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
-        <tr>           
+        <tr>  
+                     
             @if (Model.Count() > 0)
             {
                 @foreach (var item in Model)
-                {
-                    @if (@item.fieldControlType != 2)
+                 {
+                     @if (@item.fieldControlType != 2)
                     {
-                        @if (@item.permissionId == 2 || @item.permissionId == 9)
+                         @if (@item.permissionId == 2 || @item.permissionId == 9)
                         {
-                            @Html.HiddenFor(model => @item.fieldId, new
-                       { id = "FieldId" });
-                        }
-                    }                    
-                }              
-            }
+                             @Html.HiddenFor(model => @item.fieldId, new
+                             { id = "FieldId" });
+                         }
+                     }
+                 }
+             }
             <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
             <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
             <th>Field Description<i class="fa fa-fw fa-sort"></i></th>
@@ -52,16 +89,17 @@
 
                             @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
                             {
-                                <td>
-                                    @Html.TextBoxFor(model => @item.value, new { @class = "form-control", @type = "date" })
+                               
+                                <td class="displayValue1">
+                                    @Html.TextBoxFor(model => @item.value, new { @class = "datepicker", @type = "date"})
                                 </td>
                             }
                             @if (@item.fieldTypeId == 2)
                             {
-                                <td>
+                                <td class="displayValue1">
                                     @Html.DropDownListFor(model => @item.displayValue, new SelectList(
 new List<Object>{
-                       new { value = 1 , text = @item.displayValue, @id = "displayValue", @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20", @style="color: #fff!important;border-color: white!important;background-color: #cf7f00!important;font-size: 15px!important;width: auto!important;border-radius: 8px!important;" }
+                       new { value = 1 , text = @item.displayValue, @id = "displayValue", @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20"}
 
 },
 "value",
@@ -72,21 +110,21 @@ new List<Object>{
                             }
                             @if (@item.fieldTypeId == 3)
                             {
-                                <td>
-                                    @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
+                                <td class="displayValue1">
+                                    @Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
                                 </td>
                             }
 
 
                             @if (@item.fieldTypeId == 4)
                             {
-                                <td>
-                                    @Html.TextBoxFor(model => @item.value, new { @Max = "100", @id = "displayValue" })
+                                <td class="displayValue1">
+                                    @Html.TextBoxFor(model => @item.value, new { @Max = "100", @id = "displayValue"})
                                 </td>
                             }
                             @if (@item.fieldTypeId == 5)
                             {
-                                <td>
+                                <td class="displayValue1">
                                     @if (@item.value != null)
                                 {
                                         @if (@item.value == "0.0")
@@ -105,10 +143,10 @@ new List<Object>{
 
                             @if (@item.fieldTypeId == 6)
                             {
-                                <td>
+                                <td class="displayValue1">
                                     @Html.DropDownListFor(model => @item.displayValue, new SelectList(
 new List<Object>{
-                       new { value = 1, text = @item.displayValue, @id = "displayValue",  @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20", @style="color: #fff!important;border-color: white!important;background-color: #cf7f00!important;font-size: 15px!important;width: auto!important;border-radius: 8px!important;"  }
+                       new { value = 1, text = @item.displayValue, @id = "displayValue",  @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20"  }
 
 },
 "value",
@@ -120,32 +158,32 @@ new List<Object>{
 
                             @if (@item.fieldTypeId == 7)
                             {
-                                <td>
-                                    @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue", @Max = "100" })
+                                <td class="displayValue1">
+                                    @Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue", @Max = "100" })
                                 </td>
                             }
                             @if (@item.fieldTypeId == 9)
                             {
-                                <td>
-                                    @Html.DisplayFor(model => @item.value, new { @name = "textbox1", @id = "displayValue" })
+                                <td class="displayValue1">
+                                    @Html.DisplayFor(model => @item.value, new { @name = "textbox1", @id = "displayValue"})
                                 </td>
                             }
 
                             @if (@item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
                             {
-                                <td>
+                                <td class="displayValue1">
                                     @Html.DisplayFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
                                 </td>
                             }
                             @if (@item.fieldTypeId == 10)
                             {
-                                <td>
-                                    @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
+                                <td class="displayValue1">
+                                    @Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
                                 </td>
                             }
                             @if (@item.fieldTypeId == 14)
                             {
-                                <td>
+                                <td class="displayValue1">
                                     <a href="@Url.Action("model => @item.displayValue", "TaskDetails")" class="elements" target="_blank">
                                         <span>@item.displayValue</span>
                                     </a>
@@ -158,23 +196,17 @@ new List<Object>{
                       
                         <td><b>@item.fieldDesc</b></td>
 
-                        @if (@item.fieldTypeId == 1)
+                        @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
                         {
-                            <td>
-                                @Html.TextBoxFor(model => @item.value, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                            <td class="displayValue1">
+                                @Html.TextBoxFor(model => @item.value, new { @class = "datepicker", @type = "date" })
                             </td>
                         }
-
-                        @if (@item.fieldTypeId == 8)
-                        {
-                            <td>
-                                @Html.TextBoxFor(model => @item.value, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
-                            </td>
-                        }
+                                               
 
                         @if (@item.fieldTypeId == 2)
                         {
-                            <td>
+                            <td class="displayValue1">
                                 @Html.DropDownListFor(model => @item.displayValue, new SelectList(
 new List<Object>{
                        new { value = 1 , text = @item.displayValue, @id = "displayValue",  @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20" }
@@ -187,28 +219,28 @@ new List<Object>{
                         }
                         @if (@item.fieldTypeId == 3)
                             {
-                            <td>
-                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
+                            <td class="displayValue1">
+                                @Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
                             </td>
                         }
                         @if (@item.fieldTypeId == 4)
                         {
-                            <td>
-                                @Html.EditorFor(model => @item.value, new { @name = "textbox1", @id = "displayValue", @Max = "100" })
+                            <td class="displayValue1">
+                                @Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = "displayValue", @Max = "100" })
                             </td>
                         }
                         @if (@item.fieldTypeId == 5)
                         {
-                            <td>
+                            <td class="displayValue1">
                                 @Html.TextBoxFor(model => @item.value, new { @Max = "100", @id = "displayValue" })
                             </td>
                         }
                         @if (@item.fieldTypeId == 6)
                         {
-                            <td>
+                            <td class="displayValue1">
                                 @Html.DropDownListFor(model => @item.displayValue, new SelectList(
 new List<Object>{
-                       new { value = 1 , text = @item.displayValue, @id = "displayValue",  @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20", @style="color: #fff!important;border-color: white!important;background-color: #cf7f00!important;font-size: 15px!important;width: auto!important;border-radius: 8px!important;"  }
+                       new { value = 1 , text = @item.displayValue, @id = "displayValue" }
 
 },
 "value",
@@ -218,32 +250,33 @@ new List<Object>{
                         }
                         @if (@item.fieldTypeId == 7)
                         {
-                            <td>
-                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue", @Max = "100" })
+                            <td class="displayValue1">
+                                @Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue", @Max = "100" })
                             </td>
                         }
                         @if (@item.fieldTypeId == 9)
                         {
-                            <td>
+                            <td class="displayValue1">
                                 @Html.DisplayFor(model => @item.value, new { @name = "textbox1", @id = "displayValue" })
                             </td>
                         }
 
                         @if (@item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
                         {
-                            <td>
+                            <td class="displayValue1">
                                 @Html.DisplayFor(model => @item.value, new { @name = "textbox1", @id = "displayValue" })
                             </td>
                         }
                         @if (@item.fieldTypeId == 10)
                         {
-                            <td>
-                                @Html.EditorFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
+                            <td class="displayValue1">
+                                @Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = "displayValue" })
+                              
                             </td>
                         }
                         @if (@item.fieldTypeId == 14)
                             {
-                            <td>
+                            <td class="displayValue1">
 
                                 <a href="@Url.Action("model => @item.displayValue", "TaskDetails")" class="elements" target="_blank">
                                     <span>@item.displayValue</span>
@@ -262,9 +295,9 @@ new List<Object>{
         else
         {
             <tr class="gradeU">
-                <td>@GenerwellConstants.Constants.NoData</td>
-                <td>@GenerwellConstants.Constants.NoData</td>
-                <td>@GenerwellConstants.Constants.NoData</td>
+                <td class="displayValue1">@GenerwellConstants.Constants.NoData</td>
+                <td class="displayValue1">@GenerwellConstants.Constants.NoData</td>
+                <td class="displayValue1">@GenerwellConstants.Constants.NoData</td>
             </tr>
         }
 

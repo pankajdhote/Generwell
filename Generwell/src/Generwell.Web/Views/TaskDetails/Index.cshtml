@@ -27,26 +27,33 @@
                             <label>Task Name:</label>
                             @Model.name<br />
 
-                            @*<label>Activity Date:</label>
+                            <label>Activity Date:</label>
                             @if (@Model.activatedDate.ToString() != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
-                                DateTime date = startDate.AddSeconds(@Model.activatedDate);
+                                DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.activatedDate));
+                                @date.ToString("MMM dd, yyyy")
+
+                            }                          
+                           <br/>
+                            <label>Forecast Date:</label>                          
+                            @if (@Model.forecastDate.ToString() != null)
+                            {
+                                DateTime startDate = new DateTime(1970, 1, 1);
+                                DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.forecastDate));
+                                @date.ToString("MMM dd, yyyy")
+
+                            }  
+                            <br/>
+                            <label>Due Date:</label>
+                           
+                            @if (@Model.expectedCompletionDate.ToString() != null)
+                            {
+                                DateTime startDate = new DateTime(1970, 1, 1);
+                                DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.expectedCompletionDate));
                                 @date.ToString("MMM dd, yyyy")
 
                             }
-                            else{ 
-                                <label></label>
-                            }*@
-                            
-
-                            <br />
-
-                            <label>Forecast Date:</label>
-                            @Model.forecastDate<br />
-
-                            <label>Due Date:</label>
-                            @Model.expectedCompletionDate
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 ContactBlock">

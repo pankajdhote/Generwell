@@ -19,10 +19,10 @@ namespace Generwell.Web.ViewModels
         public int? CompletedDate { get; set; }
         public int? ExpectedCompletionDate { get; set; }
 
-        //[DisplayFormat(DataFormatString = "{0:MMM-yyyy}")]
-        //public int ActivatedDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MMM-yyyy}")]
+        public int ActivatedDate { get; set; }
 
-        public int? ActivatedDate { get; set; }
+        //public int? ActivatedDate { get; set; }
         public bool Completed { get; set; }
         public int? CompletedByUserId { get; set; }
         public int? TaskIconId { get; set; }
