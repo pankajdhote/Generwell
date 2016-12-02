@@ -65,14 +65,16 @@ var TaskDetailsPage = {
                 }
             });
         });
+       
 
         $("#SaveTaskFieldDetailsId").click(function () {
-            debugger;           
-           //var fieldId = "6";      
+            debugger;
+            //var fieldId = "6";      
             var fieldId = document.getElementById("FieldId").value;
-            var value = document.getElementById("item_displayValue").value;            
+            //var value = document.getElementById("item_displayValue").value;
+            var value = document.getElementById("displayValue").value;
             $.ajax({
-                type: "POST",               
+                type: "POST",
                 url: '/TaskDetails/UpdateTaskFields',
                 data: { fieldId: fieldId, value: value },
                 dataType: "json",

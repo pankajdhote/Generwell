@@ -27,7 +27,7 @@
                             <label>Task Name:</label>
                             @Model.name<br />
 
-                            <label>Activity Date:</label>
+                            @*<label>Activity Date:</label>
                             @if (@Model.activatedDate.ToString() != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
@@ -35,6 +35,11 @@
                                 @date.ToString("MMM dd, yyyy")
 
                             }
+                            else{ 
+                                <label></label>
+                            }*@
+                            
+
                             <br />
 
                             <label>Forecast Date:</label>

@@ -25,7 +25,7 @@ namespace Generwell.Web.ViewModels
         public int? dictId { get; set; }
         public int? contactGroupId { get; set; }
         public int lookupLevelId { get; set; }
-        public int? unitString { get; set; }
+        public string unitString { get; set; }
         public int permissionId { get; set; }
         public int numberMin { get; set; }
         public int numberMax { get; set; }
@@ -33,7 +33,8 @@ namespace Generwell.Web.ViewModels
         public int fieldComma { get; set; }
         public int? fieldIdParent { get; set; }
         public int? albumMaxCount { get; set; }
-       public object value { get; set; }
+      
+        public string value { get; set; }
 
         [Required]
         public string displayValue { get; set; }
