@@ -1,5 +1,6 @@
 ﻿
 using System;
+
 using Newtonsoft.Json;
 using Generwell.Modules;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Generwell.Web.Controllers
 {
     public class AccountsController : Controller
     {
-        BaseController baseControllerObj = new BaseController();
+
         /// <summary>
         /// Added by pankaj
         /// Date:- 10-11-2016
@@ -50,7 +51,9 @@ namespace Generwell.Web.Controllers
                         GlobalFields.TokenType = accessTokenViewModel.token_type;
 
                         //Fetch user name from api/v{apiVersion}/personnel/current api and disaply on every page.
-                        ContactFieldsViewModel contactFieldRecord = (ContactFieldsViewModel)baseControllerObj.GetContactDetails();
+                        WebClient webClient = new WebClient();
+                        var personnelRecord = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GlobalFields.AccessToken);
+                        ContactFieldsViewModel contactFieldRecord = JsonConvert.DeserializeObject<ContactFieldsViewModel>(personnelRecord);
                         GlobalFields.UserName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
 
                         TempData["ServerError"] = "";

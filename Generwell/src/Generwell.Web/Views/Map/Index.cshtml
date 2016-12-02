@@ -24,14 +24,14 @@
 <div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
-            <div class="float-right user-name"><label>Welcome &nbsp;</label>(@GlobalFields.UserName</div>
+            <div class="col-lg-12 text-align-right user-name pt-pb-10"><label>Welcome &nbsp;</label>(@GlobalFields.UserName</div>
             <div class="ibox float-e-margins">
-                <div class="title ibox-title border-bottom">
-                    <h4>&nbsp;Map</h4>
+                <div id="headingMap" class="title ibox-title border-bottom">
+                    <h4 class=""><span class="">Map</span><span id="drivingDirection" class="text-center hide-div float-right">Driving Directions</span></h4>
                 </div>
-                <div id="map" class="map pt"></div>
-                <div class="float-right form-group"><img id="moveTop" src="~/images/back-to-top.png" class="h-fourty" /></div>
+                <div id="map" class="map border-br mt-10"></div><div id="panel" class="border-brt mt-10"></div>
             </div>
         </div>
     </div>
+    <div class="float-right form-group pt-pb-10"><img id="moveTop" src="~/images/back-to-top.png" class="h-fourty" /></div>
 </div>

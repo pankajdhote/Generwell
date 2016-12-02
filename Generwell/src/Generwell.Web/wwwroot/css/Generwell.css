@@ -11,10 +11,12 @@ body {
     font-size: 14px;
     /* font-weight: 400; */
 }
+
 .center-screen {
     margin-top: 20% !important;
     width: 36% !important;
 }
+
 .input-validation-error {
     border: 1px solid red;
 }
@@ -34,11 +36,16 @@ body {
 .mr-20 {
     margin-right: 20px;
 }
+.mr-100 {
+    margin-right: 100px;
+}
 
 .ml-20 {
     margin-left: 20px;
 }
-
+.ml-15 {
+    margin-left: 15px;
+}
 .ml-10 {
     margin-left: 10px;
 }
@@ -119,8 +126,27 @@ p {
 
 .border-bottom {
     border-bottom: 1px solid !important;
-    border-color: #eeeeee !important;   
+    border-color: #eeeeee !important;
+}
+.border-top {
+    border-top: 1px solid !important;
+    border-color: #eeeeee !important;
+}
+.border-br {
+    border-right: 1px solid !important; 
+    border-bottom: 1px solid !important;
+    border-color: #eeeeee !important;
+}
 
+.border-brt {
+    border-right: 1px solid !important; 
+    border-bottom: 1px solid !important;
+    border-top: 1px solid !important;
+    border-color: #eeeeee !important;
+}
+.border {
+    border: 1px solid !important;
+    border-color: #eeeeee !important;
 }
 
 table.dataTable {
@@ -163,7 +189,7 @@ table tr {
 .pt-pb-20 {
     padding-top: 20px;
     padding-bottom: 20px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .pt-pb-10 {
@@ -171,48 +197,57 @@ table tr {
     padding-bottom: 10px;
 }
 
+.pt-72 {
+    padding-top: 72px;
+}
+
 .pt {
     padding-top: 10px;
 }
+
 .navbar-toggle {
-    background-color:#f19d16!important;
-     float: left!important;
-         margin-top: -20px;
-}
-@media(min-width:992px)
-{
-    .mt-20
-    {
-        margin-top:20px;
-    }
-}
-@media (min-width: 768px)
-{ .navbar-nav > li > a {
-      padding-top:40px!important;
-      padding-bottom:40px!important;
-}
-  }
-.navbar {
-    margin-bottom:0px!important;
+    background-color: #f19d16 !important;
+    float: left !important;
+    margin-top: -20px;
 }
 
-.login-button{
+@media(min-width:992px) {
+    .mt-20 {
+        margin-top: 20px;
+    }
+    .mt-10 {
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-nav > li > a {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+    }
+}
+
+.navbar {
+    margin-bottom: 0px !important;
+}
+
+.login-button {
     color: #fff !important;
     background-color: #1a355e !important;
     border-color: #1a355e !important; /*set the color you want here*/
 }
 
 .pb-10 {
-padding-bottom:10px;
+    padding-bottom: 10px;
 }
 
 .pb-5 {
-padding-bottom:5px;
+    padding-bottom: 5px;
 }
 
 
 .active {
-     color: #da9f54 !important;
+    color: #da9f54 !important;
     background-color: #1a355e !important;
 }
 
@@ -226,11 +261,11 @@ li a:hover {
 }
 
 .h-20 {
-height:20px;
+    height: 20px;
 }
 
 .h-fourty {
-height:40px;
+    height: 40px;
 }
 
 /*.h-244 {
@@ -238,51 +273,56 @@ height:244% !important;
 }*/
 
 .map {
-/*width:1000px;*/
-height:600px;
+    /*width:1000px;*/
+    height: 600px;
 }
 
 /* Added by rohit to give space after logo in task details page*/
-.ContactLogo{
-    margin-right:2px!important;
+.ContactLogo {
+    margin-right: 2px !important;
 }
-.SpaceBottom{
-    margin-bottom:5px!important;
+
+.SpaceBottom {
+    margin-bottom: 5px !important;
 }
-.ContactBlock{
-    margin-top:-22px!important;
+
+.ContactBlock {
+    margin-top: -22px !important;
 }
 
 .line {
     position: relative;
 }
-.line:after {
-    content: '';
-    position: absolute;
-    right: 0;
-    border-right: 1px solid #cfc7c0;
-    top: 0%;
-    bottom: 0%;
-}
+
+    .line:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        border-right: 1px solid #cfc7c0;
+        top: 0%;
+        bottom: 0%;
+    }
 
 
 /*added form modal popup center*/
 .vertical-alignment-helper {
-    display:table;
+    display: table;
     height: 100%;
     width: 100%;
-    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+    pointer-events: none; /* This makes sure that we can still click outside of the modal to close it */
 }
+
 .vertical-align-center {
     /* To center vertically */
     display: table-cell;
     vertical-align: middle;
-    pointer-events:none;
+    pointer-events: none;
 }
+
 .modal-content {
     /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    height:inherit;
+    width: inherit;
+    height: inherit;
     /* To center horizontally */
     margin: 0 auto;
     pointer-events: all;
@@ -290,5 +330,24 @@ height:600px;
 
 
 .orange-cross {
-color:#cf7f00 !important;
+    color: #cf7f00 !important;
+}
+
+.scrolable-div {
+    float: left;
+    width: 1000px;
+    overflow-y: auto;
+    height: 600px;
+}
+
+.hide-div {
+    display: none;
+}
+
+.show-div {
+    display: normal;
+}
+
+.text-align-right {
+    text-align: right;
 }
