@@ -18,7 +18,7 @@ namespace Generwell.Web.ViewModels
         public int? forecastDate { get; set; }
         public int? completedDate { get; set; }
         public int? expectedCompletionDate { get; set; }
-        public int activatedDate { get; set; }
+        public int? activatedDate { get; set; }
         public bool completed { get; set; }
         public int? completedByUserId { get; set; }
         public int? taskIconId { get; set; }

@@ -23,6 +23,8 @@
         </tr>
     </thead>
     <tbody>
+
+
         @if (Model.Count() > 0)
         {
             @foreach (var item in Model)
@@ -43,18 +45,20 @@
                     </td>
                     <td style="width:25%;">@item.Name</td>
 
-                    @if (item.ActivatedDate.ToString() != null)
+                    <td style="width:10%;">@item.ActivatedDate</td>
+
+                    @*@if (item.ActivatedDate.ToString() != null)
                     {
                         DateTime startDate = new DateTime(1970, 1, 1);
                         DateTime date = startDate.AddSeconds(item.ActivatedDate);
                         <td class="text-center" style="width:10%;">
                             @date.ToString("MMM dd, yyyy")
                         </td>
-                    }
-                    else
+                    }*@
+                    @*else
                     {
                         <td class="text-center" style="width:10%;"></td>
-                    }
+                    }*@
 
                     <td class="text-center" style="width:10%;">@item.ForecastDate</td>
                     <td class="text-center" style="width:10%;">@item.ExpectedCompletionDate</td>
@@ -66,6 +70,7 @@
                             else
                             {
                                 <tr class="gradeU">
+                                    <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
