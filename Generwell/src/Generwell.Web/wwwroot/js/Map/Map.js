@@ -420,5 +420,4 @@ var mapPage = {
             alert('Geo Location feature is not supported in this browser.');
         }
     }
-
 }
