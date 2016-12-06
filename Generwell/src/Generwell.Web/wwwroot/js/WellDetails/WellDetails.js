@@ -45,14 +45,6 @@ var wellDetailsPage = {
         var oTable = $('#wellDetailsListTableId').DataTable();
         //End datatable
 
-        //on back button click redirect to well line report page
-        $('#backDetailsPageId').on('click', function () {
-            debugger;
-            $('#processing-modal').modal("show");
-            var targetUrl = '/WellLineReport/Index/';
-            window.location.href = targetUrl;
-        });
-
         //on task button click redirect to task page
         $('#taskPageId').on('click', function () {
             debugger;
@@ -71,6 +63,7 @@ var wellDetailsPage = {
                 dataType: 'json',
                 url: '/WellDetails/Follow',
                 data: { isFollow: followChecked },
+                cache:false,
                 success: function (Data) {
                     debugger;
                     $('#processing-modal').modal("hide");
@@ -85,15 +78,5 @@ var wellDetailsPage = {
         $("#moveTop").on("click", function () {
             $("body").scrollTop(0);
         });
-
-         //on task button click redirect to task page
-        $('#locationPageId').click(function () {
-            debugger;
-            $('#processing-modal').modal("show");
-            var targetUrl = '/Map/Index';
-            window.location.href = targetUrl;
-        });
-
     }
-
 }

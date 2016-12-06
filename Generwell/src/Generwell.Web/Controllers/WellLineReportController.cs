@@ -2,19 +2,26 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Modules;
 using Generwell.Web.ViewModels;
 using Generwell.Modules.GenerwellConstants;
-using Newtonsoft.Json;
 using Generwell.Modules.GenerwellEnum;
-using Generwell.Modules.Global;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using Generwell.Modules.Model;
+using Generwell.Modules.Services;
+using Microsoft.Extensions.Options;
+
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
-    public class WellLineReportController : Controller
+    public class WellLineReportController : BaseController
     {
+        public WellLineReportController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        {
+        }
+
         /// <summary>
         /// Added by pankaj
         /// Date:- 15-11-2016
@@ -27,16 +34,15 @@ namespace Generwell.Web.Controllers
             try
             {
                 //set previous page value for google map filteration
-                GlobalFields.previousPage = PageOrder.WellLineReports.ToString();
+                HttpContext.Session.SetString("previousPage", PageOrder.WellLineReports.ToString());
+
                 if (!string.IsNullOrEmpty(wellId))
                 {
-                    GlobalFields.WellId = wellId;
-                    GlobalFields.WellName = wellName;
-                    GlobalFields.IsFollow = isFollow.ToLower() == GenerwellConstants.Constants.trueState ? isFollow = GenerwellConstants.Constants.checkedState : null;
+                    HttpContext.Session.SetString("WellId", Encoding.UTF8.GetString(Convert.FromBase64String(wellId)));
+                    HttpContext.Session.SetString("WellName", Encoding.UTF8.GetString(Convert.FromBase64String(wellName)));
+                    HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == GenerwellConstants.Constants.trueState ? GenerwellConstants.Constants.checkedState : string.Empty);
                 }
-                WebClient webClient = new WebClient();
-                var wellLineReportList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellLineReports, GlobalFields.AccessToken);
-                List<WellLineReportViewModel> wellLineReportViewModel = JsonConvert.DeserializeObject<List<WellLineReportViewModel>>(wellLineReportList);
+                List<WellLineReportViewModel> wellLineReportViewModel = await GetWellLineReports();
                 return View(wellLineReportViewModel);
             }
             catch (Exception ex)
@@ -53,20 +59,9 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<string> Follow(string isFollow)
         {
-            string id = GlobalFields.WellId;
-            WebClient webClient = new WebClient();
-            if (isFollow == GenerwellConstants.Constants.trueState)
-            {
-                GlobalFields.IsFollow = GenerwellConstants.Constants.checkedState;
-                var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/follow", GlobalFields.AccessToken);
-            }
-            else
-            {
-                GlobalFields.IsFollow = GenerwellConstants.Constants.uncheckedState;
-                var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + "/" + id + "/unfollow", GlobalFields.AccessToken);
-                return getResponse.ToString();
-            }
-            return string.Empty;
+            string id = HttpContext.Session.GetString("WellId");
+            string response = await SetFollowUnfollow(isFollow, id);
+            return response;
         }
     }
 }

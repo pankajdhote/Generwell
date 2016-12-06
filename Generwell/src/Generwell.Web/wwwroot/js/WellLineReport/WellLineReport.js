@@ -2,11 +2,11 @@
 
 var wellLineReportPage = {
 
-    initialize: function (targetUrl,currentWellId) {
+    initialize: function (targetUrl, currentWellId) {
         //debugger;
-        wellLineReportPage.attachEvents(targetUrl,currentWellId);
+        wellLineReportPage.attachEvents(targetUrl, currentWellId);
     },
-    attachEvents: function (targetUrl,currentWellId) {
+    attachEvents: function (targetUrl, currentWellId) {
         debugger;
 
         //Added for checkbox style
@@ -24,9 +24,6 @@ var wellLineReportPage = {
                     "searchable": false
                 },
                 {
-                    // The `data` parameter refers to the data for the cell (defined by the
-                    // `data` option, which defaults to the column being worked with, in
-                    // this case `data: 0`.
                     "render": function (data, type, row) {
                         return data + ' (' + row[3] + ')';
                     },
@@ -43,10 +40,9 @@ var wellLineReportPage = {
             $('#processing-modal').modal("show");
             var data = oTable.row(this).data();
             //Perform your navigation
-            window.location.href = targetUrl + '?reportId=' + data[0];
+            window.location.href = targetUrl + '?reportId=' + Base64.encode(data[0]);
         });
         //End datatable
-
 
         //Follow or unfollow particular well 
         $('.iCheck-helper').click(function () {
@@ -58,6 +54,7 @@ var wellLineReportPage = {
                 dataType: 'json',
                 url: '/WellLineReport/Follow',
                 data: { isFollow: followChecked },
+                cache: false,
                 success: function (Data) {
                     debugger;
                     $('#processing-modal').modal("hide");
@@ -67,32 +64,5 @@ var wellLineReportPage = {
                 }
             });
         });
-
-        //On back button click redirect to well page
-        $('#backLineReportId').on('click', function () {
-            debugger;
-            $('#processing-modal').modal("show");
-            var targetUrl = '/Well/Index/';
-            window.location.href = targetUrl;
-        });
-
-        //on task button click redirect to task page
-        $('#taskPageId').on('click', function () {
-            debugger;
-            $('#processing-modal').modal("show");
-            var targetUrl = '/Task/Index?currentWellId=' + currentWellId + '';
-            window.location.href = targetUrl;
-        });
-
-        //on task button click redirect to task page
-        $('#locationPageId').click(function () {
-            debugger;
-            $('#processing-modal').modal("show");
-            var targetUrl = '/Map/Index';
-            window.location.href = targetUrl;
-        });
-        
-
     }
-
 }

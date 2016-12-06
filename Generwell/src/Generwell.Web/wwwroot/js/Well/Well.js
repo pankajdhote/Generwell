@@ -7,7 +7,7 @@ var wellPage = {
         wellPage.attachEvents(targetUrl);
     },
     attachEvents: function (targetUrl) {
-        debugger;
+        debugger;       
 
         //Added for checkbox style
         $(".i-checks").iCheck({
@@ -30,9 +30,6 @@ var wellPage = {
                      "searchable": true
                  },
                 {
-                    // The `data` parameter refers to the data for the cell (defined by the
-                    // `data` option, which defaults to the column being worked with, in
-                    // this case `data: 0`.
                     "render": function (data, type, row) {
                         return data + ' (' + row[3] + ')';
                     },
@@ -74,33 +71,22 @@ var wellPage = {
                         data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
                         success: function (response) {
                             debugger;
-
                             if (response != undefined || response != "") {
                                 $("#wellTableDivId").html(response);
-                                //display only my wells
                                 //On checkbox click filter data tables rows
-                                debugger;
                                 wellPage.mywellFilter();
                                 $('#processing-modal').modal("hide");
                             }
                         }, error: function (err) {
-                            debugger;
                         }
                     });
                 }
             } else {
-                var data = oTable.row($(this).parent()).data();
-                //Perform your navigation
-                window.location.href = targetUrl + '?wellId=' + data[0] + '&wellName=' + data[2] + '&isFollow=' + data[8];
-            }
-        });
 
-        //on back button click redirect to task details report page
-        $('#backTaskDetailsId').click(function () {
-            debugger;
-            $('#processing-modal').modal("show");
-            var targetUrl = '/TaskDetails/Index/';
-            window.location.href = targetUrl;
+                var data = oTable.row($(this).parent()).data();
+                var url = targetUrl + '?wellId=' + Base64.encode(data[0]) + '&wellName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[8]);
+                window.location.href = url;
+            }
         });
 
         //filter particular record on filter value
@@ -123,9 +109,7 @@ var wellPage = {
                     if (data != undefined || data != "") {
                         $("#wellTableDivId").html(data);
                         $('#processing-modal').modal("hide");
-                        //display only my wells
                         //On checkbox click filter data tables rows
-                        debugger;
                         wellPage.mywellFilter();
                     }
                 },

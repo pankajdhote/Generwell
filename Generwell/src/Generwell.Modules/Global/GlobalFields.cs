@@ -2,13 +2,6 @@
 {
     public static class GlobalFields
     {
-        public static string AccessToken = string.Empty;
-        public static string TokenType = string.Empty;
-        public static string WellId = string.Empty;
-        public static string WellName = string.Empty;
-        public static string IsFollow = string.Empty;        
-        public static string TaskId = string.Empty;
-        public static string TaskName = string.Empty;
         public static int FieldLevelId = 0;
         public static int KeyId = 0;
         public static string TimeZone = "EDT";

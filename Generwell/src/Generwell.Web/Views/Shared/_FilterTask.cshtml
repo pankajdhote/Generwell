@@ -1,12 +1,11 @@
 ﻿@model List<Generwell.Web.ViewModels.TaskViewModel>
 @using Generwell.Modules.GenerwellConstants;
-@using System.Globalization;
-@using Generwell.Modules.Global;
+@using Microsoft.AspNetCore.Http;
 
 <script type="text/javascript">
     $(document).ready(function () {
         var targetUrl = '/TaskDetails/Index/';
-        taskPage.initialize(targetUrl,"@GlobalFields.UserName");
+        taskPage.initialize(targetUrl,"@Context.Session.GetString("UserName")");
     });
 </script>
 

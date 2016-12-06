@@ -7,15 +7,21 @@ using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Generwell.Modules.Global;
-using System.Linq;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using Generwell.Modules.Model;
+using Generwell.Modules.Services;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
-    public class TaskDetailsController : Controller
+    public class TaskDetailsController : BaseController 
     {
-        private object numbers;
+        public TaskDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        {
+        }
 
         /// <summary>
         /// Added by rohit
@@ -28,24 +34,21 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                //set previous page value for google map filteration
-                GlobalFields.previousPage = PageOrder.TaskDetails.ToString();
+                //set previous page value for google map filteration                
+                HttpContext.Session.SetString("previousPage", PageOrder.TaskDetails.ToString());
 
                 if (!string.IsNullOrEmpty(taskId))
                 {
-                    GlobalFields.TaskId = taskId;
-                    GlobalFields.TaskName = taskName;
-                    GlobalFields.IsFollow = isFollow.ToLower() == "true" ? isFollow = "checked" : null;
+                    HttpContext.Session.SetString("TaskId", Encoding.UTF8.GetString(Convert.FromBase64String(taskId)));
+                    HttpContext.Session.SetString("TaskName", Encoding.UTF8.GetString(Convert.FromBase64String(taskName)));
+                    HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == GenerwellConstants.Constants.trueState ? GenerwellConstants.Constants.checkedState : string.Empty);
                 }
-                WebClient webClient = new WebClient();
-                var getTaskDetailsList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.TaskDetails + "/" + GlobalFields.TaskId, GlobalFields.AccessToken);
-                var getContactDetail = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GlobalFields.AccessToken);
-                TaskDetailsViewModel taskdetailsViewModel = JsonConvert.DeserializeObject<TaskDetailsViewModel>(getTaskDetailsList);
-                taskdetailsViewModel.contactFields = JsonConvert.DeserializeObject<ContactFieldsViewModel>(getContactDetail);
+                TaskDetailsViewModel taskdetailsViewModel = await GetTaskDetails();
+                taskdetailsViewModel.contactFields = await GetContactDetails();
                 if (taskdetailsViewModel != null)
                 {
-                    GlobalFields.FieldLevelId = taskdetailsViewModel.fieldLevelId;
-                    GlobalFields.KeyId = taskdetailsViewModel.keyId;
+                    HttpContext.Session.SetString("FieldLevelId", taskdetailsViewModel.fieldLevelId.ToString());
+                    HttpContext.Session.SetString("KeyId", taskdetailsViewModel.keyId.ToString());
                 }
                 return View(taskdetailsViewModel);
             }
@@ -59,20 +62,15 @@ namespace Generwell.Web.Controllers
         /// Added by rohit
         /// Date:- 29-11-2016
         /// to save fields data
-        /// 
         /// </summary>
         /// <returns></returns>
-       
-        //public async Task<ActionResult> UpdateTaskFields(string [] IdArray, string [] ValueArray, string Content)
-        public async Task<ActionResult> UpdateTaskFields(string [] Content)
+        [HttpPost]
+        public async Task<ActionResult> UpdateTaskFields(int fieldId, string value)
         {
-            WebClient webClient = null;
             try
-            {                
-                webClient = new WebClient();               
-                string valueTest = GlobalFields.AccessToken;
-                var taskDetailsReecord = await webClient.UpdateTaskData(GenerwellConstants.Constants.TaskDetails + "/" + GlobalFields.TaskId, GlobalFields.AccessToken, Content/*, fieldId, value*/);
-                return View(taskDetailsReecord);                
+            {
+                string taskDetailsRecord = await UpdateTaskDetails(fieldId,value);
+                return View(taskDetailsRecord);
             }
             catch (Exception ex)
             {

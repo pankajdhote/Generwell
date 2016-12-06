@@ -29,7 +29,8 @@
     "Generwell.Modules": "1.0.0-*",
     "Microsoft.AspNetCore.Session": "1.0.0",
     "dnx-clr-win-x86": "1.0.0-rc1-update2",
-    "System.Linq.Queryable": "4.0.1"
+    "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0"
   },
 
   "tools": {
@@ -68,6 +69,7 @@
   },
 
   "scripts": {
+    "precompile": ["dotnet bundle"],
     "prepublish": [ "bower install", "dotnet bundle" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   }

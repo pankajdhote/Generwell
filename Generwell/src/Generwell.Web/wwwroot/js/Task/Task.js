@@ -24,9 +24,6 @@ var taskPage = {
                     "searchable": false
                 },
                 {
-                    // The `data` parameter refers to the data for the cell (defined by the
-                    // `data` option, which defaults to the column being worked with, in
-                    // this case `data: 0`.
                     "render": function (data, type, row) {
                         return data + ' (' + row[3] + ')';
                     },
@@ -49,7 +46,6 @@ var taskPage = {
                   .search("")
                   .draw();
             }
-
         });
 
         //On click of datatable row redirect to well line report page.
@@ -58,7 +54,7 @@ var taskPage = {
             $('#processing-modal').modal("show");
             var data = oTable.row(this).data();
             //Perform your navigation
-            window.location.href = targetUrl + '?taskId=' + data[0] + '&taskName=' + data[2] + '&isFollow=' + data[7];
+            window.location.href = targetUrl + '?taskId=' + Base64.encode(data[0]) + '&taskName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[7]);
         });
 
     }
