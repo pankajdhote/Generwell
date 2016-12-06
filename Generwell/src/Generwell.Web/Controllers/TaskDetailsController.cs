@@ -30,7 +30,7 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index(string taskId, string taskName, string isFollow)
+        public async Task<ActionResult> Index(string taskId, string taskName)
         {
             try
             {
@@ -41,7 +41,6 @@ namespace Generwell.Web.Controllers
                 {
                     HttpContext.Session.SetString("TaskId", Encoding.UTF8.GetString(Convert.FromBase64String(taskId)));
                     HttpContext.Session.SetString("TaskName", Encoding.UTF8.GetString(Convert.FromBase64String(taskName)));
-                    HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == GenerwellConstants.Constants.trueState ? GenerwellConstants.Constants.checkedState : string.Empty);
                 }
                 TaskDetailsViewModel taskdetailsViewModel = await GetTaskDetails();
                 taskdetailsViewModel.contactFields = await GetContactDetails();

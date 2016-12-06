@@ -28,10 +28,6 @@ var TaskDetailsPage = {
                 }
             });
         });
-        $('.datepicker').datepicker({
-            format: 'mm/dd/yyyy',
-            startDate: '-3d'
-        });
 
         $("#SaveTaskFieldDetailsId").click(function () {
             debugger;
