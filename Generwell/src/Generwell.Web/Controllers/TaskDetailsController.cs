@@ -12,13 +12,17 @@ using System.Text;
 using Generwell.Modules.Model;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
-    public class TaskDetailsController : BaseController 
+    public class TaskDetailsController : BaseController
     {
+
+        private object numbers;
+
         public TaskDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
         {
         }
@@ -61,14 +65,16 @@ namespace Generwell.Web.Controllers
         /// Added by rohit
         /// Date:- 29-11-2016
         /// to save fields data
+        /// 
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> UpdateTaskFields(int fieldId, string value)
+        //public async Task<ActionResult> UpdateTaskFields(string [] IdArray, string [] ValueArray, string Content)
+        public async Task<ActionResult> UpdateTaskFields(string[] Content)
         {
             try
             {
-                string taskDetailsRecord = await UpdateTaskDetails(fieldId,value);
+                string taskDetailsRecord = await UpdateTaskDetails(Content);
                 return View(taskDetailsRecord);
             }
             catch (Exception ex)

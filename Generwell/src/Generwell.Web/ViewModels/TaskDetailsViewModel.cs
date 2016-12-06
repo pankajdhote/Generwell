@@ -32,6 +32,6 @@ namespace Generwell.Web.ViewModels
         public ContactFieldsViewModel contactFields { get; set; }
 
         public TaskFieldsUpdateViewModel TaskFields { get; set; }
-
+       
     }
 }

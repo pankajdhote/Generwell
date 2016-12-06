@@ -191,9 +191,9 @@ namespace Generwell.Web.Controllers
         /// Update Task Details fields using patch api.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdateTaskDetails(int fieldId, string value)
+        public async Task<string> UpdateTaskDetails(string[] Content)
         {
-            string taskDetailsReecord = await _generwellServices.UpdateTaskData(_appSettings.TaskDetails + "/" + HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), value, fieldId);
+            string taskDetailsReecord = await _generwellServices.UpdateTaskData(_appSettings.TaskDetails + "/" + HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), Content);
             return taskDetailsReecord;
         }
         /// <summary>

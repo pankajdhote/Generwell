@@ -171,7 +171,7 @@ namespace Generwell.Modules.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdateTaskData(string url, string accessToken, string value, int fieldId)
+        public async Task<string> UpdateTaskData(string url, string accessToken, string[] Content)
         {
             try
             {
@@ -180,14 +180,24 @@ namespace Generwell.Modules.Services
                 hc.DefaultRequestHeaders.Clear();
                 hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
-
                 var method = new HttpMethod("PATCH");
+                string con = "";
+                for (int index = 0; index < Content.Length; index++)
+                {
+                    if (index == 0)
+                    {
+                        con = Content[index];
+                    }
+                    else
+                    {
+                        con += "," + Content[index];
+                    }
+                }
+                string body = "[" + con + "]";
                 var request = new HttpRequestMessage(method, url)
                 {
-                    //Content = new StringContent("[{ \"op\": \"replace\", \"path\": \"/Fields/6\", \"value\": \"4444\"}]", Encoding.UTF8, "application/json-patch+json")
-                    Content = new StringContent("[{ \"op\": \"replace\", \"path\": \"/Fields/" + fieldId + "\", \"value\": " + value + "}]", Encoding.UTF8, "application/json-patch+json")
+                    Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
                 };
-
                 HttpResponseMessage hrm = await hc.SendAsync(request);
                 if (hrm.IsSuccessStatusCode)
                 {

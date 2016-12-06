@@ -49,7 +49,7 @@
                     @if (item.ActivatedDate.ToString() != null)
                     {
                         DateTime startDate = new DateTime(1970, 1, 1);
-                        DateTime date = startDate.AddSeconds(item.ActivatedDate);
+                        DateTime date = startDate.AddSeconds(Convert.ToDouble(item.ActivatedDate));
                         <td class="text-center" style="width:10%;">
                             @date.ToString("MMM dd, yyyy")
                         </td>
