@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Generwell.Modules.Global;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,6 +15,8 @@ namespace Generwell.Web.Controllers
 {
     public class TaskDetailsController : Controller
     {
+        private object numbers;
+
         /// <summary>
         /// Added by rohit
         /// Date:- 15-11-2016
@@ -59,17 +62,17 @@ namespace Generwell.Web.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-
-        [HttpPost]
-        public async Task<ActionResult> UpdateTaskFields(int fieldId, string value)
+       
+        //public async Task<ActionResult> UpdateTaskFields(string [] IdArray, string [] ValueArray, string Content)
+        public async Task<ActionResult> UpdateTaskFields(string [] Content)
         {
-           
+            WebClient webClient = null;
             try
-            {              
-                WebClient webClient = new WebClient();
-                var taskDetailsReecord = await webClient.UpdateTaskData(GenerwellConstants.Constants.TaskDetails + "/" + GlobalFields.TaskId, GlobalFields.AccessToken, value, fieldId);
-                return View(taskDetailsReecord);
-
+            {                
+                webClient = new WebClient();               
+                string valueTest = GlobalFields.AccessToken;
+                var taskDetailsReecord = await webClient.UpdateTaskData(GenerwellConstants.Constants.TaskDetails + "/" + GlobalFields.TaskId, GlobalFields.AccessToken, Content/*, fieldId, value*/);
+                return View(taskDetailsReecord);                
             }
             catch (Exception ex)
             {

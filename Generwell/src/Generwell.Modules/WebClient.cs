@@ -89,7 +89,7 @@ namespace Generwell.Modules
                 throw ex;
             }
         }
-       
+
         /// <summary>
         /// Added by Pankaj
         /// Date:- 13-11-2016
@@ -189,24 +189,38 @@ namespace Generwell.Modules
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdateTaskData(string url, string accessToken, string value, int fieldId)
+        public async Task<string> UpdateTaskData(string url, string accessToken, string[] Content/*, string value, int fieldId*/)
         {
+            
             try
             {
-                var tokenServiceUrl = url;               
+
+                //string con = JsonConvert.SerializeObject(Content);
+                var tokenServiceUrl = url;
                 HttpClient hc = new HttpClient();
                 hc.DefaultRequestHeaders.Clear();
                 hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
-
-                var method = new HttpMethod("PATCH");
+                var method = new HttpMethod("PATCH");               
+                string con = "";
+               for (int index=0; index < Content.Length; index++)
+                {
+                    if(index == 0)
+                    {
+                       con =  Content[index];
+                    }
+                    else
+                    {
+                        con += "," + Content[index];
+                    }
+                     
+                }
+                string body = "[" + con + "]";
                 var request = new HttpRequestMessage(method, url)
                 {
-                  
-                //Content = new StringContent("[{ \"op\": \"replace\", \"path\": \"/Fields/6\", \"value\": \"4444\"}]", Encoding.UTF8, "application/json-patch+json")
-                Content = new StringContent("[{ \"op\": \"replace\", \"path\": \"/Fields/"+ fieldId + "\", \"value\": " + value +"}]", Encoding.UTF8, "application/json-patch+json")
-                };
-
+                    Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
+                    // Content = new StringContent("[{ \"op\": \"replace\", \"path\": \"/Fields/" + fieldId + "\", \"value\": " + "\"" + value + "\"}]", Encoding.UTF8, "application/json-patch+json")
+                };               
                 HttpResponseMessage hrm = await hc.SendAsync(request);
                 if (hrm.IsSuccessStatusCode)
                 {
@@ -215,14 +229,17 @@ namespace Generwell.Modules
                 else
                 {
                 }
-                return string.Empty;
                 
+                    return string.Empty;
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        
 
     }
 }

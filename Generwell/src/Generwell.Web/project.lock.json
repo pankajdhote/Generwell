@@ -10191,6 +10191,7 @@
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.0.0",
       "Microsoft.NETCore.App >= 1.0.1",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0",
+      "System.Linq.Queryable >= 4.0.1",
       "dnx-clr-win-x86 >= 1.0.0-rc1-update2"
     ],
     ".NETCoreApp,Version=v1.0": []

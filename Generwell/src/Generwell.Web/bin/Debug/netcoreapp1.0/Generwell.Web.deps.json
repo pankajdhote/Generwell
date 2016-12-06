@@ -37,7 +37,8 @@
           "Generwell.Core": "1.0.0",
           "Generwell.Modules": "1.0.0",
           "Microsoft.AspNetCore.Session": "1.0.0",
-          "dnx-clr-win-x86": "1.0.0-rc1-update2"
+          "dnx-clr-win-x86": "1.0.0-rc1-update2",
+          "System.Linq.Queryable": "4.0.1"
         },
         "runtime": {
           "Generwell.Web.dll": {}

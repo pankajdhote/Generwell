@@ -20,7 +20,7 @@ namespace Generwell.Web.ViewModels
         public int? ExpectedCompletionDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}")]
-        public int ActivatedDate { get; set; }
+        public int? ActivatedDate { get; set; }
 
         //public int? ActivatedDate { get; set; }
         public bool Completed { get; set; }
