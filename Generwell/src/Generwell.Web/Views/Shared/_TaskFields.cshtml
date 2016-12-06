@@ -101,11 +101,12 @@
                             @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
-                                DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
+                                //DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
+                                string date1 = "1480588522";
 
                                 <td class="displayValue1">
                                    @* @Html.TextBoxFor(model => @item.value, new { @class = "clsedit datepicker", @type = "date", @id = @item.fieldId })*@
-                                    @Html.TextBoxFor(m => date, "{0:dd/MM/yyyy}", new {@class = "clsedit datepicker", @id = @item.fieldId})
+                                    @Html.TextBoxFor(m => date1, "{0:dd/MM/yyyy}", new {@class = "clsedit datepicker", @id = @item.fieldId})
                                 </td>
                             }
                             @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
@@ -192,11 +193,12 @@
                                 @Html.TextBoxFor(model => @item.value, new { @class = "clsedit datepicker", @type = "date", @id = @item.fieldId })
                             </td>*@
                         DateTime startDate = new DateTime(1970, 1, 1);
-                        DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
+                        //DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
 
+                        string date1 = "1480588522";
                         <td class="displayValue1">
                             @* @Html.TextBoxFor(model => @item.value, new { @class = "clsedit datepicker", @type = "date", @id = @item.fieldId })*@
-                            @Html.TextBoxFor(m => date, "{0:dd/MM/yyyy}", new { @class = "clsedit datepicker", @id = @item.fieldId })                        
+                            @Html.TextBoxFor(m => date1, "{0:dd/MM/yyyy}", new { @class = "clsedit datepicker", @id = @item.fieldId })                        
                         </td>
                         }
                         @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)

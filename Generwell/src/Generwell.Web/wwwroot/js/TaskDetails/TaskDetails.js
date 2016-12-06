@@ -58,9 +58,6 @@ var TaskDetailsPage = {
 
                 }
 
-                                
-                //alert(Content.length)
-                //alert(Content)
                 count++;
             });
             
