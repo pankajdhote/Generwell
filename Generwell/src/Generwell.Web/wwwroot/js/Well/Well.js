@@ -8,7 +8,6 @@ var wellPage = {
     },
     attachEvents: function (targetUrl) {
         debugger;       
-
         //Added for checkbox style
         $(".i-checks").iCheck({
             checkboxClass: "icheckbox_square-green",
@@ -82,7 +81,6 @@ var wellPage = {
                     });
                 }
             } else {
-
                 var data = oTable.row($(this).parent()).data();
                 var url = targetUrl + '?wellId=' + Base64.encode(data[0]) + '&wellName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[8]);
                 window.location.href = url;
