@@ -109,9 +109,7 @@ var wellPage = {
                     if (data != undefined || data != "") {
                         $("#wellTableDivId").html(data);
                         $('#processing-modal').modal("hide");
-                        //display only my wells
                         //On checkbox click filter data tables rows
-                        debugger;
                         wellPage.mywellFilter();
                     }
                 },

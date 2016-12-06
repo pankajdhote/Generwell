@@ -2,7 +2,6 @@
 /// <reference path="js/encryption.js" />
 /// <reference path="js/icheck.min.js" />
 /// <reference path="js/login/login.js" />
-/// <reference path="js/map/info-bubble.js" />
 /// <reference path="js/map/Map.js" />
 /// <reference path="js/map/markerclusterer.js" />
 /// <reference path="js/picture/Picture.js" />

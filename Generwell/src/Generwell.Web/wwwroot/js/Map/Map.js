@@ -6,7 +6,6 @@ var mapPage = {
         debugger;
         mapPage.attachEvents();
     },
-
     attachEvents: function () {
         debugger;
         $('#processing-modal').modal("show");
@@ -126,7 +125,6 @@ var mapPage = {
             
         });
     },
-
     showDirection: function (location) {
         //Show directions for wells from current position.
         debugger;
@@ -222,9 +220,6 @@ var mapPage = {
         }
 
     },
-
-    
-
     navigateStep: function (location) {
         //Show directions for wells from current position.
         debugger;

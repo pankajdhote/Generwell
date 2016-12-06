@@ -29,7 +29,7 @@ namespace Generwell.Web.Controllers
         /// Fetch all wells from web api and display on well list page.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet]        
         public async Task<ActionResult> Index()
         {
             try
@@ -55,7 +55,6 @@ namespace Generwell.Web.Controllers
         /// Added by pankaj
         /// Date:- 18-11-2016
         /// filter wells by filter id.
-        /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -76,7 +75,6 @@ namespace Generwell.Web.Controllers
         /// Added by pankaj
         /// Date:- 21-11-2016
         /// display well details from task details page.
-        /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -100,9 +98,9 @@ namespace Generwell.Web.Controllers
         /// Added by pankaj
         /// Date:- 22-11-2016
         /// follow or unfollow well by id
-        /// 
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public async Task<PartialViewResult> Follow(string isFollow,string wellId, string filterId=null)
         {
             try
