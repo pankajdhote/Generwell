@@ -12,6 +12,6 @@ namespace Generwell.Modules.Services
         Task<string> DeleteWebApiData(string url, string accessToken);
         Task<string> GetWebApiDetails(string url, string accessToken);
         Task<string> GetWebApiWithTimeZone(string url, string accessToken);
-        Task<string> UpdateTaskData(string url, string accessToken, string value, int fieldId);
+        Task<string> UpdateTaskData(string url, string accessToken, string[] Content);
     }
 }

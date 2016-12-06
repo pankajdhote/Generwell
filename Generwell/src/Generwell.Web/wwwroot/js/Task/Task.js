@@ -54,7 +54,7 @@ var taskPage = {
             $('#processing-modal').modal("show");
             var data = oTable.row(this).data();
             //Perform your navigation
-            window.location.href = targetUrl + '?taskId=' + Base64.encode(data[0]) + '&taskName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[7]);
+            window.location.href = targetUrl + '?taskId=' + Base64.encode(data[0]) + '&taskName=' + Base64.encode(data[2]);
         });
 
     }

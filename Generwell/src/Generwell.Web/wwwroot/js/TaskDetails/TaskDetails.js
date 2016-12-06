@@ -28,30 +28,59 @@ var TaskDetailsPage = {
                 }
             });
         });
-        $('.datepicker').datepicker({
-            format: 'mm/dd/yyyy',
-            startDate: '-3d'
-        });
+       
 
         $("#SaveTaskFieldDetailsId").click(function () {
+           
             debugger;
-            var fieldId = document.getElementById("FieldId").value;
-            var value = document.getElementById("displayValue").value;
+
+
+            var IdArray = [];
+            var ValueArray = [];
+            var Content=[]
+            var count = 0;
+            $('.clsedit').each(function ()
+            {
+                var htmlType = $(this).prop('tagName')
+                if (htmlType == 'SELECT')
+                {
+                    var txt = $(this).find(":selected").text();
+                    IdArray.push(this.id);
+                    ValueArray.push(txt);
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+
+                }
+                else if (htmlType == 'INPUT')
+                {
+                  IdArray.push(this.id);
+                  ValueArray.push(this.value);
+                  Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+
+                }
+
+                                
+                //alert(Content.length)
+                //alert(Content)
+                count++;
+            });
+            
             $.ajax({
-                type: "POST",
-                url: '/TaskDetails/UpdateTaskFields',
-                data: { fieldId: fieldId, value: value },
-                dataType: "json",
-                processData: true,
-                cache:false,
+                type: "post",
+                url: '/taskdetails/updatetaskfields',
+                data: {Content: Content },
+                datatype: "json",
+		cache:false,
+                processdata: true,
                 success: function (data, status, xhr) {
-                    alert(status);
+                    this.find('.SaveTaskFieldDetailsId').attr('value', 'Confirmed');
                 },
                 error: function (xhr) {
-                    alert(xhr.responseText);
+                    alert(xhr.responsetext);
                 }
             });
+
         });
+
     }
 }
 
