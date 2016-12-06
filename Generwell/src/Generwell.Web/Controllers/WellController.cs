@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Modules;
 using Generwell.Web.ViewModels;
-using Newtonsoft.Json;
-using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Generwell.Modules.Global;
+using Microsoft.AspNetCore.Http;
+using Generwell.Modules.Model;
+using Microsoft.Extensions.Options;
+using Generwell.Modules.Services;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
-    public class WellController : Controller
+    public class WellController : BaseController
     {
-        
+        public WellController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        {
+        }
+
         /// <summary>
         /// Added by pankaj
         /// Date:- 13-11-2016
@@ -30,18 +35,15 @@ namespace Generwell.Web.Controllers
             try
             {
                 //set previous page value for google map filteration
-                GlobalFields.previousPage = PageOrder.Welllisting.ToString();
+                HttpContext.Session.SetString("previousPage", PageOrder.Welllisting.ToString());
                 //change active menu class
-                GlobalFields.SetMenu(Menu.Well.ToString());                                
-                //fill Filters dropdown list
-                WebClient webClient = new WebClient();
-                var filterList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Filters, GlobalFields.AccessToken);
-                List<FilterViewModel> filterViewModel = JsonConvert.DeserializeObject<List<FilterViewModel>>(filterList);
-                ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString()}); 
+                GlobalFields.SetMenu(Menu.Well.ToString());
 
-                var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GlobalFields.AccessToken);
-                List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);             
-                return View(wellViewModel);
+                //fill Filters dropdown list
+                List<FilterViewModel> filterViewModel = await GetFilters();
+                ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString()});
+                List<WellViewModel> wellList = await GetWells(null);
+                return View(wellList);
             }
             catch (Exception ex)
             {
@@ -61,18 +63,7 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                WebClient webClient = new WebClient();
-                List<WellViewModel> wellViewModel;
-                if (!string.IsNullOrEmpty(id))
-                {
-                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellFilter + "=" + id, GlobalFields.AccessToken);
-                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
-                }
-                else
-                {
-                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GlobalFields.AccessToken);
-                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
-                }
+                List<WellViewModel> wellViewModel= await GetWells(id);
                 return PartialView("_FilterWell", wellViewModel);
             }
             catch (Exception ex)
@@ -93,21 +84,18 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                WebClient webClient = new WebClient();
-                WellViewModel wellViewModel=new WellViewModel();
+                WellViewModel wellObj = new WellViewModel();
                 if (!string.IsNullOrEmpty(id))
                 {
-                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well + "/" + id, GlobalFields.AccessToken);
-                    wellViewModel = JsonConvert.DeserializeObject<WellViewModel>(getWellList);
+                    wellObj = await GetWellById(id);
                 }
-                return View(wellViewModel);
+                return View(wellObj);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 22-11-2016
@@ -119,59 +107,10 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                WebClient webClient = new WebClient();
-                if (isFollow == GenerwellConstants.Constants.trueState)
-                {
-                    GlobalFields.IsFollow = GenerwellConstants.Constants.checkedState;
-                    var getResponse = await webClient.PostWebApiData(GenerwellConstants.Constants.Well + "/" + wellId + "/follow", GlobalFields.AccessToken);
-
-                    //get filtered wells
-                    List<WellViewModel> wellViewModel=await GetFilteredWell(filterId);
-                    return PartialView("_FilterWell", wellViewModel);
-                    
-                }
-                else
-                {
-                    GlobalFields.IsFollow = GenerwellConstants.Constants.uncheckedState;
-                    var getResponse = await webClient.DeleteWebApiData(GenerwellConstants.Constants.Well + "/" + wellId + "/unfollow", GlobalFields.AccessToken);
-
-                    //get filtered wells
-                    List<WellViewModel> wellViewModel = await GetFilteredWell(filterId);
-                    return PartialView("_FilterWell", wellViewModel);
-                }
-
-               
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-           
-        }
-
-        /// <summary>
-        /// Added by pankaj
-        /// Date:- 29-11-2016
-        /// Get Filtered well
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<WellViewModel>> GetFilteredWell(string id = null)
-        {
-            try
-            {
-                WebClient webClient = new WebClient();
-                List<WellViewModel> wellViewModel;
-                if (!string.IsNullOrEmpty(id))
-                {
-                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.WellFilter + "=" + id, GlobalFields.AccessToken);
-                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
-                }
-                else
-                {
-                    var getWellList = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well, GlobalFields.AccessToken);
-                    wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
-                }
-                return wellViewModel;
+                string response = await SetFollowUnfollow(isFollow, wellId);
+                //get filtered wells
+                List<WellViewModel> wellViewModel = await GetWells(filterId);
+                return PartialView("_FilterWell", wellViewModel);
             }
             catch (Exception ex)
             {

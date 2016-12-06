@@ -1,6 +1,5 @@
 ﻿@model List<Generwell.Web.ViewModels.MapViewModel>
-@using Generwell.Modules.GenerwellConstants;
-@using Generwell.Modules.Global;
+@using Microsoft.AspNetCore.Http;
 
 @{
     ViewBag.Title = "Map";
@@ -24,7 +23,7 @@
 <div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
-            <div class="col-lg-12 text-align-right user-name pt-pb-10"><label>Welcome &nbsp;</label>(@GlobalFields.UserName</div>
+            <div class="col-lg-12 text-align-right user-name pt-pb-10"><label>Welcome &nbsp;</label>@Context.Session.GetString("UserName")</div>
             <div class="ibox float-e-margins">
                 <div id="headingMap" class="title ibox-title border-bottom">
                     <h4 class=""><span class="">Map</span><span id="drivingDirection" class="text-center hide-div float-right">Driving Directions</span></h4>

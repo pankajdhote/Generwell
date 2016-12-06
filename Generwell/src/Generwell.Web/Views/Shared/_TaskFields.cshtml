@@ -1,10 +1,10 @@
 ﻿@model List<Generwell.Web.ViewModels.TaskFieldsViewModel>
 @using Generwell.Modules.GenerwellConstants;
-@using Generwell.Modules.Global;
+@using Microsoft.AspNetCore.Http;
 
 <script type="text/javascript">
     $(document).ready(function () {
-        TaskDetailsPage.initialize(@GlobalFields.TaskId);
+        TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
 
     });
 

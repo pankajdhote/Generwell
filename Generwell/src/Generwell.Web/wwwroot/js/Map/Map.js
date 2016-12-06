@@ -95,7 +95,7 @@ var mapPage = {
                             google.maps.event.addListener(marker, 'click', (function (marker, i) {
                                 return function () {
                                     debugger;
-                                    infowindow.setContent('<b><a href="#" id="direction"><img src="/images/car-Icon.png" /></a> &nbsp; <a href="/WellLineReport/Index?wellId=' + locations[i].id + '&wellName=' + locations[i].name + '&isFollow=' + locations[i].isFavorite + '">' + locations[i].name) + '</a></b>';
+                                    infowindow.setContent('<b><a href="#" id="direction"><img src="/images/car-Icon.png" /></a> &nbsp; <a href="/WellLineReport/Index?wellId=' + Base64.encode(locations[i].id.toString()) + '&wellName=' + Base64.encode(locations[i].name.toString()) + '&isFollow=' + Base64.encode(locations[i].isFavorite.toString()) + '">' + locations[i].name) + '</a></b>';
                                     infowindow.open(map, marker);
                                     $('#direction').click(function () {
                                         debugger;
@@ -190,19 +190,15 @@ var mapPage = {
                         google.maps.event.addListener(pinB, 'click', (function (pinB) {
                             return function () {
                                 debugger;
-                                infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + location.id + '&wellName=' + location.name + '&isFollow=' + location.isFavorite + '">' + location.name) + '</a></b>';
+                                infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + Base64.encode(location.id.toString()) + '&wellName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name) + '</a></b>';
                                 infowindow.open(map, pinB);
                             }
                         })(pinB));
                         google.maps.event.addListener(pinA, 'click', (function (pinA) {
                             return function () {
                                 debugger;
-                                infowindow.setContent('<b><a href="#" id="navigation">Start Navigation</a> &nbsp; <a href="#" id="navigationStep">Navigation Steps</a></b> &nbsp;');
+                                infowindow.setContent('<b><a href="#" id="navigationStep">Navigation Steps</a></b> &nbsp;');
                                 infowindow.open(map, pinA);
-                                $('#navigation').click(function () {
-                                    debugger;
-                                    setInterval(function () { mapPage.navigate(location); }, 2000);
-                                });
                                 $('#navigationStep').click(function () {
                                     debugger;
                                     mapPage.navigateStep(location);
@@ -227,94 +223,7 @@ var mapPage = {
 
     },
 
-    navigate: function (location) {
-        //Show directions for wells from current position.
-        debugger;
-        //Display user current location if location not found                
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (p) {
-                debugger;
-                var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
-                debugger;
-                currentUserLatLong = LatLng;
-                var mapOptions = {
-                    center: LatLng,
-                    zoom: 14,
-                    minZoom: 2,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-                var infowindow = new google.maps.InfoWindow({
-                    maxWidth: 500
-                });
-                debugger;
-                //Add the markers and infowindows to the map       
-                var destinationImg;
-                if (location.isFavorite == true) {
-                    destinationImg = "/images/favorite-location.png";
-                }
-                else {
-                    destinationImg = "/images/location.png";
-                }
-                debugger;
-                //show direction
-                var directionsDisplay = new google.maps.DirectionsRenderer;
-                var directionsService = new google.maps.DirectionsService;
-                directionsDisplay.setMap(map);
-                //directionsDisplay.setPanel(document.getElementById('panel'));
-                directionsDisplay.setOptions({ suppressMarkers: true });
-                directionsService.route({
-                    origin: { lat: p.coords.latitude, lng: p.coords.longitude },  // Haight.
-                    destination: { lat: location.latitude, lng: location.longitude },  // Ocean Beach.
-                    travelMode: google.maps.TravelMode["DRIVING"]
-                }, function (response, status) {
-                    debugger;
-                    if (status == 'OK') {
-                        directionsDisplay.setDirections(response);
-                        var _route = response.routes[0].legs[0];
-
-                        pinA = new google.maps.Marker({
-                            position: _route.start_location,
-                            map: map,
-                            icon: {
-                                path: google.maps.SymbolPath.CIRCLE,
-                                fillOpacity: 0.5,
-                                fillColor: '#cf7f00',
-                                strokeOpacity: 1.0,
-                                strokeColor: '#1a355e',
-                                strokeWeight: 20,
-                                radius: 800,
-                                scale: 20
-                            }
-                        }),
-                        pinB = new google.maps.Marker({
-                            position: _route.end_location,
-                            map: map,
-                            icon: destinationImg
-                        });
-                        google.maps.event.addListener(pinA, 'click', (function (pinA) {
-                            return function () {
-                                debugger;
-                                infowindow.setContent("<b>your current location</b>");
-                                infowindow.open(map, pinA);
-                            }
-                        })(pinA));
-                        google.maps.event.addListener(pinB, 'click', (function (pinB) {
-                            return function () {
-                                debugger;
-                                infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + location.id + '&wellName=' + location.name + '&isFollow=' + location.isFavorite + '">' + location.name) + '</a></b>';
-                                infowindow.open(map, pinB);
-                            }
-                        })(pinB));
-                    } else {
-                        window.alert('Directions request failed due to ' + status);
-                    }
-                });
-            });
-        } else {
-            alert('Geo Location feature is not supported in this browser.');
-        }
-    },
+    
 
     navigateStep: function (location) {
         //Show directions for wells from current position.
@@ -389,18 +298,14 @@ var mapPage = {
                         google.maps.event.addListener(pinA, 'click', (function (pinA) {
                             return function () {
                                 debugger;
-                                infowindow.setContent('<b><a href="#" id="navigation">Start Navigation</a></b>');
+                                infowindow.setContent('<b></b>');
                                 infowindow.open(map, pinA);
-                                $('#navigation').click(function () {
-                                    debugger;
-                                    setInterval(function () { mapPage.navigate(location); }, 2000);
-                                });
                             }
                         })(pinA));
                         google.maps.event.addListener(pinB, 'click', (function (pinB) {
                             return function () {
                                 debugger;
-                                infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + location.id + '&wellName=' + location.name + '&isFollow=' + location.isFavorite + '">' + location.name) + '</a></b>';
+                                infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + Base64.encode(location.id.toString()) + '&wellName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name.toString()) + '</a></b>';
                                 infowindow.open(map, pinB);
                             }
                         })(pinB));

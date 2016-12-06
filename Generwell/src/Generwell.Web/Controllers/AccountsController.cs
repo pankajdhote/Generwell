@@ -1,21 +1,22 @@
-﻿
-using System;
-
-using Newtonsoft.Json;
+﻿using System;
 using Generwell.Modules;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Generwell.Web.ViewModels;
-using Generwell.Modules.Authorization;
-using Generwell.Modules.GenerwellConstants;
-using Generwell.Modules.Global;
+using Microsoft.AspNetCore.Http;
+using Generwell.Modules.Model;
+using Microsoft.Extensions.Options;
+using Generwell.Modules.Services;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
-    public class AccountsController : Controller
+    public class AccountsController : BaseController
     {
+        public AccountsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        {
+        }
 
         /// <summary>
         /// Added by pankaj
@@ -42,20 +43,16 @@ namespace Generwell.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Authorization authorizeUser = new Authorization();
-                    var responseMsg = await authorizeUser.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
-                    AccessTokenViewModel accessTokenViewModel = JsonConvert.DeserializeObject<AccessTokenViewModel>(responseMsg);
+                    AccessTokenViewModel accessTokenViewModel = await AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
                     if (accessTokenViewModel.access_token != null)
                     {
-                        GlobalFields.AccessToken = accessTokenViewModel.access_token;
-                        GlobalFields.TokenType = accessTokenViewModel.token_type;
-
                         //Fetch user name from api/v{apiVersion}/personnel/current api and disaply on every page.
-                        WebClient webClient = new WebClient();
-                        var personnelRecord = await webClient.GetWebApiDetails(GenerwellConstants.Constants.ContactDetails, GlobalFields.AccessToken);
-                        ContactFieldsViewModel contactFieldRecord = JsonConvert.DeserializeObject<ContactFieldsViewModel>(personnelRecord);
-                        GlobalFields.UserName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
-
+                        ContactFieldsViewModel contactFieldRecord = await GetContactDetails();
+                        string userName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
+                        //store access token in session
+                        HttpContext.Session.SetString("AccessToken", accessTokenViewModel.access_token);
+                        HttpContext.Session.SetString("TokenType", accessTokenViewModel.token_type);
+                        HttpContext.Session.SetString("UserName", userName);
                         TempData["ServerError"] = "";
                         return RedirectToAction("Index", "Well");
                     }
@@ -81,10 +78,8 @@ namespace Generwell.Web.Controllers
         [HttpGet]
         public async Task<PartialViewResult> Support()
         {
-            WebClient webClient = new WebClient();
-            var getContactDetails = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Support, null);
-            ContactDetailsViewModel contactDetailsViewModel = JsonConvert.DeserializeObject<ContactDetailsViewModel>(getContactDetails);
-            return PartialView("_Support", contactDetailsViewModel);
+            ContactFieldsViewModel contactFieldRecord = await GetContactDetails();
+            return PartialView("_Support", contactFieldRecord);
         }
 
         /// <summary>

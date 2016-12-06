@@ -8,15 +8,21 @@ using Newtonsoft.Json;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Generwell.Modules.Global;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Microsoft.AspNetCore.Http;
+using Generwell.Modules.Model;
+using Generwell.Modules.Services;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
-    public class TaskController : Controller
+    public class TaskController : BaseController
     {
+        public TaskController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        {
+        }
+        
         /// <summary>
         /// Added by rohit
         /// Date:- 15-11-2016
@@ -30,30 +36,26 @@ namespace Generwell.Web.Controllers
             {
                 //Active menu on top for current selected tab
                 GlobalFields.SetMenu(Menu.Task.ToString());
-                WebClient webClient = new WebClient();
-                List<TaskViewModel> taskViewModel = new List<TaskViewModel>();
-                int previousPageValue = (int)Enum.Parse(typeof(PageOrder), GlobalFields.previousPage);
+                int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
                 //set previous page value for google map filteration
-                GlobalFields.previousPage = PageOrder.Tasklisting.ToString();
+                HttpContext.Session.SetString("previousPage", PageOrder.Tasklisting.ToString());
 
+                List<TaskViewModel> taskViewModel = new List<TaskViewModel>();
                 switch (previousPageValue)
                 {
                     case 1:
                     case 4:
                     case 5:
                     case 6:
-                        var taskFromWellListing = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Task, GlobalFields.AccessToken);
-                        taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskFromWellListing);
+                        taskViewModel = await GetTasks();
                         break;
                     case 2:
                     case 3:
-                        var taskFromWellDetails = await webClient.GetWebApiDetails(GenerwellConstants.Constants.Well + "/" + GlobalFields.WellId + "/tasks", GlobalFields.AccessToken);
-                        taskViewModel = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskFromWellDetails);
+                        taskViewModel = await GetTasksByWellId();
                         break;
                     default:
                         break;
                 }
-
                 return View(taskViewModel);
             }
             catch (Exception ex)

@@ -5,6 +5,8 @@
     "Generwell.Core": "1.0.0-*",
     "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
     "Microsoft.AspNetCore.Http.Extensions": "1.0.0",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
+    "Microsoft.Extensions.Options": "1.0.0",
     "Microsoft.IdentityModel.Protocols": "2.0.0",
     "NETStandard.Library": "1.6.0",
     "System.Net.Requests": "4.0.11"

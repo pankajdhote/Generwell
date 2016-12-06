@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
+using Generwell.Web.ViewModels;
+using Generwell.Modules.Model;
+using Generwell.Modules;
+using Generwell.Modules.Services;
 
 namespace Generwell.Web
 {
@@ -28,20 +28,31 @@ namespace Generwell.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
             
-            services.AddMemoryCache();
-            services.AddSession(/* options go here */);
-            services.AddMvc().AddJsonOptions(opts =>
+            // Add framework services.
+            // Add MVC services to the services container.
+            services.AddMvc();
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession(options =>
             {
-                opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.CookieName = "Session";
             });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+            });
+            //services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IGenerwellServices, GenerwellServices>();
+            var appSettings = Configuration.GetSection("ApplicationSettings");
+            services.Configure<AppSettingsModel>(appSettings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
+        {            
             app.UseSession();
+           
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

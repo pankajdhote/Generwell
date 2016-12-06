@@ -3,7 +3,6 @@
 var loginPage = {
 
     initialize: function () {
-        //debugger;
         loginPage.attachEvents();
     },
     attachEvents: function () {
@@ -27,7 +26,7 @@ var loginPage = {
                     url: '/Map/SetGooleMapObjects',
                     async: false,
                     cache:false,
-                    data: { isMyWell: isMyWell, filterId: filterId },
+                    data: { isMyWell: isMyWell, filterId: filterId},
                     success: function (data) {
                         debugger;
                     },
@@ -59,8 +58,6 @@ var loginPage = {
             }
 
             $('#processing-modal').modal("show");
-            //$('.modal-open').removeClass();
-
         });
 
         $('#supportId').click(function () {
