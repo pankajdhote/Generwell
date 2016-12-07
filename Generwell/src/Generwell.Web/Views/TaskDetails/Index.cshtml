@@ -1,5 +1,5 @@
 ﻿@model Generwell.Web.ViewModels.TaskDetailsViewModel
-@using Microsoft.AspNetCore.Http; 
+@using Microsoft.AspNetCore.Http;
 @using Generwell.Modules.GenerwellEnum;
 
 @{
@@ -28,23 +28,23 @@
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.activatedDate));
-                                @date.ToString("MMM dd, yyyy")
-                            }                          
-                           <br/>
-                            <label>Forecast Date:</label>                          
+                            @date.ToString("MMM dd, yyyy")
+                            }
+                            <br />
+                            <label>Forecast Date:</label>
                             @if (@Model.forecastDate.ToString() != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.forecastDate));
-                                @date.ToString("MMM dd, yyyy")
-                            }  
-                            <br/>
+                            @date.ToString("MMM dd, yyyy")
+                            }
+                            <br />
                             <label>Due Date:</label>
                             @if (@Model.expectedCompletionDate.ToString() != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.expectedCompletionDate));
-                                @date.ToString("MMM dd, yyyy")
+                            @date.ToString("MMM dd, yyyy")
                             }
                         </div>
                     </div>
@@ -55,7 +55,10 @@
                     </div>
                 </div>
                 <div id="taskFieldsDiv">
-                    @Html.Partial("_TaskFields", Model.fields)
+                    <div class="float-right pb-10"><button id="detailsId" class="btn button" type="button" onclick="location.href='@Url.Action("Details", Enum.GetName(typeof(GenerwellEnum), Context.Session.GetString("FieldLevelId")), new { id = Context.Session.GetString("KeyId") })'" data-toggle="">@Enum.GetName(typeof(GenerwellEnum), Context.Session.GetString("FieldLevelId")) Details</button></div>
+                    <div id="taskFieldsDiv">
+                        @Html.Partial("_TaskFields", Model.fields)
+                    </div>
                 </div>
             </div>
         </div>

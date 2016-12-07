@@ -27,7 +27,9 @@ namespace Generwell.Web.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            return View();
+            HttpContext.Session.Clear();
+            SignInViewModel signInModel = new SignInViewModel();
+            return View(signInModel);
         }
 
         /// <summary>
@@ -46,12 +48,12 @@ namespace Generwell.Web.Controllers
                     AccessTokenViewModel accessTokenViewModel = await AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
                     if (accessTokenViewModel.access_token != null)
                     {
-                        //Fetch user name from api/v{apiVersion}/personnel/current api and disaply on every page.
-                        ContactFieldsViewModel contactFieldRecord = await GetContactDetails();
-                        string userName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
                         //store access token in session
                         HttpContext.Session.SetString("AccessToken", accessTokenViewModel.access_token);
                         HttpContext.Session.SetString("TokenType", accessTokenViewModel.token_type);
+                        //Fetch user name from api/v{apiVersion}/personnel/current api and disaply on every page.
+                        ContactFieldsViewModel contactFieldRecord = await GetContactDetails();
+                        string userName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
                         HttpContext.Session.SetString("UserName", userName);
                         TempData["ServerError"] = "";
                         return RedirectToAction("Index", "Well");

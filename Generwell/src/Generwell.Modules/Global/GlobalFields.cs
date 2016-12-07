@@ -13,13 +13,6 @@
         public static string ProjectActive = string.Empty;
         public static string MapActive = string.Empty;
         public static string LogoutActive = string.Empty;
-        // Find the server name on the previous page
-        public static string UserName = string.Empty;
-        //find out objects to display on google map.
-        public static string previousPage = string.Empty;
-        public static string myWellCheck = string.Empty;
-        public static string defaultFilter = string.Empty;
-
         /// <summary>
         /// Menu active and deactie part is controlled in this method
         /// </summary>

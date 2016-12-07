@@ -23,9 +23,9 @@ namespace Generwell.Web.ViewModels
         public string name { get; set; }
         public string url { get; set; }
 
-        public static explicit operator ContactFieldsViewModel(Task<ContactFieldsViewModel> v)
-        {
-            throw new NotImplementedException();
-        }
+        //public static explicit operator ContactFieldsViewModel(Task<ContactFieldsViewModel> v)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

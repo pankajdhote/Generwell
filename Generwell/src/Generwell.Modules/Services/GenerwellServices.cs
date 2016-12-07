@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace Generwell.Modules.Services
 {
@@ -48,7 +48,7 @@ namespace Generwell.Modules.Services
         /// post data to web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> PostWebApiData(string url, string accessToken)
+        public async Task<string> PostWebApiData(string url, string accessToken, string tokenType)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Generwell.Modules.Services
                     if (accessToken != null)
                     {
                         client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     FormUrlEncodedContent requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
                     HttpResponseMessage tokenServiceResponse = await client.PostAsync(url, requestParamsFormUrlEncoded);
@@ -84,7 +84,7 @@ namespace Generwell.Modules.Services
         /// call delete web api
         /// </summary>
         /// <returns></returns>
-        public async Task<string> DeleteWebApiData(string url, string accessToken)
+        public async Task<string> DeleteWebApiData(string url, string accessToken, string tokenType)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Generwell.Modules.Services
                 {
                     if (accessToken != null)
                     {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.DeleteAsync(url);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
@@ -115,7 +115,7 @@ namespace Generwell.Modules.Services
         /// Get data from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetWebApiDetails(string url, string accessToken)
+        public async Task<string> GetWebApiDetails(string url, string accessToken, string tokenType)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace Generwell.Modules.Services
                     if (accessToken != null)
                     {
                         client.DefaultRequestHeaders.Clear();
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
@@ -142,7 +142,7 @@ namespace Generwell.Modules.Services
         /// Get web api data with timezone
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetWebApiWithTimeZone(string url, string accessToken)
+        public async Task<string> GetWebApiWithTimeZone(string url, string accessToken, string tokenType)
         {
             try
             {
@@ -152,7 +152,7 @@ namespace Generwell.Modules.Services
                     {
                         client.DefaultRequestHeaders.Clear();
                         client.DefaultRequestHeaders.Add("Time-Zone", "UTC");
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();

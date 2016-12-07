@@ -12,7 +12,6 @@
     });
 </script>
 
-
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
@@ -26,22 +25,16 @@
                     <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Well Details</h4>
                 </div>
                 <div id="wellDetailsDivId" class="ibox-content pt">
-
-                    <label>Well Name : </label>
+                    <label></label>
                     @Model.name<br />
-
                     <label>Bottomhole Location : </label>
                     @Model.bottomHoleLocation<br />
-
                     <label>Surface Location : </label>
                     @Model.surfaceHoleLocation<br />
-
                     <label>Active Task Count : </label>
                     @Model.activeTaskCount<br />
-
                     <label>Lattitude : </label>
                     @Model.latitude<br />
-
                     <label>Longitude : </label>
                     @Model.longitude<br />
                 </div>

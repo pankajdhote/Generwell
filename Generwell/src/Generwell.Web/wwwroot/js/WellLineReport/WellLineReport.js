@@ -2,19 +2,25 @@
 
 var wellLineReportPage = {
 
-    initialize: function (targetUrl, currentWellId) {
-        //debugger;
-        wellLineReportPage.attachEvents(targetUrl, currentWellId);
+    initialize: function (targetUrl) {
+        wellLineReportPage.attachEvents(targetUrl);
     },
-    attachEvents: function (targetUrl, currentWellId) {
+    attachEvents: function (targetUrl) {
         debugger;
-
+        wellLineReportPage.createFollowUnfollowSymbol();
+        wellLineReportPage.createDatatable();
+        wellLineReportPage.redirectWellDetailsPage(targetUrl);
+        wellLineReportPage.setWellFollowUnfollow();
+    },
+    createFollowUnfollowSymbol: function ()
+    {
         //Added for checkbox style
         $(".i-checks").iCheck({
             checkboxClass: "icheckbox_square-star",
             radioClass: "iradio_square-star"
         });
-
+    },
+    createDatatable: function () {
         //start datatable
         var dataTable = $('#wellLineReportListTableId').DataTable({
             "columnDefs": [
@@ -31,9 +37,10 @@ var wellLineReportPage = {
                 },
             ],
         });
+    },
+    redirectWellDetailsPage: function (targetUrl) {
         //On checkbox click filter data tables rows
         var oTable = $('#wellLineReportListTableId').DataTable();
-
         //On click of datatable row redirect to well line report page.
         $('#wellLineReportListTableId tbody').on('click', 'tr', function () {
             debugger;
@@ -42,8 +49,8 @@ var wellLineReportPage = {
             //Perform your navigation
             window.location.href = targetUrl + '?reportId=' + Base64.encode(data[0]);
         });
-        //End datatable
-
+    },
+    setWellFollowUnfollow: function () {
         //Follow or unfollow particular well 
         $('.iCheck-helper').click(function () {
             debugger;

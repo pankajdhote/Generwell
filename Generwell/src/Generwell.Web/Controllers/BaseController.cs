@@ -55,15 +55,15 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<List<WellViewModel>> GetWells(string id)
         {
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(id) && id!="null")
             {
-                string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + id, HttpContext.Session.GetString("AccessToken"));
+                string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
                 return wellViewModel;
             }
             else
             {
-                string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.Well, HttpContext.Session.GetString("AccessToken"));
+                string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.Well, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<WellViewModel> wellViewModel = JsonConvert.DeserializeObject<List<WellViewModel>>(getWellList);
                 return wellViewModel;
             }
@@ -76,7 +76,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<WellViewModel> GetWellById(string id)
         {
-            string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.Well + "/" + id, HttpContext.Session.GetString("AccessToken"));
+            string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.Well + "/" + id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             WellViewModel wellViewModel = JsonConvert.DeserializeObject<WellViewModel>(getWellList);
             return wellViewModel;
         }
@@ -88,7 +88,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<List<MapViewModel>> GetWellsByFilterId()
         {
-            string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + HttpContext.Session.GetString("defaultFilter"), HttpContext.Session.GetString("AccessToken"));
+            string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + HttpContext.Session.GetString("defaultFilter"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             List<MapViewModel> wellViewModel = JsonConvert.DeserializeObject<List<MapViewModel>>(wellRecordByFilter);
             return wellViewModel;
         }
@@ -100,7 +100,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<List<MapViewModel>> GetWellsWithoutFilterId()
         {
-            string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + HttpContext.Session.GetString("defaultFilter"), HttpContext.Session.GetString("AccessToken"));
+            string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.Well, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             List<MapViewModel> wellViewModel = JsonConvert.DeserializeObject<List<MapViewModel>>(wellRecordByFilter);
             return wellViewModel;
         }
@@ -112,7 +112,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<List<WellLineReportViewModel>> GetWellLineReports()
         {
-            string wellLineReportList = await _generwellServices.GetWebApiDetails(_appSettings.WellLineReports, HttpContext.Session.GetString("AccessToken"));
+            string wellLineReportList = await _generwellServices.GetWebApiDetails(_appSettings.WellLineReports, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             List<WellLineReportViewModel> wellLineReportViewModel = JsonConvert.DeserializeObject<List<WellLineReportViewModel>>(wellLineReportList);
             return wellLineReportViewModel;
         }
@@ -124,7 +124,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<List<FilterViewModel>> GetFilters()
         {
-            string filterList = await _generwellServices.GetWebApiDetails(_appSettings.Filters, HttpContext.Session.GetString("AccessToken"));
+            string filterList = await _generwellServices.GetWebApiDetails(_appSettings.Filters, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             List<FilterViewModel> filterViewModel = JsonConvert.DeserializeObject<List<FilterViewModel>>(filterList);
             return filterViewModel;
         }
@@ -136,7 +136,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<ContactFieldsViewModel> GetContactDetails()
         {
-            string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.ContactDetails, HttpContext.Session.GetString("AccessToken"));
+            string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.ContactDetails, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             ContactFieldsViewModel contactFieldRecord = JsonConvert.DeserializeObject<ContactFieldsViewModel>(personnelRecord);
             return contactFieldRecord;
         }
@@ -151,13 +151,13 @@ namespace Generwell.Web.Controllers
             if (isFollow == GenerwellConstants.Constants.trueState)
             {
                 HttpContext.Session.SetString("IsFollow", GenerwellConstants.Constants.checkedState);
-                string response = await _generwellServices.PostWebApiData(_appSettings.Well + "/" + id + "/follow", HttpContext.Session.GetString("AccessToken"));
+                string response = await _generwellServices.PostWebApiData(_appSettings.Well + "/" + id + "/follow", HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return response;
             }
             else
             {
                 HttpContext.Session.SetString("IsFollow", GenerwellConstants.Constants.uncheckedState);
-                string response = await _generwellServices.DeleteWebApiData(_appSettings.Well + "/" + id + "/unfollow", HttpContext.Session.GetString("AccessToken"));
+                string response = await _generwellServices.DeleteWebApiData(_appSettings.Well + "/" + id + "/unfollow", HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return response;
             }
         }
@@ -169,7 +169,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<LineReportsViewModel> GetWellDetailsByReportId(string reportId)
         {
-            string wellDetailsList = await _generwellServices.GetWebApiWithTimeZone(_appSettings.Well + "/" + HttpContext.Session.GetString("WellId") + "/linereports/" + Encoding.UTF8.GetString(Convert.FromBase64String(reportId)), HttpContext.Session.GetString("AccessToken"));
+            string wellDetailsList = await _generwellServices.GetWebApiWithTimeZone(_appSettings.Well + "/" + HttpContext.Session.GetString("WellId") + "/linereports/" + Encoding.UTF8.GetString(Convert.FromBase64String(reportId)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             LineReportsViewModel wellDetailsViewModel = JsonConvert.DeserializeObject<LineReportsViewModel>(wellDetailsList);
             return wellDetailsViewModel;
         }
@@ -181,7 +181,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<TaskDetailsViewModel> GetTaskDetails()
         {
-            string taskDetailsList = await _generwellServices.GetWebApiDetails(_appSettings.TaskDetails + "/" + HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"));
+            string taskDetailsList = await _generwellServices.GetWebApiDetails(_appSettings.TaskDetails + "/" + HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             TaskDetailsViewModel taskdetailsViewModel = JsonConvert.DeserializeObject<TaskDetailsViewModel>(taskDetailsList);
             return taskdetailsViewModel;
         }
@@ -204,7 +204,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<List<TaskViewModel>> GetTasks()
         {
-            string taskList = await _generwellServices.GetWebApiDetails(_appSettings.Task, HttpContext.Session.GetString("AccessToken"));
+            string taskList = await _generwellServices.GetWebApiDetails(_appSettings.Task, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             List<TaskViewModel> taskViewModelList = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskList);
             return taskViewModelList;
         }
@@ -216,7 +216,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<List<TaskViewModel>> GetTasksByWellId()
         {
-            string taskRecord = await _generwellServices.GetWebApiDetails(_appSettings.Well + "/" + HttpContext.Session.GetString("WellId") + "/tasks", HttpContext.Session.GetString("AccessToken"));
+            string taskRecord = await _generwellServices.GetWebApiDetails(_appSettings.Well + "/" + HttpContext.Session.GetString("WellId") + "/tasks", HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             List<TaskViewModel> taskViewModelList = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskRecord);
             return taskViewModelList;
         }

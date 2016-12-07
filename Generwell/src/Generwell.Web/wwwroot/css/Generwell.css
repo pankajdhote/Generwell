@@ -24,6 +24,9 @@ body {
 .text-red {
     color: red;
 }
+.text-blue {
+    color: #1a355e;
+}
 
 .w-26 {
     width: 26% !important;

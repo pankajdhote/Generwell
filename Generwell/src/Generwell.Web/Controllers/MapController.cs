@@ -54,16 +54,18 @@ namespace Generwell.Web.Controllers
                 int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.Map.ToString());
-                List<MapViewModel> wellsByFilterId = await GetWellsByFilterId();
-                List<MapViewModel> wellsWithoutFilterId= await GetWellsWithoutFilterId();
-                
+
+                List<MapViewModel> wellsByFilterId=new List<MapViewModel>();
+                List<MapViewModel> wellsWithoutFilterId = new List<MapViewModel>();
+
                 #region Switch
                 switch (previousPageValue)
                 {
                     case 1:
 
-                        if (HttpContext.Session.GetString("myWellCheck") == GenerwellConstants.Constants.trueState && (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter"))))
+                        if (HttpContext.Session.GetString("myWellCheck") == GenerwellConstants.Constants.trueState && (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter")) && HttpContext.Session.GetString("defaultFilter")!="null"))
                         {
+                            wellsByFilterId = await GetWellsByFilterId();
                             if (wellsByFilterId.Count() > 0)
                             {
                                 mapViewModelList = wellsByFilterId.Where(w => w.isFavorite == Convert.ToBoolean(HttpContext.Session.GetString("myWellCheck"))).ToList();
@@ -71,17 +73,20 @@ namespace Generwell.Web.Controllers
                         }
                         else if (HttpContext.Session.GetString("myWellCheck") == GenerwellConstants.Constants.trueState)
                         {
+                            wellsWithoutFilterId = await GetWellsWithoutFilterId();
                             if (wellsWithoutFilterId.Count() > 0)
                             {
                                 mapViewModelList = wellsWithoutFilterId.Where(w => w.isFavorite == Convert.ToBoolean(HttpContext.Session.GetString("myWellCheck"))).ToList();
                             }
                         }
-                        else if (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter")))
+                        else if (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter")) && HttpContext.Session.GetString("defaultFilter") != "null")
                         {
+                            wellsByFilterId = await GetWellsByFilterId();
                             mapViewModelList = wellsByFilterId;
                         }
                         else
                         {
+                            wellsWithoutFilterId = await GetWellsWithoutFilterId();
                             mapViewModelList = wellsWithoutFilterId;
                         }                       
 
@@ -92,13 +97,16 @@ namespace Generwell.Web.Controllers
 
                         break;
                     case 2:
+                        wellsWithoutFilterId = await GetWellsWithoutFilterId();
                         mapViewModelList = wellsWithoutFilterId.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
                         break;
                     case 3:
+                        wellsWithoutFilterId = await GetWellsWithoutFilterId();
                         mapViewModelList = wellsWithoutFilterId.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
                         break;
                     case 4:
                     case 12:
+                        wellsWithoutFilterId = await GetWellsWithoutFilterId();
                         mapViewModelList = wellsWithoutFilterId;
                         break;
                     default:

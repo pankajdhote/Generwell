@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        wellDetailsPage.initialize(@Context.Session.GetString("WellId"));
+        wellDetailsPage.initialize();
     });
 </script>
 
@@ -26,11 +26,6 @@
                     <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Well Details</h4>
                     <label>Well: </label>  @Context.Session.GetString("WellName")
                 </div>
-                @*<div class="float-right pt-pb-20">
-                    <button id="backDetailsPageId" class="btn button" type="button" data-toggle="Back">Back</button>
-                    <button id="taskPageId" class="btn button" type="button" data-toggle="Tasks">Tasks</button>
-                    <button id="locationPageId" class="btn button" type="button" data-toggle="Map">Map</button>                    
-                </div>*@
                 <div id="followCheckDiv" class="i-checks chk border-bottom pt-pb-20">
                     <span class=""><input type="checkbox" id="followWellId" name="followWell" class="ui-checkboxradio-checked" @Context.Session.GetString("IsFollow")  value=""> Followed Wells<br></span>
                 </div>
@@ -75,8 +70,10 @@
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
                                     <td>@GenerwellConstants.Constants.NoData</td>
+                                    <td>@GenerwellConstants.Constants.NoData</td>
+                                    <td>@GenerwellConstants.Constants.NoData</td>
+                                    <td>@GenerwellConstants.Constants.NoData</td>
                                 </tr>
-
                             }
                         </tbody>
                     </table>                                       

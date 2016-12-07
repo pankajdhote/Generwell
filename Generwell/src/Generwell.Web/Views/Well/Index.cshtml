@@ -1,7 +1,6 @@
 ﻿@model List<Generwell.Web.ViewModels.WellViewModel>
 @using Microsoft.AspNetCore.Http;
 
-
 @{
     ViewBag.Title = "Well Listing";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,7 +22,9 @@
                     <span class=""><input type="checkbox" id="IsFavorite" name="IsFavorite" /><label class="ml-10">  My Wells</label></span>
                     <span class="float-right">
                         <label class="mr-20">Filter</label>
-                        @Html.DropDownList("FilterList", (IEnumerable<SelectListItem>)ViewBag.FilterList, "--Select--", new { @class = "form-control btn button dropdown dropdown-toggle w-10 mr-20" })
+                        <select id="FilterList" asp-items="@ViewBag.FilterList" class="form-control btn button dropdown dropdown-toggle w-10 mr-20">
+                            <option value="null">--Select--</option>
+                        </select>
                     </span>
                 </div>
                 <div id="wellTableDivId" class="ibox-content pt">

@@ -10,7 +10,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var targetUrl = '/WellDetails/Index/';
-        wellLineReportPage.initialize(targetUrl,"@Context.Session.GetString("WellId")");
+        wellLineReportPage.initialize(targetUrl);
     });
 </script>
 
@@ -60,11 +60,6 @@
                         </tbody>
                     </table>
                 </div>
-                @*<div>
-                    <button id="backLineReportId" class="btn button" type="button" data-toggle="Back">Back</button>
-                    <button id="taskPageId" class="btn button" type="button" data-toggle="Tasks">Tasks</button>
-                    <button id="locationPageId" class="btn button" type="button" data-toggle="Map">Map</button>                    
-                </div>*@
             </div>
         </div>
     </div>
