@@ -222,5 +222,18 @@
     },
     // Optinally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "Scripts/plugins/datepicker/bootstrap-datepicker.js",
+    "inputFiles": [
+      "Scripts/plugins/datepicker/bootstrap-datepicker.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
   }
 ]

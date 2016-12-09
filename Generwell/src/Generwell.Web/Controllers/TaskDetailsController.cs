@@ -21,7 +21,7 @@ namespace Generwell.Web.Controllers
     public class TaskDetailsController : BaseController
     {
 
-        private object numbers;
+       
 
         public TaskDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
         {
@@ -48,6 +48,7 @@ namespace Generwell.Web.Controllers
                 }
                 TaskDetailsViewModel taskdetailsViewModel = await GetTaskDetails();
                 taskdetailsViewModel.contactFields = await GetContactDetails();
+                //taskdetailsViewModel.LookupFields = await GetLookupFieldsDetails();
                 if (taskdetailsViewModel != null)
                 {
                     HttpContext.Session.SetString("FieldLevelId", taskdetailsViewModel.fieldLevelId.ToString());
@@ -60,6 +61,7 @@ namespace Generwell.Web.Controllers
                 throw ex;
             }
         }
+        
 
         /// <summary>
         /// Added by rohit
@@ -76,6 +78,7 @@ namespace Generwell.Web.Controllers
             {
                 string taskDetailsRecord = await UpdateTaskDetails(Content);
                 return View(taskDetailsRecord);
+              
             }
             catch (Exception ex)
             {

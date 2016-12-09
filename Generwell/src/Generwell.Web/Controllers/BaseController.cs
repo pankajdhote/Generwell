@@ -220,5 +220,20 @@ namespace Generwell.Web.Controllers
             List<TaskViewModel> taskViewModelList = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskRecord);
             return taskViewModelList;
         }
+
+        /// <summary>
+        /// Added by rohit
+        /// Date:-09-12-2016
+        /// Get Fields From web api by id.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<LookupFieldsViewModel> GetLookupFieldsDetails()
+        {
+            
+            string LookupFields = await _generwellServices.GetWebApiDetails(_appSettings.LookupFields, HttpContext.Session.GetString("AccessToken"));
+            LookupFieldsViewModel LookupFieldsItems = JsonConvert.DeserializeObject<LookupFieldsViewModel>(LookupFields);
+            return LookupFieldsItems;
+        }
+
     }
 }

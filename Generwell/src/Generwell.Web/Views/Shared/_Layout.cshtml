@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="~/css/Layout.css" rel="stylesheet" />
     <link href="~/css/followCheckbox.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-datepicker.css" rel="stylesheet" />
     <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -37,6 +38,7 @@
     <script src="~/js/icheck.min.js"></script>
     <script src="~/js/Picture/Picture.js"></script>
     <script src="~/js/Encryption.js"></script>
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
 
     @*for google map references*@
     <script async defer
@@ -44,6 +46,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
     <script src="~/js/Map/Map.js"></script>
+
 
     <style>
     </style>
@@ -84,6 +87,8 @@
     </div>
     <div>
         @RenderBody()
+    </div>
+    @*<div id="SaveSuccessDialog" title="Save success" style="overflow-y: hidden;overflow-x:hidden;border-bottom-width:5;background-color:#fff;display:none;">*@
     </div>
 </body>
 <!--TOP menuebar-->
