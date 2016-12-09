@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Text;
 using Generwell.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,8 +10,7 @@ using Generwell.Modules.Model;
 using System.Collections.Generic;
 using Generwell.Modules.Services;
 using Generwell.Modules.GenerwellConstants;
-using System;
-using System.Text;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,10 +20,12 @@ namespace Generwell.Web.Controllers
     {
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
-        public BaseController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices)
+        private readonly ILoggerFactory _loggerFactory;
+        public BaseController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ILoggerFactory loggerFactory)
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
+            _loggerFactory = loggerFactory;
         }
 
         /// <summary>
@@ -220,5 +222,6 @@ namespace Generwell.Web.Controllers
             List<TaskViewModel> taskViewModelList = JsonConvert.DeserializeObject<List<TaskViewModel>>(taskRecord);
             return taskViewModelList;
         }
+       
     }
 }

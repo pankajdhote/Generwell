@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Modules;
 using Generwell.Web.ViewModels;
-using Newtonsoft.Json;
-using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
-using Generwell.Modules.Global;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 using Generwell.Modules.Model;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
+    [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class TaskDetailsController : BaseController
     {
 
         private object numbers;
 
-        public TaskDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        public TaskDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ILoggerFactory loggerFactory) : base(appSettings, generwellServices, loggerFactory)
         {
         }
+
 
         /// <summary>
         /// Added by rohit

@@ -7,9 +7,17 @@ var taskPage = {
     },
     attachEvents: function (targetUrl, assignedName) {
         debugger;
-        createDatatable();
+        taskPage.createMyFilterCheckbox();
+        taskPage.createDatatable();
         myFilterDatatable(assignedName);
         redirectTaskDetails(targetUrl);
+    },
+    createMyFilterCheckbox: function () {
+        //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        });
     },
     createDatatable: function () {
         //create datatable

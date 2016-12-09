@@ -4,7 +4,9 @@
       "version": "1.0.1",
       "type": "platform"
     },
-    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
+    "Microsoft.AspNetCore.Diagnostics.Elm": "0.2.0",
+    "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.AspNetCore.Razor.Tools": "1.1.0-preview4-final",
     "Microsoft.Extensions.DependencyInjection": "1.0.0-*",
@@ -27,9 +29,17 @@
     "Microsoft.AspNetCore.Session": "1.0.0",
     "dnx-clr-win-x86": "1.0.0-rc1-update2",
     "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
-    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0"
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
+    "Microsoft.AspNetCore.Identity": "1.0.0",
+    "Elmah.Io.AspNetCore": "1.0.1-pre-22"
   },
-
+  "commands": {
+    "web": "Microsoft.AspNet.Server.Kestrel"
+  },
+  "frameworks": {
+    "dnx451": {},
+    "dnxcore50": {}
+  },
   "tools": {
     "BundlerMinifier.Core": "2.2.281",
     "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview2-final",
@@ -66,7 +76,7 @@
   },
 
   "scripts": {
-    "precompile": ["dotnet bundle"],
+    "precompile": [ "dotnet bundle" ],
     "prepublish": [ "bower install", "dotnet bundle" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   }

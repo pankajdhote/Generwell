@@ -10,15 +10,18 @@ using System.Text;
 using Generwell.Modules.Model;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
+    [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class WellLineReportController : BaseController
     {
-        public WellLineReportController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        public WellLineReportController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ILoggerFactory loggerFactory) : base(appSettings, generwellServices, loggerFactory)
         {
         }
 
