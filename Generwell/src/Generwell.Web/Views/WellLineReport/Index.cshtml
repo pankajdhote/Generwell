@@ -1,4 +1,4 @@
-﻿@model List<Generwell.Web.ViewModels.WellLineReportViewModel>
+﻿@model List<Generwell.Modules.ViewModels.WellLineReportViewModel>
 @using Microsoft.AspNetCore.Http;
 @using Generwell.Modules.GenerwellConstants;
 
@@ -10,7 +10,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var targetUrl = '/WellDetails/Index/';
-        wellLineReportPage.initialize(targetUrl,"@Context.Session.GetString("WellId")");
+        wellLineReportPage.initialize(targetUrl);
     });
 </script>
 
@@ -53,18 +53,13 @@
                             else
                             {
                                 <tr class="gradeU">
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-                @*<div>
-                    <button id="backLineReportId" class="btn button" type="button" data-toggle="Back">Back</button>
-                    <button id="taskPageId" class="btn button" type="button" data-toggle="Tasks">Tasks</button>
-                    <button id="locationPageId" class="btn button" type="button" data-toggle="Map">Map</button>                    
-                </div>*@
             </div>
         </div>
     </div>

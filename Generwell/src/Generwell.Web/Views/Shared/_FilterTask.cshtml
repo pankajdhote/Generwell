@@ -1,4 +1,4 @@
-﻿@model List<Generwell.Web.ViewModels.TaskViewModel>
+﻿@model List<Generwell.Modules.ViewModels.TaskViewModel>
 @using Generwell.Modules.GenerwellConstants;
 @using Microsoft.AspNetCore.Http;
 
@@ -32,7 +32,7 @@
                     <td>@item.id</td>
                     <td class="text-center" style="width:5%;">
                         @{
-                            if (@item.Completed == GenerwellConstants.Constants.Status)
+                            if (@item.Completed == Constants.Status)
                             {
                                 <img src="@Url.Content("~/images/active.png")" />
                             }
@@ -93,13 +93,13 @@
                             else
                             {
                                 <tr class="gradeU">
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
-                                    <td>@GenerwellConstants.Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
+                                    <td>@Constants.NoData</td>
                                 </tr>
 
                             }

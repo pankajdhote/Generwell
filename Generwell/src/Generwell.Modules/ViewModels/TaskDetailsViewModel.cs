@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Generwell.Web.ViewModels
+namespace Generwell.Modules.ViewModels
 {
     public class TaskDetailsViewModel
     {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Generwell.Web.ViewModels
+﻿namespace Generwell.Core.Model
 {
-    public class ContactFieldsViewModel
+    public class ContactFieldsModel
     {
         //need to implement later by rohit. do not remove.
         //public List<ContactSettingViewModel> settings;
@@ -22,10 +17,5 @@ namespace Generwell.Web.ViewModels
         public int? groups { get; set; }
         public string name { get; set; }
         public string url { get; set; }
-
-        public static explicit operator ContactFieldsViewModel(Task<ContactFieldsViewModel> v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

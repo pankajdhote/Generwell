@@ -1,6 +1,6 @@
 ﻿namespace Generwell.Modules.GenerwellConstants
 {
-    public class GenerwellConstants
+    public class Constants
     {
         /// <summary>
         /// Added by pankaj
@@ -8,14 +8,11 @@
         /// Declare constant variable to use globally
         /// </summary>
         /// <returns></returns>
-        public static class Constants
-        {
-            public const bool Status = true;
-            public const string NoData = "No Data";
-            public const string trueState = "true";
-            public const string falseState = "true";
-            public const string checkedState = "checked";
-            public const string uncheckedState = "unchecked";
-        }
+        public const bool Status = true;
+        public const string NoData = "No Data";
+        public const string trueState = "true";
+        public const string falseState = "true";
+        public const string checkedState = "checked";
+        public const string uncheckedState = "unchecked";
     }
 }

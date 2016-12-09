@@ -3,18 +3,24 @@
 var taskPage = {
 
     initialize: function (targetUrl, assignedName) {
-        debugger;
         taskPage.attachEvents(targetUrl, assignedName);
     },
     attachEvents: function (targetUrl, assignedName) {
         debugger;
-
+        taskPage.createMyFilterCheckbox();
+        taskPage.createDatatable();
+        myFilterDatatable(assignedName);
+        redirectTaskDetails(targetUrl);
+    },
+    createMyFilterCheckbox: function () {
         //Added for checkbox style
         $(".i-checks").iCheck({
             checkboxClass: "icheckbox_square-green",
             radioClass: "iradio_square-green"
         });
-        //create Generic datatable
+    },
+    createDatatable: function () {
+        //create datatable
         var dataTable = $('#taskListTableId').DataTable({
             "columnDefs": [
                 { "orderable": false, "targets": 0 },
@@ -31,6 +37,8 @@ var taskPage = {
                 },
             ],
         });
+    },
+    myFilterDatatable: function (assignedName) {
         //On checkbox click filter data tables rows
         var oTable = $('#taskListTableId').DataTable();
         $('.iCheck-helper').on("click", function () {
@@ -47,15 +55,16 @@ var taskPage = {
                   .draw();
             }
         });
-
+    },
+    redirectTaskDetails: function (targetUrl) {
         //On click of datatable row redirect to well line report page.
         $('#taskListTableId tbody').on('click', 'tr', function () {
             debugger;
             $('#processing-modal').modal("show");
+            var oTable = $('#taskListTableId').DataTable();
             var data = oTable.row(this).data();
             //Perform your navigation
             window.location.href = targetUrl + '?taskId=' + Base64.encode(data[0]) + '&taskName=' + Base64.encode(data[2]);
         });
-
     }
 }

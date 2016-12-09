@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Generwell.Web.ViewModels
+﻿namespace Generwell.Core.Model
 {
-    public class WellViewModel
+    public class WellModel
     {
         public int id { get; set; }
         public string bottomHoleLocation { get; set; }

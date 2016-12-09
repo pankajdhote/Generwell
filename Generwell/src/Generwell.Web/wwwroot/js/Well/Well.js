@@ -7,13 +7,54 @@ var wellPage = {
         wellPage.attachEvents(targetUrl);
     },
     attachEvents: function (targetUrl) {
-        debugger;       
+        debugger;
+        wellPage.createMyFilterCheckbox();
+        wellPage.createDatatable();
+        wellPage.filterByCheckbox();
+        wellPage.filterDatatableByDropdown();
+        wellPage.redirectEvent(targetUrl);
+        wellPage.wellFollowUnfollow();
+    },
+    myWellFilter: function () {
+        var oTable = $('#wellListTableId').DataTable();
+        if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
+            oTable
+              .columns(8)
+              .search("^" + "True" + "$", true, false, false)
+              .draw();
+        } else {
+            oTable
+              .columns(8)
+              .search("")
+              .draw();
+        }
+    },
+    filterByCheckbox: function () {
+        //On checkbox click filter data tables rows
+        var oTable = $('#wellListTableId').DataTable();
+        $('.iCheck-helper').on("click", function () {
+            debugger;
+            if ($(this).parent().attr("class").indexOf("checked") > -1) {
+                oTable
+                  .columns(8)
+                  .search("^" + "True" + "$", true, false, false)
+                  .draw();
+            } else {
+                oTable
+                  .columns(8)
+                  .search("")
+                  .draw();
+            }
+        });
+    },    
+    createMyFilterCheckbox: function () {
         //Added for checkbox style
         $(".i-checks").iCheck({
             checkboxClass: "icheckbox_square-green",
             radioClass: "iradio_square-green"
         });
-
+    },
+    createDatatable: function () {
         //create Generic datatable
         var dataTable = $('#wellListTableId').DataTable({
             "columnDefs": [
@@ -36,59 +77,9 @@ var wellPage = {
                 },
             ],
         });
-        //On checkbox click filter data tables rows
-        var oTable = $('#wellListTableId').DataTable();
-        $('.iCheck-helper').on("click", function () {
-            debugger;
-            if ($(this).parent().attr("class").indexOf("checked") > -1) {
-                oTable
-                  .columns(8)
-                  .search("^" + "True" + "$", true, false, false)
-                  .draw();
-            } else {
-                oTable
-                  .columns(8)
-                  .search("")
-                  .draw();
-            }
-        });
-        //On click of datatable row redirect to well line report page.
-        $('#wellListTableId tbody').on('click', 'tr td', function (event) {
-            debugger;
-            $('#processing-modal').modal("show");
-            if (event.currentTarget.children[0] != undefined) {
-                var wellId = parseInt(event.currentTarget.children[0].name);
-                var followChecked = event.currentTarget.children[0].id;
-
-                if (followChecked != undefined) {
-                    var filterId = $('#FilterList option:selected').val();
-                    $.ajax({
-                        url: '/Well/Follow',
-                        type: 'GET',
-                        dataType: 'html',
-                        cache: false,
-                        data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
-                        success: function (response) {
-                            debugger;
-                            if (response != undefined || response != "") {
-                                $("#wellTableDivId").html(response);
-                                //On checkbox click filter data tables rows
-                                wellPage.mywellFilter();
-                                $('#processing-modal').modal("hide");
-                            }
-                        }, error: function (err) {
-                        }
-                    });
-                }
-            } else {
-                var data = oTable.row($(this).parent()).data();
-                var url = targetUrl + '?wellId=' + Base64.encode(data[0]) + '&wellName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[8]);
-                window.location.href = url;
-            }
-        });
-
+    },
+    filterDatatableByDropdown: function () {
         //filter particular record on filter value
-        //Follow or unfollow particular well 
         $('#FilterList').unbind().bind("change", function () {
             debugger;
             $('#processing-modal').modal("show");
@@ -108,7 +99,7 @@ var wellPage = {
                         $("#wellTableDivId").html(data);
                         $('#processing-modal').modal("hide");
                         //On checkbox click filter data tables rows
-                        wellPage.mywellFilter();
+                        wellPage.myWellFilter();
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -117,40 +108,49 @@ var wellPage = {
             });
         });
     },
-
-    mywellFilter: function () {
+    redirectWellLineReportPage: function (targetUrl,event) {
+        //On click of datatable row redirect to well line report page.
         var oTable = $('#wellListTableId').DataTable();
-        if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
-            oTable
-              .columns(8)
-              .search("^" + "True" + "$", true, false, false)
-              .draw();
-        } else {
-            oTable
-              .columns(8)
-              .search("")
-              .draw();
-        }
+        var data = oTable.row($(event).parent()).data();
+        var url = targetUrl + '?wellId=' + Base64.encode(data[0]) + '&wellName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[8]);
+        window.location.href = url;
     },
-    followedWell: function (event) {
-        debugger;
-        var followChecked = event.id;
-        var wellId = event.name;
-        $('#processing-modal').modal("show");
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: '/Well/Follow',
-            async: false,
-            cache: false,
-            data: { isFollow: followChecked, wellId: wellId },
-            success: function (Data) {
-                debugger;
-                $('#processing-modal').modal("hide");
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                $('#processing-modal').modal("hide");
+    redirectEvent: function (targetUrl) {
+        //On click of datatable row redirect to well line report page.
+        $('#wellListTableId tbody').on('click', 'tr td', function (event) {
+            debugger;
+            $('#processing-modal').modal("show");
+            if (event.currentTarget.children[0] != undefined) {
+                wellPage.wellFollowUnfollow(event);
+            } else {
+                wellPage.redirectWellLineReportPage(targetUrl, this);
             }
         });
+    },
+    wellFollowUnfollow: function (event) {
+        var wellId = parseInt(event.currentTarget.children[0].name);
+        var followChecked = event.currentTarget.children[0].id;
+        if (followChecked != undefined) {
+            var filterId = $('#FilterList option:selected').val();
+            $.ajax({
+                url: '/Well/Follow',
+                type: 'POST',
+                dataType: 'html',
+                cache: false,
+                data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
+                success: function (response) {
+                    debugger;
+                    if (response != undefined || response != "") {
+                        $("#wellTableDivId").html(response);
+                        //On checkbox click filter data tables rows
+                        wellPage.myWellFilter();
+                        $('#processing-modal').modal("hide");
+                    }
+                }, error: function (err) {
+                }
+            });
+        }
     }
 }
+
+

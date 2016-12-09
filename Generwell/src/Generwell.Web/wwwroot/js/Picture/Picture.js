@@ -8,7 +8,9 @@ var picturePage = {
     },
     attachEvents: function () {
         debugger;
-
+        picturePage.addPicture();
+    },
+    addPicture: function () {
         $('#addPicture').click(function () {
             debugger;
             $.ajax({
@@ -18,13 +20,11 @@ var picturePage = {
                 cache: false,
                 success: function (response) {
                     debugger;
-                   
+
                 }, error: function (err) {
                     debugger;
                 }
             });
-
         });
-
     }
 }

@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Web.ViewModels;
-using Generwell.Modules.GenerwellEnum;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Generwell.Modules.ViewModels;
 using Generwell.Modules.Global;
 using Microsoft.AspNetCore.Http;
-using Generwell.Modules.Model;
 using Microsoft.Extensions.Options;
 using Generwell.Modules.Services;
+using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Generwell.Modules.Management;
+using Generwell.Core.Model;
+using Generwell.Modules.GenerwellConstants;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
+    [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class WellController : BaseController
     {
-        public WellController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        private readonly IWellManagement _wellManagement;
+        public WellController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
         {
+            _wellManagement = wellManagement;
         }
 
         /// <summary>
@@ -29,7 +34,7 @@ namespace Generwell.Web.Controllers
         /// Fetch all wells from web api and display on well list page.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]        
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             try
@@ -38,11 +43,10 @@ namespace Generwell.Web.Controllers
                 HttpContext.Session.SetString("previousPage", PageOrder.Welllisting.ToString());
                 //change active menu class
                 GlobalFields.SetMenu(Menu.Well.ToString());
-
                 //fill Filters dropdown list
-                List<FilterViewModel> filterViewModel = await GetFilters();
-                ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString()});
-                List<WellViewModel> wellList = await GetWells(null);
+                List<FilterViewModel> filterViewModel = await _wellManagement.GetFilters(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                List<WellViewModel> wellList = await _wellManagement.GetWells(null, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return View(wellList);
             }
             catch (Exception ex)
@@ -62,7 +66,7 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                List<WellViewModel> wellViewModel= await GetWells(id);
+                List<WellViewModel> wellViewModel = await _wellManagement.GetWells(id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return PartialView("_FilterWell", wellViewModel);
             }
             catch (Exception ex)
@@ -85,7 +89,7 @@ namespace Generwell.Web.Controllers
                 WellViewModel wellObj = new WellViewModel();
                 if (!string.IsNullOrEmpty(id))
                 {
-                    wellObj = await GetWellById(id);
+                    wellObj = await _wellManagement.GetWellById(id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 }
                 return View(wellObj);
             }
@@ -101,13 +105,21 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PartialViewResult> Follow(string isFollow,string wellId, string filterId=null)
+        public async Task<PartialViewResult> setFollowUnfollow(string isFollow, string wellId, string filterId)
         {
             try
             {
-                string response = await SetFollowUnfollow(isFollow, wellId);
+                if (isFollow == Constants.trueState)
+                {
+                    HttpContext.Session.SetString("IsFollow", Constants.checkedState);
+                }
+                else
+                {
+                    HttpContext.Session.SetString("IsFollow", Constants.uncheckedState);
+                }
+                string response = await _wellManagement.SetFollowUnfollow(isFollow, wellId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 //get filtered wells
-                List<WellViewModel> wellViewModel = await GetWells(filterId);
+                List<WellViewModel> wellViewModel = await _wellManagement.GetWells(filterId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return PartialView("_FilterWell", wellViewModel);
             }
             catch (Exception ex)

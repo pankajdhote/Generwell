@@ -7,6 +7,11 @@ var loginPage = {
     },
     attachEvents: function () {
         debugger;
+        loginPage.setFieldsForGoogleMap();
+        loginPage.validateForm();
+        loginPage.showSupportDialogBox();
+    },
+    setFieldsForGoogleMap:function(){
         //on page unload get datatable rows and store in collection
         $('#menu li').click(function () {
             debugger;
@@ -14,6 +19,9 @@ var loginPage = {
             var menuName = $(this).text().trim();
             if (menuName.indexOf("MAP") > -1) {
                 var filterId = $('#FilterList option:selected').val();
+                if (filterId.indexOf("Select") > -1) {
+                    filterId = null;
+                }
                 var isMyWell;
                 if ($('.iCheck-helper').parent().attr("class") != undefined && $('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
                     isMyWell = true;
@@ -36,6 +44,8 @@ var loginPage = {
                 });
             }
         });
+    },
+    validateForm:function(){
         //  Bind the event handler to the "submit" JavaScript event
         $('form').submit(function () {
             debugger;
@@ -55,6 +65,8 @@ var loginPage = {
             }
             $('#processing-modal').modal("show");
         });
+    },
+    showSupportDialogBox: function () {
         $('#supportId').click(function () {
             debugger;
             $('#processing-modal').modal("show");

@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Modules;
-using Generwell.Web.ViewModels;
-using Newtonsoft.Json;
-using Generwell.Modules.GenerwellConstants;
+using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellEnum;
 using Generwell.Modules.Global;
 using Microsoft.AspNetCore.Http;
-using Generwell.Modules.Model;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using Generwell.Core.Model;
+using Generwell.Modules.Management;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Generwell.Web.Controllers
 {
+    [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class TaskController : BaseController
     {
-        public TaskController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        private readonly ITaskManagement _taskManagement;
+        public TaskController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ITaskManagement taskManagement) : base(appSettings, generwellServices)
         {
+            _taskManagement = taskManagement;
         }
-        
+
+
         /// <summary>
         /// Added by rohit
         /// Date:- 15-11-2016
@@ -47,11 +51,11 @@ namespace Generwell.Web.Controllers
                     case 4:
                     case 5:
                     case 6:
-                        taskViewModel = await GetTasks();
+                        taskViewModel = await _taskManagement.GetTasks(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         break;
                     case 2:
                     case 3:
-                        taskViewModel = await GetTasksByWellId();
+                        taskViewModel = await _taskManagement.GetTasksByWellId(HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         break;
                     default:
                         break;

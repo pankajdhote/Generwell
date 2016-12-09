@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Generwell.Web.ViewModels
+namespace Generwell.Core.Model
 {
-    public class TaskFieldsViewModel
+    public class TaskFieldsModel
     {
         public int taskId { get; set; }
         public int keyId { get; set; }
@@ -39,6 +35,8 @@ namespace Generwell.Web.ViewModels
 
         [Required]
         public string displayValue { get; set; }
+
+       
 
     }
 }
