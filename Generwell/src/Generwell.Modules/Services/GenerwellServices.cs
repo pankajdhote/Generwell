@@ -171,7 +171,7 @@ namespace Generwell.Modules.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdateTaskData(string url, string accessToken, string[] Content)
+        public async Task<string> UpdateTaskData(string url, string accessToken, string tokenType, string[] Content)
         {
             try
             {

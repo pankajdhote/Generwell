@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Generwell.Modules.Model;
+using Generwell.Core.Model;
 using Generwell.Modules.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Elmah.Io.AspNetCore;
-using Elmah.Io.AspNetCore.ExceptionFormatters;
+using AutoMapper;
+using Generwell.Modules.Management;
+using System.Net;
+using Generwell.Modules.ViewModels;
 
 namespace Generwell.Web
 {
@@ -26,7 +28,7 @@ namespace Generwell.Web
         }
 
         public IConfigurationRoot Configuration { get; }
-
+      
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -36,6 +38,7 @@ namespace Generwell.Web
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
+
 
             //services.AddElm( /* options HERE */ options =>
             //{
@@ -52,19 +55,22 @@ namespace Generwell.Web
 
             //added for depenedency injection
             services.AddSingleton<IGenerwellServices, GenerwellServices>();
+            services.AddSingleton<IWellManagement, WellManagement>();
+            services.AddSingleton<ITaskManagement, TaskManagement>();
+
             var appSettings = Configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettingsModel>(appSettings);
-
-
         }
 
+        public IMapper Mapper { get; set; }
+        private MapperConfiguration MapperConfiguration { get; set; }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseSession();
-
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+           
 
             //app.UseElmahIo(
             //"API_KEY",

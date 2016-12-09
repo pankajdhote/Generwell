@@ -1,4 +1,4 @@
-﻿namespace Generwell.Modules.Model
+﻿namespace Generwell.Core.Model
 {
     public class AppSettingsModel
     {

@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Text;
+using Generwell.Core.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Web.ViewModels;
+using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Http;
-using System.Text;
-using Generwell.Modules.Model;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Generwell.Modules.Management;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,8 +22,10 @@ namespace Generwell.Web.Controllers
     [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class WellLineReportController : BaseController
     {
-        public WellLineReportController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ILoggerFactory loggerFactory) : base(appSettings, generwellServices, loggerFactory)
+        private readonly IWellManagement _wellManagement;
+        public WellLineReportController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
         {
+            _wellManagement = wellManagement;
         }
 
         /// <summary>
@@ -43,9 +46,9 @@ namespace Generwell.Web.Controllers
                 {
                     HttpContext.Session.SetString("WellId", Encoding.UTF8.GetString(Convert.FromBase64String(wellId)));
                     HttpContext.Session.SetString("WellName", Encoding.UTF8.GetString(Convert.FromBase64String(wellName)));
-                    HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == GenerwellConstants.Constants.trueState ? GenerwellConstants.Constants.checkedState : string.Empty);
+                    HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == Constants.trueState ? Constants.checkedState : string.Empty);
                 }
-                List<WellLineReportViewModel> wellLineReportViewModel = await GetWellLineReports();
+                List<WellLineReportViewModel> wellLineReportViewModel = await _wellManagement.GetWellLineReports(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return View(wellLineReportViewModel);
             }
             catch (Exception ex)
@@ -63,7 +66,7 @@ namespace Generwell.Web.Controllers
         public async Task<string> Follow(string isFollow)
         {
             string id = HttpContext.Session.GetString("WellId");
-            string response = await SetFollowUnfollow(isFollow, id);
+            string response = await _wellManagement.SetFollowUnfollow(isFollow, id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             return response;
         }
     }

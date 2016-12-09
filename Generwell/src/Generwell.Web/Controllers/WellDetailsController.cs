@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Web.ViewModels;
+using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Http;
-using Generwell.Modules.Model;
+using Generwell.Core.Model;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
+using Generwell.Modules.Management;
+using Generwell.Modules.GenerwellConstants;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,8 +19,10 @@ namespace Generwell.Web.Controllers
     [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class WellDetailsController : BaseController
     {
-        public WellDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ILoggerFactory loggerFactory) : base(appSettings, generwellServices, loggerFactory)
+        private readonly IWellManagement _wellManagement;
+        public WellDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
         {
+            _wellManagement = wellManagement;
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace Generwell.Web.Controllers
             {
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.WellDetails.ToString());
-                LineReportsViewModel wellDetailsViewModel = await GetWellDetailsByReportId(reportId);
+                LineReportsViewModel wellDetailsViewModel = await _wellManagement.GetWellDetailsByReportId(reportId, HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return View(wellDetailsViewModel.fields);
             }
             catch (Exception ex)
@@ -53,8 +56,17 @@ namespace Generwell.Web.Controllers
         {
             try
             {
+                //Need to change later
+                if (isFollow == Constants.trueState)
+                {
+                    HttpContext.Session.SetString("IsFollow", Constants.checkedState);
+                }
+                else
+                {
+                    HttpContext.Session.SetString("IsFollow", Constants.uncheckedState);
+                }
                 string id = HttpContext.Session.GetString("WellId");
-                string response = await SetFollowUnfollow(isFollow, id);
+                string response = await _wellManagement.SetFollowUnfollow(isFollow, id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return response;
             }
             catch (Exception)

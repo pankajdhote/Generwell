@@ -1,4 +1,4 @@
-﻿using Generwell.Modules.Model;
+﻿using Generwell.Core.Model;
 using Generwell.Modules.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ namespace Generwell.Web.Controllers
     [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class PictureController : BaseController
     {
-        public PictureController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ILoggerFactory loggerFactory) : base(appSettings, generwellServices, loggerFactory)
+        public PictureController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
         {
         }
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Generwell.Web.ViewModels
+namespace Generwell.Core.Model
 {
-    public class ContactSettingViewModel
+    public class ContactSettingModel
     {
         public int heartbeat { get; set; }
         public DateTime iosDateFormat { get; set; }

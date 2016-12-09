@@ -2,14 +2,14 @@
 using Generwell.Modules;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Generwell.Web.ViewModels;
+using Generwell.Modules.ViewModels;
 using Microsoft.AspNetCore.Http;
-using Generwell.Modules.Model;
 using Microsoft.Extensions.Options;
 using Generwell.Modules.Services;
 using System.Security.Claims;
 using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
+using Generwell.Core.Model;
+using Generwell.Modules.Management;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,8 +18,10 @@ namespace Generwell.Web.Controllers
 
     public class AccountsController : BaseController
     {
-        public AccountsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ILoggerFactory loggerFactory) : base(appSettings, generwellServices, loggerFactory)
+        private readonly IWellManagement _wellManagement;
+        public AccountsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
         {
+            _wellManagement = wellManagement;
         }
 
         /// <summary>

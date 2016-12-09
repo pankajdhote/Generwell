@@ -13,6 +13,7 @@ var wellPage = {
         wellPage.filterByCheckbox();
         wellPage.filterDatatableByDropdown();
         wellPage.redirectEvent(targetUrl);
+        wellPage.wellFollowUnfollow();
     },
     myWellFilter: function () {
         var oTable = $('#wellListTableId').DataTable();
