@@ -31,14 +31,6 @@ var mapPage = {
         var locations = result;
         var latitude;
         var longitude;
-        //set latitude and longitude
-        //if (locations[0] == undefined) {
-        //    latitude = 56.1304;
-        //    longitude = 106.3468;            
-        //} else {
-        //    latitude = locations[0].latitude;
-        //    longitude = locations[0].longitude;
-        //}
         if (navigator.geolocation) {
             var im = 'https://www.robotwoods.com/dev/misc/bluecircle.png';
             debugger;
@@ -77,7 +69,7 @@ var mapPage = {
                 strokeColor: '#1a355e',
                 strokeWeight: 20,
                 radius: 800,
-                scale: 20 //pixels
+                scale: 20
             },
             title: "Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
         });
@@ -122,7 +114,6 @@ var mapPage = {
                     });
                 }
             })(marker, i));
-
             google.maps.event.addListener(markerCurrentLocation, 'click', (function (markerCurrentLocation) {
                 return function () {
                     debugger;

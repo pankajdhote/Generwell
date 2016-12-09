@@ -121,7 +121,6 @@ namespace Generwell.Web.Controllers
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             #endregion
