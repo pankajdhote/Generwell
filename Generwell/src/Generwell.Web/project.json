@@ -4,8 +4,6 @@
       "version": "1.0.1",
       "type": "platform"
     },
-    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
-    "Microsoft.AspNetCore.Diagnostics.Elm": "0.2.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.AspNetCore.Razor.Tools": "1.1.0-preview4-final",
@@ -33,13 +31,6 @@
     "Microsoft.AspNetCore.Identity": "1.0.0",
     "Elmah.Io.AspNetCore": "1.0.1-pre-22",
     "AutoMapper": "5.2.0"
-  },
-  "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel"
-  },
-  "frameworks": {
-    "dnx451": {},
-    "dnxcore50": {}
   },
   "tools": {
     "BundlerMinifier.Core": "2.2.281",
