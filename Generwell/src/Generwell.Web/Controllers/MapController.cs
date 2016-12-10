@@ -23,11 +23,10 @@ namespace Generwell.Web.Controllers
     public class MapController : BaseController
     {
         private readonly IWellManagement _wellManagement;
-        public MapController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
+        public MapController(IWellManagement wellManagement) 
         {
             _wellManagement = wellManagement;
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 22-11-2016
@@ -42,7 +41,6 @@ namespace Generwell.Web.Controllers
             List<MapViewModel> mapViewModelList = new List<MapViewModel>();
             return View(mapViewModelList);
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 22-11-2016
@@ -128,7 +126,6 @@ namespace Generwell.Web.Controllers
             }
             #endregion
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 25-11-2016

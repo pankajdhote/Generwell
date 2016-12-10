@@ -20,11 +20,10 @@ namespace Generwell.Web.Controllers
     public class WellDetailsController : BaseController
     {
         private readonly IWellManagement _wellManagement;
-        public WellDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
+        public WellDetailsController(IWellManagement wellManagement)
         {
             _wellManagement = wellManagement;
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 15-11-2016
@@ -52,6 +51,7 @@ namespace Generwell.Web.Controllers
         /// follow or unfollow well by id
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task<string> Follow(string isFollow)
         {
             try

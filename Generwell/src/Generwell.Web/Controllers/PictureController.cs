@@ -12,17 +12,14 @@ namespace Generwell.Web.Controllers
     [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class PictureController : BaseController
     {
-        public PictureController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices) : base(appSettings, generwellServices)
+        public PictureController() 
         {
         }
-
-
         // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
-
         // GET: /<controller>/
         public IActionResult AddPicture()
         {

@@ -21,12 +21,10 @@ namespace Generwell.Web.Controllers
     public class TaskController : BaseController
     {
         private readonly ITaskManagement _taskManagement;
-        public TaskController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ITaskManagement taskManagement) : base(appSettings, generwellServices)
+        public TaskController(ITaskManagement taskManagement)
         {
             _taskManagement = taskManagement;
         }
-
-
         /// <summary>
         /// Added by rohit
         /// Date:- 15-11-2016

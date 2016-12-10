@@ -6,51 +6,94 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
     <meta name="viewport" content="width=device-width" />
 
-    <link href="~/css/Generwell.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
-    <link href="~/css/processing-model.css" rel="stylesheet" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/css/custom.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link href="~/css/Layout.css" rel="stylesheet" />
-    <link href="~/css/followCheckbox.css" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
+    <environment names="Development">
+        <link href="~/css/Generwell.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
+        <link href="~/css/processing-model.css" rel="stylesheet" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/css/custom.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="~/css/Layout.css" rel="stylesheet" />
+        <link href="~/css/followCheckbox.css" rel="stylesheet" />
+        <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    @*added for datatable*@
-    <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
-    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
-    <script src="~/Scripts/plugins/jeditable/jquery.jeditable.js"></script>
-    <script src="~/js/Well/Well.js"></script>
-    <script src="~/js/Task/Task.js"></script>
-    <script src="~/js/TaskDetails/TaskDetails.js"></script>
-    <script src="~/js/Login/Login.js"></script>
-    <script src="~/js/WellDetails/WellDetails.js"></script>
-    <script src="~/js/WellLineReport/WellLineReport.js"></script>
-    <script src="~/js/icheck.min.js"></script>
-    <script src="~/js/Picture/Picture.js"></script>
-    <script src="~/js/Encryption.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*added for datatable*@
+        <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
+        <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+        <script src="~/Scripts/plugins/jeditable/jquery.jeditable.js"></script>
+        <script src="~/js/Well/Well.js"></script>
+        <script src="~/js/Task/Task.js"></script>
+        <script src="~/js/TaskDetails/TaskDetails.js"></script>
+        <script src="~/js/Login/Login.js"></script>
+        <script src="~/js/WellDetails/WellDetails.js"></script>
+        <script src="~/js/WellLineReport/WellLineReport.js"></script>
+        <script src="~/js/icheck.min.js"></script>
+        <script src="~/js/Picture/Picture.js"></script>
+        <script src="~/js/Encryption.js"></script>
+        @*for google map references*@
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
+        <script src="~/js/Map/Map.js"></script>
+    </environment>
 
-    @*for google map references*@
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
-    <script src="~/js/Map/Map.js"></script>
+    <environment names="Staging,Production">
+        <link href="~/css/generwell.min.css" rel="stylesheet" />
+        <link href="~/css/site.min.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
+        <link href="~/css/processing-model.min.css" rel="stylesheet" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="~/css/custom.min.css" rel="stylesheet" />
+        <link href="~/css/layout.min.css" rel="stylesheet" />
+        <link href="~/css/followcheckbox.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        @*added for datatable*@
+        <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
+        <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+        <script src="~/Scripts/plugins/jeditable/jquery.jeditable.min.js"></script>
+        <script src="~/js/Well/well.min.js"></script>
+        <script src="~/js/Task/task.min.js"></script>
+        <script src="~/js/TaskDetails/taskdetails.min.js"></script>
+        <script src="~/js/Login/login.min.js"></script>
+        <script src="~/js/WellDetails/welldetails.min.js"></script>
+        <script src="~/js/WellLineReport/welllinereport.min.js"></script>
+        <script src="~/js/encryption.min.js"></script>
+        <script src="~/js/Picture/picture.min.js"></script>
+        <script src="~/js/icheck.min.js"></script>
+        @*for google map references*@
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
+        <script src="~/js/Map/map.min.js"></script>
+    </environment>
+
+  
 
     <style>
     </style>
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    
+
     <div id="menu" class="container-flude div-menu h-40">
         <div class="container">
             <div class="row">

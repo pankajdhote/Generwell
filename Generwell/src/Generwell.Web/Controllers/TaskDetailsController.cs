@@ -5,12 +5,9 @@ using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Http;
 using System.Text;
-using Generwell.Modules.Services;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using Generwell.Core.Model;
 using Generwell.Modules.Management;
+using Generwell.Modules.Management.GenerwellManagement;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,15 +16,14 @@ namespace Generwell.Web.Controllers
     [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
     public class TaskDetailsController : BaseController
     {
-
         private object numbers;
         private readonly ITaskManagement _taskManagement;
-        public TaskDetailsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, ITaskManagement taskManagement) : base(appSettings, generwellServices)
+        private readonly IGenerwellManagement _generwellManagement;
+        public TaskDetailsController(ITaskManagement taskManagement, IGenerwellManagement generwellManagement)
         {
             _taskManagement = taskManagement;
+            _generwellManagement = generwellManagement;
         }
-
-
         /// <summary>
         /// Added by rohit
         /// Date:- 15-11-2016
@@ -48,7 +44,7 @@ namespace Generwell.Web.Controllers
                     HttpContext.Session.SetString("TaskName", Encoding.UTF8.GetString(Convert.FromBase64String(taskName)));
                 }
                 TaskDetailsViewModel taskdetailsViewModel = await _taskManagement.GetTaskDetails(HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                taskdetailsViewModel.contactFields = await GetContactDetails();
+                taskdetailsViewModel.contactFields = await _generwellManagement.GetContactDetails(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 if (taskdetailsViewModel != null)
                 {
                     HttpContext.Session.SetString("FieldLevelId", taskdetailsViewModel.fieldLevelId.ToString());
@@ -61,7 +57,6 @@ namespace Generwell.Web.Controllers
                 throw ex;
             }
         }
-
         /// <summary>
         /// Added by rohit
         /// Date:- 29-11-2016
@@ -70,7 +65,6 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        //public async Task<ActionResult> UpdateTaskFields(string [] IdArray, string [] ValueArray, string Content)
         public async Task<ActionResult> UpdateTaskFields(string[] Content)
         {
             try

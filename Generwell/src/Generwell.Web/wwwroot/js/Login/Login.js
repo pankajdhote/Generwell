@@ -74,7 +74,7 @@ var loginPage = {
                 url: "/Accounts/Support",
                 type: "GET",
                 cache: false,
-                async: false,
+                async: true,
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 success: function (data) {

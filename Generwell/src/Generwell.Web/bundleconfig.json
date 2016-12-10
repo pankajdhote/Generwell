@@ -222,5 +222,18 @@
     },
     // Optinally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/scripts/plugins/jeditable/jquery.jeditable.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/plugins/jeditable/jquery.jeditable.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
   }
 ]

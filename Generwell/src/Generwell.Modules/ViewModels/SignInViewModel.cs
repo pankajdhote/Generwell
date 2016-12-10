@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Generwell.Modules.ViewModels
 {
@@ -15,5 +11,6 @@ namespace Generwell.Modules.ViewModels
         public string Server { get; set; }
         [Required(ErrorMessage = "Url is required")]
         public string WebApiUrl { get; set; }
+
     }
 }
