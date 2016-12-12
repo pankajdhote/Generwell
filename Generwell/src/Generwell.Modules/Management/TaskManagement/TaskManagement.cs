@@ -39,7 +39,7 @@ namespace Generwell.Modules.Management
         /// Update Task Details fields using patch api.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdateTaskDetails(string[] Content, string taskId, string accessToken, string tokenType)
+        public async Task<string> UpdateTaskDetails(string Content, string taskId, string accessToken, string tokenType)
         {
             string taskDetailsReecord = await _generwellServices.UpdateTaskData(_appSettings.TaskDetails + "/" + taskId, accessToken, tokenType, Content);
             return taskDetailsReecord;
