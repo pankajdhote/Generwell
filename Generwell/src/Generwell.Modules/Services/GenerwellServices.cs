@@ -127,7 +127,7 @@ namespace Generwell.Modules.Services
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
-                        string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     return responseString;
                 };
             }
@@ -171,7 +171,7 @@ namespace Generwell.Modules.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdateTaskData(string url, string accessToken, string tokenType, string[] Content)
+        public async Task<string> UpdateTaskData(string url, string accessToken, string tokenType, string Content)
         {
             try
             {
@@ -181,19 +181,21 @@ namespace Generwell.Modules.Services
                 hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
                 var method = new HttpMethod("PATCH");
-                string con = "";
-                for (int index = 0; index < Content.Length; index++)
-                {
-                    if (index == 0)
-                    {
-                        con = Content[index];
-                    }
-                    else
-                    {
-                        con += "," + Content[index];
-                    }
-                }
-                string body = "[" + con + "]";
+                //string con = "";
+                //for (int index = 0; index < Content.Length; index++)
+                //{
+                //    if (index == 0)
+                //    {
+                //        con = Content[index];
+                //    }
+                //    else
+                //    {
+                //        con += "," + Content[index];
+                //    }
+                //}
+                //string body = "[" + con + "]";
+                string replacedString = Content.Replace("\",\"", ",").Replace("\"]", "]").Replace("\"{","{");
+                string body = replacedString;
                 var request = new HttpRequestMessage(method, url)
                 {
                     Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
@@ -204,15 +206,10 @@ namespace Generwell.Modules.Services
                     string jsonresult = await hrm.Content.ReadAsStringAsync();
                     if (hrm.ReasonPhrase == "OK")
                     {
-                        //string msg = "data saved";
-                        //return msg;
-                      
+
                     }
                 }
-               
-                //return string.Empty;
                 return "true";
-
             }
             catch (Exception ex)
             {

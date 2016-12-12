@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.ViewModels;
-using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -61,16 +60,15 @@ namespace Generwell.Web.Controllers
         /// Added by rohit
         /// Date:- 29-11-2016
         /// to save fields data
-        /// 
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        //public async Task<ActionResult> UpdateTaskFields(string [] IdArray, string [] ValueArray, string Content)
-        public async Task<ActionResult> UpdateTaskFields(string[] Content)
+        [AllowAnonymous]
+        public async Task<ActionResult> UpdateTaskFields(string Content)
         {
             try
             {
-                string taskDetailsRecord = await _taskManagement.UpdateTaskDetails(Content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                string replacedContent = Content.Replace("\\","");
+                string taskDetailsRecord = await _taskManagement.UpdateTaskDetails(replacedContent, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return View(taskDetailsRecord);
               
             }
