@@ -40,7 +40,5 @@ namespace Generwell.Modules.ViewModels
         [Required]
         public string displayValue { get; set; }
 
-       
-
     }
 }
