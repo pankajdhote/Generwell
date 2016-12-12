@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,10 +9,8 @@ using Generwell.Core.Model;
 using Generwell.Modules.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 using Generwell.Modules.Management;
-using System.Net;
-using Generwell.Modules.ViewModels;
+using Generwell.Modules.Management.GenerwellManagement;
 
 namespace Generwell.Web
 {
@@ -28,7 +27,7 @@ namespace Generwell.Web
         }
 
         public IConfigurationRoot Configuration { get; }
-      
+       
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -38,14 +37,6 @@ namespace Generwell.Web
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
-
-
-            //services.AddElm( /* options HERE */ options =>
-            //{
-            //    options.Path = new PathString("/elm");
-            //    options.Filter = (name, level) => level >= LogLevel.Error;
-            //});
-
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession(options =>
             {
@@ -53,41 +44,22 @@ namespace Generwell.Web
                 options.CookieName = "Session";
             });
 
+            services.AddAutoMapper(); // <-- This is the line you add.
             //added for depenedency injection
             services.AddSingleton<IGenerwellServices, GenerwellServices>();
             services.AddSingleton<IWellManagement, WellManagement>();
             services.AddSingleton<ITaskManagement, TaskManagement>();
-
+            services.AddSingleton<IGenerwellManagement, GenerwellManagement>();
             var appSettings = Configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettingsModel>(appSettings);
         }
 
-        public IMapper Mapper { get; set; }
-        private MapperConfiguration MapperConfiguration { get; set; }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseSession();
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-           
-
-            //app.UseElmahIo(
-            //"API_KEY",
-            //new Guid("LOG_ID"),
-            //new ElmahIoSettings
-            //    {
-            //        ExceptionFormatter = new DefaultExceptionFormatter()
-            //    });
-
-            //app.Map("/Micotan", map =>
-            //{
-            //    app.UseElmPage();
-            //    app.UseElmCapture();
-            //    //app.UseIISPlatformHandler();
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseMvcWithDefaultRoute();
-            //});
 
             if (env.IsDevelopment())
             {
@@ -113,7 +85,6 @@ namespace Generwell.Web
                     name: "default",
                     template: "{controller=Accounts}/{action=Login}/{id?}");
             });
-
         }
     }
 }

@@ -14,18 +14,11 @@ namespace Generwell.Modules.Management
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
         private readonly IMapper _mapper;
-        public TaskManagement(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices)
+        public TaskManagement(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IMapper mapper)
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
-
-            //Need to changed later for dependency injection
-            MapperConfiguration MapperConfiguration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TaskModel, TaskViewModel>().ReverseMap();
-                cfg.CreateMap<TaskDetailsModel, TaskDetailsViewModel>().ReverseMap();
-            });
-            _mapper = MapperConfiguration.CreateMapper();
+            _mapper = mapper;
         }
         /// <summary>
         /// Added by pankaj

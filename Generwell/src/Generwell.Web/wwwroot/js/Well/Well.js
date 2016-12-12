@@ -13,7 +13,6 @@ var wellPage = {
         wellPage.filterByCheckbox();
         wellPage.filterDatatableByDropdown();
         wellPage.redirectEvent(targetUrl);
-        wellPage.wellFollowUnfollow();
     },
     myWellFilter: function () {
         var oTable = $('#wellListTableId').DataTable();
@@ -132,12 +131,14 @@ var wellPage = {
         var followChecked = event.currentTarget.children[0].id;
         if (followChecked != undefined) {
             var filterId = $('#FilterList option:selected').val();
+
             $.ajax({
-                url: '/Well/Follow',
-                type: 'POST',
+                type: 'GET',
                 dataType: 'html',
-                cache: false,
+                url: '/Well/SetFollowUnfollow',
+                //data: { id: filterId },
                 data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
+                cache: false,
                 success: function (response) {
                     debugger;
                     if (response != undefined || response != "") {
@@ -146,9 +147,30 @@ var wellPage = {
                         wellPage.myWellFilter();
                         $('#processing-modal').modal("hide");
                     }
-                }, error: function (err) {
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#processing-modal').modal("hide");
                 }
             });
+
+
+            //$.ajax({
+            //    url: '/Well/SetFollowUnfollow',
+            //    type: 'POST',
+            //    dataType: 'html',
+            //    cache: false,
+            //    data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
+            //    success: function (response) {
+            //        debugger;
+            //        if (response != undefined || response != "") {
+            //            $("#wellTableDivId").html(response);
+            //            //On checkbox click filter data tables rows
+            //            wellPage.myWellFilter();
+            //            $('#processing-modal').modal("hide");
+            //        }
+            //    }, error: function (err) {
+            //    }
+            //});
         }
     }
 }

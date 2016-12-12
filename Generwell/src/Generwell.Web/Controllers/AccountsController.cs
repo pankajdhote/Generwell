@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using Generwell.Core.Model;
 using Generwell.Modules.Management;
+using Generwell.Modules.Management.GenerwellManagement;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,11 +20,12 @@ namespace Generwell.Web.Controllers
     public class AccountsController : BaseController
     {
         private readonly IWellManagement _wellManagement;
-        public AccountsController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
+        private readonly IGenerwellManagement _generwellManagement;
+        public AccountsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement)
         {
             _wellManagement = wellManagement;
+            _generwellManagement = generwellManagement;
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 10-11-2016
@@ -37,7 +39,6 @@ namespace Generwell.Web.Controllers
             SignInViewModel signInModel = new SignInViewModel();
             return View(signInModel);
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 10-11-2016
@@ -51,14 +52,14 @@ namespace Generwell.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    AccessTokenViewModel accessTokenViewModel = await AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
+                    AccessTokenViewModel accessTokenViewModel = await _generwellManagement.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
                     if (accessTokenViewModel.access_token != null)
                     {
                         //store access token in session
                         HttpContext.Session.SetString("AccessToken", accessTokenViewModel.access_token);
                         HttpContext.Session.SetString("TokenType", accessTokenViewModel.token_type);
                         //Fetch user name from api/v{apiVersion}/personnel/current api and disaply on every page.
-                        ContactFieldsViewModel contactFieldRecord = await GetContactDetails();
+                        ContactFieldsViewModel contactFieldRecord = await _generwellManagement.GetContactDetails(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         string userName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
                         HttpContext.Session.SetString("UserName", userName);
                         TempData["ServerError"] = string.Empty;
@@ -83,7 +84,6 @@ namespace Generwell.Web.Controllers
                 return RedirectToAction("Error","Accounts");
             }
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 10-11-2016
@@ -93,10 +93,9 @@ namespace Generwell.Web.Controllers
         [HttpGet]
         public async Task<PartialViewResult> Support()
         {
-            ContactFieldsViewModel contactFieldRecord = await GetContactDetails();
-            return PartialView("_Support", contactFieldRecord);
+            SupportViewModel supportViewModel = await _generwellManagement.GetSupportDetails();
+            return PartialView("_Support", supportViewModel);
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 21-11-2016
@@ -110,7 +109,6 @@ namespace Generwell.Web.Controllers
             await HttpContext.Authentication.SignOutAsync("MyCookieMiddlewareInstance");
             return RedirectToAction("Login");
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 21-11-2016
@@ -129,7 +127,6 @@ namespace Generwell.Web.Controllers
             await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", principal);
             return string.Empty;
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 08-12-2016

@@ -56,13 +56,14 @@ var wellLineReportPage = {
             debugger;
             var followChecked = $('#followCheckDiv').find('div').hasClass('checked');
             $('#processing-modal').modal("show");
+           
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 dataType: 'json',
                 url: '/WellLineReport/Follow',
                 data: { isFollow: followChecked },
                 cache: false,
-                success: function (Data) {
+                success: function (data) {
                     debugger;
                     $('#processing-modal').modal("hide");
                 },
@@ -70,6 +71,7 @@ var wellLineReportPage = {
                     $('#processing-modal').modal("hide");
                 }
             });
+
         });
     }
 }

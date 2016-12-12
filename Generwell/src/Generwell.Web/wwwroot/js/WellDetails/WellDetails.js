@@ -56,12 +56,12 @@ var wellDetailsPage = {
             var followChecked = $('#followCheckDiv').find('div').hasClass('checked');
             $('#processing-modal').modal("show");
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 dataType: 'json',
                 url: '/WellDetails/Follow',
                 data: { isFollow: followChecked },
                 cache: false,
-                success: function (Data) {
+                success: function (data) {
                     debugger;
                     $('#processing-modal').modal("hide");
                 },

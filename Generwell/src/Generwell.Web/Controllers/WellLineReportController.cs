@@ -23,11 +23,10 @@ namespace Generwell.Web.Controllers
     public class WellLineReportController : BaseController
     {
         private readonly IWellManagement _wellManagement;
-        public WellLineReportController(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IWellManagement wellManagement) : base(appSettings, generwellServices)
+        public WellLineReportController(IWellManagement wellManagement)
         {
             _wellManagement = wellManagement;
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 15-11-2016
@@ -56,15 +55,24 @@ namespace Generwell.Web.Controllers
                 throw ex;
             }
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 14-11-2016
         /// follow or unfollow well by id
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task<string> Follow(string isFollow)
         {
+            //Need to change later
+            if (isFollow == Constants.trueState)
+            {
+                HttpContext.Session.SetString("IsFollow", Constants.checkedState);
+            }
+            else
+            {
+                HttpContext.Session.SetString("IsFollow", Constants.uncheckedState);
+            }
             string id = HttpContext.Session.GetString("WellId");
             string response = await _wellManagement.SetFollowUnfollow(isFollow, id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             return response;
