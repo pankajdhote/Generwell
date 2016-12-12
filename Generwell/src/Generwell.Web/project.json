@@ -30,8 +30,16 @@
     "Microsoft.AspNetCore.Session": "1.0.0",
     "dnx-clr-win-x86": "1.0.0-rc1-update2",
     "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
-    "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
+    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
+
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
+    "Microsoft.Extensions.Options": "1.0.0",
+    "Microsoft.IdentityModel.Protocols": "2.0.0",
+
     "AutoMapper": "5.2.0"
+
+
+
   },
   "tools": {
     "BundlerMinifier.Core": "2.2.281",
