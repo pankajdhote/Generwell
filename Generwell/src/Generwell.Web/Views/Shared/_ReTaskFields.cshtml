@@ -1,38 +1,35 @@
-﻿@model List<Generwell.Web.ViewModels.TaskFieldsViewModel>
-@using Generwell.Modules.GenerwellConstants;
+﻿@model List<Generwell.Modules.ViewModels.TaskFieldsViewModel>
 @using Microsoft.AspNetCore.Http;
+@using Generwell.Modules.GenerwellConstants;
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 <script type="text/javascript">
     $(document).ready(function () {
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
-        //$(".form_datetime").datetimepicker({ format: 'yyyy-mm-dd hh:ii' });
         $('.datepicker').datepicker({ format: 'M dd,yyyy' }); //Initialise any date pickers
     });
     var ids = $('.clsedit').map(function () {
         return this.id;
     }).get();
+
 </script>
+
+
 @if (Model.Count() > 0)
             {
     @foreach (var item in Model)
     {
-
         @if (@item.fieldControlType != 2)
                     {
             @if (@item.permissionId == 2 || @item.permissionId == 9)
                         {
                 @Html.HiddenFor(model => @item.fieldId, new
            { id = "FieldId" });
-
             }
         }
     }
 }
+
 <table id="taskDetailsListTableId1" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
         <tr>
@@ -43,11 +40,11 @@
             <th>Display Value<i class="fa fa-fw fa-sort"></i></th>
         </tr>
     </thead>
+
     <tbody>
         @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
         @if (Model.Count() > 0)
         {
-
             int count = 1;
             @foreach (var item in Model)
             {
@@ -57,7 +54,6 @@
                     {
                         @:<tr class="gradeU">
                             <td><b>@item.fieldDesc</b></td>
-
                             @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
@@ -175,8 +171,6 @@
                             }
                             @if (@item.fieldTypeId == 14)
                             {
-                                //int imagecount = Int32.Parse(item.displayValue);
-                                //int n = Convert.ToInt32(@item.displayValue);@((int)myDecimal)
                                 @if (item.displayValue.TrimStart() == "0.0")
                                 {
 
@@ -244,6 +238,8 @@
                                 }
                             </td>
                         }
+
+
                         @if (@item.fieldTypeId == 4)
                             {
                             <td class="displayValue1">
@@ -316,8 +312,6 @@
                         }
                         @if (@item.fieldTypeId == 14)
                         {
-                            //int imagecount = Int32.Parse(item.displayValue);
-                            //int n = Convert.ToInt32(@item.displayValue);@((int)myDecimal)
                             @if (item.displayValue.TrimStart() == "0.0")
                                 {
 
@@ -326,6 +320,7 @@
                                         <span>0 Photo(s)</span>
                                     </a>
                                 </td>
+
                             }
                             else
                             {
@@ -336,7 +331,7 @@
                                 </td>
                             }
                         }
-                        @:</tr>
+                    @:</tr>
                     }
                 }
                 count++;
@@ -345,9 +340,9 @@
         else
         {
             <tr class="gradeU">
-                <td class="displayValue1">@GenerwellConstants.Constants.NoData</td>
-                <td class="displayValue1">@GenerwellConstants.Constants.NoData</td>
-                <td class="displayValue1">@GenerwellConstants.Constants.NoData</td>
+                <td class="displayValue1">@Constants.NoData</td>
+                <td class="displayValue1">@Constants.NoData</td>
+                <td class="displayValue1">@Constants.NoData</td>
             </tr>
         }
 
@@ -355,10 +350,9 @@
     </tbody>
 </table>
 <div>
-    @*<button id="SaveTaskFieldDetailsId2" type="submit" name="Save" value="Save"  class="btn button taskdetailsbuttons" title="Complete"></button>*@
     <input id="SaveTaskFieldDetailsId2" type="submit" name="Save" value="Complete" class="btn button taskdetailsbuttons" title="Complete">
 </div>
-<div id="dialog1" title="Confirmation" hidden="hidden">
+<div id="dialog1" title="Dialog Title" hidden="hidden">
     <button id="Complete_Yes" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Yes</button>
     <button id="Complete_No" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">No</button>
 </div>

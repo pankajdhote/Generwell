@@ -4,7 +4,7 @@ namespace Generwell.Core.Model
 {
     public class TaskDetailsModel
     {
-        
+
         public string id { get; set; }
         public int taskId { get; set; }
         public int keyId { get; set; }
@@ -21,14 +21,14 @@ namespace Generwell.Core.Model
         public int? taskIconId { get; set; }
         public string assigneeName { get; set; }
         public string groupName { get; set; }
-       
+
         public List<TaskFieldsModel> fields;
         public string name { get; set; }
         public string url { get; set; }
-
         public ContactFieldsModel contactFields { get; set; }
-
         public TaskFieldsUpdateModel TaskFields { get; set; }
-       
+        public LookupFieldsModel LookupFields { get; set; }
+        public LookupFieldsItemsModel LookupFieldsItems { get; set; }
+
     }
 }

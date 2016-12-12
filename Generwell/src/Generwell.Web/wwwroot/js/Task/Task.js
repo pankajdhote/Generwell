@@ -9,8 +9,8 @@ var taskPage = {
         debugger;
         taskPage.createMyFilterCheckbox();
         taskPage.createDatatable();
-        myFilterDatatable(assignedName);
-        redirectTaskDetails(targetUrl);
+        taskPage.myFilterDatatable(assignedName);
+        taskPage.redirectTaskDetails(targetUrl);
     },
     createMyFilterCheckbox: function () {
         //Added for checkbox style

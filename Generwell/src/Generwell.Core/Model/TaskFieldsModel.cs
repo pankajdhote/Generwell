@@ -36,7 +36,7 @@ namespace Generwell.Core.Model
         [Required]
         public string displayValue { get; set; }
 
-       
+
 
     }
 }
