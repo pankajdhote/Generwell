@@ -33,8 +33,6 @@ namespace Generwell.Modules.ViewModels
         public int fieldComma { get; set; }
         public int? fieldIdParent { get; set; }
         public int? albumMaxCount { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public string value { get; set; }
 
         [Required]

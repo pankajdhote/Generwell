@@ -5,54 +5,24 @@ var TaskDetailsPage = {
     initialize: function (taskId, targetUrl) {
         debugger;
         TaskDetailsPage.attachEvents(taskId, targetUrl);
-        
     },
     attachEvents: function (taskId, targetUrl) {
         debugger;
-        TaskDetailsPage.updateTaskFields();
-        TaskDetailsPage.completeTask();
         TaskDetailsPage.completeEvent();
+        TaskDetailsPage.updateTaskFields();
+        TaskDetailsPage.createMyFilterCheckbox();
     },
     updateTaskFields: function () {
         $("#SaveTaskFieldDetailsId").click(function () {
             debugger;
-            $('#processing-modal').modal("show");
-            var IdArray = [];
-            var ValueArray = [];
-            var Content = []
-            var count = 0;
-            $('.clsedit').each(function () {
-                var htmlType = $(this).prop('tagName')
-                //var fieldTypeId = document.getElementById("fieldTypeId").value;
-                if (htmlType == 'SELECT') {
-                    var txt = $(this).find(":selected").val();
-                    IdArray.push(this.id);
-                    ValueArray.push(txt);
-                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                }
-                else if (htmlType == 'INPUT') {
-                    IdArray.push(this.id);
-                    ValueArray.push(this.value);
-
-                    if (this.name == "date2") {
-                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  1481020522  }");
-                    }
-                    else if (this.name == "checkbox") {
-                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + ValueArray[count] + "   }");
-                    }
-                    else {
-                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                    }
-                }
-                count++;
-            });
+            var Content = TaskDetailsPage.getViewData();
             TaskDetailsPage.callUpdateTask(Content);
         });
     },
     completeTask: function () {
-        $("#Complete_Yes").click(function () {
-            TaskDetailsPage.updateTaskFields();
-        });
+        var Content = TaskDetailsPage.getViewData();
+        $('#processing-modal').modal("hide");
+        TaskDetailsPage.callUpdateTask(Content);
     },
     callUpdateTask: function (Content) {
         $.ajax({
@@ -63,7 +33,7 @@ var TaskDetailsPage = {
             cache: false,
             success: function (data, status, xhr) {
                 debugger;
-                $('#processing-modal').modal("show");
+                $('#processing-modal').modal("hide");
             },
             error: function (xhr) {
                 debugger;
@@ -72,24 +42,67 @@ var TaskDetailsPage = {
         });
     },
     completeEvent: function () {
-        $(function () {
-            $("#SaveTaskFieldDetailsId2").click(function () {
+        $('#completeTask').click(function () {
+            debugger;
+            swal({
+                title: "Task Complete",
+                text: "YES/NO complete Re-activated task?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#cf7f00",
+                confirmButtonText: "Yes, update it!",
+                closeOnConfirm: false
+            },
+            function () {
                 debugger;
-                $("#dialog1").dialog('open');
+                $('#processing-modal').modal("hide");
+                TaskDetailsPage.completeTask();
+                swal("updated!", "Data updated successfully", "success");
             });
         });
-        $(function () {
-            $("#SaveTaskFieldDetailsId2").click(function () {
-                $("#dialog1").dialog('open');
-            });
+    },
+    getViewData: function () {
+        $('#processing-modal').modal("show");
+        var IdArray = [];
+        var ValueArray = [];
+        var Content = [];
+        var count = 0;
+        $('.clsedit').each(function () {
+            var htmlType = $(this).prop('type');
+            if (htmlType == 'select') {
+                var txt = $(this).find(":selected").val();
+                IdArray.push(this.id);
+                ValueArray.push(txt);
+                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+            }
+            else if (htmlType == 'text') {
+                IdArray.push(this.id);
+                ValueArray.push(this.value);
+
+                if (this.name == "date") {
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count])/1000 + "  }");
+                }               
+                else {
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                }
+            }
+            else if (htmlType == "checkbox") {
+                IdArray.push(this.id);
+                ValueArray.push(this.value);
+                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + $(this).prop('checked') + "   }");
+            }
+            count++;
         });
-        $("#Complete_No").click(function () {
+
+        return Content;
+    },
+    createMyFilterCheckbox: function () {
+        //Added for checkbox style
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
         });
-        $("#taskDetailsListTableId1").change(function () {
-            document.getElementById("SaveTaskFieldDetailsId2").value = "Save";
-            document.getElementById("SaveTaskFieldDetailsId2").id = "SaveTaskFieldDetailsId";
-        });
-    }
+    },
 }
 
 

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Generwell.Modules.Management;
+using Generwell.Modules.Global;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -40,6 +41,8 @@ namespace Generwell.Web.Controllers
             {
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.WellLineReports.ToString());
+                //change active menu class
+                GlobalFields.SetMenu(Menu.Well.ToString());
 
                 if (!string.IsNullOrEmpty(wellId))
                 {

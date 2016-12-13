@@ -13,6 +13,7 @@
         public string TaskDetails { get; set; }
         public string ContactDetails { get; set; }
         public string LookupFields { get; set; }
+        public string Dictionaries { get; set; }
 
     }
 }

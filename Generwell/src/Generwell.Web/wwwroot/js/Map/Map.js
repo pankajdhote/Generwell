@@ -63,13 +63,12 @@ var mapPage = {
             map: initialMap,
             icon: {
                 path: google.maps.SymbolPath.CIRCLE,
-                fillOpacity: 0.5,
-                fillColor: '#cf7f00',
-                strokeOpacity: 1.0,
-                strokeColor: '#1a355e',
-                strokeWeight: 20,
-                radius: 800,
-                scale: 20
+                fillOpacity: 1,
+                fillColor: '#1a355e',
+                strokeOpacity: 0.5,
+                strokeColor: '#98BFEB',
+                strokeWeight:60,
+                scale: 25
             },
             title: "Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
         });
@@ -174,13 +173,12 @@ var mapPage = {
                     map: initialMap,
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
-                        fillOpacity: 0.5,
-                        fillColor: '#cf7f00',
-                        strokeOpacity: 1.0,
-                        strokeColor: '#1a355e',
-                        strokeWeight: 20,
-                        radius: 800,
-                        scale: 20 //pixels
+                        fillOpacity: 1,
+                        fillColor: '#1a355e',
+                        strokeOpacity: 0.5,
+                        strokeColor: '#98BFEB',
+                        strokeWeight: 60,
+                        scale: 25
                     }
                 }),
                 pinB = new google.maps.Marker({
@@ -273,13 +271,12 @@ var mapPage = {
                     map: initialMap,
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
-                        fillOpacity: 0.5,
-                        fillColor: '#cf7f00',
-                        strokeOpacity: 1.0,
-                        strokeColor: '#1a355e',
-                        strokeWeight: 20,
-                        radius: 800,
-                        scale: 20
+                        fillOpacity: 1,
+                        fillColor: '#1a355e',
+                        strokeOpacity: 0.5,
+                        strokeColor: '#98BFEB',
+                        strokeWeight: 60,
+                        scale: 25
                     }
                 }),
                 pinB = new google.maps.Marker({
