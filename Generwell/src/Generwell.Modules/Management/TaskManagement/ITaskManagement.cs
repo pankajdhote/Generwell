@@ -13,5 +13,6 @@ namespace Generwell.Modules.Management
         Task<string> UpdateTaskDetails(string Content, string taskId, string accessToken, string tokenType);
         Task<List<TaskViewModel>> GetTasks(string accessToken, string tokenType);
         Task<List<TaskViewModel>> GetTasksByWellId(string wellId, string accessToken, string tokenType);
+        Task<List<DictionaryViewModel>> GetDictionaries(string accessToken, string tokenType);
     }
 }

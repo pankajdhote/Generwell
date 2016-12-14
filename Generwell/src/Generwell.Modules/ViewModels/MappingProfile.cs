@@ -24,7 +24,11 @@ namespace Generwell.Modules.ViewModels
             CreateMap<TaskFieldsUpdateModel, TaskFieldsUpdateViewModel>();
             CreateMap<LookupFieldsModel, LookupFieldsViewModel>();
             CreateMap<LookupFieldsItemsModel, LookupFieldsItemsViewModel>();
-            
+
+            CreateMap<DictionaryModel, DictionaryViewModel>();
+            CreateMap<DictionaryItemsModel, DictionaryItemsViewModel>();
+
+
         }
     }
 }

@@ -6,11 +6,7 @@ using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellEnum;
 using Generwell.Modules.Global;
 using Microsoft.AspNetCore.Http;
-using Generwell.Modules.Services;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using Generwell.Core.Model;
 using Generwell.Modules.Management;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860

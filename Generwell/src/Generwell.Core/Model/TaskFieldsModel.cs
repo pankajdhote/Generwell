@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Generwell.Core.Model
 {
@@ -29,10 +30,8 @@ namespace Generwell.Core.Model
         public int fieldComma { get; set; }
         public int? fieldIdParent { get; set; }
         public int? albumMaxCount { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public string value { get; set; }
-
+       
         [Required]
         public string displayValue { get; set; }
 

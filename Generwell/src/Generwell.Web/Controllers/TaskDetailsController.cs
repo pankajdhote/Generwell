@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -49,6 +52,10 @@ namespace Generwell.Web.Controllers
                     HttpContext.Session.SetString("FieldLevelId", taskdetailsViewModel.fieldLevelId.ToString());
                     HttpContext.Session.SetString("KeyId", taskdetailsViewModel.keyId.ToString());
                 }
+                //fill Dictionaries dropdown list
+                List<DictionaryViewModel> filterViewModel = await _taskManagement.GetDictionaries(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                ViewBag.Dictionaries = filterViewModel;
+
                 return View(taskdetailsViewModel);
             }
             catch (Exception ex)
@@ -63,14 +70,13 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        public async Task<ActionResult> UpdateTaskFields(string Content)
+        public async Task<string> UpdateTaskFields(string Content)
         {
             try
             {
                 string replacedContent = Content.Replace("\\","");
-                string taskDetailsRecord = await _taskManagement.UpdateTaskDetails(replacedContent, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                return View(taskDetailsRecord);
-              
+                string taskDetailsResponse = await _taskManagement.UpdateTaskDetails(replacedContent, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                return taskDetailsResponse;
             }
             catch (Exception ex)
             {

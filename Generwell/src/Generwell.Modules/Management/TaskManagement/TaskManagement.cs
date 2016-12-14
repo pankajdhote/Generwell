@@ -4,6 +4,7 @@ using Generwell.Modules.Services;
 using Generwell.Modules.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -69,6 +70,27 @@ namespace Generwell.Modules.Management
             List<TaskModel> taskModelList = JsonConvert.DeserializeObject<List<TaskModel>>(taskRecord);
             List<TaskViewModel> taskdetailsViewModel = _mapper.Map<List<TaskViewModel>>(taskModelList);
             return taskdetailsViewModel;
+        }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-13-12-2016
+        /// Fetch all dictionaries from web api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<DictionaryViewModel>> GetDictionaries(string accessToken, string tokenType)
+        {
+            try
+            {
+                string filterList = await _generwellServices.GetWebApiDetails(_appSettings.Dictionaries, accessToken, tokenType);
+                List<DictionaryModel> dictionaryModel = JsonConvert.DeserializeObject<List<DictionaryModel>>(filterList);
+                List<DictionaryViewModel> dictionaryViewModel = _mapper.Map<List<DictionaryViewModel>>(dictionaryModel);
+                return dictionaryViewModel;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
