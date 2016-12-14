@@ -1,4 +1,4 @@
-﻿@*@model List<Generwell.Web.ViewModels.WellViewModel>*@
+﻿@model Generwell.Modules.ViewModels.AlbumViewModel
 @using Microsoft.AspNetCore.Http;
 @{
     ViewBag.Title = "Pictures";
@@ -22,7 +22,7 @@
                     <input id="addPicture" type="button" class="btn button float-right mt-17" name="Add" value="Add" />
                 </div>
                 <div id="pictureDiv" class="ibox-content pt">
-                    @Html.Partial("_Picture")
+                    @Html.Partial("_Picture",Model.pictures)
                 </div>
             </div>
         </div>

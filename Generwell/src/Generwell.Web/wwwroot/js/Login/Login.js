@@ -11,7 +11,7 @@ var loginPage = {
         loginPage.validateForm();
         loginPage.showSupportDialogBox();
     },
-    setFieldsForGoogleMap:function(){
+    setFieldsForGoogleMap: function () {
         //on page unload get datatable rows and store in collection
         $('#menu li').click(function () {
             debugger;
@@ -19,7 +19,7 @@ var loginPage = {
             var menuName = $(this).text().trim();
             if (menuName.indexOf("MAP") > -1) {
                 var filterId = $('#FilterList option:selected').val();
-                if (filterId.indexOf("Select") > -1) {
+                if (filterId != undefined && filterId.indexOf("Select") > -1) {
                     filterId = null;
                 }
                 var isMyWell;
@@ -33,8 +33,8 @@ var loginPage = {
                     dataType: 'html',
                     url: '/Map/SetGooleMapObjects',
                     async: false,
-                    cache:false,
-                    data: { isMyWell: isMyWell, filterId: filterId},
+                    cache: false,
+                    data: { isMyWell: isMyWell, filterId: filterId },
                     success: function (data) {
                         debugger;
                     },
@@ -45,7 +45,7 @@ var loginPage = {
             }
         });
     },
-    validateForm:function(){
+    validateForm: function () {
         //  Bind the event handler to the "submit" JavaScript event
         $('form').submit(function () {
             debugger;

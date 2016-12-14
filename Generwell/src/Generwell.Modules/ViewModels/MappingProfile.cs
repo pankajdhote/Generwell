@@ -27,6 +27,8 @@ namespace Generwell.Modules.ViewModels
 
             CreateMap<DictionaryModel, DictionaryViewModel>();
             CreateMap<DictionaryItemsModel, DictionaryItemsViewModel>();
+            CreateMap<PictureModel, PictureViewModel>();
+            CreateMap<AlbumModel, AlbumViewModel>();
 
 
         }

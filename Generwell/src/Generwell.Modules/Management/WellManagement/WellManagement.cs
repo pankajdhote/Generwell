@@ -23,6 +23,12 @@ namespace Generwell.Modules.Management
             _generwellServices = generwellServices;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-01-12-2016
+        /// Fetch all well from web api.
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<WellViewModel>> GetWells(string id, string accessToken, string tokenType)
         {
             try
@@ -50,7 +56,7 @@ namespace Generwell.Modules.Management
         /// <summary>
         /// Added by pankaj
         /// Date:-01-12-2016
-        /// Fetch all well from web api.
+        /// Fetch well by id from web api.
         /// </summary>
         /// <returns></returns>
         public async Task<WellViewModel> GetWellById(string id, string accessToken, string tokenType)

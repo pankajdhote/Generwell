@@ -63,12 +63,10 @@
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
                                         <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" disabled />
-                                        @*@Html.TextBoxFor(m => date2, new { @class = "clsedit datepicker", @id = @item.fieldId, @name = @item.fieldTypeId, @Readonly = "Readonly" })*@
                                     }
                                     else
                                     {
                                         <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" />
-                                        @*@Html.TextBoxFor(m => date2, new { @class = "clsedit datepicker", @id = @item.fieldId, @name = @item.fieldTypeId })*@
                                     }
                                 </td>
                             }
@@ -113,12 +111,10 @@
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
                                         <input type="number" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" disabled />
-                                        @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit", @type = "number", @Readonly = "Readonly" })*@
                                     }
                                     else
                                     {
                                         <input type="number" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" />
-                                        @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit", @type = "number" })*@
                                     }
                                 </td>
                             }
@@ -130,12 +126,10 @@
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
                                         <input type="number" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" disabled />
-                                        @*@Html.TextBoxFor(model => @item.value, new { @Max = "100", @id = @item.fieldId, @class = "clsedit", @Readonly = "Readonly" })*@
                                     }
                                     else
                                     {
                                         <input type="number" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" />
-                                        @*@Html.TextBoxFor(model => @item.value, new { @Max = "100", @id = @item.fieldId, @class = "clsedit" })*@
                                     }
                                 </td>
                             }
@@ -147,12 +141,10 @@
                                         @if (@item.value.ToString() == "0.0")
                                         {
                                             <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" disabled />
-                                            @*@Html.CheckBox("checkbox", false, new { @id = @item.fieldId, @class = "clsedit" })*@
                                         }
                                         @if (@item.value.ToString() == "1.0")
                                         {
                                             <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
-                                            @*@Html.CheckBox("checkbox", true, new { @id = @item.fieldId, @class = "clsedit" })*@
                                         }
                                     }
                                 </td>
@@ -164,12 +156,10 @@
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
                                         <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" disabled />
-                                        @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @Max = "100", @class = "clsedit", @Readonly = "Readonly" })*@
                                     }
                                     else
                                     {
                                         <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" />
-                                        @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @Max = "100", @class = "clsedit" })*@
                                     }
                                 </td>
                             }
@@ -177,7 +167,6 @@
                             {
                                 <td class="displayValue1">
                                     <label id="@item.fieldId" asp-for="@item.value" class="form-control clsedit"></label>
-                                    @*@Html.DisplayFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit" })*@
                                 </td>
                             }
 
@@ -185,7 +174,6 @@
                             {
                                 <td class="displayValue1">
                                     <label id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit"></label>
-                                    @*@Html.DisplayFor(model => @item.displayValue, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit" })*@
                                 </td>
                             }
                             @if (@item.fieldTypeId == 10)
@@ -194,12 +182,10 @@
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
                                         <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" disabled />
-                                        @*@Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit", @Readonly = "Readonly" })*@
                                     }
                                     else
                                     {
                                         <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
-                                        @*@Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit" })*@
                                     }
                                 </td>
                             }
@@ -207,17 +193,22 @@
                             {
                                 @if (item.displayValue.TrimStart() == "0.0")
                                 {
-
                                     <td class="displayValue1">
-                                        <a href="@Url.Action("model => 0", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
-                                            <span>0 Photo(s)</span>
+                                        <a asp-controller="Picture"
+                                           asp-action="Index"
+                                           asp-route-id="@item.value"
+                                           id="@item.fieldId">
+                                            <span>@item.displayValue Photo(s)</span>
                                         </a>
                                     </td>
                                 }
                                 else
                                 {
                                     <td class="displayValue1">
-                                        <a href="@Url.Action("model =>  @item.displayValue", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
+                                        <a asp-controller="Picture"
+                                           asp-action="Index"
+                                           asp-route-id="@item.value"
+                                           id="@item.fieldId">
                                             <span>@item.displayValue Photo(s)</span>
                                         </a>
                                     </td>
@@ -228,29 +219,26 @@
                     {
                         <td><b>@item.fieldDesc</b></td>
 
-                        @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
+                        @if (item.fieldTypeId == 1 || item.fieldTypeId == 8)
                         {
-
                             DateTime startDate = new DateTime(1970, 1, 2);
                             DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
                             string date2 = date.ToString("MMM dd,yyyy");
                             <td class="displayValue1">
-                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                                @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
                                     <input type="date" asp-for="@date2" name="date" id="@item.fieldId" class="form-control clsedit datepicker" disabled />
-                                    @*@Html.TextBoxFor(m => date2, new { @class = "clsedit datepicker", @id = @item.fieldId, @name = @item.fieldTypeId, @Readonly = "Readonly" })*@
                                 }
                                 else
                                 {
                                     <input type="date" asp-for="@date2" name="date" id="@item.fieldId" class="form-control clsedit datepicker" />
-                                    @*@Html.TextBoxFor(m => date2, new { @class = "clsedit datepicker", @id = @item.fieldId, @name = @item.fieldTypeId })*@
                                 }
                             </td>
                         }
-                        @if (item.fieldTypeId == 2 || @item.fieldTypeId == 6)
+                        @if (item.fieldTypeId == 2 || item.fieldTypeId == 6)
                             {
                             @:<td class="displayValue1">
-                                List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
+                            List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
                             List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
                             if (dictionaryItemsList.Count > 0)
                             {
@@ -286,47 +274,41 @@
                         @if (item.fieldTypeId == 3)
                             {
                             <td class="displayValue1">
-                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                                @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
                                     <input type="number" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" disabled />
-                                    @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit", @type = "number", @Readonly = "Readonly" })*@
                                 }
                                 else
                                 {
                                     <input type="number" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" />
-                                    @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit", @type = "number" })*@
                                 }
                             </td>
                         }
                         @if (item.fieldTypeId == 4)
                             {
                             <td class="displayValue1">
-                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                                @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
                                     <input asp-for="@item.value" type="number" id="@item.fieldId" class="form-control clsedit" max="100" disabled />
-                                    @*@Html.TextBoxFor(model => @item.value, new { @Max = "100", @id = @item.fieldId, @class = "clsedit", @Readonly = "Readonly" })*@
                                 }
                                 else
                                 {
                                     <input asp-for="@item.value" type="number" id="@item.fieldId" class="form-control clsedit" max="100" />
-                                    @*@Html.TextBoxFor(model => @item.value, new { @Max = "100", @id = @item.fieldId, @class = "clsedit" })*@
                                 }
                             </td>
                         }
                         @if (item.fieldTypeId == 5)
                             {
                             <td class="displayValue1 i-checks chk">
-                                @if (@item.value != null)
+                                @if (item.value != null)
                                 {
-                                    @if (@item.value.ToString() == "0.0")
+                                    @if (item.value.ToString() == "0.0")
                                     {
                                         <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" disabled />
-                                        @*@Html.CheckBox("checkbox", false, new { @id = @item.fieldId, @class = "clsedit" })*@
                                     }
-                                    @if (@item.value.ToString() == "1.0")
+                                    @if (item.value.ToString() == "1.0")
                                     {
                                         <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
-                                        @*@Html.CheckBox("checkbox", true, new { @id = @item.fieldId, @class = "clsedit" })*@
                                     }
                                 }
                             </td>
@@ -338,12 +320,10 @@
                                 @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
                                     <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" disabled />
-                                    @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @Max = "100", @class = "clsedit", @Readonly = "Readonly" })*@
                                 }
                                 else
                                 {
                                     <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" />
-                                    @*@Html.TextBoxFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @Max = "100", @class = "clsedit" })*@
                                 }
                             </td>
                         }
@@ -351,15 +331,12 @@
                             {
                             <td class="displayValue1">
                                 <label id="@item.fieldId" asp-for="@item.value" class="form-control clsedit"></label>
-                                @*@Html.DisplayFor(model => @item.value, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit" })*@
                             </td>
                         }
-
                         @if (@item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
                             {
                             <td class="displayValue1">
                                 <label id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit"></label>
-                                @*@Html.DisplayFor(model => @item.displayValue, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit" })*@
                             </td>
                         }
                         @if (@item.fieldTypeId == 10)
@@ -368,12 +345,10 @@
                                 @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
                                     <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" disabled />
-                                    @*@Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit", @Readonly = "Readonly" })*@
                                 }
                                 else
                                 {
                                     <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
-                                    @*@Html.TextBoxFor(model => @item.displayValue, new { @name = "textbox1", @id = @item.fieldId, @class = "clsedit" })*@
                                 }
                             </td>
                         }
@@ -381,18 +356,22 @@
                         {
                             @if (item.displayValue.TrimStart() == "0.0")
                                 {
-
                                 <td class="displayValue1">
-                                    <a href="@Url.Action("model => 0", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
-                                        <span>0 Photo(s)</span>
+                                    <a asp-controller="Picture"
+                                       asp-action="Index"
+                                       asp-route-id="@item.value"
+                                       id="@item.fieldId">
+                                        <span>@item.displayValue Photo(s)</span>
                                     </a>
                                 </td>
-
                             }
                             else
                             {
                                 <td class="displayValue1">
-                                    <a href="@Url.Action("model =>  @item.displayValue", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
+                                    <a asp-controller="Picture"
+                                       asp-action="Index"
+                                       asp-route-id="@item.value"
+                                       id="@item.fieldId">
                                         <span>@item.displayValue Photo(s)</span>
                                     </a>
                                 </td>
@@ -412,8 +391,6 @@
                 <td class="displayValue1">@Constants.NoData</td>
             </tr>
         }
-
-
     </tbody>
 </table>
 <div>

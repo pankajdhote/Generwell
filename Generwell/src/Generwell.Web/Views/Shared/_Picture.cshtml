@@ -1,4 +1,4 @@
-﻿@*@model List<Generwell.Web.ViewModels.WellViewModel>*@
+﻿@model List<Generwell.Modules.ViewModels.PictureViewModel>
 @using Generwell.Modules.GenerwellConstants;
 
 <script type="text/javascript">
@@ -8,31 +8,16 @@
 </script>
 
 
-<table id="wellListTableId" class="table-striped table table-bordered table-hover wellListDataTable dataTable no-footer" style="width:100%;">
+<table id="picture" class="table-striped table table-bordered table-hover dataTable no-footer" style="width:100%;">
     <thead>
-        <tr>
-            <th>Id<i class="fa fa-fw fa-sort"></i></th>
-            <th class="text-center">Followed Wells<i class=""></i></th>
-            <th>Well Name<i class="fa fa-fw fa-sort"></i></th>
-            <th class="text-center">Bottomhole Location<i class="fa fa-fw fa-sort"></i></th>
-            <th class="text-center">Surface Location<i class="fa fa-fw fa-sort"></i></th>
-            <th class="text-center">Active Task Count<i class="fa fa-fw fa-sort"></i></th>
-            <th class="text-center">Lattitude<i class="fa fa-fw fa-sort"></i></th>
-            <th class="text-center">Longitude<i class="fa fa-fw fa-sort"></i></th>
-            <th class="text-center">IsFavorite<i class="fa fa-fw fa-sort"></i></th>
-        </tr>
+        <tr></tr>
     </thead>
     <tbody>
         <tr class="gradeU">
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
-            <td>@Constants.NoData</td>
+             @foreach (var pictureItem in Model)
+             {
+                    <td><img src="" alt="company logo" asp-append-version="true" /></td>
+            }
         </tr>
     </tbody>
 </table>

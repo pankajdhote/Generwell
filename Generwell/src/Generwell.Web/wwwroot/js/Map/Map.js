@@ -126,6 +126,11 @@ var mapPage = {
         var markerCluster = new MarkerClusterer(initialMap, markers, {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
         });
+
+        if (locations.length==0)
+        {
+            mapPage.showAlert();
+        }
     },
     showDirection: function (location) {
         //Show directions for wells from current position.
@@ -312,15 +317,17 @@ var mapPage = {
     },
     showAlert: function () {
         //if location not found then show alert popup
-        $('#alert').modal("show");
-        $('#alertHeader').text('Asset Location');
-        $('#alertBody').text('No location information available for this asset. The map will only show your current location');
+        swal("Asset Location", "No location information available for this asset. The map will only show your current location.")
+        //$('#alert').modal("show");
+        //$('#alertHeader').text('Asset Location');
+        //$('#alertBody').text('No location information available for this asset. The map will only show your current location');
     },
     showRouteAlert: function () {
         //if location not found then show alert popup
-        $('#alert').modal("show");
-        $('#alertHeader').text('Route Information');
-        $('#alertBody').text('Route is not available for your destination from your current location.');
+        swal("Route Information", "Route is not available for your destination from your current location.")
+        //$('#alert').modal("show");
+        //$('#alertHeader').text('Route Information');
+        //$('#alertBody').text('Route is not available for your destination from your current location.');
     }
 
 }
