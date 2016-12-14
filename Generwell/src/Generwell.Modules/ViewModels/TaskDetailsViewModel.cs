@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Generwell.Modules.ViewModels
 {
     public class TaskDetailsViewModel
     {
-        
         public string id { get; set; }
         public int taskId { get; set; }
         public int keyId { get; set; }
