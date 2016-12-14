@@ -47,6 +47,7 @@ namespace Generwell.Web.Controllers
                 }
                 TaskDetailsViewModel taskdetailsViewModel = await _taskManagement.GetTaskDetails(HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 taskdetailsViewModel.contactFields = await _generwellManagement.GetContactDetails(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                //taskdetailsViewModel.contactInformation = await _generwellManagement.GetContactInformation(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 if (taskdetailsViewModel != null)
                 {
                     HttpContext.Session.SetString("FieldLevelId", taskdetailsViewModel.fieldLevelId.ToString());

@@ -10,6 +10,7 @@ namespace Generwell.Modules.Management.GenerwellManagement
     {
         Task<AccessTokenViewModel> AuthenticateUser(string userName, string password, string webApiUrl);
         Task<ContactFieldsViewModel> GetContactDetails(string accessToken, string tokenType);
+        Task<ContactFieldsViewModel> GetContactInformation(string accessToken, string tokenType);
         Task<SupportViewModel> GetSupportDetails();
     }
 }

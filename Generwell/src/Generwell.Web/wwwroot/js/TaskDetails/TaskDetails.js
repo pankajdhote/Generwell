@@ -17,6 +17,7 @@ var TaskDetailsPage = {
             debugger;
             var Content = TaskDetailsPage.getViewData();
             TaskDetailsPage.callUpdateTask(Content);
+            
         });
     },
     completeTask: function () {
@@ -32,6 +33,10 @@ var TaskDetailsPage = {
             datatype: "json",
             cache: false,
             success: function (data, status, xhr) {
+                //swal("updated!", "Data updated successfully", "success");
+                $('#newCmpMessage').show();
+                setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
+            
                 debugger;
                 $('#processing-modal').modal("hide");
             },
@@ -69,7 +74,8 @@ var TaskDetailsPage = {
         var count = 0;
         $('.clsedit').each(function () {
             var htmlType = $(this).prop('type');
-            if (htmlType == 'select') {
+            if (htmlType == 'select-one') {
+                debugger;
                 var txt = $(this).find(":selected").val();
                 IdArray.push(this.id);
                 ValueArray.push(txt);
@@ -81,7 +87,10 @@ var TaskDetailsPage = {
 
                 if (this.name == "date") {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count])/1000 + "  }");
-                }               
+                }
+                else if (this.name == "number") {
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                }
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
                 }
@@ -95,6 +104,7 @@ var TaskDetailsPage = {
         });
 
         return Content;
+       
     },
     createMyFilterCheckbox: function () {
         //Added for checkbox style
