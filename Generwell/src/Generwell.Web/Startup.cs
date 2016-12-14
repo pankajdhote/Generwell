@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
+using Generwell.Modules.Management.PictureManagement;
 
 namespace Generwell.Web
 {
@@ -50,6 +51,8 @@ namespace Generwell.Web
             services.AddSingleton<IWellManagement, WellManagement>();
             services.AddSingleton<ITaskManagement, TaskManagement>();
             services.AddSingleton<IGenerwellManagement, GenerwellManagement>();
+            services.AddSingleton<IPictureManagement, PictureManagement>();
+
             var appSettings = Configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettingsModel>(appSettings);
         }

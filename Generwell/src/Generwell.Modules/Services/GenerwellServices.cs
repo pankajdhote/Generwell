@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 
 namespace Generwell.Modules.Services
 {
@@ -128,6 +130,38 @@ namespace Generwell.Modules.Services
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    return responseString;
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by Pankaj
+        /// Date:- 12-11-2016
+        /// Get data from web api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> GetWebApiDetailsArray(string url, string accessToken, string tokenType)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    if (accessToken != null)
+                    {
+                        client.DefaultRequestHeaders.Clear();
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                    }
+                    HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
+                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    //byte[] pictureByteArray = Encoding.ASCII.GetBytes(responseString);
+
+                    //compress byte array
+                    //var base64 = Convert.ToBase64String(pictureByteArray);
+                    //var imgSrc = String.Format("data:image/jpeg;base64,{0}", responseString);
                     return responseString;
                 };
             }

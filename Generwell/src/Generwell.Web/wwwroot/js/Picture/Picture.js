@@ -9,6 +9,7 @@ var picturePage = {
     attachEvents: function () {
         debugger;
         picturePage.addPicture();
+
     },
     addPicture: function () {
         $('#addPicture').click(function () {
