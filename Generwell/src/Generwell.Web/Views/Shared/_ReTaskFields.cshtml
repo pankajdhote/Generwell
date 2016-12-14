@@ -81,20 +81,27 @@
                                 @:<td class="displayValue1">
                                 List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
                                 List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
-                                ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                                if (dictionaryItemsList.Count > 0)
+                                {
+                                    ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                                }
+                                else
+                                {
+                                    ViewBag.Dictionaries = dictionaryItemsList;
+                                }
                                 @if (item.value != null)
                                 {
                                     <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
                                         <option>Please select one</option>
-                                        @foreach (var dictItem in dictionaryItemsList[0])
+                                        @foreach (var dictItem in ViewBag.Dictionaries)
                                         {
-                                            if (Convert.ToDouble(dictItem.id).ToString() == item.value.ToString())
+                                            if (Convert.ToDouble(dictItem.Value).ToString() == item.value.ToString())
                                             {
-                                                <option selected value="@dictItem.id">@dictItem.name</option>
+                                                <option selected value="@dictItem.Value">@dictItem.Text</option>
                                             }
                                             else
                                             {
-                                                <option value="@dictItem.id">@dictItem.name</option>
+                                                <option value="@dictItem.Value">@dictItem.Text</option>
                                             }
                                         }
                                     </select>
@@ -251,20 +258,27 @@
                             @:<td class="displayValue1">
                                 List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
                             List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s=>s.items).ToList();
-                            ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                            if (dictionaryItemsList.Count > 0)
+                            {
+                                ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                            }
+                            else
+                            {
+                                ViewBag.Dictionaries = dictionaryItemsList;
+                            }
                                 @if (item.value != null)
                                 {                                  
                                     <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
                                     <option>Please select one</option>
-                                        @foreach (var dictItem in dictionaryItemsList[0])
+                                        @foreach (var dictItem in ViewBag.Dictionaries)
                                         {
-                                            if (dictItem.id.ToString() == Convert.ToDouble(item.value).ToString())
+                                            if (dictItem.Value.ToString() == Convert.ToDouble(item.value).ToString())
                                             {
-                                                <option selected value="@dictItem.id">@dictItem.name</option>
+                                                <option selected value="@dictItem.Value">@dictItem.Text</option>
                                             }
                                             else
                                             {
-                                                <option value="@dictItem.id">@dictItem.name</option>
+                                                <option value="@dictItem.Value">@dictItem.Text</option>
                                             }
                                         }
                                     </select>
