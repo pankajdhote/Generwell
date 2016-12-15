@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Generwell.Modules.ViewModels;
+using System.Text;
+using System;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,10 +27,11 @@ namespace Generwell.Web.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index(string id)
         {
-            AlbumModel albumModel = await _pictureManagement.GetPictureAlbum(id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+            AlbumModel albumModel = await _pictureManagement.GetPictureAlbum(Encoding.UTF8.GetString(Convert.FromBase64String(id)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             AlbumViewModel albumViewModel = _mapper.Map<AlbumViewModel>(albumModel);
-            return View(albumViewModel);
+            return View("Index", albumViewModel);
         }
+       
         // GET: /<controller>/
         public IActionResult AddPicture()
         {

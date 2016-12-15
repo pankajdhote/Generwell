@@ -4,7 +4,6 @@ using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Generwell.Modules.Management.PictureManagement
@@ -33,11 +32,11 @@ namespace Generwell.Modules.Management.PictureManagement
         {
             try
             {
-                string albumData = await _generwellServices.GetWebApiDetails(_appSettings.PictureAlbum + "/" + Convert.ToDouble(id), accessToken, tokenType);
+                string albumData = await _generwellServices.GetWebApiDetails(_appSettings.PictureAlbum + "/" + id, accessToken, tokenType);
                 AlbumModel albumRecord = JsonConvert.DeserializeObject<AlbumModel>(albumData);
                 foreach (PictureModel item in albumRecord.pictures)
                 {
-                    item.picture = await _generwellServices.GetWebApiDetailsArray(item.fileUrl, accessToken, tokenType);
+                    item.picture = await _generwellServices.GetWebApiDetailsBytes(item.fileUrl, accessToken, tokenType);
                 }
                 return albumRecord;
             }
@@ -46,8 +45,5 @@ namespace Generwell.Modules.Management.PictureManagement
                 throw ex;
             }
         }
-
-
-
     }
 }

@@ -24,6 +24,7 @@ body {
 .text-red {
     color: red;
 }
+
 .text-blue {
     color: #1a355e;
 }
@@ -156,6 +157,11 @@ p {
 .border {
     border: 1px solid !important;
     border-color: #eeeeee !important;
+}
+
+.border-blue {
+    border: 1px solid !important;
+    border-color: #1a355e !important;
 }
 
 table.dataTable {
@@ -365,3 +371,24 @@ height:244% !important;
 .mt-17 {
     margin-top: -17px;
 }
+
+
+.lightBoxGallery img {
+    margin: 5px;
+    vertical-align: middle;
+    border: 0;
+    height: 200px;
+    width: 200px;
+}
+
+.wh-150 {
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.wh-130 {
+    width: 130px !important;
+    height: 130px !important;
+}
+
+

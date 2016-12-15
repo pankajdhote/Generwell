@@ -13,6 +13,6 @@ namespace Generwell.Core.Model
         public string comment { get; set; }
         public string fileUrl { get; set; }
         public string url { get; set; }
-        public string picture { get; set; }
+        public byte[] picture { get; set; }
     }
 }

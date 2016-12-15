@@ -194,23 +194,26 @@
                                 @if (item.displayValue.TrimStart() == "0.0")
                                 {
                                     <td class="displayValue1">
-                                        <a asp-controller="Picture"
+                                        <a id="@item.fieldId" href="taskDetails.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
+                                        @*<a asp-controller="Picture"
                                            asp-action="Index"
                                            asp-route-id="@item.value"
                                            id="@item.fieldId">
                                             <span>@item.displayValue Photo(s)</span>
-                                        </a>
+                                        </a>*@
                                     </td>
                                 }
                                 else
                                 {
                                     <td class="displayValue1">
-                                        <a asp-controller="Picture"
+                                        <a id="@item.fieldId" href="taskDetails.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
+
+                                        @*<a asp-controller="Picture"
                                            asp-action="Index"
                                            asp-route-id="@item.value"
                                            id="@item.fieldId">
                                             <span>@item.displayValue Photo(s)</span>
-                                        </a>
+                                        </a>*@
                                     </td>
                                 }
                             }
@@ -357,23 +360,25 @@
                             @if (item.displayValue.TrimStart() == "0.0")
                                 {
                                 <td class="displayValue1">
-                                    <a asp-controller="Picture"
+                                    @*<a asp-controller="Picture"
                                        asp-action="Index"
                                        asp-route-id="@item.value"
                                        id="@item.fieldId">
                                         <span>@item.displayValue Photo(s)</span>
-                                    </a>
+                                    </a>*@
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                 </td>
                             }
                             else
                             {
                                 <td class="displayValue1">
-                                    <a asp-controller="Picture"
+                                    @*<a asp-controller="Picture"
                                        asp-action="Index"
                                        asp-route-id="@item.value"
                                        id="@item.fieldId">
                                         <span>@item.displayValue Photo(s)</span>
-                                    </a>
+                                    </a>*@
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                 </td>
                             }
                         }
