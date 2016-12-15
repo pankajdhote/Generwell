@@ -130,6 +130,13 @@ var TaskDetailsPage = {
             radioClass: "iradio_square-green"
         });
     },
+    getPictureAlbum: function (id) {
+        debugger;
+        var id = Base64.encode(id.toString());
+        $('#processing-modal').modal("show");
+        var url = "/Picture/Index" + '?id=' + id;
+        window.location.href = url;
+    }
 }
 
 

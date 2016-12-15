@@ -141,10 +141,10 @@ namespace Generwell.Modules.Services
         /// <summary>
         /// Added by Pankaj
         /// Date:- 12-11-2016
-        /// Get data from web api.
+        /// Get image data from web api in byte array format.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> GetWebApiDetailsArray(string url, string accessToken, string tokenType)
+        public async Task<byte[]> GetWebApiDetailsBytes(string url, string accessToken, string tokenType)
         {
             try
             {
@@ -156,12 +156,7 @@ namespace Generwell.Modules.Services
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
-                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    //byte[] pictureByteArray = Encoding.ASCII.GetBytes(responseString);
-
-                    //compress byte array
-                    //var base64 = Convert.ToBase64String(pictureByteArray);
-                    //var imgSrc = String.Format("data:image/jpeg;base64,{0}", responseString);
+                    byte[] responseString = await tokenServiceResponse.Content.ReadAsByteArrayAsync();
                     return responseString;
                 };
             }
@@ -209,41 +204,25 @@ namespace Generwell.Modules.Services
         {
             try
             {
-                var tokenServiceUrl = url;
+                string tokenServiceUrl = url;
                 HttpClient hc = new HttpClient();
                 hc.DefaultRequestHeaders.Clear();
                 hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
-                var method = new HttpMethod("PATCH");
-                //string con = "";
-                //for (int index = 0; index < Content.Length; index++)
-                //{
-                //    if (index == 0)
-                //    {
-                //        con = Content[index];
-                //    }
-                //    else
-                //    {
-                //        con += "," + Content[index];
-                //    }
-                //}
-                //string body = "[" + con + "]";
+                HttpMethod method = new HttpMethod("PATCH");
                 string replacedString = Content.Replace("\",\"", ",").Replace("\"]", "]").Replace("\"{","{");
                 string body = replacedString;
-                var request = new HttpRequestMessage(method, url)
+                HttpRequestMessage request = new HttpRequestMessage(method, url)
                 {
                     Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
                 };
                 HttpResponseMessage hrm = await hc.SendAsync(request);
+                string jsonresult=string.Empty;
                 if (hrm.IsSuccessStatusCode)
                 {
-                    string jsonresult = await hrm.Content.ReadAsStringAsync();
-                    if (hrm.ReasonPhrase == "OK")
-                    {
-
-                    }
+                    jsonresult = await hrm.Content.ReadAsStringAsync();
                 }
-                return "true";
+                return jsonresult;
             }
             catch (Exception ex)
             {
