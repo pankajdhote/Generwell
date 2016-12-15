@@ -14,7 +14,7 @@
         public bool isActive { get; set; }
         public bool sameOrgUnitFlag { get; set; }
         public bool isSystemUser { get; set; }
-        public int? groups { get; set; }
+        //public int? groups { get; set; }
         public string name { get; set; }
         public string url { get; set; }
     }
