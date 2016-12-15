@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Generwell.Core.Model;
+using System.Collections.Generic;
 
 namespace Generwell.Modules.ViewModels
 {
@@ -25,7 +26,7 @@ namespace Generwell.Modules.ViewModels
         public string name { get; set; }
         public string url { get; set; }
         public ContactFieldsViewModel contactFields { get; set; }
-        public ContactFieldsViewModel contactInformation { get; set; }
+        public ContactInformationViewModel contactInformation { get; set; }
         public TaskFieldsUpdateViewModel TaskFields { get; set; }
         public LookupFieldsViewModel LookupFields { get; set; }
         public LookupFieldsItemsViewModel LookupFieldsItems { get; set; }

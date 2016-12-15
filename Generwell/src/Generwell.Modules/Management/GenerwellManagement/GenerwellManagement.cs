@@ -5,6 +5,7 @@ using Generwell.Modules.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Generwell.Modules.Management.GenerwellManagement
@@ -63,14 +64,23 @@ namespace Generwell.Modules.Management.GenerwellManagement
         /// Fetch all contact details from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<ContactFieldsViewModel> GetContactInformation(string accessToken, string tokenType)
+
+        public async Task<List<ContactInformationViewModel>> GetContactInformation(string accessToken, string tokenType)
         {
-            string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.Contact, accessToken, tokenType);
-            ContactFieldsModel contactFieldRecord = JsonConvert.DeserializeObject<ContactFieldsModel>(personnelRecord);
-            ContactFieldsViewModel contactFieldsViewModel = _mapper.Map<ContactFieldsViewModel>(contactFieldRecord);
-            return contactFieldsViewModel;
+            string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.ContactInfo, accessToken, tokenType);
+            List<ContactInformationViewModel> ContactInformation = JsonConvert.DeserializeObject<List<ContactInformationViewModel>>(personnelRecord);
+         //   List<ContactInformationViewModel> contactFieldsViewModel = _mapper.Map<List<ContactInformationViewModel>>(ContactInformation);
+            return ContactInformation;
         }
 
+        //public async Task<List<ContactInformationViewModel>> GetContactInformation(string accessToken, string tokenType)
+        //{
+        //    string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.ContactInfo, accessToken, tokenType);
+        //    List<ContactInformationModel> contactFieldRecord = JsonConvert.DeserializeObjectList<ContactInformationModel>>(personnelRecord);
+        //    List <ContactInformationViewModel> contactFieldsViewModel = _mapper.Map <List<ContactInformationViewModel>>(contactFieldRecord);
+        //    return contactFieldsViewModel;
+
+        //}
         /// <summary>
         /// Added by pankaj
         /// Date:-10-12-2016

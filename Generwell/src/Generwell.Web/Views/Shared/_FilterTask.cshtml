@@ -30,16 +30,23 @@
             {
                 <tr class="gradeU" style="cursor:pointer;width:70%">
                     <td>@item.id</td>
+
                     <td class="text-center" style="width:5%;">
                         @{
+                            DateTime startDate1 = new DateTime(1970, 1, 1);
+                            DateTime date1 = startDate1.AddSeconds(Convert.ToDouble(item.ForecastDate));
+                            string dt = date1.ToString("MMM dd, yyyy");
+                            string tdt = DateTime.Today.ToString("MMM dd, yyyy");
+                            if (dt == tdt)
+                            {
+                            <img src="@Url.Content("~/images/urgent2.png")" />
+                            }
+
                             if (@item.Completed == Constants.Status)
                             {
-                                <img src="@Url.Content("~/images/active.png")" />
+                                <img src="@Url.Content("~/images/active.png")"/>
                             }
-                            else
-                            {
 
-                            }
                         }
                     </td>
                     <td style="width:25%;">@item.Name</td>
@@ -60,15 +67,15 @@
                     }
 
                     @*<td class="text-center" style="width:10%;">@item.ForecastDate</td>*@
-                    @if (item.ForecastDate.ToString() == null)
+                    @if (item.ForecastDate.ToString() != null)
                     {
-                        <td class="text-center" style="width:10%;"></td>
                         DateTime startDate = new DateTime(1970, 1, 1);
                         DateTime date = startDate.AddSeconds(Convert.ToDouble(item.ForecastDate));
                         <td class="text-center" style="width:10%;">
                             @date.ToString("MMM dd, yyyy")
                         </td>
                     }
+                    
                     else
                     {
                         <td class="text-center" style="width:10%;"></td>

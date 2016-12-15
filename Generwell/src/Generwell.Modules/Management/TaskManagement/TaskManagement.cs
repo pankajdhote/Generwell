@@ -89,8 +89,10 @@ namespace Generwell.Modules.Management
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
+
+
     }
 }

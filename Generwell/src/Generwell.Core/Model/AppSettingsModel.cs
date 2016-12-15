@@ -15,6 +15,8 @@
         public string LookupFields { get; set; }
         public string Dictionaries { get; set; }
         public string PictureAlbum { get; set; }
+        public string ContactInfo { get; set; }
+
 
     }
 }

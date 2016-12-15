@@ -11,6 +11,7 @@ using Generwell.Modules.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Generwell.Core.Model;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,9 +46,13 @@ namespace Generwell.Web.Controllers
                     HttpContext.Session.SetString("TaskId", Encoding.UTF8.GetString(Convert.FromBase64String(taskId)));
                     HttpContext.Session.SetString("TaskName", Encoding.UTF8.GetString(Convert.FromBase64String(taskName)));
                 }
+
                 TaskDetailsViewModel taskdetailsViewModel = await _taskManagement.GetTaskDetails(HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 taskdetailsViewModel.contactFields = await _generwellManagement.GetContactDetails(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                //taskdetailsViewModel.contactInformation = await _generwellManagement.GetContactInformation(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+
+                List<ContactInformationViewModel> ContactInformationViewModel = await _generwellManagement.GetContactInformation(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                ViewBag.ContactInfo = ContactInformationViewModel;
+                // taskdetailsViewModel.contactInformation = await _generwellManagement.GetContactInformation(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 if (taskdetailsViewModel != null)
                 {
                     HttpContext.Session.SetString("FieldLevelId", taskdetailsViewModel.fieldLevelId.ToString());

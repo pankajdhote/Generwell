@@ -12,13 +12,29 @@ var TaskDetailsPage = {
         TaskDetailsPage.updateTaskFields();
         TaskDetailsPage.createMyFilterCheckbox();
     },
+      
     updateTaskFields: function () {
-        $("#SaveTaskFieldDetailsId").click(function () {
+        document.getElementById('taskDetailsListTableId').onchange = function (event) {
+            $("#SaveTaskFieldDetailsId").click(function () {
+                debugger;
+                var Content = TaskDetailsPage.getViewData();
+                TaskDetailsPage.callUpdateTask(Content);
+            });
+        };
+    },
+    updateTaskFields: function () {
+        document.getElementById('taskDetailsListTableId1').onchange = function (event) {
             debugger;
-            var Content = TaskDetailsPage.getViewData();
-            TaskDetailsPage.callUpdateTask(Content);
+            $("#SaveTaskFieldDetailsId").css("display", "block");
+            $("#completeTask").css("display", "none");
             
-        });
+            $("#SaveTaskFieldDetailsId").click(function () {
+                debugger;
+                var Content = TaskDetailsPage.getViewData();
+                TaskDetailsPage.callUpdateTask(Content);
+
+            });
+        };
     },
     completeTask: function () {
         var Content = TaskDetailsPage.getViewData();
@@ -36,7 +52,7 @@ var TaskDetailsPage = {
                 //swal("updated!", "Data updated successfully", "success");
                 $('#newCmpMessage').show();
                 setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
-            
+                location.reload();
                 debugger;
                 $('#processing-modal').modal("hide");
             },
@@ -73,20 +89,20 @@ var TaskDetailsPage = {
         var Content = [];
         var count = 0;
         $('.clsedit').each(function () {
+            debugger;
             var htmlType = $(this).prop('type');
             if (htmlType == 'select-one') {
-                debugger;
                 var txt = $(this).find(":selected").val();
                 IdArray.push(this.id);
                 ValueArray.push(txt);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + txt + "\"}");
             }
             else if (htmlType == 'text') {
                 IdArray.push(this.id);
                 ValueArray.push(this.value);
 
                 if (this.name == "date") {
-                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count])/1000 + "  }");
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count]) / 1000 + "  }");
                 }
                 else if (this.name == "number") {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
@@ -100,6 +116,7 @@ var TaskDetailsPage = {
                 ValueArray.push(this.value);
                 Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + $(this).prop('checked') + "   }");
             }
+           
             count++;
         });
 
