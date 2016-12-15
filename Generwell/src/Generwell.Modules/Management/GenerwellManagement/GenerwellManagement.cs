@@ -57,6 +57,19 @@ namespace Generwell.Modules.Management.GenerwellManagement
             ContactFieldsViewModel contactFieldsViewModel = _mapper.Map<ContactFieldsViewModel>(contactFieldRecord);
             return contactFieldsViewModel;
         }
+        /// <summary>
+        /// Added by Rohit
+        /// Date:-14-12-2016
+        /// Fetch all contact details from web api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ContactFieldsViewModel> GetContactInformation(string accessToken, string tokenType)
+        {
+            string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.Contact, accessToken, tokenType);
+            ContactFieldsModel contactFieldRecord = JsonConvert.DeserializeObject<ContactFieldsModel>(personnelRecord);
+            ContactFieldsViewModel contactFieldsViewModel = _mapper.Map<ContactFieldsViewModel>(contactFieldRecord);
+            return contactFieldsViewModel;
+        }
 
         /// <summary>
         /// Added by pankaj
