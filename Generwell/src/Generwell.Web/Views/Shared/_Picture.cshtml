@@ -18,10 +18,10 @@
                         {
                             string base64StringFormat = Convert.ToBase64String(pictureItem.picture);
 
-                            <div class="col-sm-6 col-md-2">
+                            <div class="col-sm-3 col-xs-6 col-md-2">
                                 <div class="thumbnail wh-150 border-blue">
                                     <a href="data:image/jpeg;base64,@base64StringFormat" title="Image from Unsplash" data-gallery="">
-                                        <img src="data:image/jpeg;base64,@base64StringFormat" class="img-thumbnail wh-130" alt="Cinque Terre" asp-append-version="true">
+                                        <img src="data:image/jpeg;base64,@base64StringFormat" class="img-thumbnail wh-130 img-responsive" alt="Cinque Terre" asp-append-version="true">
                                     </a>
                                 </div>
                                 <div class="caption">

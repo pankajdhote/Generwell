@@ -14,27 +14,24 @@ var TaskDetailsPage = {
     },
       
     updateTaskFields: function () {
-        document.getElementById('taskDetailsListTableId').onchange = function (event) {
+        $("#taskDetailsListTableId").change(function(){
             $("#SaveTaskFieldDetailsId").click(function () {
                 debugger;
                 var Content = TaskDetailsPage.getViewData();
                 TaskDetailsPage.callUpdateTask(Content);
             });
-        };
-    },
-    updateTaskFields: function () {
-        document.getElementById('taskDetailsListTableId1').onchange = function (event) {
+        });
+        $("#taskDetailsListTableId1").change(function(){
             debugger;
             $("#SaveTaskFieldDetailsId").css("display", "block");
             $("#completeTask").css("display", "none");
-            
             $("#SaveTaskFieldDetailsId").click(function () {
                 debugger;
                 var Content = TaskDetailsPage.getViewData();
                 TaskDetailsPage.callUpdateTask(Content);
 
             });
-        };
+        });
     },
     completeTask: function () {
         var Content = TaskDetailsPage.getViewData();

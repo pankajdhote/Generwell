@@ -1,21 +1,27 @@
 {
-  "version": "1.0.0-*",
+  "version": "1.1.0-*",
 
   "dependencies": {
     "AutoMapper": "5.2.0",
-    "Generwell.Core": "1.0.0-*",
+    "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.1.2",
+    "dnx-clr-win-x86": "1.0.0-rc1-update2",
+    "Generwell.Core": "1.1.0-*",
     "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final",
     "Microsoft.AspNetCore.Authentication": "1.1.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
-    "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
     "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
+    "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
     "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
     "Microsoft.Extensions.Options": "1.2.0-preview1-22868",
-    "Microsoft.IdentityModel.Protocols": "2.0.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
+    "Microsoft.IdentityModel.Protocols": "2.1.0",
     "NETStandard.Library": "1.6.1",
     "System.ComponentModel.Annotations": "4.3.0",
-    "System.Net.Requests": "4.0.11",
-    "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.1.2"
+    "System.Net.Requests": "4.3.0"
+  },
+
+  "runtimes": {
+    "win8-x64": {}
   },
 
   "frameworks": {

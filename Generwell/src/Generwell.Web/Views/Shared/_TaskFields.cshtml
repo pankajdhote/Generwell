@@ -200,19 +200,14 @@
                             {
                                 @if (item.displayValue.TrimStart() == "0.0")
                                 {
-
                                     <td class="displayValue1">
-                                        <a href="@Url.Action("model => 0", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
-                                            <span>0 Photo(s)</span>
-                                        </a>
+                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                     </td>
                                 }
                                 else
                                 {
                                     <td class="displayValue1">
-                                        <a href="@Url.Action("model =>  @item.displayValue", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
-                                            <span>@item.displayValue Photo(s)</span>
-                                        </a>
+                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                     </td>
                                 }
                             }
@@ -228,13 +223,13 @@
                             DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
                             string date2 = date.ToString("MMM dd,yyyy");
                             <td class="displayValue1">
-                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                                @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
-                                    <input type="date" asp-for="@date2" name="date" id="@item.fieldId" class="form-control clsedit datepicker" disabled />
+                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" disabled />
                                 }
                                 else
                                 {
-                                    <input type="date" asp-for="@date2" name="date" id="@item.fieldId" class="form-control clsedit datepicker" />
+                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" />
                                 }
                             </td>
                         }
@@ -360,20 +355,14 @@
                         {
                             @if (item.displayValue.TrimStart() == "0.0")
                                 {
-
                                 <td class="displayValue1">
-                                    <a href="@Url.Action("model => 0", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
-                                        <span>0 Photo(s)</span>
-                                    </a>
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                 </td>
-
                             }
                             else
                             {
                                 <td class="displayValue1">
-                                    <a href="@Url.Action("model =>  @item.displayValue", "TaskDetails")" class="elements" target="_blank" id=@item.fieldId>
-                                        <span>@item.displayValue Photo(s)</span>
-                                    </a>
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                 </td>
                             }
                         }
