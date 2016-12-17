@@ -55,14 +55,7 @@
                     </div>
                 </div>
                 <div id="taskFieldsDiv">
-                    @if (@Model.status == "Re-activated")
-                    {
-                    @Html.Partial("_ReTaskFields", Model.fields)
-                    }
-                    else
-                    {
-                        @Html.Partial("_TaskFields", Model.fields)
-                    }
+                    @Html.Partial("_TaskFields", Model)
                 </div>
             </div>
         </div>

@@ -16,6 +16,7 @@
         public string Dictionaries { get; set; }
         public string PictureAlbum { get; set; }
         public string ContactInfo { get; set; }
+        public string LogError { get; set; }
 
 
     }

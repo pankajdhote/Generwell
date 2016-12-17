@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.Management.PictureManagement;
+using System.Collections.Generic;
 
 namespace Generwell.Web
 {
@@ -52,6 +53,18 @@ namespace Generwell.Web
             services.AddSingleton<ITaskManagement, TaskManagement>();
             services.AddSingleton<IGenerwellManagement, GenerwellManagement>();
             services.AddSingleton<IPictureManagement, PictureManagement>();
+            services.AddSingleton<List<WellModel>>();
+            services.AddSingleton<WellModel>();
+            services.AddSingleton<List<MapModel>>();
+            services.AddSingleton<List<WellLineReportModel>>();
+            services.AddSingleton<List<FilterModel>>();
+            services.AddSingleton<LineReportsModel>();
+            services.AddSingleton<TaskDetailsModel>();
+            services.AddSingleton<List<TaskModel>>();
+            services.AddSingleton<List<DictionaryModel>>();
+            services.AddSingleton<List<ContactInformationModel>>();
+
+
 
             var appSettings = Configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettingsModel>(appSettings);

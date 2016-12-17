@@ -4,11 +4,10 @@ using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
-using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellConstants;
 using System.Text;
 using System;
+using Generwell.Modules.Management.GenerwellManagement;
 
 namespace Generwell.Modules.Management
 {
@@ -16,12 +15,32 @@ namespace Generwell.Modules.Management
     {
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
-        private readonly IMapper _mapper;
-        public WellManagement(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices,IMapper mapper)
+        private readonly IGenerwellManagement _generwellManagement;
+        private readonly List<WellModel> _objWellList;
+        private readonly WellModel _objWell;
+        private readonly List<MapModel> _objMapList;
+        private readonly List<WellLineReportModel> _objWellLineList;
+        private readonly List<FilterModel> _objFilterList;
+        private readonly LineReportsModel _objLineReport;
+        public WellManagement(IOptions<AppSettingsModel> appSettings, 
+            IGenerwellServices generwellServices, 
+            IGenerwellManagement generwellManagement, 
+            List<WellModel> objWellList, 
+            WellModel objWell, 
+            List<MapModel> objMapList, 
+            List<WellLineReportModel> objWellLineList, 
+            List<FilterModel> objFilterList,
+            LineReportsModel objLineReport)
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
-            _mapper = mapper;
+            _generwellManagement = generwellManagement;
+            _objWellList = objWellList;
+            _objWell = objWell;
+            _objMapList = objMapList;
+            _objWellLineList = objWellLineList;
+            _objFilterList = objFilterList;
+            _objLineReport = objLineReport;
         }
         /// <summary>
         /// Added by pankaj
@@ -29,7 +48,7 @@ namespace Generwell.Modules.Management
         /// Fetch all well from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<WellViewModel>> GetWells(string id, string accessToken, string tokenType)
+        public async Task<List<WellModel>> GetWells(string id, string accessToken, string tokenType)
         {
             try
             {
@@ -37,20 +56,20 @@ namespace Generwell.Modules.Management
                 {
                     string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + id, accessToken, tokenType);
                     List<WellModel> wellModel = JsonConvert.DeserializeObject<List<WellModel>>(getWellList);
-                    List<WellViewModel> wellViewModel = _mapper.Map<List<WellViewModel>>(wellModel);
-                    return wellViewModel;
+                    return wellModel;
                 }
                 else
                 {
                     string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.Well, accessToken, tokenType);
                     List<WellModel> wellModel = JsonConvert.DeserializeObject<List<WellModel>>(getWellList);
-                    List<WellViewModel> wellViewModel = _mapper.Map<List<WellViewModel>>(wellModel);
-                    return wellViewModel;
+                    return wellModel;
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWells method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objWellList;
             }
         }
         /// <summary>
@@ -59,12 +78,21 @@ namespace Generwell.Modules.Management
         /// Fetch well by id from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<WellViewModel> GetWellById(string id, string accessToken, string tokenType)
+        public async Task<WellModel> GetWellById(string id, string accessToken, string tokenType)
         {
-            string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.Well + "/" + id, accessToken, tokenType);
-            WellModel wellModel = JsonConvert.DeserializeObject<WellModel>(getWellList);
-            WellViewModel wellViewModel = _mapper.Map<WellViewModel>(wellModel);
-            return wellViewModel;
+            try
+            {
+                string getWellList = await _generwellServices.GetWebApiDetails(_appSettings.Well + "/" + id, accessToken, tokenType);
+                WellModel wellModel = JsonConvert.DeserializeObject<WellModel>(getWellList);
+                return wellModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellById method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objWell;
+            }
+
         }
         /// <summary>
         /// Added by pankaj
@@ -72,12 +100,20 @@ namespace Generwell.Modules.Management
         /// Fetch all well from web api by filterId.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<MapViewModel>> GetWellsByFilterId(string defaultFilter, string accessToken, string tokenType)
+        public async Task<List<MapModel>> GetWellsByFilterId(string defaultFilter, string accessToken, string tokenType)
         {
-            string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + defaultFilter, accessToken, tokenType);
-            List<MapModel> mapModel = JsonConvert.DeserializeObject<List<MapModel>>(wellRecordByFilter);
-            List<MapViewModel> mapViewModel = _mapper.Map<List<MapViewModel>>(mapModel);
-            return mapViewModel;
+            try
+            {
+                string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.WellFilter + "=" + defaultFilter, accessToken, tokenType);
+                List<MapModel> mapModel = JsonConvert.DeserializeObject<List<MapModel>>(wellRecordByFilter);
+                return mapModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellsByFilterId method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objMapList;
+            }
         }
         /// <summary>
         /// Added by pankaj
@@ -85,12 +121,21 @@ namespace Generwell.Modules.Management
         /// Fetch all well from web api by filterId.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<MapViewModel>> GetWellsWithoutFilterId(string accessToken, string tokenType)
+        public async Task<List<MapModel>> GetWellsWithoutFilterId(string accessToken, string tokenType)
         {
-            string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.Well, accessToken, tokenType);
-            List<MapModel> mapModel = JsonConvert.DeserializeObject<List<MapModel>>(wellRecordByFilter);
-            List<MapViewModel> mapViewModel = _mapper.Map<List<MapViewModel>>(mapModel);
-            return mapViewModel;
+            try
+            {
+                string wellRecordByFilter = await _generwellServices.GetWebApiDetails(_appSettings.Well, accessToken, tokenType);
+                List<MapModel> mapModel = JsonConvert.DeserializeObject<List<MapModel>>(wellRecordByFilter);
+                return mapModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellsWithoutFilterId method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objMapList;
+            }
+
         }
         /// <summary>
         /// Added by pankaj
@@ -98,12 +143,21 @@ namespace Generwell.Modules.Management
         /// Fetch all well line reports from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<WellLineReportViewModel>> GetWellLineReports(string accessToken, string tokenType)
+        public async Task<List<WellLineReportModel>> GetWellLineReports(string accessToken, string tokenType)
         {
-            string wellLineReportList = await _generwellServices.GetWebApiDetails(_appSettings.WellLineReports, accessToken, tokenType);
-            List<WellLineReportModel> wellLineReport = JsonConvert.DeserializeObject<List<WellLineReportModel>>(wellLineReportList);
-            List<WellLineReportViewModel> wellLineReportViewModel = _mapper.Map<List<WellLineReportViewModel>>(wellLineReport);
-            return wellLineReportViewModel;
+            try
+            {
+                string wellLineReportList = await _generwellServices.GetWebApiDetails(_appSettings.WellLineReports, accessToken, tokenType);
+                List<WellLineReportModel> wellLineReport = JsonConvert.DeserializeObject<List<WellLineReportModel>>(wellLineReportList);
+                return wellLineReport;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellLineReports method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objWellLineList;
+            }
+
         }
         /// <summary>
         /// Added by pankaj
@@ -111,19 +165,19 @@ namespace Generwell.Modules.Management
         /// Fetch all filters from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<FilterViewModel>> GetFilters(string accessToken, string tokenType)
+        public async Task<List<FilterModel>> GetFilters(string accessToken, string tokenType)
         {
             try
             {
                 string filterList = await _generwellServices.GetWebApiDetails(_appSettings.Filters, accessToken, tokenType);
                 List<FilterModel> filterModel = JsonConvert.DeserializeObject<List<FilterModel>>(filterList);
-                List<FilterViewModel> filterViewModel = _mapper.Map<List<FilterViewModel>>(filterModel);
-                return filterViewModel;
+                return filterModel;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetFilters method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objFilterList;
             }
         }
         /// <summary>
@@ -134,14 +188,23 @@ namespace Generwell.Modules.Management
         /// <returns></returns>
         public async Task<string> SetFollowUnfollow(string isFollow, string id, string accessToken, string tokenType)
         {
-            if (isFollow == Constants.trueState)
+            try
             {
-                string response = await _generwellServices.PostWebApiData(_appSettings.Well + "/" + id + "/follow", accessToken, tokenType);
-                return response;
+                if (isFollow == Constants.trueState)
+                {
+                    string response = await _generwellServices.PostWebApiData(_appSettings.Well + "/" + id + "/follow", accessToken, tokenType, string.Empty);
+                    return response;
+                }
+                else
+                {
+                    string response = await _generwellServices.DeleteWebApiData(_appSettings.Well + "/" + id + "/unfollow", accessToken, tokenType);
+                    return response;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                string response = await _generwellServices.DeleteWebApiData(_appSettings.Well + "/" + id + "/unfollow", accessToken, tokenType);
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetFilters method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return response;
             }
         }
@@ -151,12 +214,20 @@ namespace Generwell.Modules.Management
         ///Get well details from reportId.
         /// </summary>
         /// <returns></returns>
-        public async Task<LineReportsViewModel> GetWellDetailsByReportId(string reportId, string wellId, string accessToken, string tokenType)
+        public async Task<LineReportsModel> GetWellDetailsByReportId(string reportId, string wellId, string accessToken, string tokenType)
         {
-            string wellDetailsList = await _generwellServices.GetWebApiWithTimeZone(_appSettings.Well + "/" + wellId + "/linereports/" + Encoding.UTF8.GetString(Convert.FromBase64String(reportId)), accessToken, tokenType);
-            LineReportsViewModel wellDetailsModel = JsonConvert.DeserializeObject<LineReportsViewModel>(wellDetailsList);
-            LineReportsViewModel wellDetailsViewModel = _mapper.Map<LineReportsViewModel>(wellDetailsModel);
-            return wellDetailsViewModel;
+            try
+            {
+                string wellDetailsList = await _generwellServices.GetWebApiWithTimeZone(_appSettings.Well + "/" + wellId + "/linereports/" + Encoding.UTF8.GetString(Convert.FromBase64String(reportId)), accessToken, tokenType);
+                LineReportsModel wellDetailsModel = JsonConvert.DeserializeObject<LineReportsModel>(wellDetailsList);
+                return wellDetailsModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellDetailsByReportId method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objLineReport;
+            }
         }
     }
 }

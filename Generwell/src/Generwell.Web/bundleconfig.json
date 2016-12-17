@@ -46,6 +46,18 @@
     }
   },
   {
+    "outputFileName": "wwwroot/css/bootstrap-datepicker.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/bootstrap-datepicker.css"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
     "outputFileName": "wwwroot/css/customlogin.min.css",
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
@@ -136,6 +148,19 @@
     "outputFileName": "wwwroot/js/picture/picture.min.js",
     "inputFiles": [
       "wwwroot/js/picture/picture.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/scripts/plugins/datapicker/bootstrap-datepicker.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/plugins/datapicker/bootstrap-datepicker.js"
     ],
     // Optionally specify minification options
     "minify": {

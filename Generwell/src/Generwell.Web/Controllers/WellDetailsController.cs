@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Http;
-using Generwell.Core.Model;
-using Generwell.Modules.Services;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Generwell.Modules.Management;
 using Generwell.Modules.GenerwellConstants;
+using Generwell.Modules.Management.GenerwellManagement;
+using Generwell.Core.Model;
+using AutoMapper;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,9 +20,13 @@ namespace Generwell.Web.Controllers
     public class WellDetailsController : BaseController
     {
         private readonly IWellManagement _wellManagement;
-        public WellDetailsController(IWellManagement wellManagement)
+        private readonly IGenerwellManagement _generwellManagement;
+        private readonly IMapper _mapper;
+        public WellDetailsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper)
         {
             _wellManagement = wellManagement;
+            _generwellManagement = generwellManagement;
+            _mapper = mapper;
         }
         /// <summary>
         /// Added by pankaj
@@ -37,12 +41,15 @@ namespace Generwell.Web.Controllers
             {
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.WellDetails.ToString());
-                LineReportsViewModel wellDetailsViewModel = await _wellManagement.GetWellDetailsByReportId(reportId, HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                LineReportsModel wellDetailsModel = await _wellManagement.GetWellDetailsByReportId(reportId, HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                LineReportsViewModel wellDetailsViewModel = _mapper.Map<LineReportsViewModel>(wellDetailsModel);
                 return View(wellDetailsViewModel.fields);
             }
             catch (Exception ex)
             {
-                throw ex;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellDetails Controller Index action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Error", "Accounts");
             }
         }
         /// <summary>
@@ -69,9 +76,11 @@ namespace Generwell.Web.Controllers
                 string response = await _wellManagement.SetFollowUnfollow(isFollow, id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellDetails Controller Follow action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return response;
             }
         }
     }

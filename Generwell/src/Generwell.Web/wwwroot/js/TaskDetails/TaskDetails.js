@@ -2,35 +2,51 @@
 
 var TaskDetailsPage = {
 
-    initialize: function (taskId, targetUrl) {
+    initialize: function (taskId) {
         debugger;
-        TaskDetailsPage.attachEvents(taskId, targetUrl);
+        TaskDetailsPage.attachEvents(taskId);
     },
-    attachEvents: function (taskId, targetUrl) {
+    attachEvents: function (taskId) {
         debugger;
         TaskDetailsPage.completeEvent();
         TaskDetailsPage.updateTaskFields();
         TaskDetailsPage.createMyFilterCheckbox();
+        TaskDetailsPage.changeButtonEvent();
     },
       
     updateTaskFields: function () {
-        $("#taskDetailsListTableId").change(function(){
-            $("#SaveTaskFieldDetailsId").click(function () {
-                debugger;
-                var Content = TaskDetailsPage.getViewData();
-                TaskDetailsPage.callUpdateTask(Content);
+        debugger;
+      
+
+        $('.dropdownErrorMessage1').on('change', function () {
+            var count = 0;
+            $('.clsedit').each(function () {
+                var htmlType = $(this).prop('type');
+                if (htmlType == 'select-one') {
+                    var lookupText = $(this).find(":selected").text();
+                    if (lookupText == 'Please select one') {
+                        $('#dropdownErrorMessage').show();
+                        setTimeout(function () { $('#dropdownErrorMessage').hide(); }, 5000);
+                    }
+                }
+                count++;
             });
         });
-        $("#taskDetailsListTableId1").change(function(){
-            debugger;
-            $("#SaveTaskFieldDetailsId").css("display", "block");
-            $("#completeTask").css("display", "none");
-            $("#SaveTaskFieldDetailsId").click(function () {
-                debugger;
-                var Content = TaskDetailsPage.getViewData();
-                TaskDetailsPage.callUpdateTask(Content);
 
+        $("#taskDetailsListTableId").change(function () {
+            var count = 0;
+            $('.clsedit').each(function () {
+                var htmlType = $(this).prop('type');
+                if (htmlType == 'select-one') {
+                    var lookupText = $(this).find(":selected").text();
+                    if (lookupText == 'Please select one') {
+                        $('#dropdownErrorMessage').show();
+                        setTimeout(function () { $('#dropdownErrorMessage').hide(); }, 5000);
+                    }
+                }
+                count++;
             });
+            
         });
     },
     completeTask: function () {
@@ -39,6 +55,7 @@ var TaskDetailsPage = {
         TaskDetailsPage.callUpdateTask(Content);
     },
     callUpdateTask: function (Content) {
+        $('#processing-modal').modal("show");
         $.ajax({
             type: "GET",
             url: '/taskdetails/updatetaskfields',
@@ -49,9 +66,12 @@ var TaskDetailsPage = {
                 //swal("updated!", "Data updated successfully", "success");
                 $('#newCmpMessage').show();
                 setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
-                location.reload();
+                //location.reload();
                 debugger;
                 $('#processing-modal').modal("hide");
+                $("#completeTask").css("display", "block");
+                $("#ReSaveTaskFieldDetailsId").css("display", "none");
+                TaskDetailsPage.changeButtonEvent();
             },
             error: function (xhr) {
                 debugger;
@@ -90,6 +110,7 @@ var TaskDetailsPage = {
             var htmlType = $(this).prop('type');
             if (htmlType == 'select-one') {
                 var txt = $(this).find(":selected").val();
+                var lookupText = $(this).find(":selected").text();
                 IdArray.push(this.id);
                 ValueArray.push(txt);
                 Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + txt + "\"}");
@@ -101,9 +122,6 @@ var TaskDetailsPage = {
                 if (this.name == "date") {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count]) / 1000 + "  }");
                 }
-                else if (this.name == "number") {
-                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                }
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
                 }
@@ -112,6 +130,11 @@ var TaskDetailsPage = {
                 IdArray.push(this.id);
                 ValueArray.push(this.value);
                 Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + $(this).prop('checked') + "   }");
+            }
+            else if (htmlType == "number") {
+                IdArray.push(this.id);
+                ValueArray.push(this.value);
+                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + this.value + "\"}");
             }
            
             count++;
@@ -127,7 +150,29 @@ var TaskDetailsPage = {
             radioClass: "iradio_square-green"
         });
     },
-    getPictureAlbum: function (id) {
+    changeButtonEvent: function () {
+        var status = $('#reactivatedTask').val();
+        if (status.toLowerCase() == "re-activated") {
+            $("#completeTask").css("display", "block");
+            $("#savedDetails").css("display", "none");
+        } else {
+            $("#completeTask").css("display", "none");
+            $("#savedDetails").css("display", "block");
+        }
+
+        $('#taskDetailsListTableId input,select').change(function () {
+            debugger;
+            $("#completeTask").css("display", "none");
+            $("#savedDetails").css("display", "block");
+
+            $("#savedDetails").click(function () {
+                debugger;
+                var Content = TaskDetailsPage.getViewData();
+                TaskDetailsPage.callUpdateTask(Content);
+            });
+        });
+    },
+      getPictureAlbum: function (id) {
         debugger;
         var id = Base64.encode(id.toString());
         $('#processing-modal').modal("show");

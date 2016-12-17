@@ -7,7 +7,7 @@ using Generwell.Core.Model;
 
 namespace Generwell.Modules.ViewModels
 {
-    public class AutoMapperProfileConfiguration:Profile
+    public class AutoMapperProfileConfiguration : Profile
     {
         protected override void Configure()
         {
@@ -17,6 +17,9 @@ namespace Generwell.Modules.ViewModels
             CreateMap<WellDetailsModel, WellDetailsViewModel>();
             CreateMap<MapModel, MapViewModel>();
             CreateMap<LineReportsModel, LineReportsViewModel>();
+            CreateMap<FieldsModel, FieldsViewModel>();
+
+
         }
     }
 }

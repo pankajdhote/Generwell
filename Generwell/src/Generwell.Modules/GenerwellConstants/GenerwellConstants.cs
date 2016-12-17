@@ -14,5 +14,7 @@
         public const string falseState = "true";
         public const string checkedState = "checked";
         public const string uncheckedState = "unchecked";
+        public const string logShortType = "short";
+        public const string logFullType = "full";
     }
 }

@@ -9,7 +9,5 @@ namespace Generwell.Core.Model
     {
         public int id { get; set; }
         public string name { get; set; }
-        //public int moduleId{ get; set; }
-        //public string description{ get; set; }
     }
 }

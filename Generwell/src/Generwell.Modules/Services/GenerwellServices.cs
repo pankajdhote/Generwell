@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using Generwell.Modules.Management.GenerwellManagement;
 
 namespace Generwell.Modules.Services
 {
@@ -50,29 +51,23 @@ namespace Generwell.Modules.Services
         /// post data to web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> PostWebApiData(string url, string accessToken, string tokenType)
+        public async Task<string> PostWebApiData(string url, string accessToken, string tokenType, string content)
         {
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    List<KeyValuePair<string, string>> requestParams = new List<KeyValuePair<string, string>>
-                    {
-                    };
                     if (accessToken != null)
                     {
                         client.DefaultRequestHeaders.Clear();
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
-                    FormUrlEncodedContent requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
-                    HttpResponseMessage tokenServiceResponse = await client.PostAsync(url, requestParamsFormUrlEncoded);
+
+                    StringContent jsonContent = new StringContent(content.ToString(), Encoding.UTF8, "application/json");
+                    HttpResponseMessage tokenServiceResponse = await client.PostAsync(url, jsonContent);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     HttpStatusCode responseCode = tokenServiceResponse.StatusCode;
-                    HttpResponseMessage responseMsg = new HttpResponseMessage(responseCode)
-                    {
-                        Content = new StringContent(responseString, Encoding.UTF8, "application/json")
-                    };
-                    return responseString;
+                    return responseCode.ToString();
                 }
             }
             catch (Exception ex)
@@ -210,14 +205,14 @@ namespace Generwell.Modules.Services
                 hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
                 HttpMethod method = new HttpMethod("PATCH");
-                string replacedString = Content.Replace("\",\"", ",").Replace("\"]", "]").Replace("\"{","{");
+                string replacedString = Content.Replace("\\", "").Replace("\",\"", ",").Replace("\"]", "]").Replace("\"{", "{");
                 string body = replacedString;
                 HttpRequestMessage request = new HttpRequestMessage(method, url)
                 {
                     Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
                 };
                 HttpResponseMessage hrm = await hc.SendAsync(request);
-                string jsonresult=string.Empty;
+                string jsonresult = string.Empty;
                 if (hrm.IsSuccessStatusCode)
                 {
                     jsonresult = await hrm.Content.ReadAsStringAsync();

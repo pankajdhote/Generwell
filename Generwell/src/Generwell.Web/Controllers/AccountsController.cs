@@ -1,16 +1,16 @@
-﻿using System;
-using Generwell.Modules;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Generwell.Modules.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Generwell.Modules.Services;
-using System.Security.Claims;
-using System.Collections.Generic;
-using Generwell.Core.Model;
+﻿using Generwell.Modules;
 using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
+using Generwell.Modules.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Generwell.Modules.GenerwellConstants;
+using Generwell.Core.Model;
+using AutoMapper;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,10 +21,12 @@ namespace Generwell.Web.Controllers
     {
         private readonly IWellManagement _wellManagement;
         private readonly IGenerwellManagement _generwellManagement;
-        public AccountsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement)
+        private readonly IMapper _mapper;
+        public AccountsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper)
         {
             _wellManagement = wellManagement;
             _generwellManagement = generwellManagement;
+            _mapper = mapper;
         }
         /// <summary>
         /// Added by pankaj
@@ -52,14 +54,18 @@ namespace Generwell.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    AccessTokenViewModel accessTokenViewModel = await _generwellManagement.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
+                    AccessTokenModel accessTokenModel = await _generwellManagement.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
+                    AccessTokenViewModel accessTokenViewModel = _mapper.Map<AccessTokenViewModel>(accessTokenModel);
+
                     if (accessTokenViewModel.access_token != null)
                     {
                         //store access token in session
                         HttpContext.Session.SetString("AccessToken", accessTokenViewModel.access_token);
                         HttpContext.Session.SetString("TokenType", accessTokenViewModel.token_type);
                         //Fetch user name from api/v{apiVersion}/personnel/current api and disaply on every page.
-                        ContactFieldsViewModel contactFieldRecord = await _generwellManagement.GetContactDetails(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        ContactFieldsModel contactFieldModelRecord = await _generwellManagement.GetContactDetails(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        ContactFieldsViewModel contactFieldRecord = _mapper.Map<ContactFieldsViewModel>(contactFieldModelRecord);
+
                         string userName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
                         HttpContext.Session.SetString("UserName", userName);
                         TempData["ServerError"] = string.Empty;
@@ -73,7 +79,6 @@ namespace Generwell.Web.Controllers
                     }
                     else
                     {                        
-                        //string error = CreateLog("Authentication Failed");
                         TempData["ServerError"] = Resource.ErrorMessage_Credentials;
                     }
                 }
@@ -81,6 +86,8 @@ namespace Generwell.Web.Controllers
             }
             catch (Exception ex)
             {
+                string logContent = "{\"message\": \""+ex.Message+ "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType,HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error","Accounts");
             }
         }
@@ -93,7 +100,8 @@ namespace Generwell.Web.Controllers
         [HttpGet]
         public async Task<PartialViewResult> Support()
         {
-            SupportViewModel supportViewModel = await _generwellManagement.GetSupportDetails();
+            SupportModel supportModel = await _generwellManagement.GetSupportDetails();
+            SupportViewModel supportViewModel = _mapper.Map<SupportViewModel>(supportModel);
             return PartialView("_Support", supportViewModel);
         }
         /// <summary>
@@ -117,14 +125,23 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         public async Task<string> AuthorizeUser(ContactFieldsViewModel contactFieldRecord)
         {
-            List<Claim> userClaims = new List<Claim>
+            try
+            {
+                List<Claim> userClaims = new List<Claim>
                             {
                                 new Claim("userId", Convert.ToString(contactFieldRecord.id)),
                                 new Claim(ClaimTypes.Name, contactFieldRecord.userName),
                                 new Claim(ClaimTypes.Role, Convert.ToString(contactFieldRecord.id))
                             };
-            ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
-            await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", principal);
+                ClaimsPrincipal principal = new ClaimsPrincipal(new ClaimsIdentity(userClaims, "local"));
+                await HttpContext.Authentication.SignInAsync("MyCookieMiddlewareInstance", principal);
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+            }
             return string.Empty;
         }
         /// <summary>

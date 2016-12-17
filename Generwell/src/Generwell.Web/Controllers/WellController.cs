@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Generwell.Modules.Management;
 using Generwell.Core.Model;
 using Generwell.Modules.GenerwellConstants;
+using Generwell.Modules.Management.GenerwellManagement;
+using AutoMapper;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,9 +25,14 @@ namespace Generwell.Web.Controllers
     public class WellController : BaseController
     {
         private readonly IWellManagement _wellManagement;
-        public WellController(IWellManagement wellManagement)
+        private readonly IGenerwellManagement _generwellManagement;
+        private readonly IMapper _mapper;
+        public WellController(IWellManagement wellManagement, 
+            IGenerwellManagement generwellManagement, IMapper mapper)
         {
             _wellManagement = wellManagement;
+            _generwellManagement = generwellManagement;
+            _mapper = mapper;
         }
         /// <summary>
         /// Added by pankaj
@@ -43,14 +50,20 @@ namespace Generwell.Web.Controllers
                 //change active menu class
                 GlobalFields.SetMenu(Menu.Well.ToString());
                 //fill Filters dropdown list
-                List<FilterViewModel> filterViewModel = await _wellManagement.GetFilters(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<FilterModel> filterModel = await _wellManagement.GetFilters(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<FilterViewModel> filterViewModel = _mapper.Map<List<FilterViewModel>>(filterModel);
+
                 ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
-                List<WellViewModel> wellList = await _wellManagement.GetWells(null, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                return View(wellList);
+                List<WellModel> wellList = await _wellManagement.GetWells(null, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<WellViewModel> wellViewModelList = _mapper.Map<List<WellViewModel>>(wellList);
+
+                return View(wellViewModelList);
             }
             catch (Exception ex)
             {
-                throw ex;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Well Controller Index action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Error", "Accounts");
             }
         }
         /// <summary>
@@ -64,12 +77,15 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                List<WellViewModel> wellViewModel = await _wellManagement.GetWells(id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                return PartialView("_FilterWell", wellViewModel);
+                List<WellModel> wellModelList = await _wellManagement.GetWells(id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<WellViewModel> wellViewModelList = _mapper.Map<List<WellViewModel>>(wellModelList);
+                return PartialView("_FilterWell", wellViewModelList);
             }
             catch (Exception ex)
             {
-                throw ex;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Well Controller FilterWell action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return PartialView("_FilterWell");
             }
         }
         /// <summary>
@@ -83,16 +99,20 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                WellViewModel wellObj = new WellViewModel();
+                WellModel wellObj = new WellModel();
                 if (!string.IsNullOrEmpty(id))
                 {
                     wellObj = await _wellManagement.GetWellById(id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    List<WellViewModel> wellViewModelList = _mapper.Map<List<WellViewModel>>(wellObj);
+                    return View(wellViewModelList);
                 }
-                return View(wellObj);
+                return View();
             }
             catch (Exception ex)
             {
-                throw ex;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Well Controller Details action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Error","Accounts");
             }
         }
         /// <summary>
@@ -116,12 +136,15 @@ namespace Generwell.Web.Controllers
                 }
                 string response = await _wellManagement.SetFollowUnfollow(isFollow, wellId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 //get filtered wells
-                List<WellViewModel> wellViewModel = await _wellManagement.GetWells(filterId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                return PartialView("_FilterWell", wellViewModel);
+                List<WellModel> wellModel = await _wellManagement.GetWells(filterId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<WellViewModel> wellViewModelList = _mapper.Map<List<WellViewModel>>(wellModel);
+                return PartialView("_FilterWell", wellViewModelList);
             }
             catch (Exception ex)
             {
-                throw ex;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Well Controller FilterWell action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return PartialView("_FilterWell");
             }
         }
     }

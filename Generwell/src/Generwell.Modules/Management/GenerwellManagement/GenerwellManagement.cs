@@ -29,70 +29,54 @@ namespace Generwell.Modules.Management.GenerwellManagement
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<AccessTokenViewModel> AuthenticateUser(string userName, string password, string webApiUrl)
+        public async Task<AccessTokenModel> AuthenticateUser(string userName, string password, string webApiUrl)
         {
             try
             {
                 string url = webApiUrl + "/" + _appSettings.Token;
                 string webApiDetails = await _generwellServices.ProcessRequest(userName, password, url);
                 AccessTokenModel accessTokenModel = JsonConvert.DeserializeObject<AccessTokenModel>(webApiDetails);
-                AccessTokenViewModel accessTokenViewModel = _mapper.Map<AccessTokenViewModel>(accessTokenModel);
-                return accessTokenViewModel;
+                return accessTokenModel;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
         /// <summary>
         /// Added by pankaj
         /// Date:-01-12-2016
         /// Fetch all contact details from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<ContactFieldsViewModel> GetContactDetails(string accessToken, string tokenType)
+        public async Task<ContactFieldsModel> GetContactDetails(string accessToken, string tokenType)
         {
             string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.ContactDetails, accessToken, tokenType);
             ContactFieldsModel contactFieldRecord = JsonConvert.DeserializeObject<ContactFieldsModel>(personnelRecord);
-            ContactFieldsViewModel contactFieldsViewModel = _mapper.Map<ContactFieldsViewModel>(contactFieldRecord);
-            return contactFieldsViewModel;
+            return contactFieldRecord;
         }
-        /// <summary>
-        /// Added by Rohit
-        /// Date:-14-12-2016
-        /// Fetch all contact details from web api.
-        /// </summary>
-        /// <returns></returns>
-
-        public async Task<List<ContactInformationViewModel>> GetContactInformation(string accessToken, string tokenType)
-        {
-            string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.ContactInfo, accessToken, tokenType);
-            List<ContactInformationViewModel> ContactInformation = JsonConvert.DeserializeObject<List<ContactInformationViewModel>>(personnelRecord);
-         //   List<ContactInformationViewModel> contactFieldsViewModel = _mapper.Map<List<ContactInformationViewModel>>(ContactInformation);
-            return ContactInformation;
-        }
-
-        //public async Task<List<ContactInformationViewModel>> GetContactInformation(string accessToken, string tokenType)
-        //{
-        //    string personnelRecord = await _generwellServices.GetWebApiDetails(_appSettings.ContactInfo, accessToken, tokenType);
-        //    List<ContactInformationModel> contactFieldRecord = JsonConvert.DeserializeObjectList<ContactInformationModel>>(personnelRecord);
-        //    List <ContactInformationViewModel> contactFieldsViewModel = _mapper.Map <List<ContactInformationViewModel>>(contactFieldRecord);
-        //    return contactFieldsViewModel;
-
-        //}
         /// <summary>
         /// Added by pankaj
         /// Date:-10-12-2016
         /// Fetch support details from web api.
         /// </summary>
         /// <returns></returns>
-        public async Task<SupportViewModel> GetSupportDetails()
+        public async Task<SupportModel> GetSupportDetails()
         {
             string supportData = await _generwellServices.GetWebApiDetails(_appSettings.Support, null, null);
             SupportModel contactFieldRecord = JsonConvert.DeserializeObject<SupportModel>(supportData);
-            SupportViewModel contactFieldsViewModel = _mapper.Map<SupportViewModel>(contactFieldRecord);
-            return contactFieldsViewModel;
+            return contactFieldRecord;
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-16-12-2016
+        /// Created for error logging using post api..
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> LogError(string param, string accessToken, string tokenType, string content)
+        {
+            string response = await _generwellServices.PostWebApiData(_appSettings.LogError + "/" + param, accessToken, tokenType, content);
+            return response;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Generwell.Core.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +7,12 @@ using Generwell.Modules.ViewModels;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Http;
-using Generwell.Modules.Services;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
 using Generwell.Modules.Management;
 using Generwell.Modules.Global;
+using Generwell.Modules.Management.GenerwellManagement;
+using Generwell.Core.Model;
+using AutoMapper;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,9 +23,13 @@ namespace Generwell.Web.Controllers
     public class WellLineReportController : BaseController
     {
         private readonly IWellManagement _wellManagement;
-        public WellLineReportController(IWellManagement wellManagement)
+        private readonly IGenerwellManagement _generwellManagement;
+        private readonly IMapper _mapper;
+        public WellLineReportController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper)
         {
             _wellManagement = wellManagement;
+            _generwellManagement = generwellManagement;
+            _mapper = mapper;
         }
         /// <summary>
         /// Added by pankaj
@@ -50,12 +53,15 @@ namespace Generwell.Web.Controllers
                     HttpContext.Session.SetString("WellName", Encoding.UTF8.GetString(Convert.FromBase64String(wellName)));
                     HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == Constants.trueState ? Constants.checkedState : string.Empty);
                 }
-                List<WellLineReportViewModel> wellLineReportViewModel = await _wellManagement.GetWellLineReports(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<WellLineReportModel> wellLineReportModel = await _wellManagement.GetWellLineReports(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<WellLineReportViewModel> wellLineReportViewModel = _mapper.Map<List<WellLineReportViewModel>>(wellLineReportModel);
                 return View(wellLineReportViewModel);
             }
             catch (Exception ex)
             {
-                throw ex;
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellLineReports Controller Index action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Error", "Accounts");
             }
         }
         /// <summary>
@@ -67,18 +73,28 @@ namespace Generwell.Web.Controllers
         [HttpGet]
         public async Task<string> Follow(string isFollow)
         {
-            //Need to change later
-            if (isFollow == Constants.trueState)
+            try
             {
-                HttpContext.Session.SetString("IsFollow", Constants.checkedState);
+                //Need to change later
+                if (isFollow == Constants.trueState)
+                {
+                    HttpContext.Session.SetString("IsFollow", Constants.checkedState);
+                }
+                else
+                {
+                    HttpContext.Session.SetString("IsFollow", Constants.uncheckedState);
+                }
+                string id = HttpContext.Session.GetString("WellId");
+                string response = await _wellManagement.SetFollowUnfollow(isFollow, id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                return response;
             }
-            else
+            catch (Exception ex)
             {
-                HttpContext.Session.SetString("IsFollow", Constants.uncheckedState);
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellLineReports Controller Follow action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return response;
             }
-            string id = HttpContext.Session.GetString("WellId");
-            string response = await _wellManagement.SetFollowUnfollow(isFollow, id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-            return response;
+
         }
     }
 }

@@ -9,12 +9,12 @@ namespace Generwell.Modules.Management
 {
     public interface ITaskManagement
     {
-        Task<TaskDetailsViewModel> GetTaskDetails(string taskId, string accessToken, string tokenType);
+        Task<TaskDetailsModel> GetTaskDetails(string taskId, string accessToken, string tokenType);
         Task<string> UpdateTaskDetails(string Content, string taskId, string accessToken, string tokenType);
-        Task<List<TaskViewModel>> GetTasks(string accessToken, string tokenType);
-        Task<List<TaskViewModel>> GetTasksByWellId(string wellId, string accessToken, string tokenType);
-        Task<List<DictionaryViewModel>> GetDictionaries(string accessToken, string tokenType);
-        //Task<List<ContactInformationViewModel>> GetContactInformation(string accessToken, string tokenType);
+        Task<List<TaskModel>> GetTasks(string accessToken, string tokenType);
+        Task<List<TaskModel>> GetTasksByWellId(string wellId, string accessToken, string tokenType);
+        Task<List<DictionaryModel>> GetDictionaries(string accessToken, string tokenType);
+        Task<List<ContactInformationModel>> GetContactInformation(string accessToken, string tokenType);
 
     }
 }

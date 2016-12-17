@@ -9,11 +9,10 @@ namespace Generwell.Modules.Management.GenerwellManagement
 {
     public interface IGenerwellManagement
     {
-        Task<AccessTokenViewModel> AuthenticateUser(string userName, string password, string webApiUrl);
-        Task<ContactFieldsViewModel> GetContactDetails(string accessToken, string tokenType);
-        Task<List<ContactInformationViewModel>> GetContactInformation(string accessToken, string tokenType);
-        Task<SupportViewModel> GetSupportDetails();
-        //Task<ContactInformationViewModel> GetContactInformation(string accessToken, string tokenType);
+        Task<AccessTokenModel> AuthenticateUser(string userName, string password, string webApiUrl);
+        Task<ContactFieldsModel> GetContactDetails(string accessToken, string tokenType);
+        Task<SupportModel> GetSupportDetails();
+        Task<string> LogError(string param, string accessToken, string tokenType, string content);
 
     }
 }

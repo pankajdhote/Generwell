@@ -1,4 +1,4 @@
-﻿@model List<Generwell.Modules.ViewModels.TaskFieldsViewModel>
+﻿@model  Generwell.Modules.ViewModels.TaskDetailsViewModel
 @using Generwell.Modules.GenerwellConstants;
 @using Microsoft.AspNetCore.Http;
 @using System.Linq;
@@ -6,16 +6,18 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
         $('.datepicker').datepicker({ format: 'M dd,yyyy' }); //Initialise any date pickers
-    });
+
+        });
     var ids = $('.clsedit').map(function () {
         return this.id;
     }).get();
 </script>
-@if (Model.Count() > 0)
+@if (Model.fields.Count() > 0)
             {
-    @foreach (var item in Model)
+    @foreach (var item in Model.fields)
     {
         @if (@item.fieldControlType != 2)
                     {
@@ -31,9 +33,8 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-@*<div id="newCmpMessage" style="color: rgb(1, 116, 171);display:none;">
-    <b style="font-family:Arial;font-size:12px;line-height:18px;font-weight:bold;">Data saved Successfully.</b>
-</div>*@
+<input type="hidden" id="reactivatedTask" value="@Model.status"/>
+
 <div id="newCmpMessage" style="display:none;" class="alert alert-success alert-dismissable">
     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
     Data saved Successfully.  
@@ -50,10 +51,10 @@
 
     <tbody>
         @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
-        @if (Model.Count() > 0)
+        @if (Model.fields.Count() > 0)
         {
             int count = 1;
-            @foreach (var item in Model)
+            @foreach (var item in Model.fields)
             {
                 @if (@item.permissionId != 0)
                 {
@@ -69,29 +70,36 @@
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" disabled />
+                                        <input id="@item.fieldId" asp-for="@date2" name="date"  min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" disabled />
                                     }
                                     else
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" />
+                                        <input id="@item.fieldId" asp-for="@date2" name="date"  min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" />
                                     }
+                                    <div id="newCmpMessage1" style="display:none;" class="alert alert-success alert-dismissable">
+                                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                                        Correct date.
+                                    </div>
                                 </td>
                             }
-                            @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
-                            {
-                                @:<td class="displayValue1">
+                        @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
+                        {
+
+                            
+                           @: <td class="displayValue1">
                                 List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
                                 List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
                                 if (dictionaryItemsList.Count > 0)
                                 {
                                     ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
                                 }
-                                else {
+                                else
+                                {
                                     ViewBag.Dictionaries = dictionaryItemsList;
                                 }
                                 @if (item.value != null)
                                 {
-                                    <select asp-for="@item.displayValue" id="@item.fieldId" type="select" class="form-control btn button dropdown dropdown-toggle clsedit">
+                                    <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit dropdownErrorMessage1">
                                         <option>Please select one</option>
                                         @foreach (var dictItem in ViewBag.Dictionaries)
                                         {
@@ -108,10 +116,14 @@
                                 }
                                 else
                                 {
-                                    <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionaries" type="select" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
+                                    <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionaries" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
                                 }
-                                @:</td>
-                            }
+                                <br />
+                               <label style="display:none;" id="dropdownErrorMessage">Please select option</label>
+                                             @: </td>
+
+
+                        }
                             @if (@item.fieldTypeId == 3)
                             {
                                 <td class="displayValue1">
@@ -173,14 +185,14 @@
                             @if (@item.fieldTypeId == 9)
                             {
                                 <td class="displayValue1">
-                                    <label id="@item.fieldId" asp-for="@item.value" class="form-control clsedit"></label>
+                                    <label id="@item.fieldId" asp-for="@item.value"></label>
                                 </td>
                             }
 
                             @if (@item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
                             {
                                 <td class="displayValue1">
-                                    <label id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit"></label>
+                                    <label id="@item.fieldId" asp-for="@item.displayValue"></label>
                                 </td>
                             }
                             @if (@item.fieldTypeId == 10)
@@ -328,14 +340,14 @@
                         @if (@item.fieldTypeId == 9)
                             {
                             <td class="displayValue1">
-                                <label id="@item.fieldId" asp-for="@item.value" class="form-control clsedit"></label>
+                                <label id="@item.fieldId" asp-for="@item.value"></label>
                             </td>
                         }
 
                         @if (@item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
                             {
                             <td class="displayValue1">
-                                <label id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit"></label>
+                                <label id="@item.fieldId" asp-for="@item.displayValue"></label>
                             </td>
                         }
                         @if (@item.fieldTypeId == 10)
@@ -384,8 +396,10 @@
 
     </tbody>
 </table>
-<div>
-    <button id="SaveTaskFieldDetailsId" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>
-</div>
 
 
+    <div id="ReactivatedTask">
+        <button id="completeTask" type="submit" name="Complete" value="Complete" class="btn button taskdetailsbuttons">Complete</button>
+        <button id="savedDetails" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>
+    </div>
+     
