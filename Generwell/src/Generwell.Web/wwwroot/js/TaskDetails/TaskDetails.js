@@ -18,36 +18,58 @@ var TaskDetailsPage = {
         debugger;
       
 
-        $('.dropdownErrorMessage1').on('change', function () {
-            var count = 0;
-            $('.clsedit').each(function () {
-                var htmlType = $(this).prop('type');
-                if (htmlType == 'select-one') {
-                    var lookupText = $(this).find(":selected").text();
-                    if (lookupText == 'Please select one') {
-                        $('#dropdownErrorMessage').show();
-                        setTimeout(function () { $('#dropdownErrorMessage').hide(); }, 5000);
-                    }
-                }
-                count++;
-            });
-        });
+        //$('.dropdownErrorMessage1').on('change', function () {
+        //    var count = 0;
+        //    $('.clsedit').each(function () {
+        //        var htmlType = $(this).prop('type');
+        //        if (htmlType == 'select-one') {
+        //            var lookupText = $(this).find(":selected").text();
+        //            if (lookupText == 'Please select one') {
+        //                $('#dropdownErrorMessage').show();
+        //                setTimeout(function () { $('#dropdownErrorMessage').hide(); }, 5000);
+        //            }
+        //        }
+        //        count++;
+        //    });
+        //});
 
-        $("#taskDetailsListTableId").change(function () {
-            var count = 0;
-            $('.clsedit').each(function () {
-                var htmlType = $(this).prop('type');
-                if (htmlType == 'select-one') {
-                    var lookupText = $(this).find(":selected").text();
-                    if (lookupText == 'Please select one') {
-                        $('#dropdownErrorMessage').show();
-                        setTimeout(function () { $('#dropdownErrorMessage').hide(); }, 5000);
-                    }
-                }
-                count++;
-            });
+        //$("#taskDetailsListTableId").change(function () {
+        //    var count = 0;
+        //    $('.clsedit').each(function () {
+        //        var htmlType = $(this).prop('type');
+                
+        //        if (htmlType == 'select-one') {
+        //            var id = this.id;
+        //            var lookupText = $(this).find(":selected").text();
+        //            if (lookupText == 'Please select one') {
+        //                $('#dropdownErrorMessage_' + id).show();
+        //            }
+        //        }
+        //        if (htmlType == 'text') {
+        //            if (this.name == "date") {
+        //                debugger;
+        //                var id = this.id;
+        //                var DateText = this.value;
+        //                var startDate = "Jan 01,1990";
+                      
+        //                if (new Date(DateText) < new Date(startDate))
+        //                {
+        //                    $('#dateErrorMessage_'+id).show();
+        //                }
+        //            }
+        //            else {
+
+        //                var Text = this.value;
+        //                if (Text == '') {
+        //                     var id = this.id;
+        //                     $('#TextErrorMessage__' + id).show();
+        //                }
+        //            }
+        //        }
+        //        count++;
+        //    });
             
-        });
+        //});
     },
     completeTask: function () {
         var Content = TaskDetailsPage.getViewData();
@@ -113,6 +135,7 @@ var TaskDetailsPage = {
                 var lookupText = $(this).find(":selected").text();
                 IdArray.push(this.id);
                 ValueArray.push(txt);
+              
                 Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + txt + "\"}");
             }
             else if (htmlType == 'text') {
@@ -171,13 +194,6 @@ var TaskDetailsPage = {
                 TaskDetailsPage.callUpdateTask(Content);
             });
         });
-    },
-      getPictureAlbum: function (id) {
-        debugger;
-        var id = Base64.encode(id.toString());
-        $('#processing-modal').modal("show");
-        var url = "/Picture/Index" + '?id=' + id;
-        window.location.href = url;
     }
 }
 
