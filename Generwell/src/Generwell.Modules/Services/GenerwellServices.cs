@@ -191,7 +191,7 @@ namespace Generwell.Modules.Services
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdateTaskData(string url, string accessToken, string tokenType, string Content)
+        public async Task<string> UpdateWebApiData(string url, string accessToken, string tokenType, string Content)
         {
             try
             {
@@ -208,23 +208,16 @@ namespace Generwell.Modules.Services
                     Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
                 };
                 HttpResponseMessage hrm = await hc.SendAsync(request);
-                //Stream receiveStream = response.GetResponseStream();
-                //StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
-                //txtBlock.Text = readStream.ReadToEnd();
                 string jsonresult = string.Empty;
                 if (hrm.IsSuccessStatusCode)
                 {
                     jsonresult = await hrm.Content.ReadAsStringAsync();
                     if (hrm.ReasonPhrase == "OK")
                     {
-                        //string msg = "data saved";
-                        //return msg;
-
                     }
                     else
                     {
                         return "";
-                       
                     }
                 }
                 return jsonresult;

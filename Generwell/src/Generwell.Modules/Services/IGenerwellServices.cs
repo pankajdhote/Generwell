@@ -13,6 +13,6 @@ namespace Generwell.Modules.Services
         Task<string> GetWebApiDetails(string url, string accessToken, string tokenType);
         Task<byte[]> GetWebApiDetailsBytes(string url, string accessToken, string tokenType);
         Task<string> GetWebApiWithTimeZone(string url, string accessToken, string tokenType);
-        Task<string> UpdateTaskData(string url, string accessToken, string tokenType, string Content);
+        Task<string> UpdateWebApiData(string url, string accessToken, string tokenType, string Content);
     }
 }

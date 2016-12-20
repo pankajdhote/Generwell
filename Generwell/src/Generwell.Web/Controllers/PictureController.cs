@@ -69,6 +69,53 @@ namespace Generwell.Web.Controllers
             return View("EditPicture", pictureViewModel);
         }
 
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 20-12-2016
+        /// Update picture..
+        /// </summary>
+        /// <returns></returns>
+        // GET: /<controller>/
+        [AllowAnonymous]
+        public async Task<string> UpdatePicture(string content)
+        {
+            try
+            {
+                string taskDetailsResponse = await _pictureManagement.UpdatePicture(content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                return taskDetailsResponse;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return response;
+            }
+        }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 20-12-2016
+        /// Delete picture..
+        /// </summary>
+        /// <returns></returns>
+        // GET: /<controller>/
+        [AllowAnonymous]
+        public async Task<string> DeletePicture(string pictureId)
+        {
+            try
+            {
+                string taskDetailsResponse = await _pictureManagement.DeletePicture(pictureId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                return taskDetailsResponse;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return response;
+            }
+        }
+
+
         // GET: /<controller>/
         public IActionResult AddPicture()
         {
