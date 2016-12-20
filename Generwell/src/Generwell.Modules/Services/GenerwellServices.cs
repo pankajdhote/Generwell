@@ -212,10 +212,24 @@ namespace Generwell.Modules.Services
                     Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
                 };
                 HttpResponseMessage hrm = await hc.SendAsync(request);
+                //Stream receiveStream = response.GetResponseStream();
+                //StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
+                //txtBlock.Text = readStream.ReadToEnd();
                 string jsonresult = string.Empty;
                 if (hrm.IsSuccessStatusCode)
                 {
                     jsonresult = await hrm.Content.ReadAsStringAsync();
+                    if (hrm.ReasonPhrase == "OK")
+                    {
+                        //string msg = "data saved";
+                        //return msg;
+
+                    }
+                    else
+                    {
+                        return "";
+                       
+                    }
                 }
                 return jsonresult;
             }
