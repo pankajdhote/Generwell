@@ -194,6 +194,13 @@ var TaskDetailsPage = {
                 TaskDetailsPage.callUpdateTask(Content);
             });
         });
+    },
+      getPictureAlbum: function (id) {
+        debugger;
+        var id = Base64.encode(id.toString());
+        $('#processing-modal').modal("show");
+        var url = "/Picture/Index" + '?id=' + id;
+        window.location.href = url;
     }
 }
 

@@ -34,6 +34,7 @@ var picturePage = {
     },
     editPicture: function (fileUrl, label, comment) {
         debugger;
+        $('#processing-modal').modal("show");
         var url = '/Picture/EditPicture' + '?fileUrl=' + Base64.encode(fileUrl) + '&label=' + Base64.encode(label) + '&comment=' + Base64.encode(comment);
         window.location.href = url;
     },
@@ -56,6 +57,10 @@ var picturePage = {
                 $('#deletePicture').removeClass('button');
                 $('#deletePicture').attr('disabled', 'disabled');
             } else {
+                //Swap save button
+                $('#savePicture').attr('value', 'Edit');
+                $('#savePicture').attr('id', 'editPicture');
+
                 $('#edit').parent().removeClass('checked');
                 $('#delete').parent().addClass('checked');
                 $('#editPicture').attr('disabled', 'disabled');
@@ -63,8 +68,11 @@ var picturePage = {
                 $('#editPicture').removeClass('button');
                 $('#deletePicture').removeAttr('disabled', '');
 
+                //Disabled label and comment
                 $('#label').attr('disabled', 'disabled');
                 $('#comment').attr('disabled', 'disabled');
+                
+              
             }
         });
     },
