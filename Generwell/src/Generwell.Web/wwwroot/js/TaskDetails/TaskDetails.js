@@ -13,10 +13,10 @@ var TaskDetailsPage = {
         TaskDetailsPage.createMyFilterCheckbox();
         TaskDetailsPage.changeButtonEvent();
     },
-      
+
     updateTaskFields: function () {
         debugger;
-      
+
 
         //$('.dropdownErrorMessage1').on('change', function () {
         //    var count = 0;
@@ -37,7 +37,7 @@ var TaskDetailsPage = {
         //    var count = 0;
         //    $('.clsedit').each(function () {
         //        var htmlType = $(this).prop('type');
-                
+
         //        if (htmlType == 'select-one') {
         //            var id = this.id;
         //            var lookupText = $(this).find(":selected").text();
@@ -51,7 +51,7 @@ var TaskDetailsPage = {
         //                var id = this.id;
         //                var DateText = this.value;
         //                var startDate = "Jan 01,1990";
-                      
+
         //                if (new Date(DateText) < new Date(startDate))
         //                {
         //                    $('#dateErrorMessage_'+id).show();
@@ -68,7 +68,7 @@ var TaskDetailsPage = {
         //        }
         //        count++;
         //    });
-            
+
         //});
     },
     completeTask: function () {
@@ -85,10 +85,8 @@ var TaskDetailsPage = {
             datatype: "json",
             cache: false,
             success: function (data, status, xhr) {
-                //swal("updated!", "Data updated successfully", "success");
                 $('#newCmpMessage').show();
                 setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
-                //location.reload();
                 debugger;
                 $('#processing-modal').modal("hide");
                 $("#completeTask").css("display", "block");
@@ -122,7 +120,7 @@ var TaskDetailsPage = {
         });
     },
     getViewData: function () {
-        $('#processing-modal').modal("show");
+        //$('#processing-modal').modal("show");
         var IdArray = [];
         var ValueArray = [];
         var Content = [];
@@ -135,18 +133,43 @@ var TaskDetailsPage = {
                 var lookupText = $(this).find(":selected").text();
                 IdArray.push(this.id);
                 ValueArray.push(txt);
-              
-                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + txt + "\"}");
+                var id = this.id;
+                var lookupText = $(this).find(":selected").text();
+                if (lookupText == 'Please select one') {
+                    $('#dropdownErrorMessage_' + id).show();
+                }
+                else {
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + txt + "\"}");
+                }
             }
             else if (htmlType == 'text') {
                 IdArray.push(this.id);
                 ValueArray.push(this.value);
 
                 if (this.name == "date") {
-                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count]) / 1000 + "  }");
+                    var id = this.id;
+                    var DateText = this.value;
+                    var startDate = "Jan 01,1990";
+
+                    if (new Date(DateText) < new Date(startDate)) {
+                        $('#dateErrorMessage_' + id).show();
+                    }
+                    else {
+
+                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count]) / 1000 + "  }");
+                    }
                 }
                 else {
-                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+
+                    var id = this.id;
+                    var text = this.value;
+                    if (text == "") {
+                        $('#textErrorMessage_' + id).show();
+                        return false;
+                    }
+                    else {
+                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                    }
                 }
             }
             else if (htmlType == "checkbox") {
@@ -157,14 +180,21 @@ var TaskDetailsPage = {
             else if (htmlType == "number") {
                 IdArray.push(this.id);
                 ValueArray.push(this.value);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + this.value + "\"}");
+                var id = this.id;
+                var number = this.value;
+                if (number < 1 || number > 100) {
+                    $('#numberErrorMessage_' + id).show();
+                }
+                else {
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + this.value + "\"}");
+                }
             }
-           
+
             count++;
         });
 
         return Content;
-       
+
     },
     createMyFilterCheckbox: function () {
         //Added for checkbox style
