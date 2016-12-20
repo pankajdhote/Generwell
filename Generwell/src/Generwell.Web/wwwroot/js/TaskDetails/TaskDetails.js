@@ -135,6 +135,7 @@ var TaskDetailsPage = {
                 ValueArray.push(txt);
                 var id = this.id;
                 var lookupText = $(this).find(":selected").text();
+                //LookupValidation
                 if (lookupText == 'Please select one') {
                     $('#dropdownErrorMessage_' + id).show();
                 }
@@ -145,7 +146,7 @@ var TaskDetailsPage = {
             else if (htmlType == 'text') {
                 IdArray.push(this.id);
                 ValueArray.push(this.value);
-
+                //Date Valdiation
                 if (this.name == "date") {
                     var id = this.id;
                     var DateText = this.value;
@@ -163,6 +164,7 @@ var TaskDetailsPage = {
 
                     var id = this.id;
                     var text = this.value;
+                    //Text Validation
                     if (text == "") {
                         $('#textErrorMessage_' + id).show();
                         return false;
@@ -182,15 +184,15 @@ var TaskDetailsPage = {
                 ValueArray.push(this.value);
                 var id = this.id;
                 var number = this.value;
-               
-                if (number < 1 || number > 10) {
-                        $('#numberErrorMessage_' + id).show();
+
+                //Number Validation
+                if (number < 1 || number > 10 || number == "") {
+                    $('#numberErrorMessage_' + id).show();
                 }
                 else {
-                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + this.value + "\"}");
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
                 }
             }
-
             count++;
         });
 
@@ -233,6 +235,18 @@ var TaskDetailsPage = {
         var url = "/Picture/Index" + '?id=' + id;
         window.location.href = url;
     }
+
+    ,
+    //validateNumber: function(event) {
+       
+    //    if (value > 100) {
+    //        return false;
+
+    //    } else {
+    //        return true;
+    //    }
+
+    //}
 }
 
 
