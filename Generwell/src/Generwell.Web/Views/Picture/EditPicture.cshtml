@@ -1,0 +1,32 @@
+﻿@model Generwell.Modules.ViewModels.PictureViewModel
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewBag.Title = "Edit Pictures";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Loading Modal Start here-->
+@Html.Partial("_LoadingPopup")
+<!-- Modal ends Here -->
+
+<div class="container wrapper-content animated fadeInRight mr-20 ml-20">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@Context.Session.GetString("UserName")</div>
+            <div class="ibox float-e-margins">
+                <div class="title ibox-title border-bottom">
+                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Pictures</h4>
+                </div>
+                <div class="i-checks chk border-bottom pt-pb-20">
+                    <input id="editPicture" type="button" class="btn btn-default float-right mt-17" disabled="disabled" name="Edit" value="Edit" />
+                    <input id="deletePicture" type="button" class="btn btn-default float-right mt-17" disabled="disabled" name="Delete" value="Delete" />
+                    <input id="cancel" type="button" class="btn button float-right mt-17" name="Cancel" value="Cancel" />
+                </div>
+                <div id="pictureDiv" class="ibox-content pt">
+                    @Html.Partial("_EditPicture", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

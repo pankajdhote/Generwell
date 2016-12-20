@@ -1,5 +1,5 @@
 ﻿@model List<Generwell.Modules.ViewModels.PictureViewModel>
-
+@using Newtonsoft.Json;
 <script type="text/javascript">
     $(document).ready(function () {
         picturePage.initialize();
@@ -17,18 +17,19 @@
                         @foreach (var pictureItem in Model)
                         {
                             string base64StringFormat = Convert.ToBase64String(pictureItem.picture);
-
+                            string fileUrl = JsonConvert.SerializeObject(pictureItem.fileUrl);
+                            string label = JsonConvert.SerializeObject(pictureItem.label);
+                            string comment = JsonConvert.SerializeObject(pictureItem.comment);
                             <div class="col-sm-3 col-xs-6 col-md-2">
                                 <div class="thumbnail wh-150 border-blue">
-                                    <a href="data:image/jpeg;base64,@base64StringFormat" title="Image from Unsplash" data-gallery="">
-                                        <img src="data:image/jpeg;base64,@base64StringFormat" class="img-thumbnail wh-130 img-responsive" alt="Cinque Terre" asp-append-version="true">
+                                    <a id="" href="#" title="Image from Unsplash" data-gallery="">
+                                        <img id="@pictureItem.id" src="data:image/jpeg;base64,@base64StringFormat" onclick="picturePage.editPicture(@fileUrl, @label, @comment);" class="img-thumbnail wh-130 img-responsive" alt="@pictureItem.label" asp-append-version="true">
                                     </a>
                                 </div>
                                 <div class="caption">
                                     <p class="text-center">@pictureItem.label</p>
                                 </div>
                             </div>
-
                         }
                         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
                         @*<div id="blueimp-gallery" class="blueimp-gallery" style="display: none;">
@@ -40,7 +41,6 @@
                             <a class="play-pause"></a>
                             <ol class="indicator"></ol>
                         </div>*@
-
                     </div>
 
                 </div>

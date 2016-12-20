@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Generwell.Core.Model;
 using Generwell.Modules.Services;
-using Generwell.Modules.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Generwell.Modules.Management.GenerwellManagement
@@ -14,13 +12,11 @@ namespace Generwell.Modules.Management.GenerwellManagement
     {
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
-        private readonly IMapper _mapper;
 
         public GenerwellManagement(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IMapper mapper)
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
-            _mapper = mapper;
         }
         /// <summary>
         /// Added by pankaj

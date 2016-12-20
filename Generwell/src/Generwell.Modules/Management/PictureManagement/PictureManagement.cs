@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Generwell.Core.Model;
+﻿using Generwell.Core.Model;
+using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -12,13 +12,18 @@ namespace Generwell.Modules.Management.PictureManagement
     {
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
-        private readonly IMapper _mapper;
+        private readonly IGenerwellManagement _generwellManagement;
+        private readonly PictureModel _pictureModel;
 
-        public PictureManagement(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IMapper mapper)
+        public PictureManagement(IOptions<AppSettingsModel> appSettings,
+            IGenerwellServices generwellServices,
+            PictureModel pictureModel,
+            IGenerwellManagement generwellManagement)
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
-            _mapper = mapper;
+            _generwellManagement = generwellManagement;
+            _pictureModel = pictureModel;
         }
 
 
@@ -39,6 +44,24 @@ namespace Generwell.Modules.Management.PictureManagement
                     item.picture = await _generwellServices.GetWebApiDetailsBytes(item.fileUrl, accessToken, tokenType);
                 }
                 return albumRecord;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-14-12-2016
+        /// Fetch all pictures by albumId from web api and display on screen.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<PictureModel> GetPicture(string fileUrl, string accessToken, string tokenType)
+        {
+            try
+            {
+                _pictureModel.picture = await _generwellServices.GetWebApiDetailsBytes(fileUrl, accessToken, tokenType);
+                return _pictureModel;
             }
             catch (Exception ex)
             {

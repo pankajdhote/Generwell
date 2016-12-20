@@ -644,6 +644,22 @@
           "lib/netstandard1.3/Microsoft.AspNetCore.Razor.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Razor.Design/1.1.0-preview4-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection": "1.0.0",
+          "Microsoft.NETCore.App": "1.1.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Razor.Runtime/1.1.0": {
         "type": "package",
         "dependencies": {
@@ -659,17 +675,15 @@
           "lib/netstandard1.5/Microsoft.AspNetCore.Razor.Runtime.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final": {
+      "Microsoft.AspNetCore.Razor.Tools/1.1.0-preview4-final": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "Microsoft.AspNetCore.Razor.Design": "1.1.0-preview4-final",
           "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
           "Microsoft.DotNet.ProjectModel.Loader": "1.0.0-preview2-003121",
-          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
           "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
-          "Microsoft.NETCore.App": "1.0.0",
-          "Newtonsoft.Json": "9.0.1",
-          "System.Diagnostics.Process": "4.1.0",
+          "Microsoft.NETCore.App": "1.1.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
           "System.Runtime.Serialization.Primitives": "4.1.1"
         },
         "compile": {
@@ -4063,7 +4077,7 @@
           "Generwell.Core": "1.1.0",
           "Microsoft.AspNetCore.Authentication": "1.1.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
-          "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
+          "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
           "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
           "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
           "Microsoft.Extensions.Options": "1.1.0",
@@ -4693,6 +4707,22 @@
           "lib/netstandard1.3/Microsoft.AspNetCore.Razor.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Razor.Design/1.1.0-preview4-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection": "1.0.0",
+          "Microsoft.NETCore.App": "1.1.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Razor.Runtime/1.1.0": {
         "type": "package",
         "dependencies": {
@@ -4708,17 +4738,15 @@
           "lib/netstandard1.5/Microsoft.AspNetCore.Razor.Runtime.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final": {
+      "Microsoft.AspNetCore.Razor.Tools/1.1.0-preview4-final": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Razor.Runtime": "1.0.0",
+          "Microsoft.AspNetCore.Razor.Design": "1.1.0-preview4-final",
           "Microsoft.DotNet.Cli.Utils": "1.0.0-preview2-003121",
           "Microsoft.DotNet.ProjectModel.Loader": "1.0.0-preview2-003121",
-          "Microsoft.Extensions.CommandLineUtils": "1.0.0",
           "Microsoft.Extensions.PlatformAbstractions": "1.0.0",
-          "Microsoft.NETCore.App": "1.0.0",
-          "Newtonsoft.Json": "9.0.1",
-          "System.Diagnostics.Process": "4.1.0",
+          "Microsoft.NETCore.App": "1.1.0",
+          "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
           "System.Runtime.Serialization.Primitives": "4.1.1"
         },
         "compile": {
@@ -8277,7 +8305,7 @@
           "Generwell.Core": "1.1.0",
           "Microsoft.AspNetCore.Authentication": "1.1.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
-          "Microsoft.AspNetCore.Http.Abstractions": "1.1.0",
+          "Microsoft.AspNetCore.Http.Abstractions": "1.0.0",
           "Microsoft.AspNetCore.Http.Extensions": "1.1.0",
           "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
           "Microsoft.Extensions.Options": "1.1.0",
@@ -8825,6 +8853,22 @@
         "lib/netstandard1.3/Microsoft.AspNetCore.Razor.xml"
       ]
     },
+    "Microsoft.AspNetCore.Razor.Design/1.1.0-preview4-final": {
+      "sha512": "30zfJaiVGlFK4AlYvddJ7dysfwryfGkAYEYm760VEiKdCJ2kRrx0rlDWYDolWvr9Oh2A8iqSGwDwtVCG4W4qhA==",
+      "type": "package",
+      "path": "Microsoft.AspNetCore.Razor.Design/1.1.0-preview4-final",
+      "files": [
+        "Microsoft.AspNetCore.Razor.Design.1.1.0-preview4-final.nupkg.sha512",
+        "Microsoft.AspNetCore.Razor.Design.nuspec",
+        "lib/net451/Microsoft.AspNetCore.Razor.Design.exe",
+        "lib/net451/Microsoft.AspNetCore.Razor.Design.xml",
+        "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.dll",
+        "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.runtimeconfig.json",
+        "lib/netcoreapp1.0/Microsoft.AspNetCore.Razor.Design.xml",
+        "runtimes/win7-x64/lib/net451/Microsoft.AspNetCore.Razor.Design.exe",
+        "runtimes/win7-x86/lib/net451/Microsoft.AspNetCore.Razor.Design.exe"
+      ]
+    },
     "Microsoft.AspNetCore.Razor.Runtime/1.1.0": {
       "sha512": "hQW8+DRFHCHmTzviW54umnBfX1vc9bv/390r62k85LQsUd5Lo59QQ+IyD5fe6o9g/h946IF8Yl25wd6dEk7YqA==",
       "type": "package",
@@ -8838,20 +8882,18 @@
         "lib/netstandard1.5/Microsoft.AspNetCore.Razor.Runtime.xml"
       ]
     },
-    "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final": {
-      "sha512": "gUFr7P3hVd7ILgY5Q5AnBHxatElop3kpn7uYX7kPVktvWMkL0HK2DKw66hqYTy5BNz41BTuxCn0Foa7aKwvTVA==",
+    "Microsoft.AspNetCore.Razor.Tools/1.1.0-preview4-final": {
+      "sha512": "elen0GMaXIUZjL7X61V6tvCm64vYw6NL+XDBIUguFXpx3PK4GXvYALLDK8zzjgUVSS0ChYBX3o4Xw20iQwXiJQ==",
       "type": "package",
-      "path": "Microsoft.AspNetCore.Razor.Tools/1.0.0-preview2-final",
+      "path": "Microsoft.AspNetCore.Razor.Tools/1.1.0-preview4-final",
       "files": [
-        "Microsoft.AspNetCore.Razor.Tools.1.0.0-preview2-final.nupkg.sha512",
+        "Microsoft.AspNetCore.Razor.Tools.1.1.0-preview4-final.nupkg.sha512",
         "Microsoft.AspNetCore.Razor.Tools.nuspec",
         "lib/net451/dotnet-razor-tooling.exe",
         "lib/net451/dotnet-razor-tooling.xml",
         "lib/netcoreapp1.0/dotnet-razor-tooling.dll",
         "lib/netcoreapp1.0/dotnet-razor-tooling.runtimeconfig.json",
-        "lib/netcoreapp1.0/dotnet-razor-tooling.xml",
-        "runtimes/win7-x64/lib/net451/dotnet-razor-tooling.exe",
-        "runtimes/win7-x86/lib/net451/dotnet-razor-tooling.exe"
+        "lib/netcoreapp1.0/dotnet-razor-tooling.xml"
       ]
     },
     "Microsoft.AspNetCore.ResponseCaching.Abstractions/1.1.0": {
@@ -9563,7 +9605,7 @@
       ]
     },
     "Microsoft.NETCore.Jit/1.0.4": {
-      "sha512": "3t9F65azjC9jBbrQN5YHZFdbgnQJLU7CFfeEQcD9aSASIt8HUn0Y0oXL7rH9lRKWiiYkfnQDjDSERkGeeb+NOw==",
+      "sha512": "IcHTGj+vTFcOu7/flwNg+CWIfTsxqHWgj08MKOtYwS5k0EuLvx6PrYsn7vHCV0SUTk1zbQ1l0EJj1UdxTMyx4w==",
       "type": "package",
       "path": "Microsoft.NETCore.Jit/1.0.4",
       "files": [
@@ -9588,7 +9630,7 @@
       ]
     },
     "Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
-      "sha512": "HOIXneMcKuHYB5GHxqlCYUzmfSXnx4o4FQgDCC13oA7wt6hw/F9ww2Q3fwk5z1G1GZa3PZXS6Wlaj+zsa1gXMw==",
+      "sha512": "r4/aP7VYcJ+W/rJVFU+jAdjF4KrsHRDYQJ+p8weUP5n65yLzWXlQTVY6OsR560aV5EF7jc65dqsNXIryUCrEkQ==",
       "type": "package",
       "path": "Microsoft.NETCore.Runtime.CoreCLR/1.0.4",
       "files": [
@@ -15457,7 +15499,7 @@
       "Microsoft.AspNetCore.Diagnostics >= 1.1.0",
       "Microsoft.AspNetCore.Http.Extensions >= 1.1.0",
       "Microsoft.AspNetCore.Mvc >= 1.1.0",
-      "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
+      "Microsoft.AspNetCore.Razor.Tools >= 1.1.0-preview4-final",
       "Microsoft.AspNetCore.Routing >= 1.1.0",
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.1.0",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.1.0",

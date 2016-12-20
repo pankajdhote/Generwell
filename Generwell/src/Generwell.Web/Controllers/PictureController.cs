@@ -21,12 +21,19 @@ namespace Generwell.Web.Controllers
         private readonly IPictureManagement _pictureManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
-        public PictureController(IPictureManagement pictureManagement, IMapper mapper, IGenerwellManagement generwellManagement) 
+        public PictureController(IPictureManagement pictureManagement, IMapper mapper, IGenerwellManagement generwellManagement)
         {
             _pictureManagement = pictureManagement;
             _mapper = mapper;
             _generwellManagement = generwellManagement;
         }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 16-11-2016
+        /// Fetched all picture and display on screen..
+        /// </summary>
+        /// <returns></returns>
         // GET: /<controller>/
         public async Task<IActionResult> Index(string id)
         {
@@ -43,7 +50,25 @@ namespace Generwell.Web.Controllers
                 return RedirectToAction("Error", "Accounts");
             }
         }
-       
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 19-11-2016
+        /// Fetched picture and display on screen for edit functionality..
+        /// </summary>
+        /// Need to Modify later
+        /// <returns></returns>
+        // GET: /<controller>/
+        [AllowAnonymous]
+        public async Task<ActionResult> EditPicture(string fileUrl, string label, string comment)
+        {
+            PictureModel pictureModel = await _pictureManagement.GetPicture(Encoding.UTF8.GetString(Convert.FromBase64String(fileUrl)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+            PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(pictureModel);
+            pictureViewModel.label = Encoding.UTF8.GetString(Convert.FromBase64String(label));
+            pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment));
+            return View("EditPicture", pictureViewModel);
+        }
+
         // GET: /<controller>/
         public IActionResult AddPicture()
         {
