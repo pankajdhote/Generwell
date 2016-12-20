@@ -15,7 +15,9 @@
             <div class="float-right user-name"><label>Welcome &nbsp;</label>@Context.Session.GetString("UserName")</div>
             <div class="ibox float-e-margins">
                 <div class="title ibox-title border-bottom">
-                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Pictures</h4>
+                    <h4>
+                        <img src="~/images/welldetails-icon.png" alt="company logo" class="pb-5" asp-append-version="true" />&nbsp;Pictures
+                    </h4>
                 </div>
                 <div class="i-checks chk border-bottom pt-pb-20">                    
                     <input id="addPicture" type="button" class="btn button float-right mt-17" name="Add" value="Add" />

@@ -1,0 +1,55 @@
+﻿@model Generwell.Modules.ViewModels.PictureViewModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        picturePage.initialize();
+    });
+</script>
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+
+                    <div class="lightBoxGallery is-Responsive">
+                        @if (Model != null)
+                        {
+                            string base64StringFormat = Convert.ToBase64String(Model.picture);
+
+                            <div class="col-sm-12 col-xs-12 col-md-4">
+                                <div class="thumbnail border-blue">
+                                    <a id="" href="#" title="Image from Unsplash" data-gallery="">
+                                        <img id="@Model.id" src="data:image/jpeg;base64,@base64StringFormat" class="img-thumbnail img-responsive" alt="Cinque Terre" asp-append-version="true">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-4">
+                                <h4>Lable</h4>
+                                <input asp-for="@Model.label" class="form-control" value="@Model.label" disabled="disabled" />
+                                <br />
+                                <h4>Comment</h4>
+                                <textarea name="comment" id="comment"
+                                          data-val-required="The comment field is required."
+                                          data-val-maxlength-max="5000"
+                                          data-val-maxlength="The field comment must be a string or array type with a maximum length of '5000'."
+                                          data-val="true" class="form-control" rows="7" disabled="disabled">
+                                    @Model.comment
+                                </textarea>
+                            </div>
+
+                                <div class="i-checks chk col-sm-12 col-xs-12 col-md-4">
+                                    <label>Edit </label>    
+                                    <input id="edit" type="radio" class=""/>
+                                     | 
+                                    <label>Delete </label>
+                                    <input id="delete" type="radio" class="" />
+                                </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

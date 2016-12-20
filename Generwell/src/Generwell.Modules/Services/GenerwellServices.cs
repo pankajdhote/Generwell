@@ -4,11 +4,7 @@ using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using Generwell.Modules.Management.GenerwellManagement;
 
 namespace Generwell.Modules.Services
 {

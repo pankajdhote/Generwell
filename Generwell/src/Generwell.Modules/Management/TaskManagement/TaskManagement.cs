@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using Generwell.Core.Model;
+﻿using Generwell.Core.Model;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.Services;
-using Generwell.Modules.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -16,7 +14,6 @@ namespace Generwell.Modules.Management
     {
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
-        private readonly IMapper _mapper;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly TaskDetailsModel _objTaskDetails;
         private readonly List<TaskModel> _objTaskList;
@@ -24,7 +21,6 @@ namespace Generwell.Modules.Management
         private readonly List<ContactInformationModel> _objContactInfo;
         public TaskManagement(IOptions<AppSettingsModel> appSettings, 
             IGenerwellServices generwellServices, 
-            IMapper mapper,
             IGenerwellManagement generwellManagement,
             TaskDetailsModel objTaskDetails,
             List<TaskModel> objTaskList,
@@ -33,7 +29,6 @@ namespace Generwell.Modules.Management
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
-            _mapper = mapper;
             _objTaskDetails = objTaskDetails;
             _generwellManagement = generwellManagement;
             _objTaskList = objTaskList;

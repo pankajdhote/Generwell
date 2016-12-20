@@ -63,8 +63,7 @@ namespace Generwell.Web
             services.AddSingleton<List<TaskModel>>();
             services.AddSingleton<List<DictionaryModel>>();
             services.AddSingleton<List<ContactInformationModel>>();
-
-
+            services.AddSingleton<PictureModel>();
 
             var appSettings = Configuration.GetSection("ApplicationSettings");
             services.Configure<AppSettingsModel>(appSettings);

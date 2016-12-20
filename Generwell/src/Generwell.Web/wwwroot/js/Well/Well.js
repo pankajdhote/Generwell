@@ -151,26 +151,7 @@ var wellPage = {
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#processing-modal').modal("hide");
                 }
-            });
-
-
-            //$.ajax({
-            //    url: '/Well/SetFollowUnfollow',
-            //    type: 'POST',
-            //    dataType: 'html',
-            //    cache: false,
-            //    data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
-            //    success: function (response) {
-            //        debugger;
-            //        if (response != undefined || response != "") {
-            //            $("#wellTableDivId").html(response);
-            //            //On checkbox click filter data tables rows
-            //            wellPage.myWellFilter();
-            //            $('#processing-modal').modal("hide");
-            //        }
-            //    }, error: function (err) {
-            //    }
-            //});
+            });           
         }
     }
 }
