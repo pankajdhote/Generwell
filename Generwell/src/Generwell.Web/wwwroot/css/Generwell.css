@@ -410,12 +410,11 @@ min-height: 300px;
     min-width: 330px;
 }
 
-.wideInput{
-    text-align: left;
-    padding:  0.4em;
-    width: 400px;
-    height: 200px;
+@media(max-width:768px) {
+    .wh-300 {
+        min-height: 200px;
+        min-width: 249px;
+    }
 }
-
 
 
