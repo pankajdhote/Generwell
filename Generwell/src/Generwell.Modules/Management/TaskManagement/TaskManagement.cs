@@ -66,7 +66,7 @@ namespace Generwell.Modules.Management
         {
             try
             {
-                string taskDetailsReecord = await _generwellServices.UpdateTaskData(_appSettings.TaskDetails + "/" + taskId, accessToken, tokenType, Content);
+                string taskDetailsReecord = await _generwellServices.UpdateWebApiData(_appSettings.TaskDetails + "/" + taskId, accessToken, tokenType, Content);
                 return taskDetailsReecord;
             }
             catch (Exception ex)

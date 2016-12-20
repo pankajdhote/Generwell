@@ -407,5 +407,10 @@ height:244% !important;
 }
 
 
+.wh-300 {
+min-height: 300px;
+    min-width: 330px;
+}
+
 
 

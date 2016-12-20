@@ -13,15 +13,15 @@
 
                 <div class="ibox-content">
 
-                    <div class="lightBoxGallery is-Responsive">
+                    <div class="lightBoxGallery">
                         @if (Model != null)
                         {
                             string base64StringFormat = Convert.ToBase64String(Model.picture);
 
                             <div class="col-sm-12 col-xs-12 col-md-4">
-                                <div class="thumbnail border-blue">
+                                <div class="thumbnail border-blue wh-300">
                                     <a id="" href="#" title="Image from Unsplash" data-gallery="">
-                                        <img id="@Model.id" src="data:image/jpeg;base64,@base64StringFormat" class="img-thumbnail img-responsive" alt="Cinque Terre" asp-append-version="true">
+                                        <img id="@Model.id" src="data:image/jpeg;base64,@base64StringFormat" class="img-thumbnail img-responsive wh-300" alt="Cinque Terre" asp-append-version="true">
                                     </a>
                                 </div>
                             </div>

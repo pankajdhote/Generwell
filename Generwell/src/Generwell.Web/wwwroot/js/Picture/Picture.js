@@ -13,6 +13,7 @@ var picturePage = {
         picturePage.swapRadioButton();
         picturePage.editPictureLabel();
         picturePage.deletePicture();
+        picturePage.redirectToPreviousPage();
 
     },
     addPicture: function () {
@@ -56,7 +57,13 @@ var picturePage = {
                 $('#editPicture').addClass('button');
                 $('#deletePicture').removeClass('button');
                 $('#deletePicture').attr('disabled', 'disabled');
+
+                picturePage.editPictureLabel();
+
             } else {
+                //remove click event
+                $('#savePicture').unbind('click');
+
                 //Swap save button
                 $('#savePicture').attr('value', 'Edit');
                 $('#savePicture').attr('id', 'editPicture');
@@ -113,14 +120,17 @@ var picturePage = {
 
     },
     updatePicture: function () {
+        debugger;
+        var content=getViewData();
+
         $('#processing-modal').modal("show");
         debugger;
         $.ajax({
+            type: "GET",
             url: '/Picture/UpdatePicture',
-            type: 'GET',
-            dataType: 'html',
+            data: { Content: JSON.stringify(content) },
+            datatype: "json",
             cache: false,
-            data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
             success: function (response) {
                 debugger;
                 $('#processing-modal').modal("hide");
@@ -136,10 +146,11 @@ var picturePage = {
         window.location.href = url;
     },
     getViewData: function () {
+        debugger;
         $('#processing-modal').modal("show");
-        var IdArray = [];
-        var ValueArray = [];
-        var Content = [];
+        var IdArray = new Array();
+        var ValueArray = new Array();
+        var Content = new Array();
         var count = 0;
         $('.clsedit').each(function () {
             debugger;
