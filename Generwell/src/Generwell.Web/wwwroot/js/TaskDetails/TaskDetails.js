@@ -182,8 +182,9 @@ var TaskDetailsPage = {
                 ValueArray.push(this.value);
                 var id = this.id;
                 var number = this.value;
-                if (number < 1 || number > 100) {
-                    $('#numberErrorMessage_' + id).show();
+               
+                if (number < 1 || number > 10) {
+                        $('#numberErrorMessage_' + id).show();
                 }
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + this.value + "\"}");
@@ -225,7 +226,7 @@ var TaskDetailsPage = {
             });
         });
     },
-      getPictureAlbum: function (id) {
+    getPictureAlbum: function (id) {
         debugger;
         var id = Base64.encode(id.toString());
         $('#processing-modal').modal("show");
