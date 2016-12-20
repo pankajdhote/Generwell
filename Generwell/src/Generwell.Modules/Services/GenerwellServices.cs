@@ -198,7 +198,7 @@ namespace Generwell.Modules.Services
                 string tokenServiceUrl = url;
                 HttpClient hc = new HttpClient();
                 hc.DefaultRequestHeaders.Clear();
-                hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                 hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
                 HttpMethod method = new HttpMethod("PATCH");
                 string replacedString = Content.Replace("\\", "").Replace("\",\"", ",").Replace("\"]", "]").Replace("\"{", "{");

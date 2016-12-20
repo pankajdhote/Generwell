@@ -13,8 +13,14 @@ var picturePage = {
         picturePage.swapRadioButton();
         picturePage.editPictureLabel();
         picturePage.deletePicture();
-        picturePage.redirectToPreviousPage();
+        picturePage.redirectToIndexPage();
 
+    },
+    redirectToIndexPage: function () {
+        $('#cancel').click(function () {
+            $('#processing-modal').modal("show");
+            picturePage.redirectToPreviousPage();
+        });
     },
     addPicture: function () {
         $('#addPicture').click(function () {
@@ -33,10 +39,10 @@ var picturePage = {
             });
         });
     },
-    editPicture: function (fileUrl, label, comment) {
+    editPicture: function (fileUrl, label, comment, id, albumId) {
         debugger;
         $('#processing-modal').modal("show");
-        var url = '/Picture/EditPicture' + '?fileUrl=' + Base64.encode(fileUrl) + '&label=' + Base64.encode(label) + '&comment=' + Base64.encode(comment);
+        var url = '/Picture/EditPicture' + '?fileUrl=' + Base64.encode(fileUrl) + '&label=' + Base64.encode(label != null ? label : "") + '&comment=' + Base64.encode(comment != null ? comment : "") + '&id=' + Base64.encode(id) + '&albumId=' + Base64.encode(albumId);
         window.location.href = url;
     },
     createCheckbox: function () {
@@ -78,20 +84,20 @@ var picturePage = {
                 //Disabled label and comment
                 $('#label').attr('disabled', 'disabled');
                 $('#comment').attr('disabled', 'disabled');
-                
-              
+
             }
         });
     },
     editPictureLabel: function () {
         debugger;
-        $('#editPicture').click(function () {
+        $('#editPicture').bind('click', function () {
+            debugger;
             $('#label').removeAttr('disabled');
             $('#comment').removeAttr('disabled');
             $('#editPicture').attr('value', 'Save');
             $('#editPicture').attr('id', 'savePicture');
 
-            $('#savePicture').click(function () {
+            $('#savePicture').unbind().click(function () {
                 debugger;
                 picturePage.updatePicture();
             });
@@ -114,21 +120,23 @@ var picturePage = {
           function () {
               debugger;
               $('#processing-modal').modal("hide");
+              picturePage.deletePictureCall();
               swal("deleted!", "Picture deleted successfully", "success");
+
+
+              picturePage.redirectToPreviousPage();
           });
         });
 
     },
-    updatePicture: function () {
-        debugger;
-        var content=getViewData();
 
-        $('#processing-modal').modal("show");
+    deletePictureCall: function () {
         debugger;
+        var pictureId = $('#pictureId').val();
         $.ajax({
             type: "GET",
-            url: '/Picture/UpdatePicture',
-            data: { Content: JSON.stringify(content) },
+            url: '/Picture/DeletePicture',
+            data: { pictureId: pictureId },
             datatype: "json",
             cache: false,
             success: function (response) {
@@ -139,10 +147,33 @@ var picturePage = {
                 $('#processing-modal').modal("hide");
             }
         });
+    },
+    updatePicture: function () {
+        debugger;
+        var content = picturePage.getViewData();
+        var pictureId = $('#pictureId').val();
+        $('#processing-modal').modal("show");
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: '/Picture/UpdatePicture',
+            data: { Content: JSON.stringify(content), pictureId: pictureId },
+            datatype: "json",
+            cache: false,
+            success: function (response) {
+                debugger;
+                
+                picturePage.redirectToPreviousPage();
+            }, error: function (err) {
+                $('#processing-modal').modal("hide");
+            }
+        });
 
     },
     redirectToPreviousPage: function () {
-        var url = '/Picture/Index';
+        debugger;
+        var albumId = $('#albumId').val();
+        var url = '/Picture/Index/' + Base64.encode(albumId);
         window.location.href = url;
     },
     getViewData: function () {
@@ -156,12 +187,17 @@ var picturePage = {
             debugger;
             var htmlType = $(this).prop('type');
             if (htmlType == 'text') {
-                IdArray.push(this.id);
+                IdArray.push(this.name);
                 ValueArray.push(this.value);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                Content.push("{ \"op\": \"replace\", \"path\": \"/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count].trim() + "\"}");
+            }
+            else if (htmlType == 'textarea') {
+                IdArray.push(this.name);
+                ValueArray.push(this.value);
+                Content.push("{ \"op\": \"replace\", \"path\": \"/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count].trim() + "\"}");
             }
             count++;
         });
         return Content;
-    },
+    }
 }
