@@ -119,11 +119,9 @@ var picturePage = {
             },
           function () {
               debugger;
-              $('#processing-modal').modal("hide");
+              $('#processing-modal').modal("show");
               picturePage.deletePictureCall();
               swal("deleted!", "Picture deleted successfully", "success");
-
-
               picturePage.redirectToPreviousPage();
           });
         });
@@ -141,7 +139,6 @@ var picturePage = {
             cache: false,
             success: function (response) {
                 debugger;
-                $('#processing-modal').modal("hide");
 
             }, error: function (err) {
                 $('#processing-modal').modal("hide");
