@@ -6,6 +6,9 @@
     });
 </script>
 
+<input id="pictureId" type="hidden" asp-for="@Model.id" value="@Model.id"/>
+<input id="albumId" type="hidden" asp-for="@Model.albumId" value="@Model.albumId" />
+
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-lg-12">
@@ -27,16 +30,10 @@
                             </div>
                             <div class="col-sm-12 col-xs-12 col-md-4">
                                 <h4>Lable</h4>
-                                <input asp-for="@Model.label" class="form-control" value="@Model.label" disabled="disabled" />
+                                <input id="label" name="Label" asp-for="@Model.label" class="form-control clsedit" value="@Model.label" disabled="disabled" />
                                 <br />
                                 <h4>Comment</h4>
-                                <textarea name="comment" id="comment"
-                                          data-val-required="The comment field is required."
-                                          data-val-maxlength-max="5000"
-                                          data-val-maxlength="The field comment must be a string or array type with a maximum length of '5000'."
-                                          data-val="true" class="form-control" rows="7" disabled="disabled">
-                                    @Model.comment
-                                </textarea>
+                                <textarea rows="4" cols="50" name="Comment" id="comment" class="form-control clsedit textarea" disabled="disabled">@Model.comment</textarea>                               
                             </div>
 
                                 <div class="i-checks chk col-sm-12 col-xs-12 col-md-4">

@@ -80,7 +80,7 @@ namespace Generwell.Modules.Management.PictureManagement
         {
             try
             {
-                string taskDetailsReecord = await _generwellServices.UpdateWebApiData(_appSettings.TaskDetails + "/" + pictureId, accessToken, tokenType, Content);
+                string taskDetailsReecord = await _generwellServices.UpdateWebApiData(_appSettings.Picture + "/" + pictureId, accessToken, tokenType, Content);
                 return taskDetailsReecord;
             }
             catch (Exception ex)

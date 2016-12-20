@@ -463,7 +463,6 @@
                                 {
                                     @if (item.displayValue.TrimStart() == "0.0")
                                     {
-
                                         <td class="displayValue1">
                                             <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                         </td>
@@ -471,9 +470,7 @@
                                     }
                                     else
                                     {
-                                        <td class="displayValue1">
-                                                                               <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
-                                        </td>
+                                        <td class="displayValue1"><a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a></td>
                                     }
                                 }
 

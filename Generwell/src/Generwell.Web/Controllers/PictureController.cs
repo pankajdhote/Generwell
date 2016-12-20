@@ -60,12 +60,14 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         // GET: /<controller>/
         [AllowAnonymous]
-        public async Task<ActionResult> EditPicture(string fileUrl, string label, string comment)
+        public async Task<ActionResult> EditPicture(string fileUrl, string label, string comment, string id, string albumId)
         {
             PictureModel pictureModel = await _pictureManagement.GetPicture(Encoding.UTF8.GetString(Convert.FromBase64String(fileUrl)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
             PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(pictureModel);
+            pictureViewModel.id = Encoding.UTF8.GetString(Convert.FromBase64String(id));
+            pictureViewModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId));
             pictureViewModel.label = Encoding.UTF8.GetString(Convert.FromBase64String(label));
-            pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment));
+            pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment!=null ? comment : string.Empty));
             return View("EditPicture", pictureViewModel);
         }
 
@@ -77,11 +79,11 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         // GET: /<controller>/
         [AllowAnonymous]
-        public async Task<string> UpdatePicture(string content)
+        public async Task<string> UpdatePicture(string content, string pictureId)
         {
             try
             {
-                string taskDetailsResponse = await _pictureManagement.UpdatePicture(content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                string taskDetailsResponse = await _pictureManagement.UpdatePicture(content, pictureId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 return taskDetailsResponse;
             }
             catch (Exception ex)
