@@ -34,7 +34,7 @@
                 <div class="col-md-12 form-group logotext col-sm-12 col-xs-12">
                     <h1 class="text-center">Generwell</h1>
                 </div>
-                <form asp-controller="Accounts" asp-action="Login" asp-route-returnurl="@ViewBag.ReturnUrl" method="post">
+                <form asp-controller="Accounts" asp-action="Login" asp-route-returnurl="@ViewBag.ReturnUrl" name="loginForm" method="post">
                     <div id="error" class="text-red">@error</div>
                     <span class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="UserName"></span>
                     <div class="form-group input-group">

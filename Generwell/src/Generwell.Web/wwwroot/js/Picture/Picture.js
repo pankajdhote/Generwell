@@ -14,6 +14,8 @@ var picturePage = {
         picturePage.editPictureLabel();
         picturePage.deletePicture();
         picturePage.redirectToIndexPage();
+        picturePage.uploadPicture();
+        picturePage.validateImage();
 
     },
     redirectToIndexPage: function () {
@@ -23,20 +25,14 @@ var picturePage = {
         });
     },
     addPicture: function () {
+
         $('#addPicture').click(function () {
             debugger;
-            $.ajax({
-                url: '/Picture/AddPicture',
-                type: 'POST',
-                dataType: 'json',
-                cache: false,
-                success: function (response) {
-                    debugger;
+            var albumId = $('#albumId').val();
+            $('#processing-modal').modal("show");
+            var url = '/Picture/AddPicture' + '?albumId=' + Base64.encode(albumId);
+            window.location.href = url;
 
-                }, error: function (err) {
-                    debugger;
-                }
-            });
         });
     },
     editPicture: function (fileUrl, label, comment, id, albumId) {
@@ -64,6 +60,12 @@ var picturePage = {
                 $('#deletePicture').removeClass('button');
                 $('#deletePicture').attr('disabled', 'disabled');
 
+                //Make label and comment editable.
+                $('#label').removeAttr('disabled');
+                $('#comment').removeAttr('disabled');
+                $('#editPicture').attr('value', 'Save');
+                $('#editPicture').attr('id', 'savePicture');
+
                 picturePage.editPictureLabel();
 
             } else {
@@ -90,20 +92,10 @@ var picturePage = {
     },
     editPictureLabel: function () {
         debugger;
-        $('#editPicture').bind('click', function () {
-            debugger;
-            $('#label').removeAttr('disabled');
-            $('#comment').removeAttr('disabled');
-            $('#editPicture').attr('value', 'Save');
-            $('#editPicture').attr('id', 'savePicture');
-
             $('#savePicture').unbind().click(function () {
                 debugger;
                 picturePage.updatePicture();
             });
-
-        });
-
     },
     deletePicture: function () {
 
@@ -121,13 +113,12 @@ var picturePage = {
               debugger;
               $('#processing-modal').modal("show");
               picturePage.deletePictureCall();
-              swal("deleted!", "Picture deleted successfully", "success");
+              swal("Deleted!", "Picture deleted successfully", "success");
               picturePage.redirectToPreviousPage();
           });
         });
 
     },
-
     deletePictureCall: function () {
         debugger;
         var pictureId = $('#pictureId').val();
@@ -159,7 +150,7 @@ var picturePage = {
             cache: false,
             success: function (response) {
                 debugger;
-                
+
                 picturePage.redirectToPreviousPage();
             }, error: function (err) {
                 $('#processing-modal').modal("hide");
@@ -196,5 +187,69 @@ var picturePage = {
             count++;
         });
         return Content;
+    },
+    uploadPicture: function () {
+        debugger;
+        $("#fileupload").change(function () {
+            debugger;
+            $("#dvPreview").html("");
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+            if (regex.test($(this).val().toLowerCase())) {
+                if ($.browser != undefined && $.browser.msie && parseFloat(jQuery.browser.version) <= 9.0) {
+                    $("#dvPreview").show();
+                    $("#dvPreview")[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = $(this).val();
+                }
+                else {
+                    if (typeof (FileReader) != "undefined") {
+                        $("#dvPreview").show();
+                        $("#dvPreview").append("<img />");
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#dvPreview img").attr("src", e.target.result);
+                        }
+                        reader.readAsDataURL($(this)[0].files[0]);
+                        $("#dvPreview img").addClass("img-responsive wh-300");
+                        
+
+                    } else {
+                        swal("Warning!", "This browser does not support FileReader.");
+                    }
+                }
+            } else {
+                swal("Warning!", "Please upload a valid image file.");
+            }
+        });
+    },
+    validateImage: function () {
+        
+        $('form[name=pictureForm]').submit(function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            var imgTag = $('#dvPreview img').attr('src');
+            var label = $.trim($('#label').val());
+            var comment = $.trim($('#comment').val());
+
+            if (imgTag == undefined) {
+                $('#imageError').text("<b>Picture is required.</b>");
+                $('#labelError').text("");
+                $('#commentError').text("");
+                $('#processing-modal').modal("hide");
+                return false;
+            } else if (label == "")
+            {
+                $('#labelError').text("Label name is required.");
+                $('#imageError').text("");
+                $('#commentError').text("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (comment == "") {
+                $('#commentError').text("Comment is required.");
+                $('#imageError').text("");
+                $('#labelError').text("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+        });
     }
 }

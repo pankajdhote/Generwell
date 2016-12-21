@@ -1,13 +1,21 @@
-﻿@*@model List<Generwell.Modules.ViewModels.WellViewModel>*@
+﻿@model Generwell.Modules.ViewModels.PictureViewModel
 @using Microsoft.AspNetCore.Http;
 @{
     ViewBag.Title = "Pictures";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        picturePage.initialize();
+    });
+</script>
+
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
+
+
 
 <div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
@@ -17,9 +25,38 @@
                 <div class="title ibox-title border-bottom">
                     <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Pictures</h4>
                 </div>
-                <div class="i-checks chk border-bottom pt-pb-20">
-                    <input type="button" class="btn button float-right mt-17" name="Add" value="Add" />
-                </div>
+
+                <form asp-action="UploadFile"
+                      asp-controller="Picture"
+                      method="post"
+                      name="pictureForm"
+                      enctype="multipart/form-data">
+
+                    <input id="albumId" asp-for="@Model.albumId" type="hidden" value="@Model.albumId" />
+
+                    <input id="cancel" type="button" class="btn button float-right mt-20" name="Cancel" value="Cancel" />
+
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-4 form-group">
+                            <input id="fileupload" type="file" name="file" class="btn button mt-10" />
+                            <input type="submit" value="Upload File" class="btn button mt-10" />
+                            <div id="dvPreview" class="thumbnail border-blue mt-10 wh-300">
+
+                            </div>
+                            <span id="imageError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="image"></span>
+                        </div>
+                        <div class="col-sm-12 col-xs-12 col-md-4 form-group">
+                            <h4>Label</h4>
+                            <span id="labelError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.label"></span>
+                            <input id="label" name="Label" asp-for="@Model.label" class="form-control clsedit" value="@Model.label" />
+                            <br />
+                            <h4>Comment</h4>
+                            <span id="commentError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.comment"></span>
+                            <textarea rows="12" cols="50" name="Comment" id="comment" class="form-control clsedit textarea">@Model.comment</textarea>
+                        </div>
+                    </div>
+                </form>
+               
             </div>
         </div>
     </div>

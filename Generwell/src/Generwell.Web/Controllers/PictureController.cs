@@ -21,11 +21,13 @@ namespace Generwell.Web.Controllers
         private readonly IPictureManagement _pictureManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
-        public PictureController(IPictureManagement pictureManagement, IMapper mapper, IGenerwellManagement generwellManagement)
+        private readonly PictureModel _pictureModel;
+        public PictureController(IPictureManagement pictureManagement, IMapper mapper, IGenerwellManagement generwellManagement, PictureModel pictureModel)
         {
             _pictureManagement = pictureManagement;
             _mapper = mapper;
             _generwellManagement = generwellManagement;
+            _pictureModel = pictureModel;
         }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace Generwell.Web.Controllers
             pictureViewModel.id = Encoding.UTF8.GetString(Convert.FromBase64String(id));
             pictureViewModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId));
             pictureViewModel.label = Encoding.UTF8.GetString(Convert.FromBase64String(label));
-            pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment!=null ? comment : string.Empty));
+            pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment != null ? comment : string.Empty));
             return View("EditPicture", pictureViewModel);
         }
 
@@ -119,10 +121,36 @@ namespace Generwell.Web.Controllers
 
 
         // GET: /<controller>/
-        public IActionResult AddPicture()
+        public IActionResult AddPicture(string albumId)
         {
-            return View();
+            _pictureModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId));
+            PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(_pictureModel);
+            return View(pictureViewModel);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> UploadFile(IFormFile file, PictureViewModel pictureViewModel)
+        {
+            try
+            {
+                if (file != null)
+                {
+                    PictureModel pictureModel = _mapper.Map<PictureModel>(pictureViewModel);
+                    using (var memoryStream = new System.IO.MemoryStream())
+                    {
+                        file.CopyTo(memoryStream);
+                        byte[] imageByteArray = memoryStream.ToArray();
+                        string taskDetailsResponse = await _pictureManagement.AddPicture(imageByteArray, pictureModel, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    }
+                }
+                return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(pictureViewModel.albumId)) });
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Error", "Accounts");
+            }
+        }
     }
 }

@@ -18,9 +18,7 @@
         public string ContactInfo { get; set; }
         public string LogError { get; set; }
         public string Picture { get; set; }
-
-
-        
+        public string PictureFile { get; set; }
 
 
     }

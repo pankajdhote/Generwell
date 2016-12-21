@@ -88,7 +88,7 @@ table tr {
     background-color: #cf7f00 !important;
     font-size: 15px !important;
     width: auto !important;
-    border-radius: 8px !important;
+    border-radius: 4px !important;
 }
 
 .pagination > .active > a, .pagination > .active > span {
@@ -417,4 +417,6 @@ min-height: 300px;
     }
 }
 
-
+textarea {
+    resize: none;
+}

@@ -76,11 +76,11 @@ namespace Generwell.Modules.Management.PictureManagement
         /// Update picture Details fields using patch api.
         /// </summary>
         /// <returns></returns>
-        public async Task<string> UpdatePicture(string Content, string pictureId, string accessToken, string tokenType)
+        public async Task<string> UpdatePicture(string content, string pictureId, string accessToken, string tokenType)
         {
             try
             {
-                string taskDetailsReecord = await _generwellServices.UpdateWebApiData(_appSettings.Picture + "/" + pictureId, accessToken, tokenType, Content);
+                string taskDetailsReecord = await _generwellServices.UpdateWebApiData(_appSettings.Picture + "/" + pictureId, accessToken, tokenType, content);
                 return taskDetailsReecord;
             }
             catch (Exception ex)
@@ -107,6 +107,27 @@ namespace Generwell.Modules.Management.PictureManagement
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in PictureManagement UpdatePicture method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return response;
+            }
+        }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-21-12-2016
+        /// Add picture Details fields using POST api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> AddPicture(byte[] content, PictureModel pictureModel, string accessToken, string tokenType)
+        {
+            try
+            {
+                string pictureDetailsReecord = await _generwellServices.PostWebApiPictureData(_appSettings.PictureFile, accessToken, tokenType, content, pictureModel);
+                return pictureDetailsReecord;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in PictureManagement AddPicture method.\"}";
                 string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return response;
             }
