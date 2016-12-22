@@ -30,6 +30,7 @@ namespace Generwell.Modules.ViewModels
             CreateMap<DictionaryModel, DictionaryViewModel>();
             CreateMap<DictionaryItemsModel, DictionaryItemsViewModel>();
             CreateMap<PictureModel, PictureViewModel>();
+            CreateMap<PictureViewModel, PictureModel>();
             CreateMap<AlbumModel, AlbumViewModel>();
 
             CreateMap<ContactInformationModel, ContactInformationViewModel>();

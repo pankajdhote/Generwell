@@ -48,6 +48,9 @@ body {
 .ml-20 {
     margin-left: 20px;
 }
+.ml-min-13 {
+    margin-left: -13px !important;
+}
 
 .ml-15 {
     margin-left: 15px;
@@ -88,7 +91,7 @@ table tr {
     background-color: #cf7f00 !important;
     font-size: 15px !important;
     width: auto !important;
-    border-radius: 8px !important;
+    border-radius: 4px !important;
 }
 
 .pagination > .active > a, .pagination > .active > span {
@@ -410,12 +413,13 @@ min-height: 300px;
     min-width: 330px;
 }
 
-.wideInput{
-    text-align: left;
-    padding:  0.4em;
-    width: 400px;
-    height: 200px;
+@media(max-width:768px) {
+    .wh-300 {
+        min-height: 200px;
+        min-width: 249px;
+    }
 }
 
-
-
+textarea {
+    resize: none;
+}

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using Generwell.Core.Model;
 
 namespace Generwell.Modules.Services
 {
@@ -221,6 +222,70 @@ namespace Generwell.Modules.Services
                     }
                 }
                 return jsonresult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by Pankaj
+        /// Date:- 21-12-2016
+        /// POST Picture data to web api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> PostWebApiPictureData(string url, string accessToken, string tokenType, byte[] content, PictureModel pictureModel)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                ByteArrayContent byteContent = new ByteArrayContent(content); 
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                MultipartFormDataContent contentPost = new MultipartFormDataContent();
+
+                contentPost.Add(new ByteArrayContent(content), "param", "filename");
+                contentPost.Add(new StringContent(pictureModel.label), "label");
+                contentPost.Add(new StringContent(pictureModel.comment), "comment");
+                contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
+
+                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(url, contentPost);
+                string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+                HttpStatusCode responseCode = httpResponseMessage.StatusCode;
+
+                return responseCode.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by Pankaj
+        /// Date:- 22-12-2016
+        /// Put Picture data to web api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> PutWebApiPictureData(string url, string accessToken, string tokenType, byte[] content, PictureModel pictureModel)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                ByteArrayContent byteContent = new ByteArrayContent(content);
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                MultipartFormDataContent contentPost = new MultipartFormDataContent();
+
+                contentPost.Add(new ByteArrayContent(content), "param", "filename");
+                contentPost.Add(new StringContent(pictureModel.label), "label");
+                contentPost.Add(new StringContent(pictureModel.comment), "comment");
+                contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
+
+                HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, contentPost);
+                string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+                HttpStatusCode responseCode = httpResponseMessage.StatusCode;
+
+                return responseCode.ToString();
             }
             catch (Exception ex)
             {

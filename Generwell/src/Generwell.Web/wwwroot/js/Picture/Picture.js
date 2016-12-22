@@ -8,12 +8,14 @@ var picturePage = {
     },
     attachEvents: function () {
         debugger;
+        picturePage.notification();
         picturePage.addPicture();
         picturePage.createCheckbox();
         picturePage.swapRadioButton();
-        picturePage.editPictureLabel();
         picturePage.deletePicture();
         picturePage.redirectToIndexPage();
+        picturePage.uploadPicture();
+        picturePage.validateImage();
 
     },
     redirectToIndexPage: function () {
@@ -23,20 +25,14 @@ var picturePage = {
         });
     },
     addPicture: function () {
+
         $('#addPicture').click(function () {
             debugger;
-            $.ajax({
-                url: '/Picture/AddPicture',
-                type: 'POST',
-                dataType: 'json',
-                cache: false,
-                success: function (response) {
-                    debugger;
+            var albumId = $('#albumId').val();
+            $('#processing-modal').modal("show");
+            var url = '/Picture/AddPicture' + '?albumId=' + Base64.encode(albumId);
+            window.location.href = url;
 
-                }, error: function (err) {
-                    debugger;
-                }
-            });
         });
     },
     editPicture: function (fileUrl, label, comment, id, albumId) {
@@ -59,55 +55,25 @@ var picturePage = {
             if ($(this).parent().children().attr('id') == "edit") {
                 $('#delete').parent().removeClass('checked');
                 $('#edit').parent().addClass('checked');
-                $('#editPicture').removeAttr('disabled');
-                $('#editPicture').addClass('button');
                 $('#deletePicture').removeClass('button');
                 $('#deletePicture').attr('disabled', 'disabled');
-
-                picturePage.editPictureLabel();
+                //Make label and comment editable.
+                $('#label').removeAttr('readonly');
+                $('#comment').removeAttr('readonly');
 
             } else {
-                //remove click event
-                $('#savePicture').unbind('click');
-
-                //Swap save button
-                $('#savePicture').attr('value', 'Edit');
-                $('#savePicture').attr('id', 'editPicture');
-
                 $('#edit').parent().removeClass('checked');
                 $('#delete').parent().addClass('checked');
-                $('#editPicture').attr('disabled', 'disabled');
-                $('#deletePicture').addClass('button');
-                $('#editPicture').removeClass('button');
                 $('#deletePicture').removeAttr('disabled', '');
-
+                $('#deletePicture').addClass('button');
                 //Disabled label and comment
-                $('#label').attr('disabled', 'disabled');
-                $('#comment').attr('disabled', 'disabled');
-
+                $('#label').attr('readonly', 'readonly');
+                $('#comment').attr('readonly', 'readonly');
             }
         });
     },
-    editPictureLabel: function () {
-        debugger;
-        $('#editPicture').bind('click', function () {
-            debugger;
-            $('#label').removeAttr('disabled');
-            $('#comment').removeAttr('disabled');
-            $('#editPicture').attr('value', 'Save');
-            $('#editPicture').attr('id', 'savePicture');
-
-            $('#savePicture').unbind().click(function () {
-                debugger;
-                picturePage.updatePicture();
-            });
-
-        });
-
-    },
     deletePicture: function () {
-
-        $('#deletePicture').click(function () {
+        $('#deletePicture').unbind().click(function () {
             swal({
                 title: "Delet Picture",
                 text: "Are you sure?",
@@ -119,85 +85,137 @@ var picturePage = {
             },
           function () {
               debugger;
-              $('#processing-modal').modal("hide");
+              $('#processing-modal').modal("show");
               picturePage.deletePictureCall();
-              swal("deleted!", "Picture deleted successfully", "success");
-
-
-              picturePage.redirectToPreviousPage();
+              swal("Deleted!", "Picture deleted successfully", "success");
+              $('#flagCheck').val("Deleted");
+              var flagCheck = $('#flagCheck').val();
+              picturePage.redirectToPreviousPage(flagCheck);
           });
         });
 
     },
-
     deletePictureCall: function () {
         debugger;
         var pictureId = $('#pictureId').val();
+        var albumId = $('#albumId').val();
         $.ajax({
             type: "GET",
             url: '/Picture/DeletePicture',
-            data: { pictureId: pictureId },
+            data: { pictureId: pictureId, albumId: albumId },
             datatype: "json",
             cache: false,
             success: function (response) {
                 debugger;
-                $('#processing-modal').modal("hide");
-
             }, error: function (err) {
                 $('#processing-modal').modal("hide");
             }
         });
     },
-    updatePicture: function () {
-        debugger;
-        var content = picturePage.getViewData();
-        var pictureId = $('#pictureId').val();
-        $('#processing-modal').modal("show");
-        debugger;
-        $.ajax({
-            type: "GET",
-            url: '/Picture/UpdatePicture',
-            data: { Content: JSON.stringify(content), pictureId: pictureId },
-            datatype: "json",
-            cache: false,
-            success: function (response) {
-                debugger;
-                
-                picturePage.redirectToPreviousPage();
-            }, error: function (err) {
-                $('#processing-modal').modal("hide");
-            }
-        });
-
-    },
-    redirectToPreviousPage: function () {
+    redirectToPreviousPage: function (flagCheck) {
         debugger;
         var albumId = $('#albumId').val();
-        var url = '/Picture/Index/' + Base64.encode(albumId);
+        var url = '/Picture/Index?id=' + Base64.encode(albumId) + '&flagCheck=' + Base64.encode(flagCheck != undefined ? flagCheck : "");
         window.location.href = url;
     },
-    getViewData: function () {
+    uploadPicture: function () {
         debugger;
-        $('#processing-modal').modal("show");
-        var IdArray = new Array();
-        var ValueArray = new Array();
-        var Content = new Array();
-        var count = 0;
-        $('.clsedit').each(function () {
+        $("#fileupload").change(function () {
             debugger;
-            var htmlType = $(this).prop('type');
-            if (htmlType == 'text') {
-                IdArray.push(this.name);
-                ValueArray.push(this.value);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count].trim() + "\"}");
+            $("#dvPreview").html("");
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+            if (regex.test($(this).val().toLowerCase())) {
+                if ($.browser != undefined && $.browser.msie && parseFloat(jQuery.browser.version) <= 9.0) {
+                    $("#dvPreview").show();
+                    $("#dvPreview")[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = $(this).val();
+                }
+                else {
+                    if (typeof (FileReader) != "undefined") {
+                        $("#dvPreview").show();
+                        $("#dvPreview").append("<img />");
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#dvPreview img").attr("src", e.target.result);
+                        }
+                        reader.readAsDataURL($(this)[0].files[0]);
+                        $("#dvPreview img").addClass("img-responsive wh-300");
+
+
+                    } else {
+                        swal("Warning!", "This browser does not support FileReader.");
+                    }
+                }
+            } else {
+                swal("Warning!", "Please upload a valid image file.");
             }
-            else if (htmlType == 'textarea') {
-                IdArray.push(this.name);
-                ValueArray.push(this.value);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count].trim() + "\"}");
-            }
-            count++;
         });
-        return Content;
+    },
+    validateImage: function () {
+
+        $('form[name=pictureForm]').submit(function () {
+            debugger;
+            $('#processing-modal').modal("show");
+            var imgTag = $('#dvPreview img').attr('src');
+            var label = $.trim($('#label').val());
+            var comment = $.trim($('#comment').val());
+
+            if (imgTag == undefined && label == "" && comment == "") {
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#processing-modal').modal("hide");
+                return false;
+            } else if (imgTag == undefined && label == "") {
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#commentError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (imgTag == undefined && comment == "") {
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#labelError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (label == "" && comment == "") {
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#imageError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (imgTag == undefined) {
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#labelError').html("");
+                $('#commentError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (label == "") {
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#imageError').html("");
+                $('#commentError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (comment == "") {
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#imageError').html("");
+                $('#labelError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+        });
+    },
+    notification: function () {
+        debugger;
+        var flagCheck = $('#flagCheck').val();
+        if (flagCheck != undefined && flagCheck != "") {
+            $('#notification').show();
+            $('#notification').html("<button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>Picture " + flagCheck + " Successfully.");
+            setTimeout(function () { $('#notification').hide(); }, 5000);
+        }
     }
 }

@@ -47,7 +47,7 @@ var loginPage = {
     },
     validateForm: function () {
         //  Bind the event handler to the "submit" JavaScript event
-        $('form').submit(function () {
+        $('form[name=loginForm]').submit(function () {
             debugger;
             // Get the Login Name value and trim it
             var name = $.trim($('#UserName').val());

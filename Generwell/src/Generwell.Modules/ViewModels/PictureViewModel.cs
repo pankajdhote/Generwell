@@ -12,8 +12,8 @@ namespace Generwell.Modules.ViewModels
         public string label { get; set; }
         public string comment { get; set; }
         public string fileUrl { get; set; }
-        public string url { get; set; } 
+        public string url { get; set; }
         public byte[] picture { get; set; }
-        
+
     }
 }
