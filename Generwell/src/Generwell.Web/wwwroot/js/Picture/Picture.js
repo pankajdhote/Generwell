@@ -168,13 +168,13 @@ var picturePage = {
             var label = $.trim($('#label').val());
             var comment = $.trim($('#comment').val());
 
-            if (imgTag == undefined && label == "" && comment == "") {
+            if (imgTag == "/images/uploadImage.png" && label == "" && comment == "") {
                 $('#imageError').html("<b>Picture is required.</b>");
                 $('#labelError').html("<b>Label name is required.</b>");
                 $('#commentError').html("<b>Comment is required.</b>");
                 $('#processing-modal').modal("hide");
                 return false;
-            } else if (imgTag == undefined && label == "") {
+            } else if (imgTag == "/images/uploadImage.png" && label == "") {
                 $('#imageError').html("<b>Picture is required.</b>");
                 $('#labelError').html("<b>Label name is required.</b>");
                 $('#commentError').html("");
@@ -195,7 +195,7 @@ var picturePage = {
                 $('#processing-modal').modal("hide");
                 return false;
             }
-            else if (imgTag == undefined) {
+            else if (imgTag == "/images/uploadImage.png") {
                 $('#imageError').html("<b>Picture is required.</b>");
                 $('#labelError').html("");
                 $('#commentError').html("");
