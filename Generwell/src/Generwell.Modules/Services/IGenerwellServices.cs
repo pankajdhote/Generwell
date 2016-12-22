@@ -11,6 +11,7 @@ namespace Generwell.Modules.Services
         Task<string> ProcessRequest(string userName, string password, string serverUrl);
         Task<string> PostWebApiData(string url, string accessToken, string tokenType, string content);
         Task<string> PostWebApiPictureData(string url, string accessToken, string tokenType, byte[] content, PictureModel pictureModel);
+        Task<string> PutWebApiPictureData(string url, string accessToken, string tokenType, byte[] content, PictureModel pictureModel);
         Task<string> DeleteWebApiData(string url, string accessToken, string tokenType);
         Task<string> GetWebApiDetails(string url, string accessToken, string tokenType);
         Task<byte[]> GetWebApiDetailsBytes(string url, string accessToken, string tokenType);

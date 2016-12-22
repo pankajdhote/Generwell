@@ -13,11 +13,8 @@ var TaskDetailsPage = {
         TaskDetailsPage.createMyFilterCheckbox();
         TaskDetailsPage.changeButtonEvent();
     },
-
     updateTaskFields: function () {
         debugger;
-
-
         //$('.dropdownErrorMessage1').on('change', function () {
         //    var count = 0;
         //    $('.clsedit').each(function () {
@@ -235,18 +232,6 @@ var TaskDetailsPage = {
         var url = "/Picture/Index" + '?id=' + id;
         window.location.href = url;
     }
-
-    ,
-    //validateNumber: function(event) {
-       
-    //    if (value > 100) {
-    //        return false;
-
-    //    } else {
-    //        return true;
-    //    }
-
-    //}
 }
 
 

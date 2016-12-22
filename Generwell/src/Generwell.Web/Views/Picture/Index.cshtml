@@ -10,6 +10,7 @@
 <!-- Modal ends Here -->
 
 <input id="albumId" type="hidden" value="@Model.id" />
+<input id="flagCheck" type="hidden" value="@Model.flagCheck.ToString()" />
 
 <div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
@@ -23,6 +24,10 @@
                 </div>
                 <div class="i-checks chk border-bottom pt-pb-20">                    
                     <input id="addPicture" type="button" class="btn button float-right mt-17" name="Add" value="Add" />
+                </div>
+                <div id="notification" style="display:none;" class="alert alert-success alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    Data saved Successfully.
                 </div>
                 <div id="pictureDiv" class="ibox-content pt">
                     @Html.Partial("_Picture",Model.pictures)

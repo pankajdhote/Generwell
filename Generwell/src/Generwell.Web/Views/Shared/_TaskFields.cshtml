@@ -6,15 +6,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
         $('.datepicker').datepicker({ format: 'M dd,yyyy', autoclose: true }); //Initialise any date pickers
-
     });
     var ids = $('.clsedit').map(function () {
         return this.id;
     }).get();
-
 </script>
 @if (Model.fields.Count() > 0)
             {
@@ -40,6 +37,7 @@
     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
     Data saved Successfully.
 </div>
+
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
         <tr>

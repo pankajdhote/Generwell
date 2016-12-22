@@ -8,10 +8,10 @@ var picturePage = {
     },
     attachEvents: function () {
         debugger;
+        picturePage.notification();
         picturePage.addPicture();
         picturePage.createCheckbox();
         picturePage.swapRadioButton();
-        picturePage.editPictureLabel();
         picturePage.deletePicture();
         picturePage.redirectToIndexPage();
         picturePage.uploadPicture();
@@ -55,51 +55,25 @@ var picturePage = {
             if ($(this).parent().children().attr('id') == "edit") {
                 $('#delete').parent().removeClass('checked');
                 $('#edit').parent().addClass('checked');
-                $('#editPicture').removeAttr('disabled');
-                $('#editPicture').addClass('button');
                 $('#deletePicture').removeClass('button');
                 $('#deletePicture').attr('disabled', 'disabled');
-
                 //Make label and comment editable.
-                $('#label').removeAttr('disabled');
-                $('#comment').removeAttr('disabled');
-                $('#editPicture').attr('value', 'Save');
-                $('#editPicture').attr('id', 'savePicture');
-
-                picturePage.editPictureLabel();
+                $('#label').removeAttr('readonly');
+                $('#comment').removeAttr('readonly');
 
             } else {
-                //remove click event
-                $('#savePicture').unbind('click');
-
-                //Swap save button
-                $('#savePicture').attr('value', 'Edit');
-                $('#savePicture').attr('id', 'editPicture');
-
                 $('#edit').parent().removeClass('checked');
                 $('#delete').parent().addClass('checked');
-                $('#editPicture').attr('disabled', 'disabled');
-                $('#deletePicture').addClass('button');
-                $('#editPicture').removeClass('button');
                 $('#deletePicture').removeAttr('disabled', '');
-
+                $('#deletePicture').addClass('button');
                 //Disabled label and comment
-                $('#label').attr('disabled', 'disabled');
-                $('#comment').attr('disabled', 'disabled');
-
+                $('#label').attr('readonly', 'readonly');
+                $('#comment').attr('readonly', 'readonly');
             }
         });
     },
-    editPictureLabel: function () {
-        debugger;
-            $('#savePicture').unbind().click(function () {
-                debugger;
-                picturePage.updatePicture();
-            });
-    },
     deletePicture: function () {
-
-        $('#deletePicture').click(function () {
+        $('#deletePicture').unbind().click(function () {
             swal({
                 title: "Delet Picture",
                 text: "Are you sure?",
@@ -114,7 +88,9 @@ var picturePage = {
               $('#processing-modal').modal("show");
               picturePage.deletePictureCall();
               swal("Deleted!", "Picture deleted successfully", "success");
-              picturePage.redirectToPreviousPage();
+              $('#flagCheck').val("Deleted");
+              var flagCheck = $('#flagCheck').val();
+              picturePage.redirectToPreviousPage(flagCheck);
           });
         });
 
@@ -122,71 +98,25 @@ var picturePage = {
     deletePictureCall: function () {
         debugger;
         var pictureId = $('#pictureId').val();
+        var albumId = $('#albumId').val();
         $.ajax({
             type: "GET",
             url: '/Picture/DeletePicture',
-            data: { pictureId: pictureId },
+            data: { pictureId: pictureId, albumId: albumId },
             datatype: "json",
             cache: false,
             success: function (response) {
                 debugger;
-
             }, error: function (err) {
                 $('#processing-modal').modal("hide");
             }
         });
     },
-    updatePicture: function () {
-        debugger;
-        var content = picturePage.getViewData();
-        var pictureId = $('#pictureId').val();
-        $('#processing-modal').modal("show");
-        debugger;
-        $.ajax({
-            type: "GET",
-            url: '/Picture/UpdatePicture',
-            data: { Content: JSON.stringify(content), pictureId: pictureId },
-            datatype: "json",
-            cache: false,
-            success: function (response) {
-                debugger;
-
-                picturePage.redirectToPreviousPage();
-            }, error: function (err) {
-                $('#processing-modal').modal("hide");
-            }
-        });
-
-    },
-    redirectToPreviousPage: function () {
+    redirectToPreviousPage: function (flagCheck) {
         debugger;
         var albumId = $('#albumId').val();
-        var url = '/Picture/Index/' + Base64.encode(albumId);
+        var url = '/Picture/Index?id=' + Base64.encode(albumId) + '&flagCheck=' + Base64.encode(flagCheck != undefined ? flagCheck : "");
         window.location.href = url;
-    },
-    getViewData: function () {
-        debugger;
-        $('#processing-modal').modal("show");
-        var IdArray = new Array();
-        var ValueArray = new Array();
-        var Content = new Array();
-        var count = 0;
-        $('.clsedit').each(function () {
-            debugger;
-            var htmlType = $(this).prop('type');
-            if (htmlType == 'text') {
-                IdArray.push(this.name);
-                ValueArray.push(this.value);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count].trim() + "\"}");
-            }
-            else if (htmlType == 'textarea') {
-                IdArray.push(this.name);
-                ValueArray.push(this.value);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count].trim() + "\"}");
-            }
-            count++;
-        });
-        return Content;
     },
     uploadPicture: function () {
         debugger;
@@ -209,7 +139,7 @@ var picturePage = {
                         }
                         reader.readAsDataURL($(this)[0].files[0]);
                         $("#dvPreview img").addClass("img-responsive wh-300");
-                        
+
 
                     } else {
                         swal("Warning!", "This browser does not support FileReader.");
@@ -221,7 +151,7 @@ var picturePage = {
         });
     },
     validateImage: function () {
-        
+
         $('form[name=pictureForm]').submit(function () {
             debugger;
             $('#processing-modal').modal("show");
@@ -230,26 +160,34 @@ var picturePage = {
             var comment = $.trim($('#comment').val());
 
             if (imgTag == undefined) {
-                $('#imageError').text("<b>Picture is required.</b>");
-                $('#labelError').text("");
-                $('#commentError').text("");
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#labelError').html("");
+                $('#commentError').html("");
                 $('#processing-modal').modal("hide");
                 return false;
-            } else if (label == "")
-            {
-                $('#labelError').text("Label name is required.");
-                $('#imageError').text("");
-                $('#commentError').text("");
+            } else if (label == "") {
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#imageError').html("");
+                $('#commentError').html("");
                 $('#processing-modal').modal("hide");
                 return false;
             }
             else if (comment == "") {
-                $('#commentError').text("Comment is required.");
-                $('#imageError').text("");
-                $('#labelError').text("");
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#imageError').html("");
+                $('#labelError').html("");
                 $('#processing-modal').modal("hide");
                 return false;
             }
         });
+    },
+    notification: function () {
+        debugger;
+        var flagCheck = $('#flagCheck').val();
+        if (flagCheck != undefined && flagCheck != "") {
+            $('#notification').show();
+            $('#notification').html("<button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>Picture " + flagCheck + " Successfully.");
+            setTimeout(function () { $('#notification').hide(); }, 5000);
+        }
     }
 }
