@@ -113,18 +113,18 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        public async Task<ActionResult> DeletePicture(string pictureId, string albumId)
+        public async Task<string> DeletePicture(string pictureId, string albumId)
         {
             try
             {
                 string taskDetailsResponse = await _pictureManagement.DeletePicture(pictureId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(albumId)), flagCheck = Convert.ToBase64String(Encoding.UTF8.GetBytes("Deleted")) });
+                return taskDetailsResponse;
             }
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
                 string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return RedirectToAction("Error", "Accounts");
+                return response;
             }
         }
         /// <summary>
