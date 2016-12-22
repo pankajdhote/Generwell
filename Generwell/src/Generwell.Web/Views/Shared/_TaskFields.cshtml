@@ -6,14 +6,18 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
         $('.datepicker').datepicker({ format: 'M dd,yyyy', autoclose: true }); //Initialise any date pickers
+
     });
-    var ids = $('.clsedit').map(function () {
-        return this.id;
-    }).get();
+
+    //var ids = $('.clsedit').map(function () {
+    //    return this.id;
+    //}).get();
+
 </script>
-@if (Model.fields.Count() > 0)
+@*@if (Model.fields.Count() > 0)
             {
     @foreach (var item in Model.fields)
     {
@@ -25,7 +29,7 @@
             }
         }
     }
-}
+}*@
 
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")
@@ -37,7 +41,6 @@
     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
     Data saved Successfully.
 </div>
-
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
         <tr>
@@ -50,7 +53,7 @@
 
     <tbody>
         @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
-        @if (Model.fields.Count() > 0)
+        @if (Model.fields.Count() >= 0)
         {
             int count = 1;
             @foreach (var item in Model.fields)
@@ -59,8 +62,7 @@
                 {
                     if (count % 2 == 1)
                     {
-                        
-                        @:<tr class="gradeU">
+                       @: <tr class="gradeU">
                             <td><b>@item.fieldDesc</b></td>
                             @if (item.fieldTypeId == 1 || item.fieldTypeId == 8)
                             {
@@ -70,7 +72,7 @@
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" disabled />
+                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control datepicker" disabled />
                                     }
                                     else
                                     {
@@ -84,7 +86,8 @@
                             @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
                             {
 
-                                @:  <td class="displayValue1">
+
+                                @: <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
 
@@ -100,7 +103,7 @@
                                         }
                                         @if (item.value != null)
                                         {
-                                            <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit" disabled="disabled">
+                                            <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle" disabled="disabled">
                                                 <option>Please select one</option>
                                                 @foreach (var dictItem in ViewBag.Dictionaries)
                                         {
@@ -135,7 +138,8 @@
                                         @if (item.value != null)
                                         {
                                             <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
-                                                <option>Please select one</option>
+                                                <option>@item.displayValue</option>
+                                                @*<option>Please select one</option>*@
                                                 @foreach (var dictItem in ViewBag.Dictionaries)
                                         {
                                             if (Convert.ToDouble(dictItem.Value).ToString() == item.value.ToString())
@@ -156,38 +160,33 @@
                                         <br />
                                         <label style="display:none;color:red;" id="dropdownErrorMessage_@item.fieldId">Select any one option.</label>
                                     }
-
-
-                                @:</td>
-
+                                    @:</td>
                             }
                             @if (@item.fieldTypeId == 3)
                             {
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="number" id="@item.fieldId" min="1" max="100" asp-for="@item.value" class="form-control clsedit" disabled />
+                                        <input type="number" id="@item.fieldId" min="1" max="100" maxlength="3" asp-for="@item.value" class="form-control" disabled />
                                     }
                                     else
                                     {
-                                        <input type="number" id="@item.fieldId" min="1" max="100" asp-for="@item.value" class="form-control clsedit" />
+                                        <input type="number" id="@item.fieldId" min="1" max="100" onkeypress="if (this.value > 99) { return false; } else { return true;}" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                     }
                                 </td>
                             }
-
-
                             @if (@item.fieldTypeId == 4)
                             {
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" disabled />
+                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
                                     }
                                     else
                                     {
-                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" />
+                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 100);" onKeyUp="TaskDetailsPage.limitText(this, 100);" />
                                         <br />
                                         <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
                                     }
@@ -200,7 +199,7 @@
                                     {
                                         @if (@item.value.ToString() == "0.0")
                                         {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" disabled />
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" disabled />
                                         }
                                         @if (@item.value.ToString() == "1.0")
                                         {
@@ -215,11 +214,11 @@
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" disabled />
+                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control"  disabled />
                                     }
                                     else
                                     {
-                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" />
+                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitMemo(this, 400);" onKeyUp="TaskDetailsPage.limitMemo(this, 400);" />
                                         <br />
                                         <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
                                     }
@@ -243,7 +242,7 @@
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" disabled />
+                                        <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control" disabled />
                                     }
                                     else
                                     {
@@ -266,10 +265,10 @@
                                     </td>
                                 }
                             }
-                            }
-                            @if (count % 2 == 0)
-                            {
-                                <td><b>@item.fieldDesc</b></td>
+                    }
+                    @if (count % 2 == 0)
+                    {
+                        <td><b>@item.fieldDesc</b></td>
 
                                 @if (@item.fieldTypeId == 1 || @item.fieldTypeId == 8)
                                 {
@@ -280,7 +279,7 @@
                                     <td class="displayValue1">
                                         @if (item.fieldControlType == 2 || item.permissionId == 1)
                                         {
-                                            <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" disabled />
+                                            <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control datepicker" disabled />
                                         }
                                         else
                                         {
@@ -292,7 +291,8 @@
                                 }
                                 @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
                                 {
-                                    @: <td class="displayValue1">
+
+                                    @:<td class="displayValue1">
                                         @if (item.fieldControlType == 2 || item.permissionId == 1)
                                         {
 
@@ -308,7 +308,7 @@
                                             }
                                             @if (item.value != null)
                                             {
-                                                <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit" disabled="disabled">
+                                                <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle" disabled="disabled">
                                                     <option>Please select one</option>
                                                     @foreach (var dictItem in ViewBag.Dictionaries)
                                                     {
@@ -343,7 +343,8 @@
                                             @if (item.value != null)
                                             {
                                                 <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
-                                                    <option>Please select one</option>
+                                                    <option>@item.displayValue</option>
+                                                    @*<option>Please select one</option>*@
                                                     @foreach (var dictItem in ViewBag.Dictionaries)
                                                     {
                                                         if (Convert.ToDouble(dictItem.Value).ToString() == item.value.ToString())
@@ -366,19 +367,21 @@
                                         }
 
 
+
                                        
-                                   @: </td>
+                                        @:</td>
+
                                 }
                                 @if (item.fieldTypeId == 3)
                                 {
                                     <td class="displayValue1">
                                         @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                         {
-                                            <input type="number" id="@item.fieldId" min="1" max="100" asp-for="@item.value" class="form-control clsedit" disabled />
+                                            <input type="number" id="@item.fieldId" min="1" max="100" asp-for="@item.value" class="form-control" disabled />
                                         }
                                         else
                                         {
-                                            <input type="number" id="@item.fieldId" min="1" max="100" asp-for="@item.value" class="form-control clsedit" />
+                                            <input type="number" id="@item.fieldId" min="1" max="100" onkeypress="if (this.value > 99) { return false; }" asp-for="@item.value" class="form-control clsedit" />
                                             <br />
                                             <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                         }
@@ -389,11 +392,11 @@
                                     <td class="displayValue1">
                                         @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                         {
-                                            <input asp-for="@item.value" type="text" id="@item.fieldId" class="form-control clsedit" max="100" disabled />
+                                            <input asp-for="@item.value" type="text" id="@item.fieldId" class="form-control" disabled />
                                         }
                                         else
                                         {
-                                            <input asp-for="@item.value" type="text" id="@item.fieldId" class="form-control clsedit" max="100" />
+                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 100);" onKeyUp="TaskDetailsPage.limitText(this, 100);" />
                                             <br />
                                             <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
                                         }
@@ -406,7 +409,7 @@
                                         {
                                             @if (@item.value.ToString() == "0.0")
                                             {
-                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" disabled />
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" disabled />
                                             }
                                             @if (@item.value.ToString() == "1.0")
                                             {
@@ -421,11 +424,11 @@
                                     <td class="displayValue1">
                                         @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                         {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" disabled />
+                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
                                         }
                                         else
                                         {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" max="100" />
+                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitMemo(this, 400);" onKeyUp="TaskDetailsPage.limitMemo(this, 400);" />
                                         }
                                         <br />
                                         <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
@@ -449,7 +452,7 @@
                                     <td class="displayValue1">
                                         @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                         {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" disabled />
+                                            <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control" disabled />
                                         }
                                         else
                                         {
@@ -461,6 +464,7 @@
                                 {
                                     @if (item.displayValue.TrimStart() == "0.0")
                                     {
+
                                         <td class="displayValue1">
                                             <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
                                         </td>
@@ -468,32 +472,35 @@
                                     }
                                     else
                                     {
-                                        <td class="displayValue1"><a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a></td>
+                                        <td class="displayValue1">
+                                            <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
+                                        </td>
                                     }
                                 }
 
-                                @: </tr>
+                        @: </tr>
                             }
-                            }
-                            count++;
-                            }
-                            }
-                            else
-                            {
-                            <tr class="gradeU">
-                                <td class="displayValue1">@Constants.NoData</td>
-                                <td class="displayValue1">@Constants.NoData</td>
-                                <td class="displayValue1">@Constants.NoData</td>
-                            </tr>
-                            }
+                }
+                count++;
+            }
+
+        }
+        else
+        {
+            <tr class="gradeU">
+                <td class="displayValue1">@Constants.NoData</td>
+                <td class="displayValue1">@Constants.NoData</td>
+                <td class="displayValue1">@Constants.NoData</td>
+            </tr>
+        }
 
 
-                        </tbody>
-                    </table>
+    </tbody>
+</table>
 
 
-                    <div id="ReactivatedTask">
-                        <button id="completeTask" type="submit" name="Complete" value="Complete" class="btn button taskdetailsbuttons">Complete</button>
-                        <button id="savedDetails" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>
-                    </div>
+<div id="ReactivatedTask">
+    <button id="completeTask" type="submit" name="Complete" value="Complete" class="btn button taskdetailsbuttons">Complete</button>
+    <button id="savedDetails" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>
+</div>
 

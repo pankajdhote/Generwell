@@ -13,8 +13,11 @@ var TaskDetailsPage = {
         TaskDetailsPage.createMyFilterCheckbox();
         TaskDetailsPage.changeButtonEvent();
     },
+
     updateTaskFields: function () {
         debugger;
+
+
         //$('.dropdownErrorMessage1').on('change', function () {
         //    var count = 0;
         //    $('.clsedit').each(function () {
@@ -122,6 +125,7 @@ var TaskDetailsPage = {
         var ValueArray = [];
         var Content = [];
         var count = 0;
+        var flag=[];
         $('.clsedit').each(function () {
             debugger;
             var htmlType = $(this).prop('type');
@@ -135,9 +139,13 @@ var TaskDetailsPage = {
                 //LookupValidation
                 if (lookupText == 'Please select one') {
                     $('#dropdownErrorMessage_' + id).show();
+                    //flag.push(1);
+                    Content.length=0;
+                    return false;
                 }
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + txt + "\"}");
+                    $('#dropdownErrorMessage_' + id).hide();
                 }
             }
             else if (htmlType == 'text') {
@@ -149,25 +157,28 @@ var TaskDetailsPage = {
                     var DateText = this.value;
                     var startDate = "Jan 01,1990";
 
-                    if (new Date(DateText) < new Date(startDate)) {
+                    if (new Date(DateText) < new Date(startDate) || DateText =="") {
                         $('#dateErrorMessage_' + id).show();
+                        Content.length = 0;
+                        return false;
                     }
                     else {
-
                         Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count]) / 1000 + "  }");
+                        $('#dateErrorMessage_' + id).hide();
                     }
                 }
                 else {
-
                     var id = this.id;
                     var text = this.value;
                     //Text Validation
                     if (text == "") {
                         $('#textErrorMessage_' + id).show();
+                        Content.length = 0;
                         return false;
                     }
                     else {
                         Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                        $('#textErrorMessage_' + id).hide();
                     }
                 }
             }
@@ -181,16 +192,19 @@ var TaskDetailsPage = {
                 ValueArray.push(this.value);
                 var id = this.id;
                 var number = this.value;
-
                 //Number Validation
-                if (number < 1 || number > 10 || number == "") {
+                if (number < 1 || number > 100 || number == "") {
                     $('#numberErrorMessage_' + id).show();
+                    Content.length = 0;
+                    return false;
                 }
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                    $('#numberErrorMessage_' + id).hide();
                 }
             }
             count++;
+           
         });
 
         return Content;
@@ -221,7 +235,13 @@ var TaskDetailsPage = {
             $("#savedDetails").click(function () {
                 debugger;
                 var Content = TaskDetailsPage.getViewData();
-                TaskDetailsPage.callUpdateTask(Content);
+                //var flag = TaskDetailsPage.getViewData();
+                if (Content.length > 0) {
+                    TaskDetailsPage.callUpdateTask(Content);
+                }
+                else {
+
+                }
             });
         });
     },
@@ -231,6 +251,17 @@ var TaskDetailsPage = {
         $('#processing-modal').modal("show");
         var url = "/Picture/Index" + '?id=' + id;
         window.location.href = url;
+    },
+
+    limitText: function (limitField, limitNum) {
+        if (limitField.value.length > limitNum) {
+            limitField.value = limitField.value.substring(0, limitNum);
+        }
+    },
+    limitMemo: function (limitField, limitNum) {
+        if (limitField.value.length > limitNum) {
+            limitField.value = limitField.value.substring(0, limitNum);
+        }
     }
 }
 
