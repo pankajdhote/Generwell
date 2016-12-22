@@ -33,26 +33,28 @@
                       enctype="multipart/form-data">
 
                     <input id="albumId" asp-for="@Model.albumId" type="hidden" value="@Model.albumId" />
-
-                    <input id="cancel" type="button" class="btn button float-right mt-20" name="Cancel" value="Cancel" />
+                    <input id="cancel" type="button" class="btn button float-right mt-20 ml-10" name="Cancel" value="Cancel" />
+                    <input type="submit" value="Upload File" class="btn button mt-20 float-right" />
 
                     <div class="row">
-                        <div class="col-sm-12 col-xs-12 col-md-4 form-group">
-                            <input id="fileupload" type="file" name="file" class="btn button mt-10" />
-                            <input type="submit" value="Upload File" class="btn button mt-10" />
+                        <div class="col-sm-12 col-xs-12 col-md-4 mt-20 form-group">
+                            <label><span class="btn button">Choose image file to upload</span><input id="fileupload" type="file" name="file" style="display: none" class="btn button" /></label>
+                            <br/>
+                            <span id="imageError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="image"></span>
                             <div id="dvPreview" class="thumbnail border-blue mt-10 wh-300">
 
                             </div>
-                            <span id="imageError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="image"></span>
                         </div>
-                        <div class="col-sm-12 col-xs-12 col-md-4 form-group">
-                            <h4>Label</h4>
-                            <span id="labelError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.label"></span>
-                            <input id="label" name="Label" asp-for="@Model.label" class="form-control clsedit" value="@Model.label" />
+                        <div class="col-sm-12 col-xs-12 col-md-4 form-group mt-70">
+                            <label>Label</label>&nbsp;<span id="startLabel" class="text-red"><b>*</b></span>
+                            <br/>
+                            <span id="labelError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.label"></span>
+                            <input id="label" name="Label" asp-for="@Model.label" class="form-control" value="@Model.label" />
                             <br />
-                            <h4>Comment</h4>
-                            <span id="commentError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.comment"></span>
-                            <textarea rows="12" cols="50" name="Comment" id="comment" class="form-control clsedit textarea">@Model.comment</textarea>
+                            <label>Comment</label>&nbsp;<span id="startComment" class="text-red"><b>*</b></span>
+                            <br />
+                            <span id="commentError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.comment"></span>
+                            <textarea rows="9" cols="50" name="Comment" id="comment" class="form-control textarea">@Model.comment</textarea>
                         </div>
                     </div>
                 </form>

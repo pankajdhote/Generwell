@@ -26,24 +26,26 @@
 
                                 <input id="pictureId" type="hidden" asp-for="@Model.id" value="@Model.id" />
                                 <input id="albumId" type="hidden" asp-for="@Model.albumId" value="@Model.albumId" />
+                                <input type="submit" value="Upload File" class="btn button float-right ml-10" />
 
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12 col-md-4 form-group">
-                                        <input id="fileupload" type="file" name="file" class="btn button mt-10" />
-                                        <input type="submit" value="Upload File" class="btn button mt-10" />
+                                        <label><span class="btn button">Choose image file to upload</span><input id="fileupload" type="file" name="file" style="display: none" class="btn button" /></label>
                                         <div id="dvPreview" class="thumbnail border-blue mt-10 wh-300">
                                             <img class="img-responsive wh-300" src="data:image/jpeg;base64,@base64StringFormat"/>
                                         </div>
                                         <span id="imageError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="image"></span>
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 col-md-4 form-group">
-                                        <h4>Label</h4>
-                                        <span id="labelError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.label"></span>
-                                        <input id="label" name="Label" asp-for="@Model.label" class="form-control clsedit" value="@Model.label" readonly="readonly" />
+                                    <div class="col-sm-12 col-xs-12 col-md-4 form-group mt-70">
+                                        <label>Label</label>&nbsp;<span id="startLabel" class="text-red"><b>*</b></span>
                                         <br />
-                                        <h4>Comment</h4>
-                                        <span id="commentError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.comment"></span>
-                                        <textarea rows="12" cols="50" name="Comment" id="comment" class="form-control clsedit textarea" readonly="readonly" >@Model.comment</textarea>
+                                        <span id="labelError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.label"></span>
+                                        <input id="label" name="Label" asp-for="@Model.label" class="form-control" value="@Model.label" readonly="readonly" />
+                                        <br />
+                                        <label>Comment</label>&nbsp;<span id="startComment" class="text-red"><b>*</b></span>
+                                        <br />
+                                        <span id="commentError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.comment"></span>
+                                        <textarea rows="9" cols="50" name="Comment" id="comment" class="form-control textarea" readonly="readonly" >@Model.comment</textarea>
                                     </div>
                                     <div class="i-checks chk col-sm-12 col-xs-12 col-md-4">
                                         <label>Edit </label>

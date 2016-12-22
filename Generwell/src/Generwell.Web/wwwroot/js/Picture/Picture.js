@@ -159,13 +159,41 @@ var picturePage = {
             var label = $.trim($('#label').val());
             var comment = $.trim($('#comment').val());
 
-            if (imgTag == undefined) {
+            if (imgTag == undefined && label == "" && comment == "") {
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#processing-modal').modal("hide");
+                return false;
+            } else if (imgTag == undefined && label == "") {
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#commentError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (imgTag == undefined && comment == "") {
+                $('#imageError').html("<b>Picture is required.</b>");
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#labelError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (label == "" && comment == "") {
+                $('#labelError').html("<b>Label name is required.</b>");
+                $('#commentError').html("<b>Comment is required.</b>");
+                $('#imageError').html("");
+                $('#processing-modal').modal("hide");
+                return false;
+            }
+            else if (imgTag == undefined) {
                 $('#imageError').html("<b>Picture is required.</b>");
                 $('#labelError').html("");
                 $('#commentError').html("");
                 $('#processing-modal').modal("hide");
                 return false;
-            } else if (label == "") {
+            }
+            else if (label == "") {
                 $('#labelError').html("<b>Label name is required.</b>");
                 $('#imageError').html("");
                 $('#commentError').html("");
