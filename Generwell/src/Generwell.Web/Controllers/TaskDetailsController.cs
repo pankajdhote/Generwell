@@ -25,7 +25,7 @@ namespace Generwell.Web.Controllers
         private readonly IMapper _mapper;
 
         public TaskDetailsController(ITaskManagement taskManagement, 
-            IGenerwellManagement generwellManagement, IMapper mapper)
+            IGenerwellManagement generwellManagement, IMapper mapper) : base(generwellManagement)
         {
             _taskManagement = taskManagement;
             _generwellManagement = generwellManagement;

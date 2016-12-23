@@ -19,7 +19,8 @@
         public string LogError { get; set; }
         public string Picture { get; set; }
         public string PictureFile { get; set; }
-
+        public string License { get; set; }
+        public string Facilities { get; set; }
 
     }
 }

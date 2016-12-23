@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
+
 namespace Generwell.Modules.Management.GenerwellManagement
 {
     public class GenerwellManagement : IGenerwellManagement
@@ -33,6 +34,60 @@ namespace Generwell.Modules.Management.GenerwellManagement
                 string webApiDetails = await _generwellServices.ProcessRequest(userName, password, url);
                 AccessTokenModel accessTokenModel = JsonConvert.DeserializeObject<AccessTokenModel>(webApiDetails);
                 return accessTokenModel;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 23-11-2016
+        /// Keep License alive after 50 seconds.
+        /// </summary>
+        /// <returns></returns>
+        public async Task KeepLicenseAlive(string id, string accessToken, string tokenType)
+        {
+            try
+            {
+                string response = await _generwellServices.PutWebApiData(_appSettings.License + "/" + id, accessToken, tokenType);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 23-11-2016
+        /// Create Licenses
+        /// </summary>
+        /// <returns></returns>
+        public async Task<LicenseModel> CreateLicense(string url, string accessToken, string tokenType)
+        {
+            try
+            {
+                string response = await _generwellServices.PostWebApiData(url + "/licenses", accessToken, tokenType, string.Empty);
+                LicenseModel licenseModel = JsonConvert.DeserializeObject<LicenseModel>(response);
+                return licenseModel;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 23-11-2016
+        /// Release Licenses
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> ReleaseLicense(string id, string accessToken, string tokenType)
+        {
+            try
+            {
+                string response = await _generwellServices.DeleteWebApiData(_appSettings.License + "/" + id, accessToken, tokenType);
+                return response;
             }
             catch (Exception ex)
             {

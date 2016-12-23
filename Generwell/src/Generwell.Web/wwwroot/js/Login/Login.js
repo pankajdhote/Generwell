@@ -10,6 +10,7 @@ var loginPage = {
         loginPage.setFieldsForGoogleMap();
         loginPage.validateForm();
         loginPage.showSupportDialogBox();
+        loginPage.keepLicenseAlive();
     },
     setFieldsForGoogleMap: function () {
         //on page unload get datatable rows and store in collection
@@ -90,5 +91,23 @@ var loginPage = {
                 }
             });
         });
+    },
+    keepLicenseAlive: function () {
+        window.setInterval(function () {
+            debugger;
+            /// call your function here
+            $.ajax({
+                type: 'GET',
+                dataType: 'html',
+                url: '/Base/KeepLicenseAlive',
+                async: true,
+                cache: false,
+                success: function (data) {
+                    debugger;
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+        }, 50000);
     }
 }

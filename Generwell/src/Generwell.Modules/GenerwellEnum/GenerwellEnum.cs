@@ -34,7 +34,8 @@
         TaskDetails = 5,
         Pipeline = 6,
         Project = 7,
-        Map = 12
+        Map = 12,
+        Facilitylisting = 14
     }
 
 }

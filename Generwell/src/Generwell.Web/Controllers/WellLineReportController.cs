@@ -25,7 +25,7 @@ namespace Generwell.Web.Controllers
         private readonly IWellManagement _wellManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
-        public WellLineReportController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper)
+        public WellLineReportController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper) : base(generwellManagement)
         {
             _wellManagement = wellManagement;
             _generwellManagement = generwellManagement;

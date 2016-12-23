@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Core.Model;
 using AutoMapper;
+using System.Text;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,7 +23,7 @@ namespace Generwell.Web.Controllers
         private readonly IWellManagement _wellManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
-        public AccountsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper)
+        public AccountsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper) : base(generwellManagement)
         {
             _wellManagement = wellManagement;
             _generwellManagement = generwellManagement;
@@ -35,9 +36,14 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string error)
         {
             HttpContext.Session.Clear();
+            string errorString= Encoding.UTF8.GetString(Convert.FromBase64String(error != null ? error : string.Empty));
+            if (!string.IsNullOrEmpty(errorString))
+            {
+                HttpContext.Session.SetString("ServerError", Resource.ErrorMessage_Credentials);
+            }
             SignInViewModel signInModel = new SignInViewModel();
             return View(signInModel);
         }
@@ -88,7 +94,7 @@ namespace Generwell.Web.Controllers
             {
                 string logContent = "{\"message\": \""+ex.Message+ "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
                 string response = await _generwellManagement.LogError(Constants.logShortType,HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return RedirectToAction("Error","Accounts");
+                return RedirectToAction("Login", "Accounts", new { error = Convert.ToBase64String(Encoding.UTF8.GetBytes(Resource.ErrorMessage_Credentials))});
             }
         }
         /// <summary>
