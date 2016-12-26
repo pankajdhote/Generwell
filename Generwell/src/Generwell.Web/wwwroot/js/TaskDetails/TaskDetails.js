@@ -125,7 +125,7 @@ var TaskDetailsPage = {
         var ValueArray = [];
         var Content = [];
         var count = 0;
-        var flag=[];
+        var flag = [];
         $('.clsedit').each(function () {
             debugger;
             var htmlType = $(this).prop('type');
@@ -140,7 +140,7 @@ var TaskDetailsPage = {
                 if (lookupText == 'Please select one') {
                     $('#dropdownErrorMessage_' + id).show();
                     //flag.push(1);
-                    Content.length=0;
+                    Content.length = 0;
                     return false;
                 }
                 else {
@@ -157,14 +157,21 @@ var TaskDetailsPage = {
                     var DateText = this.value;
                     var startDate = "Jan 01,1990";
 
-                    if (new Date(DateText) < new Date(startDate) || DateText =="") {
+                    if (new Date(DateText) < new Date(startDate) || DateText == "") {
                         $('#dateErrorMessage_' + id).show();
+                        Content.length = 0;
+                        return false;
+                    }
+                    else if(DateText.length>11)
+                    {
+                        $('#inValidDateErrorMessage_' + id).show();
                         Content.length = 0;
                         return false;
                     }
                     else {
                         Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count]) / 1000 + "  }");
                         $('#dateErrorMessage_' + id).hide();
+                        $('#inValidDateErrorMessage_' + id).hide();
                     }
                 }
                 else {
@@ -183,9 +190,18 @@ var TaskDetailsPage = {
                 }
             }
             else if (htmlType == "checkbox") {
+                var checkboxValue = $('input[name=checkbox]:checked');
                 IdArray.push(this.id);
                 ValueArray.push(this.value);
-                Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + $(this).prop('checked') + "   }");
+                if (checkboxValue.length == 0) {
+                    $('#checkboxErrorMessage_' + this.id).show();
+                    Content.length = 0;
+                    return false;
+                }
+                else {
+                    $('#checkboxErrorMessage_' + this.id).hide();
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + $(this).prop('checked') + "   }");
+                }
             }
             else if (htmlType == "number") {
                 IdArray.push(this.id);
@@ -204,7 +220,7 @@ var TaskDetailsPage = {
                 }
             }
             count++;
-           
+
         });
 
         return Content;
@@ -262,9 +278,21 @@ var TaskDetailsPage = {
         $("#completeTask").css("display", "none");
         $("#savedDetails").css("display", "block");
         var charCode = (event.which) ? event.which : event.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57) || event.length >2)
-        return false;
-    return true;
+        if (charCode > 31 && (charCode < 48 || charCode > 57) || event.length > 2)
+            return false;
+        return true;
+    },
+    check: function (e, value) {
+        if (!e.target.validity.valid) {
+            e.target.value = value.substring(0, value.length - 1);
+            return false;
+        }
+        var idx = value.indexOf('.');
+        if (idx >= 0 && value.length - idx > 3) {
+            e.target.value = value.substring(0, value.length - 1);
+            return false;
+        }
+        return true;
     }
     //isKeyup: function (event) {
     //    if ($(this).val() < 100) {

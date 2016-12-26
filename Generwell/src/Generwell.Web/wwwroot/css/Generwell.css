@@ -92,6 +92,7 @@ body {
     font-size: 15px !important;
     width: auto !important;
     border-radius: 4px !important;
+    outline: none !important; 
 }
 
 .pagination > .active > a, .pagination > .active > span {
@@ -191,6 +192,7 @@ table tr {
     color: #fff !important;
     background-color: #1a355e !important;
     border-color: #1a355e !important; /*set the color you want here*/
+    outline: none !important; 
 }
 
 .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
