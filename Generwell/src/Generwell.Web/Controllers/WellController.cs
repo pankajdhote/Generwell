@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
+using AutoMapper;
 using System.Linq;
+using Generwell.Core.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Generwell.Modules.ViewModels;
 using Generwell.Modules.Global;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Generwell.Modules.Services;
 using Generwell.Modules.GenerwellEnum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Generwell.Modules.Management;
-using Generwell.Core.Model;
 using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.Management.GenerwellManagement;
-using AutoMapper;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,13 +26,17 @@ namespace Generwell.Web.Controllers
         private readonly IWellManagement _wellManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
-        public WellController(IWellManagement wellManagement, 
-            IGenerwellManagement generwellManagement, IMapper mapper)
+        private readonly AppSettingsModel _appSettings;
+
+        public WellController(IWellManagement wellManagement,
+           IGenerwellManagement generwellManagement, IMapper mapper, IOptions<AppSettingsModel> appSettings) : base(generwellManagement)
         {
             _wellManagement = wellManagement;
             _generwellManagement = generwellManagement;
             _mapper = mapper;
+            _appSettings = appSettings.Value;
         }
+
         /// <summary>
         /// Added by pankaj
         /// Date:- 13-11-2016
@@ -53,10 +56,21 @@ namespace Generwell.Web.Controllers
                 List<FilterModel> filterModel = await _wellManagement.GetFilters(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<FilterViewModel> filterViewModel = _mapper.Map<List<FilterViewModel>>(filterModel);
 
+                //Create License for well
+                if (HttpContext.Session.GetString("ModuleId") != "1")
+                {
+                    LicenseModel licenseModel = await CreateLicense(_appSettings.Well, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    //set LicenseHandleId and moduleId.
+                    if (licenseModel != null)
+                    {
+                        HttpContext.Session.SetString("LicenseHandleId", licenseModel.handleId);
+                        HttpContext.Session.SetString("ModuleId", licenseModel.moduleId);
+                    }
+                }
+
                 ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
                 List<WellModel> wellList = await _wellManagement.GetWells(null, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<WellViewModel> wellViewModelList = _mapper.Map<List<WellViewModel>>(wellList);
-
                 return View(wellViewModelList);
             }
             catch (Exception ex)
@@ -112,7 +126,7 @@ namespace Generwell.Web.Controllers
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Well Controller Details action method.\"}";
                 string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return RedirectToAction("Error","Accounts");
+                return RedirectToAction("Error", "Accounts");
             }
         }
         /// <summary>

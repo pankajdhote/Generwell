@@ -46,6 +46,9 @@ namespace Generwell.Web
                 options.CookieName = "Session";
             });
 
+            var appSettings = Configuration.GetSection("ApplicationSettings");
+            services.Configure<AppSettingsModel>(appSettings);
+
             services.AddAutoMapper(); // <-- This is the line you add.
             //added for depenedency injection
             services.AddSingleton<IGenerwellServices, GenerwellServices>();
@@ -65,8 +68,6 @@ namespace Generwell.Web
             services.AddSingleton<List<ContactInformationModel>>();
             services.AddSingleton<PictureModel>();
 
-            var appSettings = Configuration.GetSection("ApplicationSettings");
-            services.Configure<AppSettingsModel>(appSettings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

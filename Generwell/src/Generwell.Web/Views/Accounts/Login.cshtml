@@ -1,8 +1,8 @@
 ﻿@model Generwell.Modules.ViewModels.SignInViewModel
+@using Microsoft.AspNetCore.Http;
 @{
     ViewBag.Title = "Generwell";
     Layout = "~/Views/Shared/_LandingLayout.cshtml";
-    string error = (TempData["ServerError"] != null) ? TempData["ServerError"].ToString() : string.Empty;
 }
 
 <script type="text/javascript">
@@ -15,16 +15,13 @@
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
-<!-- Loading Modal Start here-->
-@*@Html.Partial("_Support", Model.supportViewModel)*@
-<!-- Modal ends Here -->
 
 <div id='myModal' class='modal'>
-        <div class="modal-dialog w-50">
-            <div class="modal-content">
-                <div id='myModalContent'></div>
-            </div>
+    <div class="modal-dialog w-50">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
         </div>
+    </div>
 </div>
 
 <div class="container center-screen">
@@ -35,11 +32,11 @@
                     <h1 class="text-center">Generwell</h1>
                 </div>
                 <form asp-controller="Accounts" asp-action="Login" asp-route-returnurl="@ViewBag.ReturnUrl" name="loginForm" method="post">
-                    <div id="error" class="text-red">@error</div>
+                    <div id="error" class="text-blue text-center"><b>@Context.Session.GetString("ServerError")</b></div>
                     <span class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="UserName"></span>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input asp-for="UserName" class="form-control" placeholder = "UserName" />
+                        <input asp-for="UserName" class="form-control" placeholder="User Name" />
                     </div>
                     <span class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="Password"></span>
                     <div class="form-group input-group">
@@ -49,7 +46,7 @@
                     <span class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="WebApiUrl"></span>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input asp-for="WebApiUrl" class="form-control" placeholder="WebApiUrl" />
+                        <input asp-for="WebApiUrl" class="form-control" placeholder="WebApiURL" />
                     </div>
                     <div class="form-group">
                         <button type="submit" id="submitData" value="Login" class="btn login-button btn-block">Login</button>

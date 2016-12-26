@@ -1,7 +1,8 @@
-﻿@model Generwell.Modules.ViewModels.PictureViewModel
+﻿@*@model List<Generwell.Modules.ViewModels.WellViewModel>*@
 @using Microsoft.AspNetCore.Http;
+
 @{
-    ViewBag.Title = "Edit Pictures";
+    ViewBag.Title = "Facility Listing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,18 +10,17 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-<input id="flagCheck" type="hidden" value="" />
-
 <div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
             <div class="float-right user-name"><label>Welcome &nbsp;</label>@Context.Session.GetString("UserName")</div>
             <div class="ibox float-e-margins">
                 <div class="title ibox-title border-bottom">
-                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Pictures</h4>
-                </div>                             
-                <div id="pictureDiv" class="ibox-content pt">
-                    @Html.Partial("_EditPicture", Model)
+                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Facility Listing</h4>
+                </div>
+               
+                <div id="wellTableDivId" class="ibox-content pt">
+                    @*@Html.Partial("_FilterWell", Model)*@
                 </div>
             </div>
         </div>

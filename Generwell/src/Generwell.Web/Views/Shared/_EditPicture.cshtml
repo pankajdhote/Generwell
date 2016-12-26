@@ -26,13 +26,16 @@
 
                                 <input id="pictureId" type="hidden" asp-for="@Model.id" value="@Model.id" />
                                 <input id="albumId" type="hidden" asp-for="@Model.albumId" value="@Model.albumId" />
-                                <input type="submit" value="Upload File" class="btn button float-right ml-10" />
-
+                                <div class="i-checks chk border-bottom pt-pb-20">
+                                    <input id="deletePicture" type="button" name="Delete" class="btn btn-default float-right mt-17 ml-10" disabled="disabled" value="Delete" />
+                                    <input id="uploadFile" type="submit" value="Upload File" class="btn btn-default float-right mt-17 ml-10" disabled="disabled"/>
+                                    <input id="cancel" type="button" class="btn button float-right mt-17" name="Cancel" value="Cancel" />
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12 col-md-4 form-group">
                                         <label><span class="btn button">Choose image file to upload</span><input id="fileupload" type="file" name="file" style="display: none" class="btn button" /></label>
                                         <div id="dvPreview" class="thumbnail border-blue mt-10 wh-300">
-                                            <img class="img-responsive wh-300" src="data:image/jpeg;base64,@base64StringFormat"/>
+                                            <img class="img-responsive wh-300" src="data:image/jpeg;base64,@base64StringFormat" />
                                         </div>
                                         <span id="imageError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="image"></span>
                                     </div>
@@ -45,7 +48,7 @@
                                         <label>Comment</label>&nbsp;<span id="startComment" class="text-red"><b>*</b></span>
                                         <br />
                                         <span id="commentError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.comment"></span>
-                                        <textarea rows="9" cols="50" name="Comment" id="comment" class="form-control textarea" readonly="readonly" >@Model.comment</textarea>
+                                        <textarea rows="9" cols="50" name="Comment" id="comment" class="form-control textarea" readonly="readonly">@Model.comment</textarea>
                                     </div>
                                     <div class="i-checks chk col-sm-12 col-xs-12 col-md-4">
                                         <label>Edit </label>
@@ -56,24 +59,6 @@
                                     </div>
                                 </div>
                             </form>
-
-
-                            @*<div class="col-sm-12 col-xs-12 col-md-4">
-                                    <div class="thumbnail border-blue wh-300">
-                                        <a id="" href="#" title="Image from Unsplash" data-gallery="">
-                                            <img id="@Model.id" src="data:image/jpeg;base64,@base64StringFormat" class="img-thumbnail img-responsive wh-300" alt="Cinque Terre" asp-append-version="true">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-xs-12 col-md-4 form-group">
-                                    <h4>Label</h4>
-                                    <input id="label" name="Label" asp-for="@Model.label" class="form-control clsedit" value="@Model.label" disabled="disabled" />
-                                    <br />
-                                    <h4>Comment</h4>
-                                    <textarea rows="8" cols="50" name="Comment" id="comment" class="form-control clsedit textarea" disabled="disabled">@Model.comment</textarea>
-                                </div>*@
-
-
                         }
                     </div>
                 </div>

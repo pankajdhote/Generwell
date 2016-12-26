@@ -64,7 +64,7 @@ namespace Generwell.Modules.Services
                     HttpResponseMessage tokenServiceResponse = await client.PostAsync(url, jsonContent);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     HttpStatusCode responseCode = tokenServiceResponse.StatusCode;
-                    return responseCode.ToString();
+                    return responseString;
                 }
             }
             catch (Exception ex)
@@ -282,6 +282,31 @@ namespace Generwell.Modules.Services
                 contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
 
                 HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, contentPost);
+                string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+                HttpStatusCode responseCode = httpResponseMessage.StatusCode;
+
+                return responseCode.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Added by Pankaj
+        /// Date:- 23-12-2016
+        /// Put web api request.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> PutWebApiData(string url, string accessToken, string tokenType)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                StringContent jsonContent = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, jsonContent);
                 string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
                 HttpStatusCode responseCode = httpResponseMessage.StatusCode;
 

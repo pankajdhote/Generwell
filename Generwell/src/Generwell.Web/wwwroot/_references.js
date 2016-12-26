@@ -141,7 +141,6 @@
 /// <reference path="Scripts/plugins/dataTables/datatables.min.js" />
 /// <reference path="Scripts/plugins/daterangepicker/daterangepicker.js" />
 /// <reference path="scripts/plugins/datetimepicker/bootstrap-datetimepicker.min.js" />
-/// <reference path="scripts/plugins/datetimepicker/datetimepicker.js" />
 /// <reference path="scripts/plugins/datetimepicker/moment.js" />
 /// <reference path="Scripts/plugins/diff_match_patch/javascript/diff_match_patch.js" />
 /// <reference path="Scripts/plugins/dotdotdot/jquery.dotdotdot.min.js" />

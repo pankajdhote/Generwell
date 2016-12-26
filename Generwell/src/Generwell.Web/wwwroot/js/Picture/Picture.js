@@ -61,6 +61,10 @@ var picturePage = {
                 $('#label').removeAttr('readonly');
                 $('#comment').removeAttr('readonly');
 
+                $('#uploadFile').removeClass("btn-default");
+                $('#uploadFile').addClass("button");
+                $('#uploadFile').removeAttr('disabled');
+
             } else {
                 $('#edit').parent().removeClass('checked');
                 $('#delete').parent().addClass('checked');
@@ -69,11 +73,16 @@ var picturePage = {
                 //Disabled label and comment
                 $('#label').attr('readonly', 'readonly');
                 $('#comment').attr('readonly', 'readonly');
+
+                $('#uploadFile').removeClass("button");
+                $('#uploadFile').addClass("btn-default");
+                $('#uploadFile').attr('disabled', 'disabled');
             }
         });
     },
     deletePicture: function () {
-        $('#deletePicture').unbind().click(function () {
+        $('#deletePicture').unbind().bind('click', function () {
+            debugger;
             swal({
                 title: "Delet Picture",
                 text: "Are you sure?",
@@ -88,9 +97,7 @@ var picturePage = {
               $('#processing-modal').modal("show");
               picturePage.deletePictureCall();
               swal("Deleted!", "Picture deleted successfully", "success");
-              $('#flagCheck').val("Deleted");
-              var flagCheck = $('#flagCheck').val();
-              picturePage.redirectToPreviousPage(flagCheck);
+              $('#flagCheck').val("Deleted");                   
           });
         });
 
@@ -107,6 +114,8 @@ var picturePage = {
             cache: false,
             success: function (response) {
                 debugger;
+                var flagCheck = $('#flagCheck').val();
+                picturePage.redirectToPreviousPage(flagCheck);
             }, error: function (err) {
                 $('#processing-modal').modal("hide");
             }
@@ -159,13 +168,13 @@ var picturePage = {
             var label = $.trim($('#label').val());
             var comment = $.trim($('#comment').val());
 
-            if (imgTag == undefined && label == "" && comment == "") {
+            if (imgTag == "/images/uploadImage.png" && label == "" && comment == "") {
                 $('#imageError').html("<b>Picture is required.</b>");
                 $('#labelError').html("<b>Label name is required.</b>");
                 $('#commentError').html("<b>Comment is required.</b>");
                 $('#processing-modal').modal("hide");
                 return false;
-            } else if (imgTag == undefined && label == "") {
+            } else if (imgTag == "/images/uploadImage.png" && label == "") {
                 $('#imageError').html("<b>Picture is required.</b>");
                 $('#labelError').html("<b>Label name is required.</b>");
                 $('#commentError').html("");
@@ -186,7 +195,7 @@ var picturePage = {
                 $('#processing-modal').modal("hide");
                 return false;
             }
-            else if (imgTag == undefined) {
+            else if (imgTag == "/images/uploadImage.png") {
                 $('#imageError').html("<b>Picture is required.</b>");
                 $('#labelError').html("");
                 $('#commentError').html("");

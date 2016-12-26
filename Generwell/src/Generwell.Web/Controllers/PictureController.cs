@@ -23,7 +23,7 @@ namespace Generwell.Web.Controllers
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
         private readonly PictureModel _pictureModel;
-        public PictureController(IPictureManagement pictureManagement, IMapper mapper, IGenerwellManagement generwellManagement, PictureModel pictureModel)
+        public PictureController(IPictureManagement pictureManagement, IMapper mapper, IGenerwellManagement generwellManagement, PictureModel pictureModel) : base(generwellManagement)
         {
             _pictureManagement = pictureManagement;
             _mapper = mapper;
@@ -113,18 +113,18 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        public async Task<ActionResult> DeletePicture(string pictureId, string albumId)
+        public async Task<string> DeletePicture(string pictureId, string albumId)
         {
             try
             {
                 string taskDetailsResponse = await _pictureManagement.DeletePicture(pictureId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(albumId)), flagCheck = Convert.ToBase64String(Encoding.UTF8.GetBytes("Deleted")) });
+                return taskDetailsResponse;
             }
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
                 string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return RedirectToAction("Error", "Accounts");
+                return response;
             }
         }
         /// <summary>
@@ -133,11 +133,21 @@ namespace Generwell.Web.Controllers
         /// Display add picture screen..
         /// </summary>
         /// <returns></returns>
-        public IActionResult AddPicture(string albumId)
+        public async Task<IActionResult> AddPicture(string albumId)
         {
-            _pictureModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId));
-            PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(_pictureModel);
-            return View(pictureViewModel);
+            try
+            {
+                _pictureModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId));
+                PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(_pictureModel);
+                return View(pictureViewModel);
+            }
+            catch (Exception ex)
+            {
+
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
+                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Error", "Accounts");
+            }
         }
         /// <summary>
         /// Added by pankaj
