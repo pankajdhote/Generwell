@@ -28,6 +28,7 @@ var loginPage = {
                 } else {
                     isMyWell = false;
                 }
+              
                 $.ajax({
                     type: 'GET',
                     dataType: 'html',

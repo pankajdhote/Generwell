@@ -106,6 +106,18 @@
     }
   },
   {
+    "outputFileName": "wwwroot/css/datetimepicker.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/datetimepicker.css"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
     "outputFileName": "wwwroot/js/login/login.min.js",
     "inputFiles": [
       "wwwroot/js/login/login.js"
@@ -170,6 +182,7 @@
     // Optinally generate .map file
     "sourceMap": false
   },
+
   {
     "outputFileName": "wwwroot/js/task/task.min.js",
     "inputFiles": [
@@ -252,6 +265,32 @@
     "outputFileName": "wwwroot/scripts/plugins/jeditable/jquery.jeditable.min.js",
     "inputFiles": [
       "wwwroot/scripts/plugins/jeditable/jquery.jeditable.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/scripts/plugins/datetimepicker/bootstrap-datetimepicker.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/plugins/datetimepicker/bootstrap-datetimepicker.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/scripts/plugins/datetimepicker/Moment.min.js",
+    "inputFiles": [
+      "wwwroot/scripts/plugins/datetimepicker/Moment.js"
     ],
     // Optionally specify minification options
     "minify": {

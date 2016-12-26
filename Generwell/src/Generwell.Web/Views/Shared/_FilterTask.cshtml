@@ -34,15 +34,18 @@
                     <td class="text-center" style="width:5%;">
                         @{
                             DateTime startDate1 = new DateTime(1970, 1, 1);
-                            DateTime date1 = startDate1.AddSeconds(Convert.ToDouble(item.ForecastDate));
-                            string dt = date1.ToString("MMM dd, yyyy");
-                            string tdt = DateTime.Today.ToString("MMM dd, yyyy");
-                            if (dt == tdt)
+                            DateTime foreCaseDate = startDate1.AddSeconds(Convert.ToDouble(item.ForecastDate));
+                            DateTime activatedDate = startDate1.AddSeconds(Convert.ToDouble(item.ActivatedDate));
+                            if (foreCaseDate <= DateTime.Today || foreCaseDate >= activatedDate)
                             {
-                            <img src="@Url.Content("~/images/urgent2.png")" />
+                                if (item.ForecastDate != null)
+                                {
+                                    <img src="@Url.Content("~/images/urgent2.png")" />
+                                }
+
                             }
 
-                            if (@item.Completed == Constants.Status)
+                            else if (@item.Completed == Constants.Status)
                             {
                                 <img src="@Url.Content("~/images/active.png")"/>
                             }
@@ -53,7 +56,7 @@
 
                     @*<td style="width:10%;">@item.ActivatedDate</td>*@
 
-                    @if (item.ActivatedDate.ToString() != null)
+                    @if (item.ActivatedDate != null)
                     {
                         DateTime startDate = new DateTime(1970, 1, 1);
                         DateTime date = startDate.AddSeconds(Convert.ToDouble(item.ActivatedDate));
@@ -66,8 +69,8 @@
                         <td class="text-center" style="width:10%;"></td>
                     }
 
-                    @*<td class="text-center" style="width:10%;">@item.ForecastDate</td>*@
-                    @if (item.ForecastDate.ToString() != null)
+                   
+                    @if (item.ForecastDate != null)
                     {
                         DateTime startDate = new DateTime(1970, 1, 1);
                         DateTime date = startDate.AddSeconds(Convert.ToDouble(item.ForecastDate));
@@ -81,7 +84,7 @@
                         <td class="text-center" style="width:10%;"></td>
                     }
                     @*<td class="text-center" style="width:10%;">@item.ExpectedCompletionDate</td>*@
-                    @if (item.ExpectedCompletionDate.ToString() == null)
+                    @if (item.ExpectedCompletionDate != null)
                     {
                         DateTime startDate = new DateTime(1970, 1, 1);
                         DateTime date = startDate.AddSeconds(Convert.ToDouble(item.ExpectedCompletionDate));

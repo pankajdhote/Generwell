@@ -1,16 +1,18 @@
 ﻿//Add field
 
 var taskPage = {
-
+  
     initialize: function (targetUrl, assignedName) {
         taskPage.attachEvents(targetUrl, assignedName);
     },
     attachEvents: function (targetUrl, assignedName) {
         debugger;
+        $('#processing-modal').modal("show");
         taskPage.createMyFilterCheckbox();
         taskPage.createDatatable();
         taskPage.myFilterDatatable(assignedName);
         taskPage.redirectTaskDetails(targetUrl);
+        $('#processing-modal').modal("hide");
     },
     createMyFilterCheckbox: function () {
         //Added for checkbox style

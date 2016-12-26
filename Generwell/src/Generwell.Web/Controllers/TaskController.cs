@@ -44,6 +44,12 @@ namespace Generwell.Web.Controllers
                 //Active menu on top for current selected tab
                 GlobalFields.SetMenu(Menu.Task.ToString());
                 int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
+                string checkboxStatus = "Unchecked";
+                if (previousPageValue > 1)
+                {
+                    ViewBag.myTask = checkboxStatus;
+                    //return View(new Index);
+                }
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.Tasklisting.ToString());
 

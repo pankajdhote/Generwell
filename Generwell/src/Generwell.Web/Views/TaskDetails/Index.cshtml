@@ -24,7 +24,7 @@
                             <label>Task Name:</label>
                             @Model.name<br />
                             <label>Activity Date:</label>
-                            @if (@Model.activatedDate.ToString() != null)
+                            @if (@Model.activatedDate != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.activatedDate));
@@ -32,7 +32,7 @@
                             }                          
                            <br/>
                             <label>Forecast Date:</label>                          
-                            @if (@Model.forecastDate.ToString() != null)
+                            @if (@Model.forecastDate != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.forecastDate));
@@ -40,7 +40,7 @@
                             }  
                             <br/>
                             <label>Due Date:</label>
-                            @if (@Model.expectedCompletionDate.ToString() != null)
+                            @if (@Model.expectedCompletionDate != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.expectedCompletionDate));

@@ -81,9 +81,9 @@ body {
     width: 50% !important;
 }
 
-table tr {
+/*table tr {
     cursor: pointer;
-}
+}*/
 
 .button {
     color: #fff !important;

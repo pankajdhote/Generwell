@@ -258,11 +258,20 @@ var TaskDetailsPage = {
             limitField.value = limitField.value.substring(0, limitNum);
         }
     },
-    limitMemo: function (limitField, limitNum) {
-        if (limitField.value.length > limitNum) {
-            limitField.value = limitField.value.substring(0, limitNum);
-        }
+    isNumberKey: function (event) {
+        $("#completeTask").css("display", "none");
+        $("#savedDetails").css("display", "block");
+        var charCode = (event.which) ? event.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57) || event.length >2)
+        return false;
+    return true;
     }
+    //isKeyup: function (event) {
+    //    if ($(this).val() < 100) {
+    //        alert("No numbers above 100");
+    //        $(this).val('100');
+    //    }
+    //}
 }
 
 
