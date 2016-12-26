@@ -283,6 +283,8 @@ var TaskDetailsPage = {
         return true;
     },
     check: function (e, value) {
+     $("#completeTask").css("display", "none");
+        $("#savedDetails").css("display", "block");
         if (!e.target.validity.valid) {
             e.target.value = value.substring(0, value.length - 1);
             return false;
