@@ -3,7 +3,6 @@
 var TaskDetailsPage = {
 
     initialize: function (taskId) {
-        debugger;
         TaskDetailsPage.attachEvents(taskId);
     },
     attachEvents: function (taskId) {
@@ -15,61 +14,7 @@ var TaskDetailsPage = {
     },
 
     updateTaskFields: function () {
-        debugger;
-
-
-        //$('.dropdownErrorMessage1').on('change', function () {
-        //    var count = 0;
-        //    $('.clsedit').each(function () {
-        //        var htmlType = $(this).prop('type');
-        //        if (htmlType == 'select-one') {
-        //            var lookupText = $(this).find(":selected").text();
-        //            if (lookupText == 'Please select one') {
-        //                $('#dropdownErrorMessage').show();
-        //                setTimeout(function () { $('#dropdownErrorMessage').hide(); }, 5000);
-        //            }
-        //        }
-        //        count++;
-        //    });
-        //});
-
-        //$("#taskDetailsListTableId").change(function () {
-        //    var count = 0;
-        //    $('.clsedit').each(function () {
-        //        var htmlType = $(this).prop('type');
-
-        //        if (htmlType == 'select-one') {
-        //            var id = this.id;
-        //            var lookupText = $(this).find(":selected").text();
-        //            if (lookupText == 'Please select one') {
-        //                $('#dropdownErrorMessage_' + id).show();
-        //            }
-        //        }
-        //        if (htmlType == 'text') {
-        //            if (this.name == "date") {
-        //                debugger;
-        //                var id = this.id;
-        //                var DateText = this.value;
-        //                var startDate = "Jan 01,1990";
-
-        //                if (new Date(DateText) < new Date(startDate))
-        //                {
-        //                    $('#dateErrorMessage_'+id).show();
-        //                }
-        //            }
-        //            else {
-
-        //                var Text = this.value;
-        //                if (Text == '') {
-        //                     var id = this.id;
-        //                     $('#TextErrorMessage__' + id).show();
-        //                }
-        //            }
-        //        }
-        //        count++;
-        //    });
-
-        //});
+      
     },
     completeTask: function () {
         var Content = TaskDetailsPage.getViewData();
@@ -87,21 +32,18 @@ var TaskDetailsPage = {
             success: function (data, status, xhr) {
                 $('#newCmpMessage').show();
                 setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
-                debugger;
                 $('#processing-modal').modal("hide");
                 $("#completeTask").css("display", "block");
                 $("#ReSaveTaskFieldDetailsId").css("display", "none");
                 TaskDetailsPage.changeButtonEvent();
             },
             error: function (xhr) {
-                debugger;
                 $('#processing-modal').modal("hide");
             }
         });
     },
     completeEvent: function () {
         $('#completeTask').click(function () {
-            debugger;
             swal({
                 title: "Task Complete",
                 text: "YES/NO complete Re-activated task?",
@@ -112,7 +54,6 @@ var TaskDetailsPage = {
                 closeOnConfirm: false
             },
             function () {
-                debugger;
                 $('#processing-modal').modal("hide");
                 TaskDetailsPage.completeTask();
                 swal("updated!", "Data updated successfully", "success");
@@ -127,7 +68,6 @@ var TaskDetailsPage = {
         var count = 0;
         var flag = [];
         $('.clsedit').each(function () {
-            debugger;
             var htmlType = $(this).prop('type');
             if (htmlType == 'select-one') {
                 var txt = $(this).find(":selected").val();
@@ -244,12 +184,10 @@ var TaskDetailsPage = {
         }
 
         $('#taskDetailsListTableId input,select').change(function () {
-            debugger;
             $("#completeTask").css("display", "none");
             $("#savedDetails").css("display", "block");
 
             $("#savedDetails").click(function () {
-                debugger;
                 var Content = TaskDetailsPage.getViewData();
                 //var flag = TaskDetailsPage.getViewData();
                 if (Content.length > 0) {
@@ -262,7 +200,6 @@ var TaskDetailsPage = {
         });
     },
     getPictureAlbum: function (id) {
-        debugger;
         var id = Base64.encode(id.toString());
         $('#processing-modal').modal("show");
         var url = "/Picture/Index" + '?id=' + id;
@@ -270,17 +207,11 @@ var TaskDetailsPage = {
     },
 
     limitText: function (limitField, limitNum) {
+        $("#completeTask").css("display", "none");
+        $("#savedDetails").css("display", "block");
         if (limitField.value.length > limitNum) {
             limitField.value = limitField.value.substring(0, limitNum);
         }
-    },
-    isNumberKey: function (event) {
-        $("#completeTask").css("display", "none");
-        $("#savedDetails").css("display", "block");
-        var charCode = (event.which) ? event.which : event.keyCode
-        if (charCode > 31 && (charCode < 48 || charCode > 57) || event.length > 2)
-            return false;
-        return true;
     },
     check: function (e, value) {
      $("#completeTask").css("display", "none");
@@ -296,12 +227,6 @@ var TaskDetailsPage = {
         }
         return true;
     }
-    //isKeyup: function (event) {
-    //    if ($(this).val() < 100) {
-    //        alert("No numbers above 100");
-    //        $(this).val('100');
-    //    }
-    //}
 }
 
 
