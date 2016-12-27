@@ -29,7 +29,7 @@ var loginPage = {
                 } else {
                     isMyWell = false;
                 }
-              
+
                 $.ajax({
                     type: 'GET',
                     dataType: 'html',
@@ -74,12 +74,10 @@ var loginPage = {
             debugger;
             $('#processing-modal').modal("show");
             $.ajax({
-                url: "/Accounts/Support",
                 type: "GET",
-                cache: false,
-                async: true,
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
+                url: "/Base/DisplaySupportPopup",
+                datatype: "html",
+                cache:false,
                 success: function (data) {
                     debugger;
                     if (data != undefined || data != "" || data != null) {
@@ -89,7 +87,7 @@ var loginPage = {
                     }
                 },
                 error: function (data) {
-                    alert("Error");
+                    swal("Error", "Something went wrong.")
                 }
             });
         });
@@ -111,5 +109,16 @@ var loginPage = {
                 }
             });
         }, 50000);
+    },
+    capLock: function (e) {
+        debugger;
+        kc = e.keyCode ? e.keyCode : e.which;
+        sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true : false);
+        if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk)) {
+            $('#capsCheck').attr('style', 'display:block');
+        }
+        else {
+            $('#capsCheck').attr('style', 'display:none');
+        }
     }
 }

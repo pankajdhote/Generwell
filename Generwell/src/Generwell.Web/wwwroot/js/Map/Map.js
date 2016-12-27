@@ -26,22 +26,22 @@ var mapPage = {
                 mapPage.createMap(result);
             }
         });
-    },    
+    },
     createMap: function (result) {
         var locations = result;
         var latitude;
         var longitude;
         if (navigator.geolocation) {
-            var im = 'https://www.robotwoods.com/dev/misc/bluecircle.png';
             debugger;
             navigator.geolocation.getCurrentPosition(function (p) {
                 debugger;
+                //swal("Warning", p.coords.latitude + "&" + p.coords.longitude);
                 mapPage.initializeMap(p);
                 mapPage.addLocationMarkers(p, locations);
             });
         }
         else {
-            alert('Geo Location feature is not supported in this browser.');
+            swal("Warning", "Geo Location feature is not supported in this browser.");
         }
         $('#processing-modal').modal("hide");
     },
@@ -54,10 +54,10 @@ var mapPage = {
             minZoom: 2,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-         initialMap = new google.maps.Map(document.getElementById("map"), mapOptions);
+        initialMap = new google.maps.Map(document.getElementById("map"), mapOptions);
     },
     addLocationMarkers: function (p, locations) {
-       
+
         var markerCurrentLocation = new google.maps.Marker({
             position: initialLatLng,
             map: initialMap,
@@ -67,7 +67,7 @@ var mapPage = {
                 fillColor: '#1a355e',
                 strokeOpacity: 0.5,
                 strokeColor: '#98BFEB',
-                strokeWeight:60,
+                strokeWeight: 60,
                 scale: 25
             },
             title: "Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
@@ -127,8 +127,7 @@ var mapPage = {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
         });
 
-        if (locations.length==0)
-        {
+        if (locations.length == 0) {
             mapPage.showAlert();
         }
     },
@@ -142,7 +141,7 @@ var mapPage = {
                 mapPage.getDirection(p, location);
             });
         } else {
-            alert('Geo Location feature is not supported in this browser.');
+            swal("Warning", "Geo Location feature is not supported in this browser.");
         }
 
     },
@@ -238,7 +237,7 @@ var mapPage = {
                 mapPage.getDrivingDirection(p, location);
             });
         } else {
-            alert('Geo Location feature is not supported in this browser.');
+            swal("Warning", "Geo Location feature is not supported in this browser.");
         }
     },
     getDrivingDirection: function (p, location) {
@@ -311,23 +310,17 @@ var mapPage = {
                     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
                 });
             } else {
-                window.alert('Directions request failed due to ' + status);
+                swal("Warning", 'Directions request failed due to ' + status);
             }
         });
     },
     showAlert: function () {
         //if location not found then show alert popup
         swal("Asset Location", "No location information available for this asset. The map will only show your current location.")
-        //$('#alert').modal("show");
-        //$('#alertHeader').text('Asset Location');
-        //$('#alertBody').text('No location information available for this asset. The map will only show your current location');
     },
     showRouteAlert: function () {
         //if location not found then show alert popup
         swal("Route Information", "Route is not available for your destination from your current location.")
-        //$('#alert').modal("show");
-        //$('#alertHeader').text('Route Information');
-        //$('#alertBody').text('Route is not available for your destination from your current location.');
     }
 
 }

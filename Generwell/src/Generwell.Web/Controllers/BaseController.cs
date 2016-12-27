@@ -5,6 +5,8 @@ using System;
 using System.Threading.Tasks;
 using Generwell.Core.Model;
 using Microsoft.AspNetCore.Http;
+using Generwell.Modules.ViewModels;
+using AutoMapper;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -85,7 +87,17 @@ namespace Generwell.Web.Controllers
                 return string.Empty;
             }
         }
-
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 27-12-2016
+        /// Display support popup
+        /// </summary>
+        /// <returns></returns>
+        public async Task<PartialViewResult> DisplaySupportPopup()
+        {
+            SupportModel supportModel = await _generwellManagement.GetSupportDetails();            
+            return PartialView("_Support", supportModel);
+        }
 
     }
 }

@@ -39,9 +39,10 @@
                         <input asp-for="UserName" class="form-control" placeholder="User Name" />
                     </div>
                     <span class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="Password"></span>
+                    <span id="capsCheck" class="text-blue field-validation-error" style="display:none">Caps Lock is on</span>
                     <div class="form-group input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" asp-for="Password" class="form-control" placeholder="Password" />
+                        <input type="password" asp-for="Password" class="form-control" onkeypress="loginPage.capLock(event);" placeholder="Password" />
                     </div>
                     <span class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="WebApiUrl"></span>
                     <div class="form-group input-group">

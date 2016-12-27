@@ -81,9 +81,14 @@ body {
     width: 50% !important;
 }
 
-/*table tr {
+table tr {
     cursor: pointer;
-}*/
+}
+
+#wellDetailsListTableId tr {
+    cursor: default;
+}
+
 
 .button {
     color: #fff !important;

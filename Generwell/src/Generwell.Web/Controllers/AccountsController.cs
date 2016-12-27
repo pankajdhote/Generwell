@@ -12,6 +12,7 @@ using Generwell.Modules.GenerwellConstants;
 using Generwell.Core.Model;
 using AutoMapper;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -96,19 +97,7 @@ namespace Generwell.Web.Controllers
                 return RedirectToAction("Login", "Accounts", new { error = Convert.ToBase64String(Encoding.UTF8.GetBytes(Resource.ErrorMessage_Credentials))});
             }
         }
-        /// <summary>
-        /// Added by pankaj
-        /// Date:- 10-11-2016
-        /// Display support popup
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<PartialViewResult> Support()
-        {
-            SupportModel supportModel = await _generwellManagement.GetSupportDetails();
-            SupportViewModel supportViewModel = _mapper.Map<SupportViewModel>(supportModel);
-            return PartialView("_Support", supportViewModel);
-        }
+       
         /// <summary>
         /// Added by pankaj
         /// Date:- 21-11-2016

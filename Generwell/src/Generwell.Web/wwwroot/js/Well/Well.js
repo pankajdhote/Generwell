@@ -13,6 +13,7 @@ var wellPage = {
         wellPage.filterByCheckbox();
         wellPage.filterDatatableByDropdown();
         wellPage.redirectEvent(targetUrl);
+
     },
     myWellFilter: function () {
         var oTable = $('#wellListTableId').DataTable();
@@ -56,6 +57,7 @@ var wellPage = {
     createDatatable: function () {
         //create Generic datatable
         var dataTable = $('#wellListTableId').DataTable({
+            "stateSave": true,
             "columnDefs": [
                 { "orderable": false, "targets": 0 },
                 {
@@ -74,7 +76,7 @@ var wellPage = {
                     },
                     "targets": 0
                 },
-            ],
+            ],               
         });
     },
     filterDatatableByDropdown: function () {
