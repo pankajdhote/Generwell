@@ -11,6 +11,8 @@ using Generwell.Modules.Management.PictureManagement;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.GenerwellConstants;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,13 +44,15 @@ namespace Generwell.Web.Controllers
             {
                 AlbumModel albumModel = await _pictureManagement.GetPictureAlbum(Encoding.UTF8.GetString(Convert.FromBase64String(id)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 AlbumViewModel albumViewModel = _mapper.Map<AlbumViewModel>(albumModel);
+                List<PictureViewModel> pictureViewModelList = (from p in albumViewModel.pictures select p).OrderBy(p=>p.label).ToList();
+                albumViewModel.pictures = pictureViewModelList;
                 albumViewModel.flagCheck = Encoding.UTF8.GetString(Convert.FromBase64String(flagCheck != null ? flagCheck : string.Empty));
                 return View("Index", albumViewModel);
             }
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error", "Accounts");
             }
         }
@@ -62,13 +66,22 @@ namespace Generwell.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> EditPicture(string fileUrl, string label, string comment, string id, string albumId)
         {
-            PictureModel pictureModel = await _pictureManagement.GetPicture(Encoding.UTF8.GetString(Convert.FromBase64String(fileUrl)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-            PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(pictureModel);
-            pictureViewModel.id = Encoding.UTF8.GetString(Convert.FromBase64String(id != null ? id : string.Empty));
-            pictureViewModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId != null ? albumId : string.Empty));
-            pictureViewModel.label = Encoding.UTF8.GetString(Convert.FromBase64String(label != null ? label : string.Empty));
-            pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment != null ? comment : string.Empty));
-            return View("EditPicture", pictureViewModel);
+            try
+            {
+                PictureModel pictureModel = await _pictureManagement.GetPicture(Encoding.UTF8.GetString(Convert.FromBase64String(fileUrl)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(pictureModel);
+                pictureViewModel.id = Encoding.UTF8.GetString(Convert.FromBase64String(id != null ? id : string.Empty));
+                pictureViewModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId != null ? albumId : string.Empty));
+                pictureViewModel.label = Encoding.UTF8.GetString(Convert.FromBase64String(label != null ? label : string.Empty));
+                pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment != null ? comment : string.Empty));
+                return View("EditPicture", pictureViewModel);
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Error", "Accounts");
+            }
         }
         /// <summary>
         /// Added by pankaj
@@ -102,7 +115,7 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Picture Controller UpdatePicture action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error", "Accounts");
             }
         }
@@ -123,8 +136,8 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return string.Empty;
             }
         }
         /// <summary>
@@ -145,7 +158,7 @@ namespace Generwell.Web.Controllers
             {
 
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error", "Accounts");
             }
         }
@@ -175,7 +188,7 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error", "Accounts");
             }
         }

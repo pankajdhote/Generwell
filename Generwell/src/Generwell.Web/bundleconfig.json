@@ -288,9 +288,9 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/scripts/plugins/datetimepicker/Moment.min.js",
+    "outputFileName": "wwwroot/scripts/plugins/datetimepicker/moment.min.js",
     "inputFiles": [
-      "wwwroot/scripts/plugins/datetimepicker/Moment.js"
+      "wwwroot/scripts/plugins/datetimepicker/moment.js"
     ],
     // Optionally specify minification options
     "minify": {

@@ -4,35 +4,66 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width" />
-    <link href="~/css/Generwell.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/Scripts/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
-    <link href="~/css/processing-model.css" rel="stylesheet" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/css/customLogin.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link href="~/css/Layout.css" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
 
+    <environment names="Development">
+        <link href="~/css/Generwell.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/Scripts/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
+        <link href="~/css/processing-model.css" rel="stylesheet" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/css/customLogin.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="~/css/Layout.css" rel="stylesheet" />
+        <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
+        <link href="~/css/sweetalert.css" rel="stylesheet" />
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    @*added for datatable*@
-    <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
-    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
-    <script src="~/Scripts/plugins/jeditable/jquery.jeditable.js"></script>
-    <script src="~/js/Well/Well.js"></script>
-    <script src="~/js/Login/Login.js"></script>
-    <script src="~/js/WellDetails/WellDetails.js"></script>
-    <script src="~/js/WellLineReport/WellLineReport.js"></script>
-    <script src="~/js/icheck.min.js"></script>
-    <style>
-    
-    </style>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*added for datatable*@
+        <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
+        <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+        <script src="~/Scripts/plugins/jeditable/jquery.jeditable.js"></script>
+        <script src="~/js/Well/Well.js"></script>
+        <script src="~/js/Login/Login.js"></script>
+        <script src="~/js/WellDetails/WellDetails.js"></script>
+        <script src="~/js/WellLineReport/WellLineReport.js"></script>
+        <script src="~/js/icheck.min.js"></script>
+        <script src="~/js/sweetalert.min.js"></script>
+    </environment>
+    <environment names="Staging,Production">       
+        <link href="~/css/generwell.min.css" rel="stylesheet" />
+        <link href="~/css/site.min.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+        <link href="~/css/processing-model.min.css" rel="stylesheet" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/css/customlogin.min.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link href="~/css/layout.min.css" rel="stylesheet" />
+        <link rel="shortcut icon" type="image/x-icon" href="~/images/favicon.png" />
+        <link href="~/css/sweetalert.css" rel="stylesheet" />
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*added for datatable*@
+        <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
+        <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+        <script src="~/Scripts/plugins/jeditable/jquery.jeditable.min.js"></script>
+        <script src="~/js/Well/well.min.js"></script>
+        <script src="~/js/Login/login.min.js"></script>
+        <script src="~/js/WellDetails/welldetails.min.js"></script>
+        <script src="~/js/WellLineReport/welllinereport.min.js"></script>
+        <script src="~/js/icheck.min.js"></script>
+        <script src="~/js/sweetalert.min.js"></script>
+    </environment>
+
     <title>Login</title>
 </head>
 <body class="">

@@ -52,7 +52,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskManagement GetTaskDetails method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objTaskDetails;
             }
         }
@@ -72,8 +72,8 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskManagement UpdateTaskDetails method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
             }
         }
         /// <summary>
@@ -93,7 +93,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskManagement GetTasks method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objTaskList;
             }
         }
@@ -114,7 +114,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskManagement GetTasksByWellId method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+               await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objTaskList;
             }
         }
@@ -136,7 +136,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskManagement GetDictionaries method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objDictionary;
             }
         }
@@ -159,7 +159,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskManagement GetDictionaries method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objContactInfo;
             }
         }

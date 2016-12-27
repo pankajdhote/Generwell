@@ -5,6 +5,8 @@ using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Generwell.Modules.Management.PictureManagement
@@ -36,11 +38,13 @@ namespace Generwell.Modules.Management.PictureManagement
         {
             try
             {
+                List<PictureModel> pictureList = new List<PictureModel>();
                 string albumData = await _generwellServices.GetWebApiDetails(_appSettings.PictureAlbum + "/" + id, accessToken, tokenType);
-                AlbumModel albumRecord = JsonConvert.DeserializeObject<AlbumModel>(albumData);
+                AlbumModel albumRecord = JsonConvert.DeserializeObject<AlbumModel>(albumData);                
                 foreach (PictureModel item in albumRecord.pictures)
                 {
                     item.picture = await _generwellServices.GetWebApiDetailsBytes(item.fileUrl, accessToken, tokenType);
+
                 }
                 return albumRecord;
             }
@@ -83,8 +87,8 @@ namespace Generwell.Modules.Management.PictureManagement
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in PictureManagement AddPicture method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
             }
         }
         /// <summary>
@@ -103,8 +107,8 @@ namespace Generwell.Modules.Management.PictureManagement
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in PictureManagement AddPicture method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
             }
         }
         /// <summary>
@@ -123,8 +127,8 @@ namespace Generwell.Modules.Management.PictureManagement
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in PictureManagement UpdatePicture method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
             }
         }
         /// <summary>
@@ -143,8 +147,8 @@ namespace Generwell.Modules.Management.PictureManagement
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in PictureManagement AddPicture method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
             }
         }
     }

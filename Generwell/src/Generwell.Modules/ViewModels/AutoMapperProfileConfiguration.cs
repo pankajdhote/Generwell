@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Generwell.Core.Model;
 using System;
+using System.Collections.Generic;
 
 namespace Generwell.Modules.ViewModels
 {    

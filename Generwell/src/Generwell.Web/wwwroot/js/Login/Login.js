@@ -51,6 +51,7 @@ var loginPage = {
         //  Bind the event handler to the "submit" JavaScript event
         $('form[name=loginForm]').submit(function () {
             debugger;
+            $('#error').text("");
             // Get the Login Name value and trim it
             var name = $.trim($('#UserName').val());
             var password = $.trim($('#Password').val());
