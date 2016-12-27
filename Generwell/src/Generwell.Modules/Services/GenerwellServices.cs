@@ -240,13 +240,13 @@ namespace Generwell.Modules.Services
                 if (hrm.IsSuccessStatusCode)
                 {
                     jsonresult = await hrm.Content.ReadAsStringAsync();
-                    if (hrm.ReasonPhrase == "OK")
-                    {
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                    //if (hrm.ReasonPhrase == "OK")
+                    //{
+                    //}
+                    //else
+                    //{
+                    //    return "";
+                    //}
                 }
                 else {
                     _httpContext.Response.Redirect("/Accounts/Logout");

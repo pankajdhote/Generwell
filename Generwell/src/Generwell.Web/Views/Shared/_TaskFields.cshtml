@@ -44,27 +44,40 @@
 </div>
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
+@if (Model.fields.Count() > 1)
+{
         <tr>
             <th>Field Description</th>
             <th>Display Value</th>
             <th>Field Description</th>
             <th>Display Value</th>
         </tr>
+}
+else
+{
+    <tr>
+        <th>Field Description</th>
+        <th>Display Value</th>
+        @*<th>Field Description</th>
+        <th>Display Value</th>*@
+    </tr>
+}
     </thead>
 
     <tbody>
-        @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
-        @if (Model.fields.Count() >= 0)
+    @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
+    @if (Model.fields.Count() >= 0)
+    {
+        int count = 1;
+        @foreach (var item in Model.fields)
         {
-            int count = 1;
-            @foreach (var item in Model.fields)
+            @if (@item.permissionId != 0)
             {
-                @if (@item.permissionId != 0)
+                if (count % 2 == 1)
                 {
-                    if (count % 2 == 1)
-                    {
-                       @: <tr class="gradeU">
-                            <td><b>@item.fieldDesc</b></td>
+                    
+                    @:<tr class="gradeU">
+                        <td><b>@item.fieldDesc</b></td>
                             @if (item.fieldTypeId == 1)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 2);
@@ -89,7 +102,8 @@
                             {
 
 
-                                @: <td class="displayValue1">
+
+                                @:<td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
 
@@ -162,7 +176,8 @@
                                         <br />
                                         <label style="display:none;color:red;" id="dropdownErrorMessage_@item.fieldId">Select any one option.</label>
                                     }
-                                    @:</td>
+                                    
+                                @:</td>
                             }
                             @if (@item.fieldTypeId == 3)
                             {
@@ -174,7 +189,7 @@
                                     else
                                     {
                                         @*<input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />*@
-                                        <input type="number" id="@item.fieldId"  onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit"/>
+                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                     }
@@ -195,48 +210,48 @@
                                     }
                                 </td>
                             }
-                        @if (@item.fieldTypeId == 5)
+                            @if (@item.fieldTypeId == 5)
                             {
-                            <td class="displayValue1 i-checks chk">
-                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                                <td class="displayValue1 i-checks chk">
+                                    @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
-                                    @if (@item.value != null)
+                                        @if (@item.value != null)
                                     {
-                                        @if (@item.value.ToString() == "0.0")
+                                            @if (@item.value.ToString() == "0.0")
                                         {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" disabled />
-                                        }
-                                        @if (@item.value.ToString() == "1.0")
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" disabled />
+                                            }
+                                            @if (@item.value.ToString() == "1.0")
                                         {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" disabled />
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" disabled />
+                                            }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    @if (@item.value != null)
+                                    else
                                     {
-                                        @if (@item.value.ToString() == "0.0")
+                                        @if (@item.value != null)
+                                    {
+                                            @if (@item.value.ToString() == "0.0")
                                         {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" />
-                                        }
-                                        @if (@item.value.ToString() == "1.0")
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" />
+                                            }
+                                            @if (@item.value.ToString() == "1.0")
                                         {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
+                                            }
+                                            <br />
+                                            <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
                                         }
-                                        <br />
-                                        <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
-                                    }
 
-                                }
-                            </td>
-                        }
+                                    }
+                                </td>
+                            }
                             @if (@item.fieldTypeId == 7)
                             {
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control"  disabled />
+                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
                                     }
                                     else
                                     {
@@ -251,20 +266,20 @@
                                 DateTime startDate = new DateTime(1970, 1, 2);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
                                 string date2 = date.ToString("MMM dd,yyyy");
-                            <td class="displayValue1">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                <td class="displayValue1">
+                                    @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
-                                    <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control datepicker" disabled />
-                                }
-                                else
-                                {
-                                    <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" />
+                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control datepicker" disabled />
+                                    }
+                                    else
+                                    {
+                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" />
                                         <br />
                                         <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
-                                }
+                                    }
 
-                            </td>
-                           }
+                                </td>
+                            }
                             @if (@item.fieldTypeId == 9)
                             {
                                 <td class="displayValue1">
@@ -306,140 +321,143 @@
                                     </td>
                                 }
                             }
-                    }
-                    @if (count % 2 == 0)
-                    {
-                        <td><b>@item.fieldDesc</b></td>
 
-                                @if (@item.fieldTypeId == 1)
+                }
+                @if (count % 2 == 0)
+                {
+                    <td><b>@item.fieldDesc</b></td>
+
+                        @if (@item.fieldTypeId == 1)
+                        {
+
+                            DateTime startDate = new DateTime(1970, 1, 2);
+                            DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
+                            string date2 = date.ToString("MMM dd,yyyy");
+                            <td class="displayValue1">
+                                @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
-
-                                    DateTime startDate = new DateTime(1970, 1, 2);
-                                    DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
-                                    string date2 = date.ToString("MMM dd,yyyy");
-                                    <td class="displayValue1">
-                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                        {
-                                            <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control datepicker" disabled />
-                                        }
-                                        else
-                                        {
-                                            <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" />
-                                        }
-                                        <br />
-                                        <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
-                                    </td>
+                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control datepicker" disabled />
                                 }
-                                @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
+                                else
+                                {
+                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" />
+                                }
+                                <br />
+                                <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
+                            </td>
+                        }
+                        @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
+                        {
+
+
+                            @: <td class="displayValue1">
+                                @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
 
-                                    @:<td class="displayValue1">
-                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                        {
-
-                                            List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
-                                            List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
-                                            if (dictionaryItemsList.Count > 0)
+                                    List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
+                                    List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
+                                    if (dictionaryItemsList.Count > 0)
+                                    {
+                                        ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                                    }
+                                    else
+                                    {
+                                        ViewBag.Dictionaries = dictionaryItemsList;
+                                    }
+                                    @if (item.value != null)
+                                    {
+                                        <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle" disabled="disabled">
+                                            <option>Please select one</option>
+                                            @foreach (var dictItem in ViewBag.Dictionaries)
                                             {
-                                                ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                                                if (Convert.ToDouble(dictItem.Value).ToString() == item.value.ToString())
+                                                {
+                                                    <option selected value="@dictItem.Value">@dictItem.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@dictItem.Value">@dictItem.Text</option>
+                                                }
                                             }
-                                            else
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionaries" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
+                                    }
+                                }
+                                else
+                                {
+                                    List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
+                                    List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
+                                    if (dictionaryItemsList.Count > 0)
+                                    {
+                                        ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
+                                    }
+                                    else
+                                    {
+                                        ViewBag.Dictionaries = dictionaryItemsList;
+                                    }
+                                    @if (item.value != null)
+                                    {
+                                        <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
+                                            <option>@item.displayValue</option>
+                                            @*<option>Please select one</option>*@
+                                            @foreach (var dictItem in ViewBag.Dictionaries)
                                             {
-                                                ViewBag.Dictionaries = dictionaryItemsList;
+                                                if (Convert.ToDouble(dictItem.Value).ToString() == item.value.ToString())
+                                                {
+                                                    <option selected value="@dictItem.Value">@dictItem.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@dictItem.Value">@dictItem.Text</option>
+                                                }
                                             }
-                                            @if (item.value != null)
-                                            {
-                                                <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle" disabled="disabled">
-                                                    <option>Please select one</option>
-                                                    @foreach (var dictItem in ViewBag.Dictionaries)
-                                                    {
-                                                        if (Convert.ToDouble(dictItem.Value).ToString() == item.value.ToString())
-                                                        {
-                                                            <option selected value="@dictItem.Value">@dictItem.Text</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@dictItem.Value">@dictItem.Text</option>
-                                                        }
-                                                    }
-                                                </select>
-                                            }
-                                            else
-                                            {
-                                                <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionaries" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
-                                            List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
-                                            if (dictionaryItemsList.Count > 0)
-                                            {
-                                                ViewBag.Dictionaries = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
-                                            }
-                                            else
-                                            {
-                                                ViewBag.Dictionaries = dictionaryItemsList;
-                                            }
-                                            @if (item.value != null)
-                                            {
-                                                <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
-                                                    <option>@item.displayValue</option>
-                                                    @*<option>Please select one</option>*@
-                                                    @foreach (var dictItem in ViewBag.Dictionaries)
-                                                    {
-                                                        if (Convert.ToDouble(dictItem.Value).ToString() == item.value.ToString())
-                                                        {
-                                                            <option selected value="@dictItem.Value">@dictItem.Text</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@dictItem.Value">@dictItem.Text</option>
-                                                        }
-                                                    }
-                                                </select>
-                                            }
-                                            else
-                                            {
-                                                <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionaries" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
-                                            }
-                                            <br />
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionaries" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
+                                    }
+                                    <br />
                                             <label style="display:none;color:red;" id="dropdownErrorMessage_@item.fieldId">Select any one option.</label>
-                                        }
-                                        @:</td>
                                 }
-                                @if (item.fieldTypeId == 3)
+                               
+                                @:</td>
+                                }
+                        @if (item.fieldTypeId == 3)
+                        {
+                            <td class="displayValue1">
+                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
-                                    <td class="displayValue1">
-                                        @if (@item.fieldControlType == 2 || @item.permissionId == 1)
-                                        {
-                                            <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control" />
-                                        }
-                                        else
-                                        {
-                                            @*<input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />*@
-                                            <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
+                                    <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control" />
+                                }
+                                else
+                                {
+                                    @*<input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />*@
+                                    <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                             <br />
                                             <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
-                                        }
-                                    </td>
                                 }
-                                @if (item.fieldTypeId == 4)
+                            </td>
+                        }
+                        @if (item.fieldTypeId == 4)
+                        {
+                            <td class="displayValue1">
+                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
-                                    <td class="displayValue1">
-                                        @if (@item.fieldControlType == 2 || @item.permissionId == 1)
-                                        {
-                                            <input asp-for="@item.value" type="text" id="@item.fieldId" class="form-control" disabled />
-                                        }
-                                        else
-                                        {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 100);" onKeyUp="TaskDetailsPage.limitText(this, 100);" />
+                                    <input asp-for="@item.value" type="text" id="@item.fieldId" class="form-control" disabled />
+                                }
+                                else
+                                {
+                                    <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 100);" onKeyUp="TaskDetailsPage.limitText(this, 100);" />
                                             <br />
                                             <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
-                                        }
-                                    </td>
                                 }
-                            
+                            </td>
+                        }
+
                         @if (@item.fieldTypeId == 5)
                             {
                             <td class="displayValue1 i-checks chk">
@@ -463,7 +481,7 @@
                                     {
                                         @if (@item.value.ToString() == "0.0")
                                         {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId"  value="@item.value" checked="" class="clsedit" />
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" />
                                         }
                                         @if (@item.value.ToString() == "1.0")
                                         {
@@ -472,27 +490,27 @@
                                         <br />
                                         <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
                                     }
-                                   
+
                                 }
                             </td>
                         }
 
-                                @if (item.fieldTypeId == 7)
+                        @if (item.fieldTypeId == 7)
+                        {
+                            <td class="displayValue1">
+                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
-                                    <td class="displayValue1">
-                                        @if (@item.fieldControlType == 2 || @item.permissionId == 1)
-                                        {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
-                                        }
-                                        else
-                                        {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
-                                        }
-                                        <br />
-                                        <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
-                                    </td>
+                                    <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
                                 }
-                           @if (item.fieldTypeId == 8)
+                                else
+                                {
+                                    <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
+                                }
+                                <br />
+                                <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
+                            </td>
+                        }
+                        @if (item.fieldTypeId == 8)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 2);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
@@ -505,66 +523,68 @@
                                 else
                                 {
                                     @*<input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" />*@
-                                      <input size="16" type="text" value="2012-06-15 14:45" class="form-control bootstrap-datetimepicker-widget">
-                                     <br />
-                                        <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
+                                    <input size="16" type="text" value="2012-06-15 14:45" class="form-control bootstrap-datetimepicker-widget">
+                                    <br />
+                                    <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
                                 }
 
                             </td>
-                          }
-                                @if (@item.fieldTypeId == 9)
-                                {
-                                    <td class="displayValue1">
-                                        <label id="@item.fieldId" asp-for="@item.value"></label>
-                                    </td>
-                                }
+                        }
+                        @if (@item.fieldTypeId == 9)
+                        {
+                            <td class="displayValue1">
+                                <label id="@item.fieldId" asp-for="@item.value"></label>
+                            </td>
+                        }
 
-                                @if (@item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
+                        @if (@item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
+                        {
+                            <td class="displayValue1">
+                                <label id="@item.fieldId" asp-for="@item.displayValue"></label>
+                            </td>
+                        }
+                        @if (@item.fieldTypeId == 10)
+                        {
+                            <td class="displayValue1">
+                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
-                                    <td class="displayValue1">
-                                        <label id="@item.fieldId" asp-for="@item.displayValue"></label>
-                                    </td>
+                                    <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control" disabled />
                                 }
-                                @if (@item.fieldTypeId == 10)
+                                else
                                 {
-                                    <td class="displayValue1">
-                                        @if (@item.fieldControlType == 2 || @item.permissionId == 1)
-                                        {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control" disabled />
-                                        }
-                                        else
-                                        {
-                                            <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
-                                        }
-                                    </td>
+                                    <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
                                 }
-                                @if (@item.fieldTypeId == 14)
-                                {
-                                    @if (item.displayValue.TrimStart() == "0.0")
-                                    {
+                            </td>
+                        }
+                        @if (@item.fieldTypeId == 14)
+                        {
+                            @if (item.displayValue.TrimStart() == "0.0")
+                            {
 
-                                        <td class="displayValue1">
-                                            <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
-                                        </td>
+                                <td class="displayValue1">
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
+                                </td>
 
-                                    }
-                                    else
-                                    {
-                                        <td class="displayValue1">
-                                            <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
-                                        </td>
-                                    }
-                                }
-
-                        @: </tr>
                             }
-                }
-                count++;
-            }
+                            else
+                            {
+                                <td class="displayValue1">
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
+                                </td>
+                            }
+                        }
 
+                    @: </tr>
+                            }
+            }
+            count++;
         }
-        else
-        {
+
+
+    }
+   
+    else
+    {
             <tr class="gradeU">
                 <td class="displayValue1">@Constants.NoData</td>
                 <td class="displayValue1">@Constants.NoData</td>

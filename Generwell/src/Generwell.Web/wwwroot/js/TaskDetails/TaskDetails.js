@@ -149,11 +149,16 @@ var TaskDetailsPage = {
                 var id = this.id;
                 var number = this.value;
                 //Number Validation
-                if (number < 1 || number > 100 || number == "") {
+                if (number > 100) {
                     $('#numberErrorMessage_' + id).show();
                     Content.length = 0;
                     return false;
                 }
+                //else if (number=="")
+                //{
+                //    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + null + "\"}");
+                //    $('#numberErrorMessage_' + id).hide();
+                //}
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
                     $('#numberErrorMessage_' + id).hide();
@@ -174,6 +179,7 @@ var TaskDetailsPage = {
         });
     },
     changeButtonEvent: function () {
+        debugger;
         var status = $('#reactivatedTask').val();
         if (status.toLowerCase() == "re-activated") {
             $("#completeTask").css("display", "block");

@@ -120,6 +120,7 @@ var wellPage = {
         //On click of datatable row redirect to well line report page.
         $('#wellListTableId tbody').on('click', 'tr td', function (event) {
             debugger;
+            $('#myTask').prop('checked', false);
             $('#processing-modal').modal("show");
             if (event.currentTarget.children[0] != undefined) {
                 wellPage.wellFollowUnfollow(event);
