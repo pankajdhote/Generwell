@@ -1,26 +1,28 @@
-﻿using System;
-using System.Net;
-using System.Text;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Net.Http.Headers;
-using System.Collections.Generic;
+﻿using AutoMapper;
 using Generwell.Core.Model;
-using Microsoft.AspNetCore.Http;
 using Generwell.Modules.GenerwellConstants;
-using Generwell.Modules.Management.GenerwellManagement;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Generwell.Modules.Services
 {
     public class GenerwellServices : IGenerwellServices
-    {
- 
-        private readonly IGenerwellManagement _generwellManagement;
+    {        
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private HttpContext _httpContext => _httpContextAccessor.HttpContext;
 
-        public GenerwellServices(IGenerwellManagement generwellManagement)
-        {
-            _generwellManagement = generwellManagement;
+        public GenerwellServices(IHttpContextAccessor httpContextAccessor)
+        {            
+            _httpContextAccessor = httpContextAccessor;
         }
+
         /// <summary>
         /// Added by Pankaj
         /// Date:- 12-11-2016
@@ -41,6 +43,10 @@ namespace Generwell.Modules.Services
                     FormUrlEncodedContent requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
                     HttpResponseMessage tokenServiceResponse = await client.PostAsync(serverUrl, requestParamsFormUrlEncoded);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                    if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
+                    {
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                    }
                     return responseString;
                 }
             }
@@ -72,7 +78,7 @@ namespace Generwell.Modules.Services
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
                     {
-                        await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, responseString);
+                        _httpContext.Response.Redirect("/Accounts/Logout");
                     }
                     return responseString;
                 }
@@ -102,7 +108,7 @@ namespace Generwell.Modules.Services
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
                     {
-                        await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, responseString);
+                        _httpContext.Response.Redirect("/Accounts/Logout");
                     }
                     return responseString;
                 }
@@ -133,7 +139,7 @@ namespace Generwell.Modules.Services
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
                     {
-                        await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, responseString);
+                        _httpContext.Response.Redirect("/Accounts/Logout");
                     }
                     return responseString;
                 };
@@ -164,7 +170,7 @@ namespace Generwell.Modules.Services
                     byte[] responseString = await tokenServiceResponse.Content.ReadAsByteArrayAsync();
                     if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
                     {
-                        await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, tokenServiceResponse.StatusCode.ToString());
+                        _httpContext.Response.Redirect("/Accounts/Logout");
                     }
                     return responseString;
                 };
@@ -196,7 +202,7 @@ namespace Generwell.Modules.Services
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
                     {
-                        await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, tokenServiceResponse.StatusCode.ToString());
+                        _httpContext.Response.Redirect("/Accounts/Logout");
                     }
                     return responseString;
                 };
@@ -243,7 +249,7 @@ namespace Generwell.Modules.Services
                     }
                 }
                 else {
-                    await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, hrm.IsSuccessStatusCode.ToString());
+                    _httpContext.Response.Redirect("/Accounts/Logout");
                 }
                 return jsonresult;
             }
@@ -278,7 +284,7 @@ namespace Generwell.Modules.Services
                 HttpStatusCode responseCode = httpResponseMessage.StatusCode;
                 if (httpResponseMessage.StatusCode.ToString().ToLower() == "unauthorized")
                 {
-                    await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, responseString);
+                    _httpContext.Response.Redirect("/Accounts/Logout");
                 }
                 return responseString;
             }
@@ -312,7 +318,7 @@ namespace Generwell.Modules.Services
                 string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
                 if (httpResponseMessage.StatusCode.ToString().ToLower() == "unauthorized")
                 {
-                    await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, responseString);
+                    _httpContext.Response.Redirect("/Accounts/Logout");
                 }
 
                 return responseString;
@@ -340,7 +346,7 @@ namespace Generwell.Modules.Services
                 string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
                 if (httpResponseMessage.StatusCode.ToString().ToLower() == "unauthorized")
                 {
-                    await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, responseString);
+                    _httpContext.Response.Redirect("/Accounts/Logout");
                 }
                 return responseString;
             }
@@ -349,5 +355,6 @@ namespace Generwell.Modules.Services
                 throw ex;
             }
         }
+
     }
 }
