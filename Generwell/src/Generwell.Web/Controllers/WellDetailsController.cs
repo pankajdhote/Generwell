@@ -10,6 +10,7 @@ using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Core.Model;
 using AutoMapper;
+using Microsoft.Extensions.Options;
 
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,11 +23,15 @@ namespace Generwell.Web.Controllers
         private readonly IWellManagement _wellManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
-        public WellDetailsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper) : base(generwellManagement)
+        private readonly AppSettingsModel _appSettings;
+
+        public WellDetailsController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper, IOptions<AppSettingsModel> appSettings) : base(generwellManagement)
         {
             _wellManagement = wellManagement;
             _generwellManagement = generwellManagement;
             _mapper = mapper;
+            _appSettings = appSettings.Value;
+
         }
         /// <summary>
         /// Added by pankaj
@@ -39,6 +44,20 @@ namespace Generwell.Web.Controllers
         {
             try
             {
+                //Create License for well
+                if (HttpContext.Session.GetString("ModuleId") != "1")
+                {
+                    //Release license
+                    string releaseLicense = await ReleaseLicense(HttpContext.Session.GetString("LicenseHandleId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    LicenseModel licenseModel = await CreateLicense(_appSettings.Well, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    //set LicenseHandleId and moduleId.
+                    if (licenseModel != null)
+                    {
+                        HttpContext.Session.SetString("LicenseHandleId", licenseModel.handleId);
+                        HttpContext.Session.SetString("ModuleId", licenseModel.moduleId);
+                    }
+                }
+
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.WellDetails.ToString());
                 LineReportsModel wellDetailsModel = await _wellManagement.GetWellDetailsByReportId(reportId, HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
@@ -48,7 +67,7 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellDetails Controller Index action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error", "Accounts");
             }
         }
@@ -79,8 +98,8 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellDetails Controller Follow action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return string.Empty;
             }
         }
     }

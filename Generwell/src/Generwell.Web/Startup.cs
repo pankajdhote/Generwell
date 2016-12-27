@@ -13,6 +13,8 @@ using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.Management.PictureManagement;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Generwell.Web
 {
@@ -67,7 +69,7 @@ namespace Generwell.Web
             services.AddSingleton<List<DictionaryModel>>();
             services.AddSingleton<List<ContactInformationModel>>();
             services.AddSingleton<PictureModel>();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

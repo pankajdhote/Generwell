@@ -27,14 +27,13 @@ namespace Generwell.Web.Controllers
             //set previous page value for google map filteration
             HttpContext.Session.SetString("previousPage", PageOrder.Facilitylisting.ToString());
             //change active menu class
-            GlobalFields.SetMenu(Menu.Well.ToString());
-
-            //Release license
-            string releaseLicense = await ReleaseLicense(HttpContext.Session.GetString("LicenseHandleId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+            GlobalFields.SetMenu(Menu.Well.ToString());           
 
             //Create License for well
             if (HttpContext.Session.GetString("ModuleId") != "14")
             {
+                //Release license
+                string releaseLicense = await ReleaseLicense(HttpContext.Session.GetString("LicenseHandleId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 LicenseModel licenseModel = await CreateLicense(_appSettings.Facilities, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 //set LicenseHandleId and moduleId.
                 if (licenseModel != null)

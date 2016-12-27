@@ -2,10 +2,8 @@
 using Generwell.Modules.Management.GenerwellManagement;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Generwell.Core.Model;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -38,7 +36,7 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Well Controller FilterWell action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
             }
         }
         /// <summary>
@@ -58,7 +56,7 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Base Controller Create License action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return new LicenseModel();
             }
         }
@@ -73,7 +71,7 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                if (id != null)
+                if (!string.IsNullOrEmpty(id))
                 {
                     string response = await _generwellManagement.ReleaseLicense(id, accessToken, tokenType);
                     return response;
@@ -83,10 +81,11 @@ namespace Generwell.Web.Controllers
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Base Controller Release License action method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return string.Empty;
             }
         }
+
 
     }
 }

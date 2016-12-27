@@ -1,11 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Generwell.Core.Model;
+using System.Threading.Tasks;
 using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
 
 namespace Generwell.Modules.Management.GenerwellManagement
 {
@@ -13,11 +13,14 @@ namespace Generwell.Modules.Management.GenerwellManagement
     {
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private HttpContext _httpContext => _httpContextAccessor.HttpContext;
 
-        public GenerwellManagement(IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IMapper mapper)
+        public GenerwellManagement(IHttpContextAccessor httpContextAccessor, IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IMapper mapper)
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
+            _httpContextAccessor = httpContextAccessor;
         }
         /// <summary>
         /// Added by pankaj
@@ -124,10 +127,11 @@ namespace Generwell.Modules.Management.GenerwellManagement
         /// Created for error logging using post api..
         /// </summary>
         /// <returns></returns>
-        public async Task<string> LogError(string param, string accessToken, string tokenType, string content)
+
+        public async Task LogError(string param, string accessToken, string tokenType, string content)
         {
-            string response = await _generwellServices.PostWebApiData(_appSettings.LogError + "/" + param, accessToken, tokenType, content);
-            return response;
+            await _generwellServices.PostWebApiData(_appSettings.LogError + "/" + param, accessToken, tokenType, content);
+            _httpContext.Response.Redirect("/Accounts/Logout");
         }
     }
 }

@@ -8,11 +8,14 @@ using Generwell.Modules.GenerwellConstants;
 using System.Text;
 using System;
 using Generwell.Modules.Management.GenerwellManagement;
+using Microsoft.AspNetCore.Http;
+
 
 namespace Generwell.Modules.Management
 {
     public class WellManagement : IWellManagement
     {
+
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
         private readonly IGenerwellManagement _generwellManagement;
@@ -68,7 +71,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWells method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objWellList;
             }
         }
@@ -89,7 +92,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellById method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objWell;
             }
 
@@ -111,7 +114,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellsByFilterId method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objMapList;
             }
         }
@@ -132,7 +135,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellsWithoutFilterId method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objMapList;
             }
 
@@ -154,7 +157,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellLineReports method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objWellLineList;
             }
 
@@ -176,7 +179,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetFilters method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objFilterList;
             }
         }
@@ -204,8 +207,8 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetFilters method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
-                return response;
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
             }
         }
         /// <summary>
@@ -225,7 +228,7 @@ namespace Generwell.Modules.Management
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellDetailsByReportId method.\"}";
-                string response = await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return _objLineReport;
             }
         }
