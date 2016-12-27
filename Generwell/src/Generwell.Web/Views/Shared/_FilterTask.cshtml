@@ -36,16 +36,18 @@
                             DateTime startDate1 = new DateTime(1970, 1, 1);
                             DateTime foreCaseDate = startDate1.AddSeconds(Convert.ToDouble(item.ForecastDate));
                             DateTime activatedDate = startDate1.AddSeconds(Convert.ToDouble(item.ActivatedDate));
-                            if (foreCaseDate <= DateTime.Today || foreCaseDate >= activatedDate)
+                            if (@item.Status != Constants.Status)
+                            { 
+                            if (foreCaseDate <= DateTime.Today || foreCaseDate >= activatedDate )
                             {
                                 if (item.ForecastDate != null)
                                 {
                                     <img src="@Url.Content("~/images/urgent2.png")" />
                                 }
+                             }
+                           }
 
-                            }
-
-                            else if (@item.Completed == Constants.Status)
+                            else if (@item.Status == Constants.Status)
                             {
                                 <img src="@Url.Content("~/images/active.png")"/>
                             }

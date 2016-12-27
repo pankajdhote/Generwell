@@ -8,7 +8,7 @@
         /// Declare constant variable to use globally
         /// </summary>
         /// <returns></returns>
-        public const bool Status = true;
+        public const string Status = "Completed";
         public const string NoData = "No Data";
         public const string trueState = "true";
         public const string falseState = "true";
