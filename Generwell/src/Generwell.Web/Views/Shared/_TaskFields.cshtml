@@ -73,13 +73,14 @@
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control datepicker" disabled />
+                                        <input id="@item.fieldId" asp-for="@date2" onKeyDown="TaskDetailsPage.limitText(this, 10);" onKeyUp="TaskDetailsPage.limitText(this, 10);" class="form-control datepicker" disabled />
                                     }
                                     else
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" />
+                                        <input id="@item.fieldId" asp-for="@date2" onKeyDown="TaskDetailsPage.limitText(this, 10);" onKeyUp="TaskDetailsPage.limitText(this, 10);" name="date" class="form-control clsedit datepicker" />
                                         <br />
                                         <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
+                                        <label style="display:none;color:red;" id="inValidDateErrorMessage_@item.fieldId">Please enter valid date</label>
                                     }
 
                                 </td>
@@ -168,11 +169,12 @@
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="number" id="@item.fieldId" min="1" max="100" maxlength="3" asp-for="@item.value" class="form-control" disabled />
+                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control" />
                                     }
                                     else
                                     {
-                                        <input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit"/>
+                                        @*<input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />*@
+                                        <input type="number" id="@item.fieldId"  onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit"/>
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                     }
@@ -193,9 +195,11 @@
                                     }
                                 </td>
                             }
-                            @if (@item.fieldTypeId == 5)
+                        @if (@item.fieldTypeId == 5)
                             {
-                                <td class="displayValue1 i-checks chk">
+                            <td class="displayValue1 i-checks chk">
+                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                                {
                                     @if (@item.value != null)
                                     {
                                         @if (@item.value.ToString() == "0.0")
@@ -204,12 +208,29 @@
                                         }
                                         @if (@item.value.ToString() == "1.0")
                                         {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" disabled />
                                         }
                                     }
-                                </td>
-                            }
+                                }
+                                else
+                                {
+                                    @if (@item.value != null)
+                                    {
+                                        @if (@item.value.ToString() == "0.0")
+                                        {
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" />
+                                        }
+                                        @if (@item.value.ToString() == "1.0")
+                                        {
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
+                                        }
+                                        <br />
+                                        <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
+                                    }
 
+                                }
+                            </td>
+                        }
                             @if (@item.fieldTypeId == 7)
                             {
                                 <td class="displayValue1">
@@ -392,11 +413,12 @@
                                     <td class="displayValue1">
                                         @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                         {
-                                            <input type="number" id="@item.fieldId" min="1" max="100" asp-for="@item.value" class="form-control" disabled />
+                                            <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control" />
                                         }
                                         else
                                         {
-                                            <input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />
+                                            @*<input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />*@
+                                            <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                             <br />
                                             <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                         }
@@ -417,22 +439,43 @@
                                         }
                                     </td>
                                 }
-                                @if (item.fieldTypeId == 5)
+                            
+                        @if (@item.fieldTypeId == 5)
+                            {
+                            <td class="displayValue1 i-checks chk">
+                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
-                                    <td class="displayValue1 i-checks chk">
-                                        @if (@item.value != null)
+                                    @if (@item.value != null)
+                                    {
+                                        @if (@item.value.ToString() == "0.0")
                                         {
-                                            @if (@item.value.ToString() == "0.0")
-                                            {
-                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" disabled />
-                                            }
-                                            @if (@item.value.ToString() == "1.0")
-                                            {
-                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
-                                            }
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" disabled />
                                         }
-                                    </td>
+                                        @if (@item.value.ToString() == "1.0")
+                                        {
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" disabled />
+                                        }
+                                    }
                                 }
+                                else
+                                {
+                                    @if (@item.value != null)
+                                    {
+                                        @if (@item.value.ToString() == "0.0")
+                                        {
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId"  value="@item.value" checked="" class="clsedit" />
+                                        }
+                                        @if (@item.value.ToString() == "1.0")
+                                        {
+                                            <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
+                                        }
+                                        <br />
+                                        <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
+                                    }
+                                   
+                                }
+                            </td>
+                        }
 
                                 @if (item.fieldTypeId == 7)
                                 {
