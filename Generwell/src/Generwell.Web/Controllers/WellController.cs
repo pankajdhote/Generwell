@@ -59,15 +59,7 @@ namespace Generwell.Web.Controllers
                 //Create License for well
                 if (HttpContext.Session.GetString("ModuleId") != "1")
                 {
-                    //Release license
-                    string releaseLicense = await ReleaseLicense(HttpContext.Session.GetString("LicenseHandleId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                    LicenseModel licenseModel = await CreateLicense(_appSettings.Well, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                    //set LicenseHandleId and moduleId.
-                    if (licenseModel != null)
-                    {
-                        HttpContext.Session.SetString("LicenseHandleId", licenseModel.handleId);
-                        HttpContext.Session.SetString("ModuleId", licenseModel.moduleId);
-                    }
+                    await ApplyLicense(_appSettings.Well);
                 }
 
                 ViewBag.FilterList = filterViewModel.Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });

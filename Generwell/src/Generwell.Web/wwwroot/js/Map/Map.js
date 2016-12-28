@@ -35,6 +35,12 @@ var mapPage = {
             debugger;
             navigator.geolocation.getCurrentPosition(function (p) {
                 debugger;
+                var latitudeCheck = $('#latitude').val();
+                //var previousPageValue = $('#previousPageValue').val();
+                if (latitudeCheck == "")
+                {
+                    mapPage.showAlert();
+                }
                 //swal("Warning", p.coords.latitude + "&" + p.coords.longitude);
                 mapPage.initializeMap(p);
                 mapPage.addLocationMarkers(p, locations);
@@ -84,6 +90,16 @@ var mapPage = {
         for (var i = 0; i < locations.length; i++) {
             debugger;
             var latLngLocations = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
+            
+            var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
+            var previousPageValue = $('#previousPageValue').val();
+            if (!lngVal.test(locations[i].latitude)) {
+                if (previousPageValue.toLowerCase() == "welllinereports" || previousPageValue.toLowerCase() == "welldetails") {
+                    swal("Asset Location", "No valid location information available for this asset. The map will only show your current location and followed wells.");
+                }
+                continue;
+            }
+
             marker = new google.maps.Marker({ 'position': latLngLocations });
 
             if (locations[i].latitude != null) {
@@ -121,11 +137,13 @@ var mapPage = {
                 }
             })(markerCurrentLocation));
         }
-        //now fit the map to the newly inclusive bounds
-        initialMap.fitBounds(bounds);
         var markerCluster = new MarkerClusterer(initialMap, markers, {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
         });
+
+        //now fit the map to the newly inclusive bounds
+        initialMap.fitBounds(bounds);
+        //initialMap.setCenter(initialLatLng);
 
         if (locations.length == 0) {
             mapPage.showAlert();
@@ -316,11 +334,11 @@ var mapPage = {
     },
     showAlert: function () {
         //if location not found then show alert popup
-        swal("Asset Location", "No location information available for this asset. The map will only show your current location.")
+        swal("Asset Location", "No location information available for this asset. The map will only show your current location and followed wells.");
     },
     showRouteAlert: function () {
         //if location not found then show alert popup
-        swal("Route Information", "Route is not available for your destination from your current location.")
+        swal("Route Information", "Route is not available for your destination from your current location.");
     }
 
 }

@@ -41,34 +41,25 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index(string wellId, string wellName, string isFollow)
+        public async Task<ActionResult> Index(string wellId, string wellName, string isFollow, string latitude)
         {
             try
             {
                 //Create License for well
                 if (HttpContext.Session.GetString("ModuleId") != "1")
                 {
-                    //Release license
-                    string releaseLicense = await ReleaseLicense(HttpContext.Session.GetString("LicenseHandleId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                    LicenseModel licenseModel = await CreateLicense(_appSettings.Well, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                    //set LicenseHandleId and moduleId.
-                    if (licenseModel != null)
-                    {
-                        HttpContext.Session.SetString("LicenseHandleId", licenseModel.handleId);
-                        HttpContext.Session.SetString("ModuleId", licenseModel.moduleId);
-                    }
+                    await ApplyLicense(_appSettings.Well);
                 }
-
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.WellLineReports.ToString());
                 //change active menu class
                 GlobalFields.SetMenu(Menu.Well.ToString());
-
                 if (!string.IsNullOrEmpty(wellId))
                 {
                     HttpContext.Session.SetString("WellId", Encoding.UTF8.GetString(Convert.FromBase64String(wellId)));
                     HttpContext.Session.SetString("WellName", Encoding.UTF8.GetString(Convert.FromBase64String(wellName)));
                     HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == Constants.trueState ? Constants.checkedState : string.Empty);
+                    HttpContext.Session.SetString("Latitude", Encoding.UTF8.GetString(Convert.FromBase64String(latitude != null ? latitude : string.Empty)));
                 }
                 List<WellLineReportModel> wellLineReportModel = await _wellManagement.GetWellLineReports(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<WellLineReportViewModel> wellLineReportViewModel = _mapper.Map<List<WellLineReportViewModel>>(wellLineReportModel);
