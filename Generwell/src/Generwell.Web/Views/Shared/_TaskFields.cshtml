@@ -6,31 +6,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
         $('.datepicker').datepicker({ format: 'M dd,yyyy', autoclose: true }); //Initialise any date pickers
-        
-        //$('.form_datetime').datetimepicker({ format: 'M dd,yyyy hh:ii' });
     });
-
-    //var ids = $('.clsedit').map(function () {
-    //    return this.id;
-    //}).get();
-
 </script>
-@*@if (Model.fields.Count() > 0)
-            {
-    @foreach (var item in Model.fields)
-    {
-        @if (@item.fieldControlType != 2)
-                    {
-            @if (@item.permissionId == 2 || @item.permissionId == 9)
-                        {
-                @Html.HiddenFor(model => @item.fieldId, new { id = "FieldId" });
-            }
-        }
-    }
-}*@
 
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")
@@ -46,7 +25,7 @@
     <thead>
 @if (Model.fields.Count() > 1)
 {
-        <tr>
+        <tr style="cursor:none;">
             <th>Field Description</th>
             <th>Display Value</th>
             <th>Field Description</th>
@@ -55,11 +34,9 @@
 }
 else
 {
-    <tr>
+    <tr  style="cursor:none;">
         <th>Field Description</th>
         <th>Display Value</th>
-        @*<th>Field Description</th>
-        <th>Display Value</th>*@
     </tr>
 }
     </thead>
@@ -76,7 +53,7 @@ else
                 if (count % 2 == 1)
                 {
                     
-                    @:<tr class="gradeU">
+                    @:<tr class="gradeU"  style="cursor:default;">
                         <td><b>@item.fieldDesc</b></td>
                             @if (item.fieldTypeId == 1)
                             {
@@ -233,11 +210,11 @@ else
                                     {
                                             @if (@item.value.ToString() == "0.0")
                                         {
-                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="" class="clsedit" />
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId"  onclick='checkboxChange(this);' value="@item.value" checked="" class="clsedit home6 checkhit" />
                                             }
                                             @if (@item.value.ToString() == "1.0")
                                         {
-                                                <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId" onclick='checkboxChange(this);' value="@item.value" checked="checked" class="clsedit home6 checkhit" />
                                             }
                                             <br />
                                             <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
