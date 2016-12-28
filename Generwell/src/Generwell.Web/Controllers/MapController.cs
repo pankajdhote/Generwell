@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using AutoMapper;
 using System.Linq;
+using Generwell.Core.Model;
+using System.Collections.Generic;
 using Generwell.Modules.ViewModels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
-using AutoMapper;
-using Generwell.Core.Model;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -54,6 +54,7 @@ namespace Generwell.Web.Controllers
         public async Task<JsonResult> PlotMarker()
         {
             List<MapViewModel> mapViewModelList = new List<MapViewModel>();
+            List<MapModel> mapModelList = new List<MapModel>();
             try
             {
                 MapViewModel emptyMapViewModel = new MapViewModel();
@@ -102,11 +103,32 @@ namespace Generwell.Web.Controllers
                         break;
                     case 2:
                         wellForMapModel = await _wellManagement.GetWellsWithoutFilterId(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                        wellForMapModel = wellForMapModel.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
+                        mapModelList = wellForMapModel.Where(w => w.isFavorite == true).ToList();
+                        bool isExist = mapModelList.Any(x => x.id == Convert.ToInt32(HttpContext.Session.GetString("WellId")));
+                        if (!isExist)
+                        {
+                            wellForMapModel = wellForMapModel.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
+                        }
+                        else
+                        {
+                            wellForMapModel.Clear();
+                        }
+                        wellForMapModel.AddRange(mapModelList);
                         break;
                     case 3:
                         wellForMapModel = await _wellManagement.GetWellsWithoutFilterId(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        mapModelList = wellForMapModel.Where(w => w.isFavorite == true).ToList();
                         wellForMapModel = wellForMapModel.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
+                        bool isExistCheck = mapModelList.Any(x => x.id == Convert.ToInt32(HttpContext.Session.GetString("WellId")));
+                        if (!isExistCheck)
+                        {
+                            wellForMapModel = wellForMapModel.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
+                        }
+                        else
+                        {
+                            wellForMapModel.Clear();
+                        }
+                        wellForMapModel.AddRange(mapModelList);
                         break;
                     case 4:
                     case 12:

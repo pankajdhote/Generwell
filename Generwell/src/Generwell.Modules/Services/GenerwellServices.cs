@@ -239,16 +239,10 @@ namespace Generwell.Modules.Services
                 string jsonresult = string.Empty;
                 if (hrm.IsSuccessStatusCode)
                 {
-                    jsonresult = await hrm.Content.ReadAsStringAsync();
-                    //if (hrm.ReasonPhrase == "OK")
-                    //{
-                    //}
-                    //else
-                    //{
-                    //    return "";
-                    //}
+                    jsonresult = await hrm.Content.ReadAsStringAsync();                    
                 }
-                else {
+                if (hrm.StatusCode.ToString().ToLower() == "unauthorized")
+                {
                     _httpContext.Response.Redirect("/Accounts/Logout");
                 }
                 return jsonresult;

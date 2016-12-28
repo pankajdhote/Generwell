@@ -46,7 +46,7 @@ var wellPage = {
                   .draw();
             }
         });
-    },    
+    },
     createMyFilterCheckbox: function () {
         //Added for checkbox style
         $(".i-checks").iCheck({
@@ -57,9 +57,7 @@ var wellPage = {
     createDatatable: function () {
         //create Generic datatable
         var dataTable = $('#wellListTableId').DataTable({
-            "stateSave": true,
             "columnDefs": [
-                { "orderable": false, "targets": 0 },
                 {
                     "targets": [0],
                     "visible": false,
@@ -70,13 +68,7 @@ var wellPage = {
                      "visible": false,
                      "searchable": true
                  },
-                {
-                    "render": function (data, type, row) {
-                        return data + ' (' + row[3] + ')';
-                    },
-                    "targets": 0
-                },
-            ],               
+            ],
         });
     },
     filterDatatableByDropdown: function () {
@@ -109,7 +101,7 @@ var wellPage = {
             });
         });
     },
-    redirectWellLineReportPage: function (targetUrl,event) {
+    redirectWellLineReportPage: function (targetUrl, event) {
         //On click of datatable row redirect to well line report page.
         var oTable = $('#wellListTableId').DataTable();
         var data = oTable.row($(event).parent()).data();
@@ -139,7 +131,6 @@ var wellPage = {
                 type: 'GET',
                 dataType: 'html',
                 url: '/Well/SetFollowUnfollow',
-                //data: { id: filterId },
                 data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
                 cache: false,
                 success: function (response) {
@@ -154,7 +145,7 @@ var wellPage = {
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#processing-modal').modal("hide");
                 }
-            });           
+            });
         }
     }
 }
