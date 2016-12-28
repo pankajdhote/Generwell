@@ -5,8 +5,6 @@ using System;
 using System.Threading.Tasks;
 using Generwell.Core.Model;
 using Microsoft.AspNetCore.Http;
-using Generwell.Modules.ViewModels;
-using AutoMapper;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -97,6 +95,25 @@ namespace Generwell.Web.Controllers
         {
             SupportModel supportModel = await _generwellManagement.GetSupportDetails();            
             return PartialView("_Support", supportModel);
+        }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:- 28-12-2016
+        ///Apply License
+        /// </summary>
+        /// <returns></returns>
+        public async Task ApplyLicense(string url)
+        {
+            //Release license
+            string releaseLicense = await ReleaseLicense(HttpContext.Session.GetString("LicenseHandleId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+            LicenseModel licenseModel = await CreateLicense(url, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+            //set LicenseHandleId and moduleId.
+            if (licenseModel != null)
+            {
+                HttpContext.Session.SetString("LicenseHandleId", licenseModel.handleId);
+                HttpContext.Session.SetString("ModuleId", licenseModel.moduleId);
+            }
         }
 
     }

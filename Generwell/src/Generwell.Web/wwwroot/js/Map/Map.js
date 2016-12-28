@@ -35,6 +35,12 @@ var mapPage = {
             debugger;
             navigator.geolocation.getCurrentPosition(function (p) {
                 debugger;
+                var latitudeCheck = $('#latitude').val();
+                //var previousPageValue = $('#previousPageValue').val();
+                if (latitudeCheck == "")
+                {
+                    mapPage.showAlert();
+                }
                 //swal("Warning", p.coords.latitude + "&" + p.coords.longitude);
                 mapPage.initializeMap(p);
                 mapPage.addLocationMarkers(p, locations);
@@ -83,9 +89,8 @@ var mapPage = {
         markers.push(markerCurrentLocation);
         for (var i = 0; i < locations.length; i++) {
             debugger;
-
             var latLngLocations = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
-
+            
             var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
             var previousPageValue = $('#previousPageValue').val();
             if (!lngVal.test(locations[i].latitude)) {
@@ -132,11 +137,13 @@ var mapPage = {
                 }
             })(markerCurrentLocation));
         }
-        //now fit the map to the newly inclusive bounds
-        initialMap.fitBounds(bounds);
         var markerCluster = new MarkerClusterer(initialMap, markers, {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
         });
+
+        //now fit the map to the newly inclusive bounds
+        initialMap.fitBounds(bounds);
+        //initialMap.setCenter(initialLatLng);
 
         if (locations.length == 0) {
             mapPage.showAlert();
