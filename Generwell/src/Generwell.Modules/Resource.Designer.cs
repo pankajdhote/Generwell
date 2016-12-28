@@ -60,7 +60,7 @@ namespace Generwell.Modules {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to User Name or Password is incorrect.
+        ///    Looks up a localized string similar to User Name, Password or URL is incorrect.
         /// </summary>
         public static string ErrorMessage_Credentials {
             get {

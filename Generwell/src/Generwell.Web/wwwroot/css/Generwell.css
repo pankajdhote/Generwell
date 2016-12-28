@@ -85,6 +85,11 @@ table tr {
     cursor: pointer;
 }
 
+#wellDetailsListTableId tr {
+    cursor: default;
+}
+
+
 .button {
     color: #fff !important;
     border-color: white !important;

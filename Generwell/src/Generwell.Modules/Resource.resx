@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrorMessage_Credentials" xml:space="preserve">
-    <value>User Name or Password is incorrect</value>
+    <value>User Name, Password or URL is incorrect</value>
   </data>
 </root>
