@@ -21,6 +21,26 @@ var TaskDetailsPage = {
         $('#processing-modal').modal("hide");
         TaskDetailsPage.callUpdateTask(Content);
     },
+    //callUpdateTask: function (Content) {
+    //    $('#processing-modal').modal("show");
+    //    $.ajax({
+    //        type: "GET",
+    //        url: '/taskdetails/updatetaskfields',
+    //        data: { Content: JSON.stringify(Content) },
+    //        datatype: "json",
+    //        cache: false,
+    //        success: function (data, status, xhr) {
+    //            $('#newCmpMessage').show();
+    //            setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
+    //            $('#processing-modal').modal("hide");
+    //             //location.reload();
+    //            TaskDetailsPage.changeButtonEvent();
+                
+    //        },
+    //        error: function (xhr) {
+    //        }
+    //    });
+    //},
     callUpdateTask: function (Content) {
         $('#processing-modal').modal("show");
         $.ajax({
@@ -32,12 +52,14 @@ var TaskDetailsPage = {
             success: function (data, status, xhr) {
                 $('#newCmpMessage').show();
                 setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
+                location.reload();
                 $('#processing-modal').modal("hide");
-                 //location.reload();
+                $("#completeTask").css("display", "block");
+                $("#ReSaveTaskFieldDetailsId").css("display", "none");
                 TaskDetailsPage.changeButtonEvent();
-                
             },
             error: function (xhr) {
+                $('#processing-modal').modal("hide");
             }
         });
     },
