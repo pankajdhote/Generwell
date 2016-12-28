@@ -54,7 +54,6 @@ namespace Generwell.Web.Controllers
                 HttpContext.Session.SetString("previousPage", PageOrder.WellLineReports.ToString());
                 //change active menu class
                 GlobalFields.SetMenu(Menu.Well.ToString());
-
                 if (!string.IsNullOrEmpty(wellId))
                 {
                     HttpContext.Session.SetString("WellId", Encoding.UTF8.GetString(Convert.FromBase64String(wellId)));
