@@ -223,6 +223,8 @@ namespace Generwell.Modules.Services
         {
             try
             {
+                string saveStatus = "Saved";
+              
                 string tokenServiceUrl = url;
                 HttpClient hc = new HttpClient();
                 hc.DefaultRequestHeaders.Clear();
@@ -240,11 +242,12 @@ namespace Generwell.Modules.Services
                 if (hrm.IsSuccessStatusCode)
                 {
                     jsonresult = await hrm.Content.ReadAsStringAsync();
-                  
+                    jsonresult = saveStatus;
+                   
                 }
-                else
+                if (hrm.StatusCode.ToString().ToLower() == "unauthorized")
                 {
-                    _httpContext.Response.Redirect("/TaskDetails/Index");
+                    _httpContext.Response.Redirect("/Accounts/Logout");
                 }
                 return jsonresult;
             }
@@ -315,7 +318,7 @@ namespace Generwell.Modules.Services
                 {
                     _httpContext.Response.Redirect("/Accounts/Logout");
                 }
-
+               
                 return responseString;
             }
             catch (Exception ex)

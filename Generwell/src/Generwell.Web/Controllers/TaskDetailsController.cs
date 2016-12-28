@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Generwell.Modules.GenerwellConstants;
 using AutoMapper;
 using Generwell.Core.Model;
+using Generwell.Modules.Global;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,7 +25,7 @@ namespace Generwell.Web.Controllers
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
 
-        public TaskDetailsController(ITaskManagement taskManagement, 
+        public TaskDetailsController(ITaskManagement taskManagement,
             IGenerwellManagement generwellManagement, IMapper mapper) : base(generwellManagement)
         {
             _taskManagement = taskManagement;
@@ -84,9 +85,17 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                    string taskDetailsResponse = await _taskManagement.UpdateTaskDetails(Content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                    return taskDetailsResponse;
-                    
+                string status="saved";
+                string taskDetailsResponse = await _taskManagement.UpdateTaskDetails(Content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                if (taskDetailsResponse == "Saved")
+                {
+                    TempData["statusSave"] = status;
+                  //  return PartialViewResult("_TaskFields");
+                   
+                }
+                return taskDetailsResponse;
+                
+
             }
             catch (Exception ex)
             {

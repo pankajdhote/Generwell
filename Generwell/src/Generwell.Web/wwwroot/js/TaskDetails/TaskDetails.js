@@ -14,7 +14,7 @@ var TaskDetailsPage = {
     },
 
     updateTaskFields: function () {
-      
+
     },
     completeTask: function () {
         var Content = TaskDetailsPage.getViewData();
@@ -35,7 +35,7 @@ var TaskDetailsPage = {
     //            $('#processing-modal').modal("hide");
     //             //location.reload();
     //            TaskDetailsPage.changeButtonEvent();
-                
+
     //        },
     //        error: function (xhr) {
     //        }
@@ -50,8 +50,8 @@ var TaskDetailsPage = {
             datatype: "json",
             cache: false,
             success: function (data, status, xhr) {
-                $('#newCmpMessage').show();
-                setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
+                //$('#newCmpMessage').show();
+                //setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
                 location.reload();
                 $('#processing-modal').modal("hide");
                 $("#completeTask").css("display", "block");
@@ -91,6 +91,7 @@ var TaskDetailsPage = {
         $('.clsedit').each(function () {
             var htmlType = $(this).prop('type');
             if (htmlType == 'select-one') {
+                debugger;
                 var txt = $(this).find(":selected").val();
                 var lookupText = $(this).find(":selected").text();
                 IdArray.push(this.id);
@@ -123,8 +124,7 @@ var TaskDetailsPage = {
                         Content.length = 0;
                         return false;
                     }
-                    else if(DateText.length>11)
-                    {
+                    else if (DateText.length > 11) {
                         $('#inValidDateErrorMessage_' + id).show();
                         Content.length = 0;
                         return false;
@@ -135,19 +135,35 @@ var TaskDetailsPage = {
                         $('#inValidDateErrorMessage_' + id).hide();
                     }
                 }
-                else {
+                else if (this.name == "memo") {
                     var id = this.id;
                     var text = this.value;
                     //Text Validation
                     if (text == "") {
-                        $('#textErrorMessage_' + id).show();
+                        $('#memoErrorMessage_' + id).show();
                         Content.length = 0;
                         return false;
                     }
                     else {
                         Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                        $('#textErrorMessage_' + id).hide();
+                        $('#memoErrorMessage_' + id).hide();
                     }
+                }
+                else {
+                    var id = this.id;
+                    var text = this.value;
+                    //Text Validation
+                    if (text == "") {
+                        //$('#textErrorMessage_' + id).show();
+                        //Content.length = 0;
+                        //return false;
+                    }
+                    else {
+                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                        $('#textErrorMessage_' + id).hide();
+                        $('#memoErrorMessage_' + id).hide();
+                    }
+
                 }
             }
             else if (htmlType == "checkbox") {
@@ -240,7 +256,7 @@ var TaskDetailsPage = {
         }
     },
     check: function (e, value) {
-     $("#completeTask").css("display", "none");
+        $("#completeTask").css("display", "none");
         $("#savedDetails").css("display", "block");
         if (!e.target.validity.valid) {
             e.target.value = value.substring(0, value.length - 1);

@@ -8,35 +8,49 @@
     $(document).ready(function () {
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
         $('.datepicker').datepicker({ format: 'M dd,yyyy', autoclose: true }); //Initialise any date pickers
+        setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
     });
+ 
+
 </script>
 
 <!-- Loading Modal Start here-->
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-<input type="hidden" id="reactivatedTask" value="@Model.status" />
+<input type="hidden"  id="reactivatedTask" value="@Model.status" />
 
-<div id="newCmpMessage" style="display:none;" class="alert alert-success alert-dismissable">
+@*<div id="newCmpMessage" style="display:none" class="alert alert-success alert-dismissable">
     <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
     Data saved Successfully.
-</div>
+</div>*@
+    @if (TempData["statusSave"] != null)
+{
+      @if (TempData["statusSave"].ToString() == "saved")
+      {
+        <div id="newCmpMessage" class="alert alert-success alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            Data saved Successfully.
+        </div>
+      }
+      }
+
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
 @if (Model.fields.Count() > 1)
 {
         <tr style="cursor:none;">
-            <th>Field Description</th>
-            <th>Display Value</th>
-            <th>Field Description</th>
-            <th>Display Value</th>
+            <th style="width:25%;">Field Description</th>
+            <th style="width:25%;">Display Value</th>
+            <th style="width:25%;">Field Description</th>
+            <th style="width:25%;">Display Value</th>
         </tr>
 }
 else
 {
     <tr  style="cursor:none;">
-        <th>Field Description</th>
-        <th>Display Value</th>
+        <th style="width:50%;">Field Description</th>
+        <th style="width:50%;">Display Value</th>
     </tr>
 }
     </thead>
@@ -229,9 +243,9 @@ else
                                     }
                                     else
                                     {
-                                        <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
+                                        <input type="text" id="@item.fieldId" asp-for="@item.value" name="memo" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
                                         <br />
-                                        <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
+                                        <label style="display:none;color:red;" id="memoErrorMessage_@item.fieldId">Text should not take null value</label>
                                     }
                                 </td>
                             }
@@ -278,24 +292,28 @@ else
                                     {
                                         <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
                                     }
+                                    <br />                                    
                                 </td>
                             }
                             @if (@item.fieldTypeId == 14)
                             {
+                                var photo =double.Parse(item.displayValue);
                                 @if (item.displayValue.TrimStart() == "0.0")
                                 {
                                     <td class="displayValue1">
-                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
+                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
+                                        <br /> 
                                     </td>
                                 }
                                 else
                                 {
                                     <td class="displayValue1">
-                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
+                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
+                                        <br /> 
                                     </td>
                                 }
                             }
-
+                            
                 }
                 @if (count % 2 == 0)
                 {
@@ -478,10 +496,10 @@ else
                                 }
                                 else
                                 {
-                                    <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
+                                    <input type="text" id="@item.fieldId" name="memo" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
                                 }
                                 <br />
-                                <label style="display:none;color:red;" id="textErrorMessage_@item.fieldId">Text should not take null value</label>
+                                <label style="display:none;color:red;" id="memoErrorMessage_@item.fieldId">Text should not take null value</label>
                             </td>
                         }
                         @if (item.fieldTypeId == 8)
@@ -530,23 +548,24 @@ else
                                 }
                             </td>
                         }
-                        @if (@item.fieldTypeId == 14)
-                        {
-                            @if (item.displayValue.TrimStart() == "0.0")
-                            {
-
-                                <td class="displayValue1">
-                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
-                                </td>
-
-                            }
-                            else
-                            {
-                                <td class="displayValue1">
-                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@item.displayValue Photo(s)</span></a>
-                                </td>
-                            }
+                    @if (@item.fieldTypeId == 14)
+                    {
+                        var photo = double.Parse(item.displayValue);
+                        @if (item.displayValue.TrimStart() == "0.0")
+                                {
+                            <td class="displayValue1">
+                                <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
+                                <br />
+                            </td>
                         }
+                        else
+                        {
+                            <td class="displayValue1">
+                                <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
+                                <br />
+                            </td>
+                        }
+                    }
 
                     @: </tr>
                             }
