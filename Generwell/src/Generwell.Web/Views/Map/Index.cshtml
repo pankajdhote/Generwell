@@ -17,6 +17,8 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
+<input id="previousPageValue" type="hidden" value="@Context.Session.GetString("previousPage")"/>
+
 <div class="container wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
