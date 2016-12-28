@@ -33,12 +33,11 @@ var TaskDetailsPage = {
                 $('#newCmpMessage').show();
                 setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
                 $('#processing-modal').modal("hide");
-                $("#completeTask").css("display", "block");
-                $("#ReSaveTaskFieldDetailsId").css("display", "none");
+                 //location.reload();
                 TaskDetailsPage.changeButtonEvent();
+                
             },
             error: function (xhr) {
-                $('#processing-modal').modal("hide");
             }
         });
     },
@@ -97,7 +96,7 @@ var TaskDetailsPage = {
                     var DateText = this.value;
                     var startDate = "Jan 01,1990";
 
-                    if (new Date(DateText) < new Date(startDate) || DateText == "") {
+                    if (new Date(DateText) < new Date(startDate)) {
                         $('#dateErrorMessage_' + id).show();
                         Content.length = 0;
                         return false;
@@ -154,11 +153,6 @@ var TaskDetailsPage = {
                     Content.length = 0;
                     return false;
                 }
-                //else if (number=="")
-                //{
-                //    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + null + "\"}");
-                //    $('#numberErrorMessage_' + id).hide();
-                //}
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
                     $('#numberErrorMessage_' + id).hide();
@@ -194,8 +188,8 @@ var TaskDetailsPage = {
             $("#savedDetails").css("display", "block");
 
             $("#savedDetails").click(function () {
+                debugger;
                 var Content = TaskDetailsPage.getViewData();
-                //var flag = TaskDetailsPage.getViewData();
                 if (Content.length > 0) {
                     TaskDetailsPage.callUpdateTask(Content);
                 }
@@ -203,6 +197,10 @@ var TaskDetailsPage = {
 
                 }
             });
+        });
+        $('.iCheck-helper').on('click', function () {
+            $("#completeTask").css("display", "none");
+            $("#savedDetails").css("display", "block");
         });
     },
     getPictureAlbum: function (id) {
