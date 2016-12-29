@@ -41,7 +41,7 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> Index(string wellId, string wellName, string isFollow, string latitude)
+        public async Task<ActionResult> Index(string wellId, string wellName, string isFollow, string latitude, string longitude)
         {
             try
             {
@@ -59,7 +59,8 @@ namespace Generwell.Web.Controllers
                     HttpContext.Session.SetString("WellId", Encoding.UTF8.GetString(Convert.FromBase64String(wellId)));
                     HttpContext.Session.SetString("WellName", Encoding.UTF8.GetString(Convert.FromBase64String(wellName)));
                     HttpContext.Session.SetString("IsFollow", Encoding.UTF8.GetString(Convert.FromBase64String(isFollow)).ToLower() == Constants.trueState ? Constants.checkedState : string.Empty);
-                    HttpContext.Session.SetString("Latitude", Encoding.UTF8.GetString(Convert.FromBase64String(latitude != null ? latitude : string.Empty)));
+                    HttpContext.Session.SetString("Latitude", Encoding.UTF8.GetString(Convert.FromBase64String(latitude != null ? latitude : "bnVsbA==")));
+                    HttpContext.Session.SetString("Longitude", Encoding.UTF8.GetString(Convert.FromBase64String(longitude != null ? longitude : "bnVsbA==")));
                 }
                 List<WellLineReportModel> wellLineReportModel = await _wellManagement.GetWellLineReports(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<WellLineReportViewModel> wellLineReportViewModel = _mapper.Map<List<WellLineReportViewModel>>(wellLineReportModel);

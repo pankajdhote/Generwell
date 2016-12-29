@@ -90,8 +90,6 @@ namespace Generwell.Web.Controllers
                 if (taskDetailsResponse == "Saved")
                 {
                     TempData["statusSave"] = status;
-                  //  return PartialViewResult("_TaskFields");
-                   
                 }
                 return taskDetailsResponse;
                 

@@ -74,6 +74,7 @@ namespace Generwell.Web.Controllers
                 pictureViewModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId != null ? albumId : string.Empty));
                 pictureViewModel.label = Encoding.UTF8.GetString(Convert.FromBase64String(label != null ? label : string.Empty));
                 pictureViewModel.comment = Encoding.UTF8.GetString(Convert.FromBase64String(comment != null ? comment : string.Empty));
+                pictureViewModel.fileUrl = Encoding.UTF8.GetString(Convert.FromBase64String(fileUrl != null ? fileUrl : string.Empty));
                 return View("EditPicture", pictureViewModel);
             }
             catch (Exception ex)
@@ -94,6 +95,7 @@ namespace Generwell.Web.Controllers
         {
             try
             {
+                PictureViewModel accessTokenModel;
                 if (file != null)
                 {
                     PictureModel pictureModel = _mapper.Map<PictureModel>(pictureViewModel);
@@ -102,6 +104,7 @@ namespace Generwell.Web.Controllers
                         file.CopyTo(memoryStream);
                         byte[] imageByteArray = memoryStream.ToArray();
                         string taskDetailsResponse = await _pictureManagement.UpdatePicture(imageByteArray, pictureModel, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        accessTokenModel = JsonConvert.DeserializeObject<PictureViewModel>(taskDetailsResponse);
                     }
                 }
                 else
@@ -109,8 +112,9 @@ namespace Generwell.Web.Controllers
                     string content = "[\"{ \"op\": \"replace\", \"path\": \"/Label\", \"value\": \"" + pictureViewModel.label + "\"},";
                     content += "{ \"op\": \"replace\", \"path\": \"/Comment\", \"value\": \"" + pictureViewModel.comment + "\"}\"]";
                     string taskDetailsResponse = await _pictureManagement.UpdatePictureDetails(content, pictureViewModel.id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    accessTokenModel = pictureViewModel;
                 }
-                return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(pictureViewModel.albumId)), flagCheck = Convert.ToBase64String(Encoding.UTF8.GetBytes("Updated")) });
+                return RedirectToAction("EditPicture", "Picture", new { fileUrl = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.fileUrl)), label = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.label)), comment = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.comment)), id = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.id)), albumId = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.albumId)) });
             }
             catch (Exception ex)
             {

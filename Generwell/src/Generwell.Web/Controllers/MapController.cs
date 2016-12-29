@@ -39,6 +39,14 @@ namespace Generwell.Web.Controllers
         // GET: /<controller>/
         public ActionResult Index()
         {
+            //get previous page value for google map filteration
+            int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
+            if (previousPageValue == 12)
+            {
+                //set latitude for google map
+                HttpContext.Session.SetString("Latitude", "All");
+                HttpContext.Session.SetString("Longitude", "All");
+            }
             //Set Map menu Active after menu click.
             GlobalFields.SetMenu(Menu.Map.ToString());
             List<MapViewModel> mapViewModelList = new List<MapViewModel>();
@@ -63,7 +71,6 @@ namespace Generwell.Web.Controllers
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.Map.ToString());
                 List<MapModel> wellForMapModel = new List<MapModel>();
-
 
                 #region Get well data to display on map. 
                 switch (previousPageValue)

@@ -48,15 +48,6 @@ namespace Generwell.Web.Controllers
                 if (HttpContext.Session.GetString("ModuleId") != "1")
                 {
                     await ApplyLicense(_appSettings.Well);
-                    ////Release license
-                    //string releaseLicense = await ReleaseLicense(HttpContext.Session.GetString("LicenseHandleId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                    //LicenseModel licenseModel = await CreateLicense(_appSettings.Well, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                    ////set LicenseHandleId and moduleId.
-                    //if (licenseModel != null)
-                    //{
-                    //    HttpContext.Session.SetString("LicenseHandleId", licenseModel.handleId);
-                    //    HttpContext.Session.SetString("ModuleId", licenseModel.moduleId);
-                    //}
                 }
 
                 //set previous page value for google map filteration

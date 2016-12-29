@@ -106,7 +106,7 @@ var wellPage = {
         //On click of datatable row redirect to well line report page.
         var oTable = $('#wellListTableId').DataTable();
         var data = oTable.row($(event).parent()).data();
-        var url = targetUrl + '?wellId=' + Base64.encode(data[0]) + '&wellName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[8]) + '&latitude=' + Base64.encode(data[6]);
+        var url = targetUrl + '?wellId=' + Base64.encode(data[0]) + '&wellName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[8]) + '&latitude=' + Base64.encode(data[6]) + '&longitude=' + Base64.encode(data[7]);
         window.location.href = url;
     },
     redirectEvent: function (targetUrl) {

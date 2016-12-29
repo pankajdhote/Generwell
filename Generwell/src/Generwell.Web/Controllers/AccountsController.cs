@@ -43,7 +43,7 @@ namespace Generwell.Web.Controllers
             string errorString= Encoding.UTF8.GetString(Convert.FromBase64String(error != null ? error : string.Empty));
             if (!string.IsNullOrEmpty(errorString))
             {
-                HttpContext.Session.SetString("ServerError", Resource.ErrorMessage_Credentials);
+                HttpContext.Session.SetString("ServerError", errorString);
             }
             SignInViewModel signInModel = new SignInViewModel();
             return View(signInModel);
@@ -85,7 +85,7 @@ namespace Generwell.Web.Controllers
                     }
                     else
                     {
-                        HttpContext.Session.SetString("ServerError", Resource.ErrorMessage_Credentials);
+                        HttpContext.Session.SetString("ServerError", accessTokenViewModel.error_description);
                     }
                 }
                 return View(signInViewModel);
@@ -94,7 +94,7 @@ namespace Generwell.Web.Controllers
             {
                 string logContent = "{\"message\": \""+ex.Message+ "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
                 await _generwellManagement.LogError(Constants.logShortType,HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return RedirectToAction("Login", "Accounts", new { error = Convert.ToBase64String(Encoding.UTF8.GetBytes(Resource.ErrorMessage_Credentials))});
+                return RedirectToAction("Login", "Accounts", new { error = Convert.ToBase64String(Encoding.UTF8.GetBytes(HttpContext.Session.GetString("ServerError")))});
             }
         }
        

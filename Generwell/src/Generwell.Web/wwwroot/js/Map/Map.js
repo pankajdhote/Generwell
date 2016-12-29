@@ -1,7 +1,6 @@
 ﻿//Add field
 
 var mapPage = {
-
     initialize: function () {
         debugger;
         mapPage.attachEvents();
@@ -11,6 +10,7 @@ var mapPage = {
         mapPage.getResultForMap();
         var initialLatLng;
         var initialMap;
+        
     },
     getResultForMap: function () {
         $('#processing-modal').modal("show");
@@ -35,12 +35,6 @@ var mapPage = {
             debugger;
             navigator.geolocation.getCurrentPosition(function (p) {
                 debugger;
-                var latitudeCheck = $('#latitude').val();
-                //var previousPageValue = $('#previousPageValue').val();
-                if (latitudeCheck == "")
-                {
-                    mapPage.showAlert();
-                }
                 //swal("Warning", p.coords.latitude + "&" + p.coords.longitude);
                 mapPage.initializeMap(p);
                 mapPage.addLocationMarkers(p, locations);
@@ -63,21 +57,21 @@ var mapPage = {
         initialMap = new google.maps.Map(document.getElementById("map"), mapOptions);
     },
     addLocationMarkers: function (p, locations) {
-
         var markerCurrentLocation = new google.maps.Marker({
             position: initialLatLng,
             map: initialMap,
             icon: {
                 path: google.maps.SymbolPath.CIRCLE,
-                fillOpacity: 1,
-                fillColor: '#1a355e',
-                strokeOpacity: 0.5,
-                strokeColor: '#98BFEB',
-                strokeWeight: 60,
-                scale: 25
+                fillOpacity: 10,
+                fillColor: '#73b0fc',
+                strokeOpacity: 5,
+                strokeColor: 'white',
+                strokeWeight: 5,
+                scale: 15
             },
             title: "Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
         });
+
         var infowindow = new google.maps.InfoWindow({
             maxWidth: 500
         });
@@ -90,18 +84,18 @@ var mapPage = {
         for (var i = 0; i < locations.length; i++) {
             debugger;
             var latLngLocations = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
-            
+
             var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
             var previousPageValue = $('#previousPageValue').val();
-            if (!lngVal.test(locations[i].latitude)) {
+            if ((!lngVal.test(locations[i].latitude)) || (!lngVal.test(locations[i].longitude))) {
                 if (previousPageValue.toLowerCase() == "welllinereports" || previousPageValue.toLowerCase() == "welldetails") {
                     swal("Asset Location", "No valid location information available for this asset. The map will only show your current location and followed wells.");
+                    mapPage.setZoomLevel();
                 }
                 continue;
             }
 
             marker = new google.maps.Marker({ 'position': latLngLocations });
-
             if (locations[i].latitude != null) {
                 if (locations[i].isFavorite == true) {
                     marker.setIcon('/images/favorite-location.png');
@@ -118,6 +112,7 @@ var mapPage = {
             } else {
                 bounds.extend(marker.position);
             }
+
             google.maps.event.addListener(marker, 'click', (function (marker, i) {
                 return function () {
                     debugger;
@@ -136,18 +131,33 @@ var mapPage = {
                     infowindow.open(initialMap, markerCurrentLocation);
                 }
             })(markerCurrentLocation));
+             // This is needed to set the zoom after fitbounds, 
+            google.maps.event.addListener(initialMap, 'zoom_changed', function () {
+                zoomChangeBoundsListener =
+                    google.maps.event.addListener(initialMap, 'bounds_changed', function (event) {
+                        if (this.getZoom() > 15 && this.initialZoom == true) {
+                            // Change max/min zoom here
+                            this.setZoom(15);
+                            this.initialZoom = false;
+                        }
+                        google.maps.event.removeListener(zoomChangeBoundsListener);
+                    });
+            });
+            initialMap.initialZoom = true;
         }
         var markerCluster = new MarkerClusterer(initialMap, markers, {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
         });
-
+        debugger;
         //now fit the map to the newly inclusive bounds
         initialMap.fitBounds(bounds);
-        //initialMap.setCenter(initialLatLng);
-
+        debugger;
         if (locations.length == 0) {
             mapPage.showAlert();
         }
+        mapPage.showNullAlert();
+        mapPage.showFollowedAlert(locations);
+
     },
     showDirection: function (location) {
         //Show directions for wells from current position.
@@ -235,7 +245,6 @@ var mapPage = {
 
             } else {
                 mapPage.showRouteAlert();
-                //window.alert('Directions request failed due to ' + status);
             }
         });
     },
@@ -335,10 +344,44 @@ var mapPage = {
     showAlert: function () {
         //if location not found then show alert popup
         swal("Asset Location", "No location information available for this asset. The map will only show your current location and followed wells.");
+        mapPage.setZoomLevel();
     },
     showRouteAlert: function () {
         //if location not found then show alert popup
         swal("Route Information", "Route is not available for your destination from your current location.");
+        mapPage.setZoomLevel();
+    },
+    showNullAlert: function () {
+        debugger;
+        var latitudeCheck = $('#latitude').val();
+        var longitudeCheck = $('#longitude').val();
+        if (latitudeCheck == "null" || longitudeCheck == "null") {
+            mapPage.showAlert();
+        } else {
+           
+        }
+    },
+    showFollowedAlert: function (locations) {
+        var myWellCheck = $('#myWellCheck').val();
+        if (myWellCheck == "true" && locations.length == 0) {
+            swal("Asset Location", "You are not following any wells yet. No location information available for this asset. The map will only show you current location.");
+            mapPage.setZoomLevel();
+        }
+    },
+    setZoomLevel: function () {
+        // This is needed to set the zoom after fitbounds, 
+        google.maps.event.addListener(initialMap, 'zoom_changed', function () {
+            zoomChangeBoundsListener =
+                google.maps.event.addListener(initialMap, 'bounds_changed', function (event) {
+                    if (this.getZoom() > 5 && this.initialZoom == true) {
+                        // Change max/min zoom here
+                        this.setZoom(1);
+                        this.initialZoom = false;
+                    }
+                    google.maps.event.removeListener(zoomChangeBoundsListener);
+                });
+        });
+        initialMap.initialZoom = true;
     }
 
 }

@@ -51,7 +51,7 @@ namespace Generwell.Modules.Services
                 }
             }
             catch (Exception ex)
-            {
+            {                
                 throw ex;
             }
         }

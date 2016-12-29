@@ -50,6 +50,9 @@ namespace Generwell.Web.Controllers
             {
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.Welllisting.ToString());
+                //set latitude for google map
+                HttpContext.Session.SetString("Latitude", "All");
+                HttpContext.Session.SetString("Longitude", "All");
                 //change active menu class
                 GlobalFields.SetMenu(Menu.Well.ToString());
                 //fill Filters dropdown list
