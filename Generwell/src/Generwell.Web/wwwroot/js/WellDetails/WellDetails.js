@@ -57,8 +57,8 @@ var wellDetailsPage = {
             $('#processing-modal').modal("show");
             $.ajax({
                 type: 'GET',
-                dataType: 'json',
-                url: '/WellDetails/Follow',
+                dataType: 'text',
+                url: '/WellLineReport/Follow',
                 data: { isFollow: followChecked },
                 cache: false,
                 success: function (data) {

@@ -1,6 +1,8 @@
 ﻿using System;
 using AutoMapper;
 using System.Text;
+using System.Linq;
+using Newtonsoft.Json;
 using Generwell.Core.Model;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +12,8 @@ using Microsoft.AspNetCore.Authorization;
 using Generwell.Modules.Management.PictureManagement;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.GenerwellConstants;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
+using Generwell.Modules.Management;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,12 +26,17 @@ namespace Generwell.Web.Controllers
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
         private readonly PictureModel _pictureModel;
-        public PictureController(IPictureManagement pictureManagement, IMapper mapper, IGenerwellManagement generwellManagement, PictureModel pictureModel) : base(generwellManagement)
+        private readonly AlbumModel _albumModel;
+        public PictureController(IPictureManagement pictureManagement, IMapper mapper,
+            IGenerwellManagement generwellManagement,
+            AlbumModel albumModel,
+            PictureModel pictureModel) : base(generwellManagement)
         {
             _pictureManagement = pictureManagement;
             _mapper = mapper;
             _generwellManagement = generwellManagement;
             _pictureModel = pictureModel;
+            _albumModel = albumModel;
         }
         /// <summary>
         /// Added by pankaj
@@ -38,16 +44,28 @@ namespace Generwell.Web.Controllers
         /// Fetched all picture and display on screen..
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> Index(string id, string flagCheck = null)
+        public async Task<IActionResult> Index(string id, string fieldId = null, string flagCheck = null)
         {
             try
             {
-                AlbumModel albumModel = await _pictureManagement.GetPictureAlbum(Encoding.UTF8.GetString(Convert.FromBase64String(id)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                AlbumViewModel albumViewModel = _mapper.Map<AlbumViewModel>(albumModel);
-                List<PictureViewModel> pictureViewModelList = (from p in albumViewModel.pictures select p).OrderBy(p=>p.label).ToList();
-                albumViewModel.pictures = pictureViewModelList;
-                albumViewModel.flagCheck = Encoding.UTF8.GetString(Convert.FromBase64String(flagCheck != null ? flagCheck : string.Empty));
-                return View("Index", albumViewModel);
+                HttpContext.Session.SetString("FieldId", Encoding.UTF8.GetString(Convert.FromBase64String(fieldId != null ? fieldId : string.Empty)));
+                if (!string.IsNullOrEmpty(id))
+                {
+                    AlbumModel albumModel = await _pictureManagement.GetPictureAlbum(Encoding.UTF8.GetString(Convert.FromBase64String(id != null ? id : string.Empty)), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    AlbumViewModel albumViewModel = _mapper.Map<AlbumViewModel>(albumModel);
+                    if (albumViewModel != null)
+                    {
+                        List<PictureViewModel> pictureViewModelList = (from p in albumViewModel.pictures select p).OrderBy(p => p.label).ToList();
+                        albumViewModel.pictures = pictureViewModelList;
+                        albumViewModel.flagCheck = Encoding.UTF8.GetString(Convert.FromBase64String(flagCheck != null ? flagCheck : string.Empty));
+                        return View("Index", albumViewModel);
+                    }
+                }
+                AlbumViewModel albumVM = _mapper.Map<AlbumViewModel>(_albumModel);
+                albumVM.id = Encoding.UTF8.GetString(Convert.FromBase64String(id != null ? id : string.Empty));
+                albumVM.flagCheck = Encoding.UTF8.GetString(Convert.FromBase64String(flagCheck != null ? flagCheck : string.Empty));
+                return View("Index", albumVM);
+
             }
             catch (Exception ex)
             {
@@ -114,7 +132,7 @@ namespace Generwell.Web.Controllers
                     string taskDetailsResponse = await _pictureManagement.UpdatePictureDetails(content, pictureViewModel.id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                     accessTokenModel = pictureViewModel;
                 }
-                return RedirectToAction("EditPicture", "Picture", new { fileUrl = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.fileUrl)), label = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.label)), comment = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.comment)), id = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.id)), albumId = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.albumId)) });
+                return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenModel.albumId)), string.Empty, flagCheck = Convert.ToBase64String(Encoding.UTF8.GetBytes("Updated")) });
             }
             catch (Exception ex)
             {
@@ -154,7 +172,7 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                _pictureModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId));
+                _pictureModel.albumId = Encoding.UTF8.GetString(Convert.FromBase64String(albumId != null ? albumId : string.Empty));
                 PictureViewModel pictureViewModel = _mapper.Map<PictureViewModel>(_pictureModel);
                 return View(pictureViewModel);
             }
@@ -185,9 +203,16 @@ namespace Generwell.Web.Controllers
                         file.CopyTo(memoryStream);
                         byte[] imageByteArray = memoryStream.ToArray();
                         string taskDetailsResponse = await _pictureManagement.AddPicture(imageByteArray, pictureModel, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        PictureViewModel responsePictureViewModel = JsonConvert.DeserializeObject<PictureViewModel>(taskDetailsResponse);
+                        if (string.IsNullOrEmpty(pictureViewModel.albumId))
+                        {
+                            string content = "[\"{ \"op\": \"replace\", \"path\": \"/Fields/" + HttpContext.Session.GetString("FieldId")+ "\", \"value\": " + responsePictureViewModel.albumId + "}\"]";
+                            string response = await _pictureManagement.UpdateTaskDetails(content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        }
+                        return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(responsePictureViewModel.albumId)), string.Empty, flagCheck = Convert.ToBase64String(Encoding.UTF8.GetBytes("Uploaded")) });
                     }
                 }
-                return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(pictureViewModel.albumId)), flagCheck = Convert.ToBase64String(Encoding.UTF8.GetBytes("Uploaded")) });
+                return RedirectToAction("Index", "Picture", new { id = Convert.ToBase64String(Encoding.UTF8.GetBytes(pictureViewModel.albumId)), string.Empty, flagCheck = Convert.ToBase64String(Encoding.UTF8.GetBytes("Uploaded")) });
             }
             catch (Exception ex)
             {

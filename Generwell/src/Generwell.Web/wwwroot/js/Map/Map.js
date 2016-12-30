@@ -205,12 +205,12 @@ var mapPage = {
                     map: initialMap,
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
-                        fillOpacity: 1,
-                        fillColor: '#1a355e',
-                        strokeOpacity: 0.5,
-                        strokeColor: '#98BFEB',
-                        strokeWeight: 60,
-                        scale: 25
+                        fillOpacity: 10,
+                        fillColor: '#73b0fc',
+                        strokeOpacity: 5,
+                        strokeColor: 'white',
+                        strokeWeight: 5,
+                        scale: 15
                     }
                 }),
                 pinB = new google.maps.Marker({
@@ -302,12 +302,12 @@ var mapPage = {
                     map: initialMap,
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
-                        fillOpacity: 1,
-                        fillColor: '#1a355e',
-                        strokeOpacity: 0.5,
-                        strokeColor: '#98BFEB',
-                        strokeWeight: 60,
-                        scale: 25
+                        fillOpacity: 10,
+                        fillColor: '#73b0fc',
+                        strokeOpacity: 5,
+                        strokeColor: 'white',
+                        strokeWeight: 5,
+                        scale: 15
                     }
                 }),
                 pinB = new google.maps.Marker({

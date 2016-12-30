@@ -92,8 +92,6 @@ namespace Generwell.Web.Controllers
                     TempData["statusSave"] = status;
                 }
                 return taskDetailsResponse;
-                
-
             }
             catch (Exception ex)
             {

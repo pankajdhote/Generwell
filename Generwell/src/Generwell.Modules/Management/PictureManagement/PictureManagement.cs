@@ -38,15 +38,19 @@ namespace Generwell.Modules.Management.PictureManagement
         {
             try
             {
+                AlbumModel albumModel = new AlbumModel();
                 List<PictureModel> pictureList = new List<PictureModel>();
                 string albumData = await _generwellServices.GetWebApiDetails(_appSettings.PictureAlbum + "/" + id, accessToken, tokenType);
-                AlbumModel albumRecord = JsonConvert.DeserializeObject<AlbumModel>(albumData);                
-                foreach (PictureModel item in albumRecord.pictures)
+                if (!string.IsNullOrEmpty(albumData))
                 {
-                    item.picture = await _generwellServices.GetWebApiDetailsBytes(item.fileUrl, accessToken, tokenType);
-
+                    AlbumModel albumRecord = JsonConvert.DeserializeObject<AlbumModel>(albumData);
+                    foreach (PictureModel item in albumRecord.pictures)
+                    {
+                        item.picture = await _generwellServices.GetWebApiDetailsBytes(item.fileUrl, accessToken, tokenType);
+                    }
+                    return albumRecord;
                 }
-                return albumRecord;
+                return albumModel;
             }
             catch (Exception ex)
             {
@@ -147,6 +151,26 @@ namespace Generwell.Modules.Management.PictureManagement
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in PictureManagement AddPicture method.\"}";
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-30-12-2016
+        /// Update Task Details fields using patch api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> UpdateTaskDetails(string Content, string taskId, string accessToken, string tokenType)
+        {
+            try
+            {
+                string taskDetailsReecord = await _generwellServices.UpdateWebApiData(_appSettings.TaskDetails + "/" + taskId, accessToken, tokenType, Content);
+                return taskDetailsReecord;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Picture Management UpdateTaskDetails method.\"}";
                 await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
                 return string.Empty;
             }

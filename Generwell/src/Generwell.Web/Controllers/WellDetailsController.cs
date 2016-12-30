@@ -62,37 +62,6 @@ namespace Generwell.Web.Controllers
                 await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error", "Accounts");
             }
-        }
-        /// <summary>
-        /// Added by pankaj
-        /// Date:- 14-11-2016
-        /// follow or unfollow well by id
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<string> Follow(string isFollow)
-        {
-            try
-            {
-                //Need to change later
-                if (isFollow == Constants.trueState)
-                {
-                    HttpContext.Session.SetString("IsFollow", Constants.checkedState);
-                }
-                else
-                {
-                    HttpContext.Session.SetString("IsFollow", Constants.uncheckedState);
-                }
-                string id = HttpContext.Session.GetString("WellId");
-                string response = await _wellManagement.SetFollowUnfollow(isFollow, id, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                return response;
-            }
-            catch (Exception ex)
-            {
-                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellDetails Controller Follow action method.\"}";
-                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return string.Empty;
-            }
-        }
+        }        
     }
 }

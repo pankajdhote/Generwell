@@ -139,7 +139,7 @@ namespace Generwell.Modules.Services
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                     if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
                     {
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        _httpContext.Response.Redirect("/Accounts/Logout");                        
                     }
                     return responseString;
                 };
@@ -275,7 +275,10 @@ namespace Generwell.Modules.Services
                 contentPost.Add(new ByteArrayContent(content), "param", "filename");
                 contentPost.Add(new StringContent(pictureModel.label), "label");
                 contentPost.Add(new StringContent(pictureModel.comment), "comment");
-                contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
+                if (pictureModel!=null && pictureModel.albumId != null)
+                {
+                    contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
+                }
 
                 HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(url, contentPost);
                 string responseString = await httpResponseMessage.Content.ReadAsStringAsync();

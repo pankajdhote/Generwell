@@ -1,6 +1,5 @@
 ﻿@model Generwell.Modules.ViewModels.TaskDetailsViewModel
 @using Microsoft.AspNetCore.Http;
-@using Generwell.Modules.GenerwellEnum;
 
 @{
     ViewBag.Title = "Task Page";
@@ -10,6 +9,9 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
+<input id="wellId" type="hidden" value="@Context.Session.GetString("WellId")" />
+<input id="isFollow" type="hidden" value="@Context.Session.GetString("IsFollow")" />
+
 <div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
     <div class="row">
         <div class="col-lg-12">
@@ -17,7 +19,9 @@
             <div class="ibox float-e-margins">
                 <div class="title ibox-title border-bottom">
                     <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Details</h4>
+                    <label>Well: </label>  @Context.Session.GetString("WellName")
                 </div>
+               
                 <div class="row border-bottom pt-pb-20">
                     <div class="col-md-6 col-lg-6 line">
                         <div id="taskDetailsTableDivId" class="ibox-content">

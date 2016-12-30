@@ -1657,22 +1657,6 @@
           }
         }
       },
-      "morelinq/2.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Collections": "4.0.11",
-          "System.Diagnostics.Debug": "4.0.11",
-          "System.Linq": "4.1.0",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime.Extensions": "4.1.0"
-        },
-        "compile": {
-          "lib/netstandard1.0/MoreLinq.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/MoreLinq.dll": {}
-        }
-      },
       "NETStandard.Library/1.6.1": {
         "type": "package",
         "dependencies": {
@@ -5754,22 +5738,6 @@
           "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll": {}
         }
       },
-      "morelinq/2.0.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Collections": "4.0.11",
-          "System.Diagnostics.Debug": "4.0.11",
-          "System.Linq": "4.1.0",
-          "System.Resources.ResourceManager": "4.0.1",
-          "System.Runtime.Extensions": "4.1.0"
-        },
-        "compile": {
-          "lib/netstandard1.0/MoreLinq.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/MoreLinq.dll": {}
-        }
-      },
       "NETStandard.Library/1.6.1": {
         "type": "package",
         "dependencies": {
@@ -9667,7 +9635,7 @@
       ]
     },
     "Microsoft.NETCore.Jit/1.0.4": {
-      "sha512": "3t9F65azjC9jBbrQN5YHZFdbgnQJLU7CFfeEQcD9aSASIt8HUn0Y0oXL7rH9lRKWiiYkfnQDjDSERkGeeb+NOw==",
+      "sha512": "IcHTGj+vTFcOu7/flwNg+CWIfTsxqHWgj08MKOtYwS5k0EuLvx6PrYsn7vHCV0SUTk1zbQ1l0EJj1UdxTMyx4w==",
       "type": "package",
       "path": "Microsoft.NETCore.Jit/1.0.4",
       "files": [
@@ -9692,7 +9660,7 @@
       ]
     },
     "Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
-      "sha512": "HOIXneMcKuHYB5GHxqlCYUzmfSXnx4o4FQgDCC13oA7wt6hw/F9ww2Q3fwk5z1G1GZa3PZXS6Wlaj+zsa1gXMw==",
+      "sha512": "r4/aP7VYcJ+W/rJVFU+jAdjF4KrsHRDYQJ+p8weUP5n65yLzWXlQTVY6OsR560aV5EF7jc65dqsNXIryUCrEkQ==",
       "type": "package",
       "path": "Microsoft.NETCore.Runtime.CoreCLR/1.0.4",
       "files": [
@@ -9846,23 +9814,6 @@
         "runtimes/win/lib/net46/Microsoft.Win32.Registry.dll",
         "runtimes/win/lib/netcore50/_._",
         "runtimes/win/lib/netstandard1.3/Microsoft.Win32.Registry.dll"
-      ]
-    },
-    "morelinq/2.0.0": {
-      "sha512": "A49ExxYvsBuazV9ftZHDkDKqAfO2bWhDiYopAU3jvTRCpINXK4DzX8QSyZnZdeY2i1BDsUMhcoAQZgpTFM83Lg==",
-      "type": "package",
-      "path": "morelinq/2.0.0",
-      "files": [
-        "COPYING.txt",
-        "lib/net35/MoreLinq.dll",
-        "lib/net35/MoreLinq.xml",
-        "lib/netstandard1.0/MoreLinq.dll",
-        "lib/netstandard1.0/MoreLinq.xml",
-        "lib/portable40-net40+sl5+win8+wp8+wpa81/MoreLinq.dll",
-        "lib/portable40-net40+sl5+win8+wp8+wpa81/MoreLinq.xml",
-        "lic/corefx/LICENSE",
-        "morelinq.2.0.0.nupkg.sha512",
-        "morelinq.nuspec"
       ]
     },
     "NETStandard.Library/1.6.1": {
@@ -15595,8 +15546,7 @@
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.1.0",
       "Microsoft.NETCore.App >= 1.1.0",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.1.0",
-      "dnx-clr-win-x86 >= 1.0.0-rc1-update2",
-      "morelinq >= 2.0.0"
+      "dnx-clr-win-x86 >= 1.0.0-rc1-update2"
     ],
     ".NETCoreApp,Version=v1.0": []
   },

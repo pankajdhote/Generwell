@@ -1,5 +1,4 @@
 ﻿@model  Generwell.Modules.ViewModels.TaskDetailsViewModel
-@using Generwell.Modules.GenerwellConstants;
 @using Microsoft.AspNetCore.Http;
 @using System.Linq;
 @using Generwell.Modules.ViewModels;
@@ -10,7 +9,7 @@
         $('.datepicker').datepicker({ format: 'M dd,yyyy', autoclose: true }); //Initialise any date pickers
         setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
     });
- 
+
 
 </script>
 
@@ -18,57 +17,52 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-<input type="hidden"  id="reactivatedTask" value="@Model.status" />
+<input type="hidden" id="reactivatedTask" value="@Model.status" />
 
-@*<div id="newCmpMessage" style="display:none" class="alert alert-success alert-dismissable">
-    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-    Data saved Successfully.
-</div>*@
-    @if (TempData["statusSave"] != null)
+@if (TempData["statusSave"] != null)
 {
-      @if (TempData["statusSave"].ToString() == "saved")
-      {
+    @if (TempData["statusSave"].ToString() == "saved")
+    {
         <div id="newCmpMessage" class="alert alert-success alert-dismissable">
             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
             Data saved Successfully.
         </div>
-      }
-      }
+    }
+}
 
 <table id="taskDetailsListTableId" class="table table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
-@if (Model.fields.Count() > 1)
-{
-        <tr style="cursor:none;">
-            <th style="width:25%;">Field Description</th>
-            <th style="width:25%;">Display Value</th>
-            <th style="width:25%;">Field Description</th>
-            <th style="width:25%;">Display Value</th>
-        </tr>
-}
-else
-{
-    <tr  style="cursor:none;">
-        <th style="width:50%;">Field Description</th>
-        <th style="width:50%;">Display Value</th>
-    </tr>
-}
+        @if (Model.fields.Count() > 1)
+        {
+            <tr style="cursor:none;">
+                <th style="width:25%;">Field Description</th>
+                <th style="width:25%;">Display Value</th>
+                <th style="width:25%;">Field Description</th>
+                <th style="width:25%;">Display Value</th>
+            </tr>
+        }
+        else
+        {
+            <tr style="cursor:none;">
+                <th style="width:50%;">Field Description</th>
+                <th style="width:50%;">Display Value</th>
+            </tr>
+        }
     </thead>
 
     <tbody>
-    @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
-    @if (Model.fields.Count() >= 0)
-    {
-        int count = 1;
-        @foreach (var item in Model.fields)
+        @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
+        @if (Model.fields.Count() >= 0)
         {
-            @if (@item.permissionId != 0)
+            int count = 1;
+            @foreach (var item in Model.fields)
             {
-                if (count % 2 == 1)
+                @if (@item.permissionId != 0)
                 {
-                    
-                    @:<tr class="gradeU"  style="cursor:default;">
-                        <td><b>@item.fieldDesc</b></td>
+                    if (count % 2 == 1)
+                    {
+                        @:<tr class="gradeU" style="cursor:default;">
+                            <td><b>@item.fieldDesc</b></td>
                             @if (item.fieldTypeId == 1)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 2);
@@ -94,7 +88,6 @@ else
                                 @:<td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
-
                                         List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
                                         List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
                                         if (dictionaryItemsList.Count > 0)
@@ -164,7 +157,6 @@ else
                                         <br />
                                         <label style="display:none;color:red;" id="dropdownErrorMessage_@item.fieldId">Select any one option.</label>
                                     }
-                                    
                                 @:</td>
                             }
                             @if (@item.fieldTypeId == 3)
@@ -176,7 +168,6 @@ else
                                     }
                                     else
                                     {
-                                        @*<input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />*@
                                         <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
@@ -221,7 +212,7 @@ else
                                     {
                                             @if (@item.value.ToString() == "0.0")
                                         {
-                                                <input type="checkbox" name="checkbox" id="@item.fieldId"  onclick='checkboxChange(this);' value="@item.value" checked="" class="clsedit home6 checkhit" />
+                                                <input type="checkbox" name="checkbox" id="@item.fieldId" onclick='checkboxChange(this);' value="@item.value" checked="" class="clsedit home6 checkhit" />
                                             }
                                             @if (@item.value.ToString() == "1.0")
                                         {
@@ -292,36 +283,36 @@ else
                                     {
                                         <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
                                     }
-                                    <br />                                    
+                                    <br />
                                 </td>
                             }
-                            @if (@item.fieldTypeId == 14)
+                            @if (item.fieldTypeId == 14)
                             {
-                                var photo =double.Parse(item.displayValue);
+                                var albumId = item.value != null ? item.value : "null";
+                                var photo = double.Parse(item.displayValue);
                                 @if (item.displayValue.TrimStart() == "0.0")
                                 {
                                     <td class="displayValue1">
-                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
-                                        <br /> 
+                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
+                                        <br />
                                     </td>
                                 }
                                 else
                                 {
                                     <td class="displayValue1">
-                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
-                                        <br /> 
+                                        <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
+                                        <br />
                                     </td>
                                 }
                             }
-                            
-                }
-                @if (count % 2 == 0)
-                {
-                    <td><b>@item.fieldDesc</b></td>
+
+                    }
+                    @if (count % 2 == 0)
+                    {
+                        <td><b>@item.fieldDesc</b></td>
 
                         @if (@item.fieldTypeId == 1)
                         {
-
                             DateTime startDate = new DateTime(1970, 1, 2);
                             DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
                             string date2 = date.ToString("MMM dd,yyyy");
@@ -340,12 +331,9 @@ else
                         }
                         @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
                         {
-
-
-                            @: <td class="displayValue1">
+                            @:<td class="displayValue1">
                                 @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
-
                                     List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
                                     List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
                                     if (dictionaryItemsList.Count > 0)
@@ -415,8 +403,7 @@ else
                                     <br />
                                             <label style="display:none;color:red;" id="dropdownErrorMessage_@item.fieldId">Select any one option.</label>
                                 }
-                               
-                                @:</td>
+                            @:</td>
                                 }
                         @if (item.fieldTypeId == 3)
                         {
@@ -427,7 +414,6 @@ else
                                 }
                                 else
                                 {
-                                    @*<input type="number" id="@item.fieldId" min="1" max="100" onKeyDown="TaskDetailsPage.limitText(this, 3);" onKeyUp="TaskDetailsPage.limitText(this, 3);" onkeypress="return TaskDetailsPage.isNumberKey(event)" asp-for="@item.value" class="form-control clsedit" />*@
                                     <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                             <br />
                                             <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
@@ -449,9 +435,8 @@ else
                                 }
                             </td>
                         }
-
-                        @if (@item.fieldTypeId == 5)
-                            {
+                        @if (item.fieldTypeId == 5)
+                        {
                             <td class="displayValue1 i-checks chk">
                                 @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                 {
@@ -480,9 +465,8 @@ else
                                             <input type="checkbox" name="checkbox" id="@item.fieldId" value="@item.value" checked="checked" class="clsedit" />
                                         }
                                         <br />
-                                        <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
+                                            <label style="display:none;color:red;" id="checkboxErrorMessage_@item.fieldId">Checkbox value should not be null.</label>
                                     }
-
                                 }
                             </td>
                         }
@@ -503,10 +487,10 @@ else
                             </td>
                         }
                         @if (item.fieldTypeId == 8)
-                            {
-                                DateTime startDate = new DateTime(1970, 1, 2);
-                                DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
-                                string date2 = date.ToString("dd MM yyyy - hh:ii");
+                        {
+                            DateTime startDate = new DateTime(1970, 1, 2);
+                            DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
+                            string date2 = date.ToString("dd MM yyyy - hh:ii");
                             <td class="displayValue1">
                                 @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
@@ -517,7 +501,7 @@ else
                                     @*<input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" />*@
                                     <input size="16" type="text" value="2012-06-15 14:45" class="form-control bootstrap-datetimepicker-widget">
                                     <br />
-                                    <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
+                                            <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
                                 }
 
                             </td>
@@ -548,47 +532,33 @@ else
                                 }
                             </td>
                         }
-                    @if (@item.fieldTypeId == 14)
-                    {
-                        var photo = double.Parse(item.displayValue);
-                        @if (item.displayValue.TrimStart() == "0.0")
-                                {
-                            <td class="displayValue1">
-                                <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
-                                <br />
-                            </td>
-                        }
-                        else
+                        @if (item.fieldTypeId == 14)
                         {
-                            <td class="displayValue1">
-                                <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@item.value);"><span>@photo Photo(s)</span></a>
-                                <br />
-                            </td>
-                        }
-                    }
-
-                    @: </tr>
+                            var albumId = item.value != null ? item.value : "null";
+                            var photo = double.Parse(item.displayValue);
+                            @if (item.displayValue.TrimStart() == "0.0")
+                            {
+                                <td class="displayValue1">
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
+                                    <br />
+                                </td>
                             }
+                            else
+                            {
+                                <td class="displayValue1">
+                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
+                                    <br />
+                                </td>
+                            }
+                        }
+                   @:</tr>
+                    }
+                }
+                count++;
             }
-            count++;
         }
-
-
-    }
-   
-    else
-    {
-            <tr class="gradeU">
-                <td class="displayValue1">@Constants.NoData</td>
-                <td class="displayValue1">@Constants.NoData</td>
-                <td class="displayValue1">@Constants.NoData</td>
-            </tr>
-        }
-
-
     </tbody>
 </table>
-
 
 <div id="ReactivatedTask">
     <button id="completeTask" type="submit" name="Complete" value="Complete" class="btn button taskdetailsbuttons">Complete</button>

@@ -11,8 +11,8 @@ var TaskDetailsPage = {
         TaskDetailsPage.updateTaskFields();
         TaskDetailsPage.createMyFilterCheckbox();
         TaskDetailsPage.changeButtonEvent();
+        TaskDetailsPage.bindEvent();
     },
-
     updateTaskFields: function () {
 
     },
@@ -21,26 +21,6 @@ var TaskDetailsPage = {
         $('#processing-modal').modal("hide");
         TaskDetailsPage.callUpdateTask(Content);
     },
-    //callUpdateTask: function (Content) {
-    //    $('#processing-modal').modal("show");
-    //    $.ajax({
-    //        type: "GET",
-    //        url: '/taskdetails/updatetaskfields',
-    //        data: { Content: JSON.stringify(Content) },
-    //        datatype: "json",
-    //        cache: false,
-    //        success: function (data, status, xhr) {
-    //            $('#newCmpMessage').show();
-    //            setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
-    //            $('#processing-modal').modal("hide");
-    //             //location.reload();
-    //            TaskDetailsPage.changeButtonEvent();
-
-    //        },
-    //        error: function (xhr) {
-    //        }
-    //    });
-    //},
     callUpdateTask: function (Content) {
         $('#processing-modal').modal("show");
         $.ajax({
@@ -50,8 +30,6 @@ var TaskDetailsPage = {
             datatype: "json",
             cache: false,
             success: function (data, status, xhr) {
-                //$('#newCmpMessage').show();
-                //setTimeout(function () { $('#newCmpMessage').hide(); }, 3000);
                 location.reload();
                 $('#processing-modal').modal("hide");
                 $("#completeTask").css("display", "block");
@@ -82,7 +60,6 @@ var TaskDetailsPage = {
         });
     },
     getViewData: function () {
-        //$('#processing-modal').modal("show");
         var IdArray = [];
         var ValueArray = [];
         var Content = [];
@@ -241,13 +218,14 @@ var TaskDetailsPage = {
             $("#savedDetails").css("display", "block");
         });
     },
-    getPictureAlbum: function (id) {
-        var id = Base64.encode(id.toString());
+    getPictureAlbum: function (albumId, fieldId) {
+        debugger;
+        var id = Base64.encode(albumId != null ? albumId.toString() : "");
+        var fieldId = Base64.encode(fieldId != undefined ? fieldId.toString() : "");
         $('#processing-modal').modal("show");
-        var url = "/Picture/Index" + '?id=' + id;
+        var url = "/Picture/Index" + '?id=' + id + '&fieldId=' + fieldId;
         window.location.href = url;
     },
-
     limitText: function (limitField, limitNum) {
         $("#completeTask").css("display", "none");
         $("#savedDetails").css("display", "block");
@@ -268,6 +246,42 @@ var TaskDetailsPage = {
             return false;
         }
         return true;
+    },
+    bindEvent: function () {
+        $('.chk').find(".iCheck-helper").click(function () {
+            TaskDetailsPage.setWellFollowUnfollow();
+        });
+        $('#taskDetailsListTableId input,select').unbind().on('keyup change', function () {
+            //JS Code
+            TaskDetailsPage.setWellFollowUnfollow();
+        });
+    },
+    setWellFollowUnfollow: function () {
+        //Follow or unfollow particular well 
+        debugger;
+        var followChecked = $('#isFollow').val();
+        if (followChecked == "") {
+            followChecked = "true";
+            $('#isFollow').attr('value', 'checked');
+            debugger;
+            $.ajax({
+                type: 'GET',
+                dataType: 'text',
+                url: '/WellLineReport/Follow',
+                data: { isFollow: followChecked },
+                cache: false,
+                success: function (data) {
+                    debugger;
+                    swal("Favorites", "The corresponding well will be added to your favorite wells.");
+                    $('#taskDetailsListTableId input,select').unbind();
+                    $('.chk').find(".iCheck-helper").unbind();
+                    $('#processing-modal').modal("hide");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#processing-modal').modal("hide");
+                }
+            });
+        }
     }
 }
 

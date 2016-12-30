@@ -59,7 +59,7 @@ var wellLineReportPage = {
            
             $.ajax({
                 type: 'GET',
-                dataType: 'json',
+                dataType: 'text',
                 url: '/WellLineReport/Follow',
                 data: { isFollow: followChecked },
                 cache: false,
