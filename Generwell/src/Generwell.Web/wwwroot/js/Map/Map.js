@@ -137,7 +137,7 @@ var mapPage = {
                     google.maps.event.addListener(initialMap, 'bounds_changed', function (event) {
                         if (this.getZoom() > 15 && this.initialZoom == true) {
                             // Change max/min zoom here
-                            this.setZoom(15);
+                            this.setZoom(20);
                             this.initialZoom = false;
                         }
                         google.maps.event.removeListener(zoomChangeBoundsListener);
@@ -277,9 +277,9 @@ var mapPage = {
          maximumAge: Infinity,
          timeout: 5000
      });
-     } else {
+        } else {
             swal("Warning", "Geo Location feature is not supported in this browser.");
-     }
+        }
     },
     getDrivingDirection: function (p, location) {
         var infowindow = new google.maps.InfoWindow({
@@ -369,10 +369,16 @@ var mapPage = {
         debugger;
         var latitudeCheck = $('#latitude').val();
         var longitudeCheck = $('#longitude').val();
+        //Validate Location
+        var isValidate=mapPage.validateLocation(latitudeCheck, longitudeCheck);
         if (latitudeCheck == "null" || longitudeCheck == "null") {
             mapPage.showAlert();
-        } else {
-
+        } else if (isValidate && (latitudeCheck != "All" || longitudeCheck != "All") && (latitudeCheck != "null" || longitudeCheck != "null")) {
+            var bounds = new google.maps.LatLngBounds();
+            var latLngFocused = new google.maps.LatLng(latitudeCheck, longitudeCheck);
+            var markerFocus = new google.maps.Marker({ 'position': latLngFocused });
+            bounds.extend(markerFocus.position);
+            initialMap.fitBounds(bounds);
         }
     },
     showFollowedAlert: function (locations) {
@@ -396,6 +402,14 @@ var mapPage = {
                 });
         });
         initialMap.initialZoom = true;
+    },
+    validateLocation: function (latitude,longitude) {
+        debugger;
+        var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
+        if ((!lngVal.test(latitude)) || (!lngVal.test(longitude))) {
+            return false;
+        }
+        return true;
     }
 
 }
