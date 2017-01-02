@@ -220,7 +220,6 @@ namespace Generwell.Modules.Services
         {
             try
             {
-                string saveStatus = "Saved";
 
                 string tokenServiceUrl = url;
                 HttpClient hc = new HttpClient();
@@ -239,7 +238,8 @@ namespace Generwell.Modules.Services
                 if (hrm.IsSuccessStatusCode)
                 {
                     jsonresult = await hrm.Content.ReadAsStringAsync();
-                    jsonresult = saveStatus;
+                
+                    jsonresult = HttpStatusCode.OK.ToString();
 
                 }
                 if (hrm.StatusCode == HttpStatusCode.Unauthorized)

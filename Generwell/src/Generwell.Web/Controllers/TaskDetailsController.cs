@@ -85,9 +85,9 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                string status="saved";
+                string status="OK";
                 string taskDetailsResponse = await _taskManagement.UpdateTaskDetails(Content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                if (taskDetailsResponse == "Saved")
+                if (taskDetailsResponse == "OK")
                 {
                     TempData["statusSave"] = status;
                 }
