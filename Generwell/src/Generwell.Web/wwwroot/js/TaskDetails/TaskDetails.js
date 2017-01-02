@@ -78,10 +78,8 @@ var TaskDetailsPage = {
                 var lookupText = $(this).find(":selected").text();
                 //LookupValidation
                 if (lookupText == 'Please select one') {
-                    $('#dropdownErrorMessage_' + id).show();
-                    //flag.push(1);
-                    Content.length = 0;
-                    return false;
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + "" + "\"}");
+                    $('#dropdownErrorMessage_' + id).hide();
                 }
                 else {
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + this.id + "\", \"value\": " + "\"" + txt + "\"}");
