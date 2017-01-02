@@ -40,7 +40,7 @@ namespace Generwell.Web.Controllers
         public ActionResult Login(string error)
         {
             HttpContext.Session.Clear();
-            string errorString= Encoding.UTF8.GetString(Convert.FromBase64String(error != null ? error : string.Empty));
+            string errorString = Encoding.UTF8.GetString(Convert.FromBase64String(error != null ? error : string.Empty));
             if (!string.IsNullOrEmpty(errorString))
             {
                 HttpContext.Session.SetString("ServerError", errorString);
@@ -64,7 +64,7 @@ namespace Generwell.Web.Controllers
                     AccessTokenModel accessTokenModel = await _generwellManagement.AuthenticateUser(signInViewModel.UserName, signInViewModel.Password, signInViewModel.WebApiUrl);
                     AccessTokenViewModel accessTokenViewModel = _mapper.Map<AccessTokenViewModel>(accessTokenModel);
 
-                    if (accessTokenViewModel.access_token != null)
+                    if (accessTokenViewModel != null && accessTokenViewModel.access_token != null)
                     {
                         //store access token in session
                         HttpContext.Session.SetString("AccessToken", accessTokenViewModel.access_token);
@@ -75,7 +75,7 @@ namespace Generwell.Web.Controllers
 
                         string userName = string.Format("{0} {1}", contactFieldRecord.firstName, contactFieldRecord.lastName);
                         HttpContext.Session.SetString("UserName", userName);
-                        
+
                         //Authorize login user
                         if (contactFieldRecord != null)
                         {
@@ -92,12 +92,12 @@ namespace Generwell.Web.Controllers
             }
             catch (Exception ex)
             {
-                string logContent = "{\"message\": \""+ex.Message+ "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
-                await _generwellManagement.LogError(Constants.logShortType,HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return RedirectToAction("Login", "Accounts", new { error = Convert.ToBase64String(Encoding.UTF8.GetBytes(HttpContext.Session.GetString("ServerError")))});
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
+                await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
+                return RedirectToAction("Login", "Accounts", new { error = Convert.ToBase64String(Encoding.UTF8.GetBytes(HttpContext.Session.GetString("ServerError") != null ? HttpContext.Session.GetString("ServerError"):ex.Message)) });
             }
         }
-       
+
         /// <summary>
         /// Added by pankaj
         /// Date:- 21-11-2016
