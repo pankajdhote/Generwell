@@ -223,9 +223,18 @@ var TaskDetailsPage = {
         $("#savedDetails").css("display", "block");
         if (limitField.value.length > limitNum) {
             limitField.value = limitField.value.substring(0, limitNum);
+            return false;
         }
     },
-    check: function (e, value) {
+    limitText: function (limitField, limitNum) {
+        $("#completeTask").css("display", "none");
+        $("#savedDetails").css("display", "block");
+        if (limitField.value.length > limitNum) {
+            limitField.value = limitField.value.substring(0, limitNum);
+            return false;
+        }
+    },
+    check: function (e, value, fieldDecimal) {
         $("#completeTask").css("display", "none");
         $("#savedDetails").css("display", "block");
         if (!e.target.validity.valid) {
@@ -233,7 +242,7 @@ var TaskDetailsPage = {
             return false;
         }
         var idx = value.indexOf('.');
-        if (idx > 0 && value.length - idx > 4) {
+        if (idx > 0 && value.length - idx > fieldDecimal) {
             e.target.value = value.substring(0, value.length - 1);
             return false;
         }
