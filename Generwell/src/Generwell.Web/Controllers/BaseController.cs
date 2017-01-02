@@ -18,10 +18,6 @@ namespace Generwell.Web.Controllers
             _generwellManagement = generwellManagement;
         }
 
-        public BaseController() : base()
-        {
-        }
-
         /// <summary>
         /// Added by pankaj
         /// Date:- 23-11-2016
