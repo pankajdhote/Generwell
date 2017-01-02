@@ -162,16 +162,20 @@ var mapPage = {
     showDirection: function (location) {
         //Show directions for wells from current position.
         debugger;
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (p) {
-                debugger;
-                mapPage.initializeMap(p);
-                mapPage.getDirection(p, location);
-            });
-        } else {
-            swal("Warning", "Geo Location feature is not supported in this browser.");
-        }
-
+        navigator.geolocation.getCurrentPosition(
+       function (position) {
+           //do succes handling
+           mapPage.initializeMap(position);
+           mapPage.getDirection(position, location);
+       },
+       function errorCallback(error) {
+           //do error handling
+           swal("Warning", "Geo Location feature is not supported in this browser.");
+       },
+       {
+           maximumAge: Infinity,
+           timeout: 5000
+       });
     },
     getDirection: function (p, location) {
         var infowindow = new google.maps.InfoWindow({
@@ -259,14 +263,23 @@ var mapPage = {
         $('#headingMap').addClass("ml-15");
         //Display user current location if location not found                
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (p) {
-                debugger;
-                mapPage.initializeMap(p);
-                mapPage.getDrivingDirection(p, location);
-            });
-        } else {
+            navigator.geolocation.getCurrentPosition(
+     function (position) {
+         //do succes handling
+         mapPage.initializeMap(position);
+         mapPage.getDrivingDirection(position, location);
+     },
+     function errorCallback(error) {
+         //do error handling
+         swal("Warning", "Geo Location feature is not supported in this browser.");
+     },
+     {
+         maximumAge: Infinity,
+         timeout: 5000
+     });
+     } else {
             swal("Warning", "Geo Location feature is not supported in this browser.");
-        }
+     }
     },
     getDrivingDirection: function (p, location) {
         var infowindow = new google.maps.InfoWindow({
