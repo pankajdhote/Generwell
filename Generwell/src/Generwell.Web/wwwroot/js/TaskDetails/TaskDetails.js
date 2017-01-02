@@ -235,7 +235,7 @@ var TaskDetailsPage = {
             return false;
         }
         var idx = value.indexOf('.');
-        if (idx >= 0 && value.length - idx > 4) {
+        if (idx > 0 && value.length - idx > 4) {
             e.target.value = value.substring(0, value.length - 1);
             return false;
         }

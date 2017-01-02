@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using Generwell.Core.Model;
-using Generwell.Modules.GenerwellConstants;
+﻿using Generwell.Core.Model;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,12 +11,12 @@ using System.Threading.Tasks;
 namespace Generwell.Modules.Services
 {
     public class GenerwellServices : IGenerwellServices
-    {        
+    {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private HttpContext _httpContext => _httpContextAccessor.HttpContext;
 
         public GenerwellServices(IHttpContextAccessor httpContextAccessor)
-        {            
+        {
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -43,7 +40,7 @@ namespace Generwell.Modules.Services
                     FormUrlEncodedContent requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
                     HttpResponseMessage tokenServiceResponse = await client.PostAsync(serverUrl, requestParamsFormUrlEncoded);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
+                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         _httpContext.Response.Redirect("/Accounts/Logout");
                     }
@@ -51,7 +48,7 @@ namespace Generwell.Modules.Services
                 }
             }
             catch (Exception ex)
-            {                
+            {
                 throw ex;
             }
         }
@@ -76,7 +73,7 @@ namespace Generwell.Modules.Services
                     StringContent jsonContent = new StringContent(content.ToString(), Encoding.UTF8, "application/json");
                     HttpResponseMessage tokenServiceResponse = await client.PostAsync(url, jsonContent);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
+                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         _httpContext.Response.Redirect("/Accounts/Logout");
                     }
@@ -106,7 +103,7 @@ namespace Generwell.Modules.Services
                     }
                     HttpResponseMessage tokenServiceResponse = await client.DeleteAsync(url);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
+                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         _httpContext.Response.Redirect("/Accounts/Logout");
                     }
@@ -137,9 +134,9 @@ namespace Generwell.Modules.Services
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
+                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        _httpContext.Response.Redirect("/Accounts/Logout");                        
+                        _httpContext.Response.Redirect("/Accounts/Logout");
                     }
                     return responseString;
                 };
@@ -168,7 +165,7 @@ namespace Generwell.Modules.Services
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
                     byte[] responseString = await tokenServiceResponse.Content.ReadAsByteArrayAsync();
-                    if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
+                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         _httpContext.Response.Redirect("/Accounts/Logout");
                     }
@@ -200,7 +197,7 @@ namespace Generwell.Modules.Services
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
                     string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode.ToString().ToLower() == "unauthorized")
+                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
                         _httpContext.Response.Redirect("/Accounts/Logout");
                     }
@@ -223,7 +220,7 @@ namespace Generwell.Modules.Services
         {
             try
             {
-              
+
                 string tokenServiceUrl = url;
                 HttpClient hc = new HttpClient();
                 hc.DefaultRequestHeaders.Clear();
@@ -241,10 +238,11 @@ namespace Generwell.Modules.Services
                 if (hrm.IsSuccessStatusCode)
                 {
                     jsonresult = await hrm.Content.ReadAsStringAsync();
+                
                     jsonresult = HttpStatusCode.OK.ToString();
 
                 }
-                if (hrm.StatusCode.ToString().ToLower() == "unauthorized")
+                if (hrm.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     _httpContext.Response.Redirect("/Accounts/Logout");
                 }
@@ -274,7 +272,7 @@ namespace Generwell.Modules.Services
                 contentPost.Add(new ByteArrayContent(content), "param", "filename");
                 contentPost.Add(new StringContent(pictureModel.label), "label");
                 contentPost.Add(new StringContent(pictureModel.comment), "comment");
-                if (pictureModel!=null && pictureModel.albumId != null)
+                if (pictureModel != null && pictureModel.albumId != null)
                 {
                     contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
                 }
@@ -282,7 +280,7 @@ namespace Generwell.Modules.Services
                 HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(url, contentPost);
                 string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
                 HttpStatusCode responseCode = httpResponseMessage.StatusCode;
-                if (httpResponseMessage.StatusCode.ToString().ToLower() == "unauthorized")
+                if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     _httpContext.Response.Redirect("/Accounts/Logout");
                 }
@@ -316,11 +314,11 @@ namespace Generwell.Modules.Services
 
                 HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, contentPost);
                 string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
-                if (httpResponseMessage.StatusCode.ToString().ToLower() == "unauthorized")
+                if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     _httpContext.Response.Redirect("/Accounts/Logout");
                 }
-               
+
                 return responseString;
             }
             catch (Exception ex)
@@ -344,7 +342,7 @@ namespace Generwell.Modules.Services
                 StringContent jsonContent = new StringContent(string.Empty, Encoding.UTF8, "application/json");
                 HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, jsonContent);
                 string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
-                if (httpResponseMessage.StatusCode.ToString().ToLower() == "unauthorized")
+                if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     _httpContext.Response.Redirect("/Accounts/Logout");
                 }
