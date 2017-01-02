@@ -71,11 +71,11 @@
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" onKeyDown="TaskDetailsPage.limitText(this, 10);" onKeyUp="TaskDetailsPage.limitText(this, 10);" class="form-control datepicker" disabled />
+                                        <input id="@item.fieldId" asp-for="@date2" class="form-control datepicker" disabled />
                                     }
                                     else
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" onKeyDown="TaskDetailsPage.limitText(this, 10);" onKeyUp="TaskDetailsPage.limitText(this, 10);" name="date" class="form-control clsedit datepicker" />
+                                        <input id="@item.fieldId" asp-for="@date2" onfocusout="TaskDetailsPage.limitText(this, 11);" onKeyDown="TaskDetailsPage.limitText(this, 11);" onKeyUp="TaskDetailsPage.limitText(this, 11);" name="date" class="form-control clsedit datepicker" />
                                         <br />
                                         <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
                                         <label style="display:none;color:red;" id="inValidDateErrorMessage_@item.fieldId">Please enter valid date</label>
@@ -164,11 +164,11 @@
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control" />
+                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control" />
                                     }
                                     else
                                     {
-                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
+                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                     }
@@ -319,14 +319,15 @@
                             <td class="displayValue1">
                                 @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
-                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control datepicker" disabled />
+                                    <input id="@item.fieldId" asp-for="@date2" class="form-control datepicker" disabled />
                                 }
                                 else
                                 {
-                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datepicker" />
+                                    <input id="@item.fieldId" asp-for="@date2" onfocusout="TaskDetailsPage.limitText(this, 11);" onKeyDown="TaskDetailsPage.limitText(this, 11);" onKeyUp="TaskDetailsPage.limitText(this, 11);" name="date" class="form-control clsedit datepicker" />
+                                        <br />
+                                        <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
+                                        <label style="display:none;color:red;" id="inValidDateErrorMessage_@item.fieldId">Please enter valid date</label>
                                 }
-                                <br />
-                                <label style="display:none;color:red;" id="dateErrorMessage_@item.fieldId">Date must be greater than 01 Jan 1990.</label>
                             </td>
                         }
                         @if (@item.fieldTypeId == 2 || @item.fieldTypeId == 6)
@@ -410,11 +411,11 @@
                             <td class="displayValue1">
                               @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                               {
-                                <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control" />
+                                <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control" />
                               }
                               else
                               {
-                                <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
+                                <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                               }
