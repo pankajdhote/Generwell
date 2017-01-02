@@ -21,7 +21,7 @@
 
 @if (TempData["statusSave"] != null)
 {
-    @if (TempData["statusSave"].ToString() == "saved")
+    @if (TempData["statusSave"].ToString() == "OK")
     {
         <div id="newCmpMessage" class="alert alert-success alert-dismissable">
             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
@@ -164,11 +164,11 @@
                                 <td class="displayValue1">
                                     @if (@item.fieldControlType == 2 || @item.permissionId == 1)
                                     {
-                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control" />
+                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control" />
                                     }
                                     else
                                     {
-                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
+                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                     }
@@ -408,16 +408,16 @@
                         @if (item.fieldTypeId == 3)
                         {
                             <td class="displayValue1">
-                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
-                                {
-                                    <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control" />
-                                }
-                                else
-                                {
-                                    <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="100" step="0.01" asp-for="@item.value" class="form-control clsedit" />
-                                            <br />
-                                            <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
-                                }
+                              @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                              {
+                                <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control" />
+                              }
+                              else
+                              {
+                                <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value)" min="0" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
+                                        <br />
+                                        <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
+                              }
                             </td>
                         }
                         @if (item.fieldTypeId == 4)

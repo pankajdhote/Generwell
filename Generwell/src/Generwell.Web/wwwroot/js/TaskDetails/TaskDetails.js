@@ -60,6 +60,7 @@ var TaskDetailsPage = {
         });
     },
     getViewData: function () {
+        debugger;
         var IdArray = [];
         var ValueArray = [];
         var Content = [];
@@ -106,40 +107,49 @@ var TaskDetailsPage = {
                         Content.length = 0;
                         return false;
                     }
+                    else if(DateText=="")
+                    {
+                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + null + "  }");
+                        $('#dateErrorMessage_' + id).hide();
+                        $('#inValidDateErrorMessage_' + id).hide();
+                    }
                     else {
                         Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + Date.parse(ValueArray[count]) / 1000 + "  }");
                         $('#dateErrorMessage_' + id).hide();
                         $('#inValidDateErrorMessage_' + id).hide();
                     }
                 }
-                else if (this.name == "memo") {
-                    var id = this.id;
-                    var text = this.value;
-                    //Text Validation
-                    if (text == "") {
-                        $('#memoErrorMessage_' + id).show();
-                        Content.length = 0;
-                        return false;
-                    }
-                    else {
-                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                        $('#memoErrorMessage_' + id).hide();
-                    }
-                }
+                //else if (this.name == "memo") {
+                //    var id = this.id;
+                //    var text = this.value;
+                //    //Text Validation
+                //    if (text == "") {
+                //        $('#memoErrorMessage_' + id).show();
+                //        Content.length = 0;
+                //        return false;
+                //    }
+                //    else {
+                //        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                //        $('#memoErrorMessage_' + id).hide();
+                //    }
+                //}
                 else {
                     var id = this.id;
                     var text = this.value;
+                    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                    $('#textErrorMessage_' + id).hide();
+                    $('#memoErrorMessage_' + id).hide();
                     //Text Validation
-                    if (text == "") {
+                    //if (text == "") {
                         //$('#textErrorMessage_' + id).show();
                         //Content.length = 0;
                         //return false;
-                    }
-                    else {
-                        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                        $('#textErrorMessage_' + id).hide();
-                        $('#memoErrorMessage_' + id).hide();
-                    }
+                    //}
+                    //else {
+                    //    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
+                    //    $('#textErrorMessage_' + id).hide();
+                    //    $('#memoErrorMessage_' + id).hide();
+                    //}
 
                 }
             }
@@ -197,22 +207,6 @@ var TaskDetailsPage = {
             $("#completeTask").css("display", "none");
             $("#savedDetails").css("display", "block");
         }
-
-        $('#taskDetailsListTableId input,select').change(function () {
-            $("#completeTask").css("display", "none");
-            $("#savedDetails").css("display", "block");
-
-            $("#savedDetails").click(function () {
-                debugger;
-                var Content = TaskDetailsPage.getViewData();
-                if (Content.length > 0) {
-                    TaskDetailsPage.callUpdateTask(Content);
-                }
-                else {
-
-                }
-            });
-        });
         $('.iCheck-helper').on('click', function () {
             $("#completeTask").css("display", "none");
             $("#savedDetails").css("display", "block");
@@ -241,7 +235,7 @@ var TaskDetailsPage = {
             return false;
         }
         var idx = value.indexOf('.');
-        if (idx >= 0 && value.length - idx > 3) {
+        if (idx >= 0 && value.length - idx > 4) {
             e.target.value = value.substring(0, value.length - 1);
             return false;
         }
@@ -253,7 +247,22 @@ var TaskDetailsPage = {
         });
         $('#taskDetailsListTableId input,select').unbind().on('keyup change', function () {
             //JS Code
+            debugger;
             TaskDetailsPage.setWellFollowUnfollow();
+
+            $("#completeTask").css("display", "none");
+            $("#savedDetails").css("display", "block");
+
+            $("#savedDetails").click(function () {
+                debugger;
+                var Content = TaskDetailsPage.getViewData();
+                if (Content.length > 0) {
+                    TaskDetailsPage.callUpdateTask(Content);
+                }
+                else {
+
+                }
+            });
         });
     },
     setWellFollowUnfollow: function () {
