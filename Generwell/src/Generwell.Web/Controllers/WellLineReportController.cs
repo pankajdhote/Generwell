@@ -34,6 +34,7 @@ namespace Generwell.Web.Controllers
             _mapper = mapper;
             _appSettings = appSettings.Value;
         }
+
         /// <summary>
         /// Added by pankaj
         /// Date:- 15-11-2016

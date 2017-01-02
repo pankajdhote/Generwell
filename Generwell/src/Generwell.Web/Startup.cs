@@ -42,7 +42,7 @@ namespace Generwell.Web
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
                 options.CookieName = "Session";
             });
 
@@ -90,6 +90,7 @@ namespace Generwell.Web
             app.UseStaticFiles();
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
+                ExpireTimeSpan = TimeSpan.FromMinutes(1),
                 AuthenticationScheme = "MyCookieMiddlewareInstance",
                 LoginPath = new PathString("/Accounts/Login/"),
                 AccessDeniedPath = new PathString("/Accounts/Login/"),

@@ -10,7 +10,7 @@ var mapPage = {
         mapPage.getResultForMap();
         var initialLatLng;
         var initialMap;
-        
+
     },
     getResultForMap: function () {
         $('#processing-modal').modal("show");
@@ -131,7 +131,7 @@ var mapPage = {
                     infowindow.open(initialMap, markerCurrentLocation);
                 }
             })(markerCurrentLocation));
-             // This is needed to set the zoom after fitbounds, 
+            // This is needed to set the zoom after fitbounds, 
             google.maps.event.addListener(initialMap, 'zoom_changed', function () {
                 zoomChangeBoundsListener =
                     google.maps.event.addListener(initialMap, 'bounds_changed', function (event) {
@@ -247,6 +247,7 @@ var mapPage = {
                 mapPage.showRouteAlert();
             }
         });
+
     },
     navigateStep: function (location) {
         //Show directions for wells from current position.
@@ -358,7 +359,7 @@ var mapPage = {
         if (latitudeCheck == "null" || longitudeCheck == "null") {
             mapPage.showAlert();
         } else {
-           
+
         }
     },
     showFollowedAlert: function (locations) {

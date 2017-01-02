@@ -3,6 +3,7 @@
 
   "dependencies": {
     "dnx-clr-win-x86": "1.0.0-rc1-update2",
+    "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "NETStandard.Library": "1.6.1",
     "System.ComponentModel.Annotations": "4.3.0"
