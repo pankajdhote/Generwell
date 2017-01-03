@@ -1,8 +1,7 @@
-﻿using Generwell.Core.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Generwell.Core.Model;
+
 
 namespace Generwell.Modules.Services
 {
@@ -18,5 +17,6 @@ namespace Generwell.Modules.Services
         Task<byte[]> GetWebApiDetailsBytes(string url, string accessToken, string tokenType);
         Task<string> GetWebApiWithTimeZone(string url, string accessToken, string tokenType);
         Task<string> UpdateWebApiData(string url, string accessToken, string tokenType, string Content);
+        Task<string> CheckStatus(HttpResponseMessage tokenServiceResponse);
     }
 }

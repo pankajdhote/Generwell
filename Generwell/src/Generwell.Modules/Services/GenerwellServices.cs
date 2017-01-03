@@ -39,11 +39,7 @@ namespace Generwell.Modules.Services
                  };
                     FormUrlEncodedContent requestParamsFormUrlEncoded = new FormUrlEncodedContent(requestParams);
                     HttpResponseMessage tokenServiceResponse = await client.PostAsync(serverUrl, requestParamsFormUrlEncoded);
-                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        _httpContext.Response.Redirect("/Accounts/Logout");
-                    }
+                    string responseString = await CheckStatus(tokenServiceResponse);
                     return responseString;
                 }
             }
@@ -72,11 +68,7 @@ namespace Generwell.Modules.Services
 
                     StringContent jsonContent = new StringContent(content.ToString(), Encoding.UTF8, "application/json");
                     HttpResponseMessage tokenServiceResponse = await client.PostAsync(url, jsonContent);
-                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        _httpContext.Response.Redirect("/Accounts/Logout");
-                    }
+                    string responseString = await CheckStatus(tokenServiceResponse);
                     return responseString;
                 }
             }
@@ -102,11 +94,7 @@ namespace Generwell.Modules.Services
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.DeleteAsync(url);
-                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        _httpContext.Response.Redirect("/Accounts/Logout");
-                    }
+                    string responseString = await CheckStatus(tokenServiceResponse);
                     return responseString;
                 }
             }
@@ -133,11 +121,7 @@ namespace Generwell.Modules.Services
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
-                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        _httpContext.Response.Redirect("/Accounts/Logout");
-                    }
+                    string responseString = await CheckStatus(tokenServiceResponse);
                     return responseString;
                 };
             }
@@ -196,11 +180,7 @@ namespace Generwell.Modules.Services
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
                     }
                     HttpResponseMessage tokenServiceResponse = await client.GetAsync(url);
-                    string responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
-                    if (tokenServiceResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        _httpContext.Response.Redirect("/Accounts/Logout");
-                    }
+                    string responseString = await CheckStatus(tokenServiceResponse);
                     return responseString;
                 };
             }
@@ -222,31 +202,22 @@ namespace Generwell.Modules.Services
             {
 
                 string tokenServiceUrl = url;
-                HttpClient hc = new HttpClient();
-                hc.DefaultRequestHeaders.Clear();
-                hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
-                HttpMethod method = new HttpMethod("PATCH");
-                string replacedString = Content.Replace("\\", "").Replace("\",\"", ",").Replace("\"]", "]").Replace("\"{", "{");
-                string body = replacedString;
-                HttpRequestMessage request = new HttpRequestMessage(method, url)
+                using (HttpClient hc = new HttpClient())
                 {
-                    Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
-                };
-                HttpResponseMessage hrm = await hc.SendAsync(request);
-                string jsonresult = string.Empty;
-                if (hrm.IsSuccessStatusCode)
-                {
-                    jsonresult = await hrm.Content.ReadAsStringAsync();
-                
-                    jsonresult = HttpStatusCode.OK.ToString();
-
+                    hc.DefaultRequestHeaders.Clear();
+                    hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                    hc.DefaultRequestHeaders.Add("Time-Zone", "MDT");
+                    HttpMethod method = new HttpMethod("PATCH");
+                    string replacedString = Content.Replace("\\", "").Replace("\",\"", ",").Replace("\"]", "]").Replace("\"{", "{");
+                    string body = replacedString;
+                    HttpRequestMessage request = new HttpRequestMessage(method, url)
+                    {
+                        Content = new StringContent(body, Encoding.UTF8, "application/json-patch+json")
+                    };
+                    HttpResponseMessage hrm = await hc.SendAsync(request);
+                    string responseString = await CheckStatus(hrm);
+                    return responseString;
                 }
-                if (hrm.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    _httpContext.Response.Redirect("/Accounts/Logout");
-                }
-                return jsonresult;
             }
             catch (Exception ex)
             {
@@ -263,28 +234,23 @@ namespace Generwell.Modules.Services
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
-                ByteArrayContent byteContent = new ByteArrayContent(content);
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                MultipartFormDataContent contentPost = new MultipartFormDataContent();
-
-                contentPost.Add(new ByteArrayContent(content), "param", "filename");
-                contentPost.Add(new StringContent(pictureModel.label), "label");
-                contentPost.Add(new StringContent(pictureModel.comment), "comment");
-                if (pictureModel != null && pictureModel.albumId != null)
+                using (HttpClient httpClient = new HttpClient())
                 {
-                    contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
+                    ByteArrayContent byteContent = new ByteArrayContent(content);
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                    MultipartFormDataContent contentPost = new MultipartFormDataContent();
+                    contentPost.Add(new ByteArrayContent(content), "param", "filename");
+                    contentPost.Add(new StringContent(pictureModel.label), "label");
+                    contentPost.Add(new StringContent(pictureModel.comment), "comment");
+                    if (pictureModel != null && pictureModel.albumId != null)
+                    {
+                        contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
+                    }
+                    HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(url, contentPost);
+                    string responseString = await CheckStatus(httpResponseMessage);
+                    return responseString;
                 }
-
-                HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(url, contentPost);
-                string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
-                HttpStatusCode responseCode = httpResponseMessage.StatusCode;
-                if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    _httpContext.Response.Redirect("/Accounts/Logout");
-                }
-                return responseString;
             }
             catch (Exception ex)
             {
@@ -301,25 +267,20 @@ namespace Generwell.Modules.Services
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
-                ByteArrayContent byteContent = new ByteArrayContent(content);
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                MultipartFormDataContent contentPost = new MultipartFormDataContent();
-
-                contentPost.Add(new ByteArrayContent(content), "param", "filename");
-                contentPost.Add(new StringContent(pictureModel.label), "label");
-                contentPost.Add(new StringContent(pictureModel.comment), "comment");
-                contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
-
-                HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, contentPost);
-                string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
-                if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
+                using (HttpClient httpClient = new HttpClient())
                 {
-                    _httpContext.Response.Redirect("/Accounts/Logout");
+                    ByteArrayContent byteContent = new ByteArrayContent(content);
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                    MultipartFormDataContent contentPost = new MultipartFormDataContent();
+                    contentPost.Add(new ByteArrayContent(content), "param", "filename");
+                    contentPost.Add(new StringContent(pictureModel.label), "label");
+                    contentPost.Add(new StringContent(pictureModel.comment), "comment");
+                    contentPost.Add(new StringContent(pictureModel.albumId), "albumId");
+                    HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, contentPost);
+                    string responseString = await CheckStatus(httpResponseMessage);
+                    return responseString;
                 }
-
-                return responseString;
             }
             catch (Exception ex)
             {
@@ -336,15 +297,92 @@ namespace Generwell.Modules.Services
         {
             try
             {
-                HttpClient httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                StringContent jsonContent = new StringContent(string.Empty, Encoding.UTF8, "application/json");
-                HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, jsonContent);
-                string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
-                if (httpResponseMessage.StatusCode == HttpStatusCode.Unauthorized)
+                using (HttpClient httpClient = new HttpClient())
                 {
-                    _httpContext.Response.Redirect("/Accounts/Logout");
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                    StringContent jsonContent = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url, jsonContent);
+                    string responseString = await CheckStatus(httpResponseMessage);
+                    return responseString;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Added by Pankaj
+        /// Date:- 02-01-2017
+        /// Return web api Status.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> CheckStatus(HttpResponseMessage tokenServiceResponse)
+        {
+            try
+            {
+                string responseString = string.Empty;
+
+                switch (tokenServiceResponse.StatusCode)
+                {
+                    case HttpStatusCode.Accepted:
+                        break;
+                    case HttpStatusCode.Ambiguous:
+                        responseString = HttpStatusCode.Ambiguous.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.BadGateway:
+                        responseString = HttpStatusCode.BadGateway.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.BadRequest:
+                        responseString = HttpStatusCode.BadRequest.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");                        
+                        break;
+                    case HttpStatusCode.Conflict:
+                        responseString = HttpStatusCode.Conflict.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.Created:
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                        break;
+                    case HttpStatusCode.ExpectationFailed:
+                        break;
+                    case HttpStatusCode.Forbidden:
+                        responseString = HttpStatusCode.Forbidden.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.GatewayTimeout:
+                        responseString = HttpStatusCode.GatewayTimeout.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.InternalServerError:
+                        responseString = HttpStatusCode.InternalServerError.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.NotFound:
+                        responseString = HttpStatusCode.RequestTimeout.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.OK:
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
+                        break;
+                    case HttpStatusCode.RequestTimeout:
+                        responseString = HttpStatusCode.RequestTimeout.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.RequestUriTooLong:
+                        responseString = HttpStatusCode.RequestUriTooLong.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    case HttpStatusCode.Unauthorized:
+                        responseString = HttpStatusCode.Unauthorized.ToString();
+                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        break;
+                    default:
+                        break;
                 }
                 return responseString;
             }
