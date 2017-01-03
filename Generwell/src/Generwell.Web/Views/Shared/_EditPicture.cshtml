@@ -30,18 +30,18 @@
 
                                 <div class="i-checks chk border-bottom pt-pb-20">
                                     <input id="deletePicture" type="button" name="Delete" class="btn btn-default float-right mt-17 ml-10" disabled="disabled" value="Delete" />
-                                    <input id="uploadFile" type="submit" value="Save" class="btn btn-default float-right mt-17 ml-10" disabled="disabled"/>
+                                    <input id="uploadFile" type="submit" value="Save" class="btn btn-default float-right mt-17 ml-10" disabled="disabled" />
                                     <input id="cancel" type="button" class="btn button float-right mt-17" name="Cancel" value="Cancel" />
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12 col-md-4 form-group">
                                         <label><span class="btn button">Choose image file to upload</span><input id="fileupload" type="file" name="file" style="display: none" class="btn button" /></label>
-                                        <div id="dvPreview" class="thumbnail border-blue mt-10 wh-300">
-                                            <img class="img-responsive wh-300" src="data:image/jpeg;base64,@base64StringFormat" />
+                                        <div id="dvPreview" class="thumbnail border-blue mt-10">
+                                            <img class="img-responsive image" src="data:image/jpeg;base64,@base64StringFormat" />
                                         </div>
                                         <span id="imageError" class="text-blue field-validation-error" data-valmsg-replace="true" data-valmsg-for="image"></span>
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 col-md-4 form-group mt-70">
+                                    <div class="col-sm-12 col-xs-12 col-md-4 form-group mt-20">
                                         <label>Label</label>&nbsp;<span id="startLabel" class="text-red"><b>*</b></span>
                                         <br />
                                         <span id="labelError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.label"></span>

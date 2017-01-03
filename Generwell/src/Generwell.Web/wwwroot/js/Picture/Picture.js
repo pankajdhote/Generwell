@@ -147,8 +147,7 @@ var picturePage = {
                             $("#dvPreview img").attr("src", e.target.result);
                         }
                         reader.readAsDataURL($(this)[0].files[0]);
-                        $("#dvPreview img").addClass("img-responsive wh-300");
-
+                        $("#dvPreview img").addClass("img-responsive image");
 
                     } else {
                         swal("Warning!", "This browser does not support FileReader.");
@@ -156,6 +155,10 @@ var picturePage = {
                 }
             } else {
                 swal("Warning!", "Please upload a valid image file.");
+                $("#dvPreview").show();
+                $("#dvPreview").append("<img />");
+                $("#dvPreview img").attr("src", "/images/uploadImage.png");
+                $("#dvPreview img").addClass("img-responsive image");
             }
         });
     },

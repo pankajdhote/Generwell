@@ -31,21 +31,23 @@
                       method="post"
                       name="pictureForm"
                       enctype="multipart/form-data">
-
                     <input id="albumId" asp-for="@Model.albumId" type="hidden" value="@Model.albumId" />
-                    <input id="cancel" type="button" class="btn button float-right mt-20 ml-10" name="Cancel" value="Cancel" />
-                    <input type="submit" value="Save" class="btn button mt-20 float-right" />
+
+                    <div class="i-checks chk border-bottom pt-pb-20">
+                        <input id="cancel" type="button" class="btn button float-right mt-17 ml-10" name="Cancel" value="Cancel" />
+                        <input type="submit" value="Save" class="btn button float-right mt-17" />
+                    </div>
 
                     <div class="row">
-                        <div class="col-sm-12 col-xs-12 col-md-4 mt-20 form-group">
+                        <div class="col-sm-12 col-xs-12 col-md-4 mt-10 form-group">
                             <label><span class="btn button">Choose image file to upload</span><input id="fileupload" type="file" name="file" style="display: none" class="btn button" /></label>
                             <br/>
                             <span id="imageError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="image"></span>
-                            <div id="dvPreview" class="thumbnail border-blue mt-10 wh-300">
-                                <img src="~/images/uploadImage.png" class="mt-70"/>
+                            <div id="dvPreview" class="thumbnail border-blue mt-10">
+                                <img src="~/images/uploadImage.png" class="img-responsive image" />
                             </div>
                         </div>
-                        <div class="col-sm-12 col-xs-12 col-md-4 form-group mt-70">
+                        <div class="col-sm-12 col-xs-12 col-md-4 form-group mt-20">
                             <label>Label</label>&nbsp;<span id="startLabel" class="text-red"><b>*</b></span>
                             <br/>
                             <span id="labelError" class="text-red field-validation-error" data-valmsg-replace="true" data-valmsg-for="@Model.label"></span>
