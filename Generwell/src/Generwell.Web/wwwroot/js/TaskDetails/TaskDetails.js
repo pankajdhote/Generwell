@@ -241,6 +241,10 @@ var TaskDetailsPage = {
             e.target.value = value.substring(0, value.length - 1);
             return false;
         }
+        var charCode = (e.which) ? e.which : e.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
         var idx = value.indexOf('.');
         if (idx > 0 && value.length - idx > fieldDecimal) {
             e.target.value = value.substring(0, value.length - 1);
