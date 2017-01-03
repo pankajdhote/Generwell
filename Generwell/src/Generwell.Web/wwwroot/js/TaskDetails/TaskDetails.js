@@ -17,9 +17,12 @@ var TaskDetailsPage = {
 
     },
     completeTask: function () {
-        var Content = TaskDetailsPage.getViewData();
+        var content = [];
+        content.push("{ \"op\": \"replace\", \"path\": \"/Completed\", \"value\": true}");
+        //var Content = '[{ "op": "replace", "path": "/Completed", "value": true }]';
         $('#processing-modal').modal("hide");
-        TaskDetailsPage.callUpdateTask(Content);
+
+        TaskDetailsPage.callUpdateTask(content);
     },
     callUpdateTask: function (Content) {
         $('#processing-modal').modal("show");
@@ -28,9 +31,22 @@ var TaskDetailsPage = {
             url: '/taskdetails/updatetaskfields',
             data: { Content: JSON.stringify(Content) },
             datatype: "json",
+            async: false,
             cache: false,
             success: function (data, status, xhr) {
-                location.reload();
+                // location.reload();
+                debugger;
+                $('#processing-modal').modal("hide");
+                if (data != "") {
+                    var obj = jQuery.parseJSON(data);
+                    var getTable = TaskDetailsPage.createTable(obj);
+                    swal({
+                        title: "Validation Rule Errors",
+                        text: getTable,
+                        html: true
+                    });
+                }
+
                 $('#processing-modal').modal("hide");
                 $("#completeTask").css("display", "block");
                 $("#ReSaveTaskFieldDetailsId").css("display", "none");
@@ -49,7 +65,7 @@ var TaskDetailsPage = {
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#cf7f00",
-                confirmButtonText: "Yes, update it!",
+                confirmButtonText: "Yes, complete it!",
                 closeOnConfirm: false
             },
             function () {
@@ -58,6 +74,20 @@ var TaskDetailsPage = {
                 swal("updated!", "Data updated successfully", "success");
             });
         });
+    },
+    createTable: function (model) {
+        /* Note that the whole content variable is just a string */
+        var content = '<div class="ibox-content form-group">';
+        content += "<table class='table'>";
+        for (i = 0; i < model.length; i++) {
+            content += '<tr><th colspan="2"><label><b>' + model[i].fieldDesc + '</b></label></th></tr>';
+            content += '<tr><td><label>Old Value: </label></td><td><label><b>' + model[i].oldValue + '</b></label></td></tr>';
+            content += '<tr><td><label>New Value: </label></td><td><label><b>' + model[i].newValue + '</b></label></td></tr>';
+            content += '<tr><td><label>Instructions: </label></td><td><label><b>' + model[i].instructions + '</b></label></td></tr>';
+        }
+        content += "</div>";
+        content += "</table>";
+        return content;
     },
     getViewData: function () {
         debugger;
@@ -105,8 +135,7 @@ var TaskDetailsPage = {
                         Content.length = 0;
                         return false;
                     }
-                    else if(DateText=="")
-                    {
+                    else if (DateText == "") {
                         Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\":  " + null + "  }");
                         $('#dateErrorMessage_' + id).hide();
                         $('#inValidDateErrorMessage_' + id).hide();
@@ -117,38 +146,12 @@ var TaskDetailsPage = {
                         $('#inValidDateErrorMessage_' + id).hide();
                     }
                 }
-                //else if (this.name == "memo") {
-                //    var id = this.id;
-                //    var text = this.value;
-                //    //Text Validation
-                //    if (text == "") {
-                //        $('#memoErrorMessage_' + id).show();
-                //        Content.length = 0;
-                //        return false;
-                //    }
-                //    else {
-                //        Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                //        $('#memoErrorMessage_' + id).hide();
-                //    }
-                //}
                 else {
                     var id = this.id;
                     var text = this.value;
                     Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
                     $('#textErrorMessage_' + id).hide();
                     $('#memoErrorMessage_' + id).hide();
-                    //Text Validation
-                    //if (text == "") {
-                        //$('#textErrorMessage_' + id).show();
-                        //Content.length = 0;
-                        //return false;
-                    //}
-                    //else {
-                    //    Content.push("{ \"op\": \"replace\", \"path\": \"/Fields/" + IdArray[count] + "\", \"value\": " + "\"" + ValueArray[count] + "\"}");
-                    //    $('#textErrorMessage_' + id).hide();
-                    //    $('#memoErrorMessage_' + id).hide();
-                    //}
-
                 }
             }
             else if (htmlType == "checkbox") {
@@ -259,12 +262,8 @@ var TaskDetailsPage = {
         $('#taskDetailsListTableId input,select').unbind().on('keyup change', function () {
             //JS Code
             debugger;
-            TaskDetailsPage.setWellFollowUnfollow();
 
-            $("#completeTask").css("display", "none");
-            $("#savedDetails").css("display", "block");
-
-            $("#savedDetails").click(function () {
+            $("#savedDetails").unbind().click(function () {
                 debugger;
                 var Content = TaskDetailsPage.getViewData();
                 if (Content.length > 0) {
@@ -274,6 +273,11 @@ var TaskDetailsPage = {
 
                 }
             });
+            TaskDetailsPage.setWellFollowUnfollow();
+
+            $("#completeTask").css("display", "none");
+            $("#savedDetails").css("display", "block");
+
         });
     },
     setWellFollowUnfollow: function () {

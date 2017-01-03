@@ -85,11 +85,10 @@ namespace Generwell.Web.Controllers
         {
             try
             {
-                string status="OK";
                 string taskDetailsResponse = await _taskManagement.UpdateTaskDetails(Content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                if (taskDetailsResponse == "OK")
+                if (string.IsNullOrEmpty(taskDetailsResponse))
                 {
-                    TempData["statusSave"] = status;
+                    TempData["statusSave"] = "Ok";
                 }
                 return taskDetailsResponse;
             }
@@ -97,8 +96,8 @@ namespace Generwell.Web.Controllers
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
                 await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return string.Empty;
-            }
+                return string.Empty;            }
         }
+       
     }
 }

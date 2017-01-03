@@ -81,7 +81,6 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// Need to Modify later
         /// <returns></returns>
-        [AllowAnonymous]
         public async Task<ActionResult> EditPicture(string fileUrl, string label, string comment, string id, string albumId)
         {
             try
@@ -147,7 +146,6 @@ namespace Generwell.Web.Controllers
         /// Delete picture..
         /// </summary>
         /// <returns></returns>
-        [AllowAnonymous]
         public async Task<string> DeletePicture(string pictureId, string albumId)
         {
             try
