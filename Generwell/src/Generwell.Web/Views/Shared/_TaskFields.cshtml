@@ -168,7 +168,7 @@
                                     }
                                     else
                                     {
-                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
+                                        <input type="number" id="@item.fieldId" onkeyPress="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                                     }
@@ -415,7 +415,7 @@
                               }
                               else
                               {
-                                <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
+                                <input type="number" id="@item.fieldId" onkeyPress="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" onInput="return TaskDetailsPage.check(event, value, @item.fieldDecimals)" min="@item.numberMin" max="@item.numberMax" step="0.01" asp-for="@item.value" class="form-control clsedit" />
                                         <br />
                                         <label style="display:none;color:red" id="numberErrorMessage_@item.fieldId">Enter number between 1-100</label>
                               }
