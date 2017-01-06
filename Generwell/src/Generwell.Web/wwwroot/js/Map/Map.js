@@ -87,8 +87,12 @@ var mapPage = {
 
             var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
             var previousPageValue = $('#previousPageValue').val();
+            var latitudeCheck = $('#latitude').val();
+            var longitudeCheck = $('#longitude').val();
+            //Validate Location
+            var isValidate = mapPage.validateLocation(latitudeCheck, longitudeCheck);
             if ((!lngVal.test(locations[i].latitude)) || (!lngVal.test(locations[i].longitude))) {
-                if (previousPageValue.toLowerCase() == "welllinereports" || previousPageValue.toLowerCase() == "welldetails") {
+                if ((previousPageValue.toLowerCase() == "welllinereports" || previousPageValue.toLowerCase() == "welldetails") && !isValidate) {
                     swal("Asset Location", "No valid location information available for this asset. The map will only show your current location and followed wells.");
                     mapPage.setZoomLevel();
                 }
@@ -370,7 +374,7 @@ var mapPage = {
         var latitudeCheck = $('#latitude').val();
         var longitudeCheck = $('#longitude').val();
         //Validate Location
-        var isValidate=mapPage.validateLocation(latitudeCheck, longitudeCheck);
+        var isValidate = mapPage.validateLocation(latitudeCheck, longitudeCheck);
         if (latitudeCheck == "null" || longitudeCheck == "null") {
             mapPage.showAlert();
         } else if (isValidate && (latitudeCheck != "All" || longitudeCheck != "All") && (latitudeCheck != "null" || longitudeCheck != "null")) {
@@ -403,7 +407,7 @@ var mapPage = {
         });
         initialMap.initialZoom = true;
     },
-    validateLocation: function (latitude,longitude) {
+    validateLocation: function (latitude, longitude) {
         debugger;
         var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
         if ((!lngVal.test(latitude)) || (!lngVal.test(longitude))) {

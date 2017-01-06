@@ -175,8 +175,8 @@ p {
 }
 
 table.dataTable {
-     border-collapse: collapse !important;
-      border-top:1px solid !important;
+    border-collapse: collapse !important;
+    border-top: 1px solid !important;
 }
 
 table th {
@@ -187,10 +187,10 @@ table th {
 }
 
 table tr td {
-    border-top:1px solid !important;
-    border-bottom:1px solid !important;
-    border-left:1px solid !important;
-    border-right:1px solid !important;
+    border-top: 1px solid !important;
+    border-bottom: 1px solid !important;
+    border-left: 1px solid !important;
+    border-right: 1px solid !important;
     border-color: #1a355e !important;
 }
 
@@ -210,6 +210,14 @@ table tr td {
 
 .float-right {
     float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.text-left {
+    text-align: left;
 }
 
 .pt-pb-20 {
@@ -439,4 +447,31 @@ textarea {
     max-height: 250px;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.validationLable {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    font-weight: 700;
+    color: #333333;
+}
+
+.display-none {
+    display: none;
+}
+
+.display-block {
+    display: block;
+}
+
+#taskDetailsListTableId tr td {
+    vertical-align: middle;
+}
+
+.v-scroll {
+    float: left;
+    overflow-y: auto;
+    height: 300px;
 }

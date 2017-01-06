@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using Generwell.Modules.GenerwellConstants;
 using AutoMapper;
 using Generwell.Core.Model;
-using Generwell.Modules.Global;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -51,9 +51,10 @@ namespace Generwell.Web.Controllers
                     HttpContext.Session.SetString("TaskName", Encoding.UTF8.GetString(Convert.FromBase64String(taskName)));
                 }
                 TaskDetailsModel taskdetailsModel = await _taskManagement.GetTaskDetails(HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<ContactInformationModel> contactsList = await _taskManagement.GetContactInformation(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                ContactInformationModel contactInformation = contactsList.Where(w => w.firstName + " " + w.lastName == taskdetailsModel.assigneeName).FirstOrDefault();
+                taskdetailsModel.contactInformation = contactInformation != null ? contactInformation : new ContactInformationModel();
                 TaskDetailsViewModel taskdetailsViewModel = _mapper.Map<TaskDetailsViewModel>(taskdetailsModel);
-                ContactFieldsModel contactData = await _generwellManagement.GetContactDetails(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                taskdetailsViewModel.contactFields = _mapper.Map<ContactFieldsViewModel>(contactData);
 
                 if (taskdetailsViewModel != null)
                 {
@@ -77,27 +78,22 @@ namespace Generwell.Web.Controllers
         /// <summary>
         /// Added by rohit
         /// Date:- 29-11-2016
-        /// to save fields data
+        /// To save fields data
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        public async Task<string> UpdateTaskFields(string Content)
+        public async Task<JsonResult> UpdateTaskFields(string Content)
         {
             try
             {
-                string status="OK";
                 string taskDetailsResponse = await _taskManagement.UpdateTaskDetails(Content, HttpContext.Session.GetString("TaskId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                if (taskDetailsResponse == "OK")
-                {
-                    TempData["statusSave"] = status;
-                }
-                return taskDetailsResponse;
+                return Json(taskDetailsResponse);
             }
             catch (Exception ex)
             {
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in TaskDetails Controller UpdateTaskFields action method.\"}";
                 await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
-                return string.Empty;
+                return Json(string.Empty);
             }
         }
     }

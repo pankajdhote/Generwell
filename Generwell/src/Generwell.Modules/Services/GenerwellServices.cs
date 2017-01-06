@@ -224,6 +224,7 @@ namespace Generwell.Modules.Services
                 throw ex;
             }
         }
+       
         /// <summary>
         /// Added by Pankaj
         /// Date:- 21-12-2016
@@ -327,61 +328,45 @@ namespace Generwell.Modules.Services
 
                 switch (tokenServiceResponse.StatusCode)
                 {
-                    case HttpStatusCode.Accepted:
-                        break;
                     case HttpStatusCode.Ambiguous:
-                        responseString = HttpStatusCode.Ambiguous.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.BadGateway:
-                        responseString = HttpStatusCode.BadGateway.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.BadRequest:
-                        responseString = HttpStatusCode.BadRequest.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");                        
-                        break;
-                    case HttpStatusCode.Conflict:
-                        responseString = HttpStatusCode.Conflict.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.Created:
                         responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
-                    case HttpStatusCode.ExpectationFailed:
-                        break;
                     case HttpStatusCode.Forbidden:
-                        responseString = HttpStatusCode.Forbidden.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.GatewayTimeout:
-                        responseString = HttpStatusCode.GatewayTimeout.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.InternalServerError:
-                        responseString = HttpStatusCode.InternalServerError.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.NotFound:
-                        responseString = HttpStatusCode.RequestTimeout.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.OK:
                         responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.RequestTimeout:
-                        responseString = HttpStatusCode.RequestTimeout.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.RequestUriTooLong:
-                        responseString = HttpStatusCode.RequestUriTooLong.ToString();
-                        _httpContext.Response.Redirect("/Accounts/Logout");
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                     case HttpStatusCode.Unauthorized:
-                        responseString = HttpStatusCode.Unauthorized.ToString();
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         _httpContext.Response.Redirect("/Accounts/Logout");
                         break;
                     default:
+                        responseString = await tokenServiceResponse.Content.ReadAsStringAsync();
                         break;
                 }
                 return responseString;
