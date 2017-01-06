@@ -93,7 +93,7 @@ namespace Generwell.Web.Controllers
             }
             catch (Exception ex)
             {
-                HttpContext.Session.SetString("ServerError", ex.Message);
+                HttpContext.Session.SetString("ServerError", "Something went wrong");
                 string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in Accounts Controller Login [POST] action method.\"}";
                 await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Login", "Accounts", new { error = Convert.ToBase64String(Encoding.UTF8.GetBytes(HttpContext.Session.GetString("ServerError"))) });

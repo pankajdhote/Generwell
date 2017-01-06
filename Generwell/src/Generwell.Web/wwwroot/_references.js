@@ -1,4 +1,5 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="js/bootstrap-datetimepicker.min.js" />
 /// <reference path="js/encryption.js" />
 /// <reference path="js/icheck.min.js" />
 /// <reference path="js/login/login.js" />

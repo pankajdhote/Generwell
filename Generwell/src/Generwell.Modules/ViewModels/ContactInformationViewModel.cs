@@ -10,6 +10,8 @@ namespace Generwell.Modules.ViewModels
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string emailBusiness { get; set; }
+        public string phoneBusiness { get; set; }
+
         public List<ContactGroupViewModel> groups;
        
     }

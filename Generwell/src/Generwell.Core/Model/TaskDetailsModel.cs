@@ -26,6 +26,7 @@ namespace Generwell.Core.Model
         public string name { get; set; }
         public string url { get; set; }
         public ContactFieldsModel contactFields { get; set; }
+        public ContactInformationModel contactInformation { get; set; }
         public TaskFieldsUpdateModel TaskFields { get; set; }
         public LookupFieldsModel LookupFields { get; set; }
         public LookupFieldsItemsModel LookupFieldsItems { get; set; }

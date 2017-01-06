@@ -1,28 +1,23 @@
-﻿@model Generwell.Modules.ViewModels.ContactFieldsViewModel
+﻿@model Generwell.Modules.ViewModels.ContactInformationViewModel
 
-<div id="contactFieldsListTableId" class="col-md-12 col-lg-12">
-    <div class="title ibox-title">
-        <h4>Contact User</h4>
-    </div>
-    <div class="col-md-12 col-lg-12">
-        <span>
-            <img src="~/images/user_male.png" />
-        </span>
-        @Model.firstName,@Model.lastName
-    </div>
-    <div class="col-md-12 col-lg-12 SpaceBottom">
-        <span>
-            <img style="vertical-align:bottom!important" src="~/images/email@1x.png" />
-        </span>
-        @Model.emailBusiness
-    </div>
-    <div class="col-md-12 col-lg-12">
-        <span>
-            <img src="~/images/phone@1x.png" />
-        </span>
-        @Model.phoneBusiness
-    </div>
+<div class="title ibox-title col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <h4>Contact User</h4>
 </div>
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <img style="vertical-align:bottom!important" src="~/images/user_male.png" />
+    @Model.firstName,@Model.lastName
+</div>
+
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <img style="vertical-align:bottom!important" src="~/images/email@1x.png" />
+    @Model.emailBusiness
+</div>
+
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <img style="vertical-align:bottom!important" src="~/images/phone@1x.png" />
+    @Model.phoneBusiness
+</div>
+
 
 
 

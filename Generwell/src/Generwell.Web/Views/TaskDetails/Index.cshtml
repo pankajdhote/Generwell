@@ -23,7 +23,7 @@
                 </div>
                
                 <div class="row border-bottom pt-pb-20">
-                    <div class="col-md-6 col-lg-6 line">
+                    <div class="col-md-6 col-lg-6 col-sm-12 line">
                         <div id="taskDetailsTableDivId" class="ibox-content">
                             <label>Task Name:</label>
                             @Model.name<br />
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-6 col-lg-6 ContactBlock">
                         <div id="taskFieldsDiv">
-                            @Html.Partial("_ContactField", Model.contactFields)
+                            @Html.Partial("_ContactField", Model.contactInformation)
                         </div>
 
                     </div>

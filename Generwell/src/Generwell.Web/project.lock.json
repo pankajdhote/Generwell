@@ -38,6 +38,15 @@
       "dnx-clr-win-x86/1.0.0-rc1-update2": {
         "type": "package"
       },
+      "jQuery/1.4.4": {
+        "type": "package"
+      },
+      "jQuery.Validation/1.16.0": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "1.4.4"
+        }
+      },
       "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
@@ -4147,6 +4156,15 @@
       },
       "dnx-clr-win-x86/1.0.0-rc1-update2": {
         "type": "package"
+      },
+      "jQuery/1.4.4": {
+        "type": "package"
+      },
+      "jQuery.Validation/1.16.0": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "1.4.4"
+        }
       },
       "Libuv/1.9.1": {
         "type": "package",
@@ -8425,6 +8443,30 @@
         "bin/vcruntime140.dll",
         "dnx-clr-win-x86.1.0.0-rc1-update2.nupkg.sha512",
         "dnx-clr-win-x86.nuspec"
+      ]
+    },
+    "jQuery/1.4.4": {
+      "sha512": "kexCeYIZehR5fRjo8CK1sngN5SZEQRFNfCYZHMS1RxwEEiSKetBw/gliYJcLJdJEBB+e9aHqleLCjuaSI7u23g==",
+      "type": "package",
+      "path": "jQuery/1.4.4",
+      "files": [
+        "Content/Scripts/jquery-1.4.4-vsdoc.js",
+        "Content/Scripts/jquery-1.4.4.js",
+        "Content/Scripts/jquery-1.4.4.min.js",
+        "jQuery.1.4.4.nupkg.sha512",
+        "jQuery.nuspec"
+      ]
+    },
+    "jQuery.Validation/1.16.0": {
+      "sha512": "5vvz+cw3ykW15RmXoc6GzSKndb1Se38u4cJ3cqEvZxmInf/9NwvOxu2EUYdK2mCsdDsvGn2m9HA7s9NOrr8Wdw==",
+      "type": "package",
+      "path": "jQuery.Validation/1.16.0",
+      "files": [
+        "Content/Scripts/jquery.validate-vsdoc.js",
+        "Content/Scripts/jquery.validate.js",
+        "Content/Scripts/jquery.validate.min.js",
+        "jQuery.Validation.1.16.0.nupkg.sha512",
+        "jQuery.Validation.nuspec"
       ]
     },
     "Libuv/1.9.1": {
@@ -15548,7 +15590,8 @@
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 1.1.0",
       "Microsoft.NETCore.App >= 1.1.0",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.1.0",
-      "dnx-clr-win-x86 >= 1.0.0-rc1-update2"
+      "dnx-clr-win-x86 >= 1.0.0-rc1-update2",
+      "jQuery.Validation >= 1.16.0"
     ],
     ".NETCoreApp,Version=v1.0": []
   },
