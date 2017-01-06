@@ -80,7 +80,7 @@ var mapPage = {
         var markers = new Array();
         // Add the markers and infowindows to the map       
         var markers = [];
-        markers.push(markerCurrentLocation);
+        //markers.push(markerCurrentLocation);
         for (var i = 0; i < locations.length; i++) {
             debugger;
             var latLngLocations = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
@@ -245,7 +245,7 @@ var mapPage = {
                     }
                 })(pinA));
                 var markers = new Array();
-                markers.push(pinA);
+                //markers.push(pinA);
                 markers.push(pinB);
                 var markerCluster = new MarkerClusterer(initialMap, markers, {
                     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
@@ -349,7 +349,7 @@ var mapPage = {
                 })(pinB));
 
                 var markers = new Array();
-                markers.push(pinA);
+                //markers.push(pinA);
                 markers.push(pinB);
                 var markerCluster = new MarkerClusterer(initialMap, markers, {
                     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'

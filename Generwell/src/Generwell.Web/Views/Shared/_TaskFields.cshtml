@@ -2,14 +2,14 @@
 @using Microsoft.AspNetCore.Http;
 @using System.Linq;
 @using Generwell.Modules.ViewModels;
-
+@using System.Globalization;
 <script type="text/javascript">
     $(document).ready(function () {
 
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
         $('.datepicker').datepicker({ format: 'M dd,yyyy', autoclose: true }); //Initialise any date pickers
         $(".datetimepicker").datetimepicker({
-        format: 'MMM DD, YYYY hh:mm a'
+            format: 'MMM DD, YYYY hh:mm a'
         });
     });
 </script>
@@ -217,23 +217,19 @@
                             }
                             @if (item.fieldTypeId == 8)
                             {
-                                DateTime startDate = new DateTime(1970, 1, 2);
-                                DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
-                                string date2 = date.ToString("MMM dd,yyyy");
-                                if (string.IsNullOrEmpty(item.value))
-                                {
-                                    date2 = string.Empty;
-                                }
+                                DateTime datetime = new DateTime(1970, 1, 1, 0, 0, 0);
+                                datetime = datetime.AddSeconds(Convert.ToDouble(item.value));
+                                string date2 = datetime.ToString("MMM dd,yyyy hh:mm");
+
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control datepicker" disabled />
+                                        <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
                                     }
                                     else
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control clsedit datepicker" />
+                                        <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
                                     }
-
                                 </td>
                             }
                             @if (item.fieldTypeId == 9)
@@ -443,35 +439,18 @@
                         }
                         @if (item.fieldTypeId == 8)
                         {
-                            DateTime startDate = new DateTime(1970, 1, 2);
-                            DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
-                            string date2 = date.ToString("dd MM yyyy - hh:ii");
-                            if (string.IsNullOrEmpty(item.value))
-                            {
-                                date2 = string.Empty;
-                            }
+                            DateTime datetime = new DateTime(1970, 1, 1, 0, 0, 0);
+                            datetime = datetime.AddSeconds(Convert.ToDouble(item.value));
+                            string date2 = datetime.ToString("MMM dd,yyyy hh:mm");
+
                             <td class="displayValue1">
                                 @if (item.fieldControlType == 2 || item.permissionId == 1)
                                 {
-                                    <input id="@item.fieldId" asp-for="@date2" name="date" min="Dec 15, 2016" max="Dec 15, 2017" class="form-control datepicker" disabled />
+                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
                                 }
                                 else
                                 {
-                                    @*<div id="datetimepicker1" class="input-append date">
-                                        <input data-format="dd/MM/yyyy hh:mm:ss" type="text" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>*@
-                                    <input id="@item.fieldId" class="form-control datetimepicker" />
-                                    //<input type="text" value="2012-06-15 14:45" class="form-control datetimepicker">
-                                    @*<div class='input-group date' id='datetimepicker6'>
-                                        <input type='text' class="form-control" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>*@
-                                    //<input size="16" type="text" value="2012-06-15 14:45" class="form-control datetimepicker">
+                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
                                 }
                             </td>
                         }
