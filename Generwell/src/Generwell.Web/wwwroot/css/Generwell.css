@@ -175,8 +175,8 @@ p {
 }
 
 table.dataTable {
-    border-collapse: collapse !important;
-    border-top: 1px solid !important;
+    /*border-collapse: collapse !important;
+    border-top: 1px solid !important;*/
 }
 
 table th {
@@ -187,13 +187,17 @@ table th {
 }
 
 table tr td {
-    border-top: 1px solid !important;
+    /*border-top: 1px solid !important;*/
     border-bottom: 1px solid !important;
     border-left: 1px solid !important;
-    border-right: 1px solid !important;
+    /*border-right: 1px solid !important;*/
     border-color: #1a355e !important;
+   
 }
-
+table
+{
+        border-color: #1a355e !important;
+}
 .button:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
     color: #fff !important;
     background-color: #1a355e !important;

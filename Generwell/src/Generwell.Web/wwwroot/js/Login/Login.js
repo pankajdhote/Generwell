@@ -10,12 +10,11 @@ var loginPage = {
         loginPage.setFieldsForGoogleMap();
         loginPage.validateForm();
         loginPage.showSupportDialogBox();
-        loginPage.keepLicenseAlive();
+       loginPage.keepLicenseAlive();
     },
     setFieldsForGoogleMap: function () {
         //on page unload get datatable rows and store in collection
         $('#menu li').click(function () {
-            debugger;
             $('#processing-modal').modal("show");
             var menuName = $(this).text().trim();
             if (menuName.indexOf("MAP") > -1) {
@@ -38,7 +37,6 @@ var loginPage = {
                     cache: false,
                     data: { isMyWell: isMyWell, filterId: filterId },
                     success: function (data) {
-                        debugger;
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#processing-modal').modal("hide");
@@ -50,7 +48,7 @@ var loginPage = {
     validateForm: function () {
         //  Bind the event handler to the "submit" JavaScript event
         $('form[name=loginForm]').submit(function () {
-            debugger;
+          
             $('#error').text("");
             // Get the Login Name value and trim it
             var name = $.trim($('#UserName').val());
@@ -71,7 +69,7 @@ var loginPage = {
     },
     showSupportDialogBox: function () {
         $('#supportId').click(function () {
-            debugger;
+         
             $('#processing-modal').modal("show");
             $.ajax({
                 type: "GET",
@@ -79,7 +77,7 @@ var loginPage = {
                 datatype: "html",
                 cache:false,
                 success: function (data) {
-                    debugger;
+                 
                     if (data != undefined || data != "" || data != null) {
                         $('#myModalContent').html(data);
                         $('#processing-modal').modal("hide");
@@ -94,7 +92,7 @@ var loginPage = {
     },
     keepLicenseAlive: function () {
         window.setInterval(function () {
-            debugger;
+         
             /// call your function here
             $.ajax({
                 type: 'GET',
@@ -103,7 +101,7 @@ var loginPage = {
                 async: true,
                 cache: false,
                 success: function (data) {
-                    debugger;
+                   
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                 }
@@ -111,7 +109,7 @@ var loginPage = {
         }, 50000);
     },
     capLock: function (e) {
-        debugger;
+       
         kc = e.keyCode ? e.keyCode : e.which;
         sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true : false);
         if (((kc >= 65 && kc <= 90) && !sk) || ((kc >= 97 && kc <= 122) && sk)) {
