@@ -2,15 +2,11 @@
 @using Microsoft.AspNetCore.Http;
 @using System.Linq;
 @using Generwell.Modules.ViewModels;
-@using System.Globalization;
+
 <script type="text/javascript">
     $(document).ready(function () {
-
+        debugger;
         TaskDetailsPage.initialize(@Context.Session.GetString("TaskId"));
-        $('.datepicker').datepicker({ format: 'M dd,yyyy', autoclose: true }); //Initialise any date pickers
-        $(".datetimepicker").datetimepicker({
-            format: 'MMM DD, YYYY hh:mm a'
-        });
     });
 </script>
 
@@ -27,29 +23,20 @@
 
 <table id="taskDetailsListTableId" class="dataTable table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
-        @if (Model.fields.Count() > 1)
-        {
             <tr style="cursor:none;">
                 <th style="width:25%;">Field Description</th>
                 <th style="width:25%;">Display Value</th>
                 <th style="width:25%;">Field Description</th>
                 <th style="width:25%;">Display Value</th>
             </tr>
-        }
-        else
-        {
-            <tr style="cursor:none;">
-                <th style="width:50%;">Field Description</th>
-                <th style="width:50%;">Display Value</th>
-            </tr>
-        }
     </thead>
 
     <tbody>
-        @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
-        @if (Model.fields.Count() >= 0)
-        {
-            int count = 1;
+    @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
+    @if (Model.fields.Count() >= 0)
+    {
+        int count = 1;
+
             @foreach (var item in Model.fields)
             {
                 @if (item.permissionId != 0)
@@ -91,7 +78,7 @@
                                 {
                                     ViewBag.Dictionary = dictionaryItemsList;
                                 }
-                               @:<td class="displayValue1">
+                                @:<td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
                                     {
                                         @if (item.value != null)
@@ -118,7 +105,6 @@
                                     }
                                     else
                                     {
-                                       
                                         @if (item.value != null)
                                         {
                                             <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
@@ -141,18 +127,18 @@
                                             <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionary" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
                                         }
                                     }
-                                @:</td>
+                                    @:</td>
                             }
                             @if (item.fieldTypeId == 3)
                             {
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                    {
-                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control" />
+                                {
+                                        <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control" />
                                     }
                                     else
                                     {
-                                        <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control clsedit" />
+                                        <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control clsedit" />
                                     }
                                 </td>
                             }
@@ -160,7 +146,7 @@
                             {
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                    {
+                                {
                                         <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
                                     }
                                     else
@@ -206,7 +192,7 @@
                             {
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                    {
+                                {
                                         <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
                                     }
                                     else
@@ -217,18 +203,21 @@
                             }
                             @if (item.fieldTypeId == 8)
                             {
-                                DateTime datetime = new DateTime(1970, 1, 1, 0, 0, 0);
-                                datetime = datetime.AddSeconds(Convert.ToDouble(item.value));
-                                string date2 = datetime.ToString("MMM dd,yyyy hh:mm");
-
+                                double ts = Convert.ToDouble(item.value);
+                                DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ts).ToLocalTime();
+                                string date2 = dt.ToString("MMM dd,yyyy hh:mm tt");
+                                if (item.value == null)
+                                {
+                                    date2 = string.Empty;
+                                }
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
+                                    {
+                                        <input id="@item.fieldId" value="@date2" type="datetime" name="date" class="form-control clsedit datetimepicker" />
                                     }
                                     else
                                     {
-                                        <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
+                                        <input id="@item.fieldId" value="@date2" type="datetime" name="date" class="form-control clsedit datetimepicker" />
                                     }
                                 </td>
                             }
@@ -249,7 +238,7 @@
                             {
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                    {
+                                {
                                         <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control" disabled />
                                     }
                                     else
@@ -275,239 +264,251 @@
                                     </td>
                                 }
                             }
-                    }
-                    @if (count % 2 == 0)
-                    {
-                        <td><label>@item.fieldDesc</label></td>
 
-                        @if (item.fieldTypeId == 1)
+                        //Complete Td
+                        @if (Model.fields.Count() == count && Model.fields.Count() % 2 == 1)
                         {
-                            DateTime startDate = new DateTime(1970, 1, 2);
-                            DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
-                            string date2 = date.ToString("MMM dd,yyyy");
-                            if (string.IsNullOrEmpty(item.value))
-                            {
-                                date2 = string.Empty;
-                            }
-                            <td class="displayValue1">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                    <input id="@item.fieldId" asp-for="@date2" class="form-control datepicker" disabled />
-                                }
-                                else
-                                {
-                                    <input id="@item.fieldId" asp-for="@date2" onfocusout="TaskDetailsPage.limitText(this, 11);" onKeyDown="TaskDetailsPage.limitText(this, 11);" onKeyUp="TaskDetailsPage.limitText(this, 11);" name="date" class="form-control clsedit datepicker" />
-                                }
-                            </td>
+                            <td class="displayValue1"></td>
+                            <td class="displayValue1"></td>
                         }
-                        @if (item.fieldTypeId == 2 || item.fieldTypeId == 6)
-                        {
-                            List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
-                            List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
-                            if (dictionaryItemsList.Count > 0)
+
+                    }
+                            @if (count % 2 == 0)
                             {
-                                ViewBag.Dictionary = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
-                            }
-                            else
-                            {
-                                ViewBag.Dictionary = dictionaryItemsList;
-                            }
-                            @:<td class="displayValue1">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                <td><label>@item.fieldDesc</label></td>
+
+                                @if (item.fieldTypeId == 1)
                                 {
-                                   
-                                    @if (item.value != null)
+                                    DateTime startDate = new DateTime(1970, 1, 2);
+                                    DateTime date = startDate.AddSeconds(Convert.ToDouble(item.value));
+                                    string date2 = date.ToString("MMM dd,yyyy");
+                                    if (string.IsNullOrEmpty(item.value))
                                     {
-                                        <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit" disabled="disabled">
-                                            <option>Please select one</option>
-                                            @foreach (var dictItem in ViewBag.Dictionary)
-                                            {
-                                                if (Convert.ToDouble(dictItem.Value).ToString() == Convert.ToDouble(item.value).ToString())
-                                                {
-                                                    <option selected value="@dictItem.Value">@dictItem.Text</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@dictItem.Value">@dictItem.Text</option>
-                                                }
-                                            }
-                                        </select>
+                                        date2 = string.Empty;
+                                    }
+                                    <td class="displayValue1">
+                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                        {
+                                            <input id="@item.fieldId" asp-for="@date2" class="form-control datepicker" disabled />
+                                        }
+                                        else
+                                        {
+                                            <input id="@item.fieldId" asp-for="@date2" onfocusout="TaskDetailsPage.limitText(this, 11);" onKeyDown="TaskDetailsPage.limitText(this, 11);" onKeyUp="TaskDetailsPage.limitText(this, 11);" name="date" class="form-control clsedit datepicker" />
+                                        }
+                                    </td>
+                                }
+                                @if (item.fieldTypeId == 2 || item.fieldTypeId == 6)
+                                {
+                                    List<DictionaryViewModel> dictionary = ViewBag.Dictionaries;
+                                    List<List<DictionaryItemsViewModel>> dictionaryItemsList = dictionary.Where(w => w.id == item.dictId.ToString()).Select(s => s.items).ToList();
+                                    if (dictionaryItemsList.Count > 0)
+                                    {
+                                        ViewBag.Dictionary = dictionaryItemsList[0].Select(c => new SelectListItem { Text = c.name.ToString(), Value = c.id.ToString() });
                                     }
                                     else
                                     {
-                                        <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionary" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
+                                        ViewBag.Dictionary = dictionaryItemsList;
                                     }
-                                }
-                                else
-                                {
-                                    @if (item.value != null)
-                                    {
-                                        <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
-                                            <option>Please select one</option>
-                                            @foreach (var dictItem in ViewBag.Dictionary)
+                                    @:<td class="displayValue1">
+                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                        {
+
+                                            @if (item.value != null)
+                                            {
+                                                <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit" disabled="disabled">
+                                                    <option>Please select one</option>
+                                                    @foreach (var dictItem in ViewBag.Dictionary)
                                             {
                                                 if (Convert.ToDouble(dictItem.Value).ToString() == Convert.ToDouble(item.value).ToString())
                                                 {
-                                                    <option selected value="@dictItem.Value">@dictItem.Text</option>
-                                                }
-                                                else
+                                                            <option selected value="@dictItem.Value">@dictItem.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@dictItem.Value">@dictItem.Text</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            }
+                                            else
+                                            {
+                                                <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionary" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @if (item.value != null)
+                                            {
+                                                <select asp-for="@item.displayValue" id="@item.fieldId" class="form-control btn button dropdown dropdown-toggle clsedit">
+                                                    <option>Please select one</option>
+                                                    @foreach (var dictItem in ViewBag.Dictionary)
+                                            {
+                                                if (Convert.ToDouble(dictItem.Value).ToString() == Convert.ToDouble(item.value).ToString())
                                                 {
-                                                    <option value="@dictItem.Value">@dictItem.Text</option>
+                                                            <option selected value="@dictItem.Value">@dictItem.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@dictItem.Value">@dictItem.Text</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            }
+                                            else
+                                            {
+                                                <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionary" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
+                                            }
+                                        }
+                                        @:</td>
+                                }
+                                @if (item.fieldTypeId == 3)
+                                {
+                                    <td class="displayValue1">
+                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                        {
+                                            <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control" />
+                                        }
+                                        else
+                                        {
+                                            <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control clsedit" />
+                                        }
+                                    </td>
+                                }
+                                @if (item.fieldTypeId == 4)
+                                {
+                                    <td class="displayValue1">
+                                        @if (@item.fieldControlType == 2 || @item.permissionId == 1)
+                                        {
+                                            <input asp-for="@item.value" type="text" id="@item.fieldId" class="form-control" disabled />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 100);" onKeyUp="TaskDetailsPage.limitText(this, 100);" />
+                                        }
+                                    </td>
+                                }
+                                @if (item.fieldTypeId == 5)
+                                {
+                                    <td class="displayValue1 i-checks chk">
+                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                        {
+                                            @if (item.value != null)
+                                            {
+                                                @if (item.value.ToString() == "0.0")
+                                                {
+                                                    <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" disabled />
+                                                }
+                                                @if (item.value.ToString() == "1.0")
+                                                {
+                                                    <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" checked="checked" disabled />
                                                 }
                                             }
-                                        </select>
+                                        }
+                                        else
+                                        {
+                                            @if (item.value != null)
+                                            {
+                                                @if (item.value.ToString() == "0.0")
+                                                {
+                                                    <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" />
+                                                }
+                                                @if (item.value.ToString() == "1.0")
+                                                {
+                                                    <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" checked="checked" class="clsedit" />
+                                                }
+                                            }
+                                        }
+                                    </td>
+                                }
+
+                                @if (item.fieldTypeId == 7)
+                                {
+                                    <td class="displayValue1">
+                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                        {
+                                            <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" id="@item.fieldId" name="memo" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
+                                        }
+                                    </td>
+                                }
+                                @if (item.fieldTypeId == 8)
+                                {
+                                    double ts = Convert.ToDouble(item.value);
+                                    DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ts).ToLocalTime();
+                                    string date2 = dt.ToString("MMM dd,yyyy hh:mm tt");
+                                    if (item.value == null)
+                                    {
+                                        date2 = string.Empty;
+                                    }
+                                    <td class="displayValue1">
+                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                        {
+                                            <input id="@item.fieldId" value="@date2" type="datetime" name="date" class="form-control clsedit datetimepicker" />
+                                        }
+                                        else
+                                        {
+                                            <input id="@item.fieldId" value="@date2" type="datetime" name="date" class="form-control clsedit datetimepicker" />
+                                        }
+                                    </td>
+                                }
+                                @if (item.fieldTypeId == 9)
+                                {
+                                    <td class="displayValue1">
+                                        <label id="@item.fieldId" asp-for="@item.value"></label>
+                                    </td>
+                                }
+
+                                @if (item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
+                                {
+                                    <td class="displayValue1">
+                                        <label id="@item.fieldId" asp-for="@item.displayValue"></label>
+                                    </td>
+                                }
+                                @if (item.fieldTypeId == 10)
+                                {
+                                    <td class="displayValue1">
+                                        @if (item.fieldControlType == 2 || item.permissionId == 1)
+                                        {
+                                            <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control" disabled />
+                                        }
+                                        else
+                                        {
+                                            <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
+                                        }
+                                    </td>
+                                }
+                                @if (item.fieldTypeId == 14)
+                                {
+                                    var albumId = item.value != null ? item.value : "null";
+                                    var photo = double.Parse(item.displayValue);
+                                    @if (item.displayValue.TrimStart() == "0.0")
+                                    {
+                                        <td class="displayValue1">
+                                            <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
+                                        </td>
                                     }
                                     else
                                     {
-                                        <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionary" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
+                                        <td class="displayValue1">
+                                            <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
+                                        </td>
                                     }
                                 }
-                            @:</td>
-                                }
-                        @if (item.fieldTypeId == 3)
-                        {
-                            <td class="displayValue1">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                    <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control" />
-                                }
-                                else
-                                {
-                                    <input type="number" id="@item.fieldId" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control clsedit" />
-                                }
-                            </td>
-                        }
-                        @if (item.fieldTypeId == 4)
-                        {
-                            <td class="displayValue1">
-                                @if (@item.fieldControlType == 2 || @item.permissionId == 1)
-                                {
-                                    <input asp-for="@item.value" type="text" id="@item.fieldId" class="form-control" disabled />
-                                }
-                                else
-                                {
-                                    <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 100);" onKeyUp="TaskDetailsPage.limitText(this, 100);" />
-                                }
-                            </td>
-                        }
-                        @if (item.fieldTypeId == 5)
-                        {
-                            <td class="displayValue1 i-checks chk">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                    @if (item.value != null)
-                                    {
-                                        @if (item.value.ToString() == "0.0")
-                                        {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" disabled />
-                                        }
-                                        @if (item.value.ToString() == "1.0")
-                                        {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" checked="checked" disabled />
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    @if (item.value != null)
-                                    {
-                                        @if (item.value.ToString() == "0.0")
-                                        {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" />
-                                        }
-                                        @if (item.value.ToString() == "1.0")
-                                        {
-                                            <input type="checkbox" name="checkbox" id="@item.fieldId" class="clsedit" value="@item.value" checked="checked" class="clsedit" />
-                                        }
-                                    }
-                                }
-                            </td>
-                        }
-
-                        @if (item.fieldTypeId == 7)
-                        {
-                            <td class="displayValue1">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                    <input type="text" id="@item.fieldId" asp-for="@item.value" class="form-control" disabled />
-                                }
-                                else
-                                {
-                                    <input type="text" id="@item.fieldId" name="memo" asp-for="@item.value" class="form-control clsedit" onKeyDown="TaskDetailsPage.limitText(this, 400);" onKeyUp="TaskDetailsPage.limitText(this, 400);" />
-                                }
-                            </td>
-                        }
-                        @if (item.fieldTypeId == 8)
-                        {
-                            DateTime datetime = new DateTime(1970, 1, 1, 0, 0, 0);
-                            datetime = datetime.AddSeconds(Convert.ToDouble(item.value));
-                            string date2 = datetime.ToString("MMM dd,yyyy hh:mm");
-
-                            <td class="displayValue1">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
-                                }
-                                else
-                                {
-                                    <input id="@item.fieldId" asp-for="@date2" name="date" class="form-control clsedit datetimepicker" />
-                                }
-                            </td>
-                        }
-                        @if (item.fieldTypeId == 9)
-                        {
-                            <td class="displayValue1">
-                                <label id="@item.fieldId" asp-for="@item.value"></label>
-                            </td>
-                        }
-
-                        @if (item.fieldTypeId == 11 || @item.fieldTypeId == 12 || @item.fieldTypeId == 13)
-                        {
-                            <td class="displayValue1">
-                                <label id="@item.fieldId" asp-for="@item.displayValue"></label>
-                            </td>
-                        }
-                        @if (item.fieldTypeId == 10)
-                        {
-                            <td class="displayValue1">
-                                @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                    <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control" disabled />
-                                }
-                                else
-                                {
-                                    <input type="text" id="@item.fieldId" asp-for="@item.displayValue" class="form-control clsedit" />
-                                }
-                            </td>
-                        }
-                        @if (item.fieldTypeId == 14)
-                        {
-                            var albumId = item.value != null ? item.value : "null";
-                            var photo = double.Parse(item.displayValue);
-                            @if (item.displayValue.TrimStart() == "0.0")
-                            {
-                                <td class="displayValue1">
-                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
-                                </td>
+                                @:</tr>
                             }
-                            else
-                            {
-                                <td class="displayValue1">
-                                    <a id="@item.fieldId" href="#" onclick="TaskDetailsPage.getPictureAlbum(@albumId,@item.fieldId);"><span>@photo Photo(s)</span></a>
-                                </td>
                             }
-                        }
-                    @:</tr>
-                    }
-                }
-                count++;
-            }
-        }
-    </tbody>
-</table>
+                            count++;
+                            }
 
-<div id="ReactivatedTask" class="mt-20">
-    <button id="completeTask" type="submit" name="Complete" value="Complete" class="btn button taskdetailsbuttons">Complete</button>
-    <button id="savedDetails" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>
-</div>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div id="ReactivatedTask" class="mt-20">
+                        <button id="completeTask" type="submit" name="Complete" value="Complete" class="btn button taskdetailsbuttons">Complete</button>
+                        <button id="savedDetails" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>
+                    </div>
 

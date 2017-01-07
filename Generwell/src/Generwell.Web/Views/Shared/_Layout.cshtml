@@ -9,40 +9,41 @@
     <environment names="Development">
         <link href="~/css/Generwell.css" rel="stylesheet" />
         <link href="~/css/site.css" rel="stylesheet" />
-        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
         <link href="~/css/processing-model.css" rel="stylesheet" />
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="~/css/custom.css" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link href="~/css/Layout.css" rel="stylesheet" />
         <link href="~/css/followCheckbox.css" rel="stylesheet" />
-        <link href="~/css/bootstrap-datepicker.css" rel="stylesheet" />
-        <link rel="shortcuticon" type="image/x-icon" href="~/images/favicon.png" />
         <link href="~/css/sweetalert.css" rel="stylesheet" />
+        <link rel="shortcuticon" type="image/x-icon" href="~/images/favicon.png" />
 
+        @*Jquery*@
+        <link href="~/Scripts/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+        @*Bootstrap*@
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-       
+
+        @*Datepicker*@
+        <link href="~/css/bootstrap-datepicker.css" rel="stylesheet" />
+        <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+        @*DatetimePicker*@
         @*references for datetime picker*@
-        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
-
-        @*<link href="~/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />*@
-        @*<script src="~/js/bootstrap-datetimepicker.min.js"></script>*@
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
         @*End references for datetime picker*@
 
-        @*added for datatable*@
+        @*Datatable*@
+        <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
         <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
         <script src="~/Scripts/plugins/jeditable/jquery.jeditable.js"></script>
+
         <script src="~/js/Well/Well.js"></script>
         <script src="~/js/Task/Task.js"></script>
         <script src="~/js/TaskDetails/TaskDetails.js"></script>
@@ -52,9 +53,10 @@
         <script src="~/js/icheck.min.js"></script>
         <script src="~/js/Picture/Picture.js"></script>
         <script src="~/js/Encryption.js"></script>
-        <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
         <script src="~/js/sweetalert.min.js"></script>
-        
+        <script src="~/js/Facility/Facility.js"></script>
+
+
         @*for google map references*@
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZw0u8-boP_HQEsODAebX4zCrpzd8PqZk">
@@ -62,51 +64,56 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
         <script src="~/js/Map/Map.js"></script>
     </environment>
+
+
     <environment names="Staging,Production">
         <link href="~/css/generwell.min.css" rel="stylesheet" />
         <link href="~/css/site.min.css" rel="stylesheet" />
-        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
         <link href="~/css/processing-model.min.css" rel="stylesheet" />
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link href="~/css/custom.min.css" rel="stylesheet" />
         <link href="~/css/layout.min.css" rel="stylesheet" />
         <link href="~/css/followcheckbox.min.css" rel="stylesheet" />
-        @*<link href="~/css/datetimepicker.min.css" rel="stylesheet" />*@
-        <link href="~/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+        <link href="~/css/sweetalert.min.css" rel="stylesheet" />
         <link rel="shortcuticon" type="image/x-icon" href="~/images/favicon.png" />
-        <link href="~/css/sweetalert.css" rel="stylesheet" />
 
-        @*references for datetime picker*@
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
-        @*End references for datetime picker*@
-
-
+        @*Jquery*@
+        <link href="~/Scripts/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+        @*Bootstrap*@
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-        @*added for datatable*@
+
+        @*Datepicker*@
+        <link href="~/css/bootstrap-datepicker.min.css"  rel="stylesheet" />
+        <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.min.js"></script>
+
+        @*DatetimePicker*@
+        @*references for datetime picker*@
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
+        @*End references for datetime picker*@
+
+        @*Datatable*@
+        <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.css">
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/jqueryui/dataTables.jqueryui.js"></script>
         <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
         <script src="~/Scripts/plugins/jeditable/jquery.jeditable.min.js"></script>
+
         <script src="~/js/Well/well.min.js"></script>
         <script src="~/js/Task/task.min.js"></script>
         <script src="~/js/TaskDetails/taskdetails.min.js"></script>
         <script src="~/js/Login/login.min.js"></script>
-        <script src="~/js/WellDetails/welldetails.min.js"></script>
+        <script src="~/js/WellDetails/WellDetails.min.js"></script>
         <script src="~/js/WellLineReport/welllinereport.min.js"></script>
-        <script src="~/js/encryption.min.js"></script>
-        <script src="~/js/Picture/picture.min.js"></script>
         <script src="~/js/icheck.min.js"></script>
+        <script src="~/js/Picture/picture.min.js"></script>
+        <script src="~/js/encryption.min.js"></script>
         <script src="~/js/sweetalert.min.js"></script>
-        <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.min.js"></script>
-        @*<script src="~/Scripts/plugins/datetimepicker/bootstrap-datetimepicker.js"></script>*@
 
         @*for google map references*@
         <script async defer
@@ -115,7 +122,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer.js"></script>
         <script src="~/js/Map/map.min.js"></script>
     </environment>
-    
+
     <style>
     </style>
     <title>@ViewBag.Title</title>

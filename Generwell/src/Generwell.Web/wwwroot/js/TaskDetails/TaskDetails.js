@@ -11,6 +11,18 @@ var TaskDetailsPage = {
         TaskDetailsPage.createMyFilterCheckbox();
         TaskDetailsPage.changeButtonEvent();
         TaskDetailsPage.bindEvent();
+        TaskDetailsPage.createDatetime();
+    },
+    createDatetime: function () {
+        debugger;
+        $('.datepicker').datepicker({
+            format: 'M dd,yyyy',
+            autoclose: true,
+            todayBtn: true
+        }); //Initialise any date pickers
+        $('.datetimepicker').datetimepicker({
+            format: 'MMM DD,YYYY HH:MM A',
+        });
     },
     completeTask: function () {
         var content = [];
@@ -123,7 +135,6 @@ var TaskDetailsPage = {
         }
         return true;
     },
-
     completeEvent: function () {
         $('#completeTask').click(function () {
             swal({
@@ -262,6 +273,16 @@ var TaskDetailsPage = {
             return false;
         }
     },
+    checkPeriod: function (e, value, event) {
+        debugger;
+        if (value != "") {
+            var decNumber = event.name;
+            if (decNumber == "0" && e.keyCode == 46) {
+                e.target.value = value;
+                return false;
+            }
+        }
+    },
     check: function (e, value, event) {
         debugger;
         if (value != "") {
@@ -277,11 +298,7 @@ var TaskDetailsPage = {
                     return false;
                 }
             }
-            if (decNumber == 0 && (value.indexOf('.') > -1))
-            {
-                e.target.value = value.substring(0, value.indexOf('.'));
-                return false;
-            }
+
             if (value.indexOf('.') > -1) {
                 var decCount = value.substring(value.indexOf('.') + 1);
                 if (decCount.length > decNumber) {

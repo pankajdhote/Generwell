@@ -38,6 +38,7 @@ namespace Generwell.Modules.ViewModels
             CreateMap<ContactGroupModel, ContactGroupViewModel>();
 
             CreateMap<FieldsModel, FieldsViewModel>();
+            CreateMap<FacilityModel, FacilityViewModel>();
         }
     }
 }

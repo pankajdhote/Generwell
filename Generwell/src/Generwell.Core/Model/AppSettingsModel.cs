@@ -21,6 +21,9 @@
         public string PictureFile { get; set; }
         public string License { get; set; }
         public string Facilities { get; set; }
+        public string FacilityFilter { get; set; }
+        public string FacilityLineReports { get; set; }
+        public string FacilityDetails { get; set; }
 
     }
 }

@@ -1,0 +1,51 @@
+﻿@model List<Generwell.Modules.ViewModels.FacilityViewModel>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var targetUrl = '/FacilityLineReport/Index/';
+        facilityPage.initialize(targetUrl);
+    });
+</script>
+
+
+<table id="facilityListTableId" class="dataTable table-striped table table-bordered table-hover facilityListDataTable dataTable no-footer" style="width:100%;border-color: #1a355e;">
+    <thead>
+        <tr>
+            <th style="width:10%;">Id<i class="fa fa-fw fa-sort"></i></th>
+            <th style="width:10%;" class="text-center">Followed Facilitites<i class=""></i></th>
+            <th style="width:20%;">Facility Name<i class="fa fa-fw fa-sort"></i></th>
+            <th style="width:10%;" class="text-center">Location<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center" style="width:10%;">Active Task Count<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center" style="width:10%;">Lattitude<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center" style="width:10%;">Longitude<i class="fa fa-fw fa-sort"></i></th>
+            <th class="text-center" style="width:10%;">IsFavorite<i class="fa fa-fw fa-sort"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() > 0)
+        {
+            @foreach (var item in Model)
+            {
+                <tr class="gradeU">
+                    <td>@item.id</td>
+                    <td id="followedWell" class="text-center h-20">
+                        @if (item.isFavorite == true)
+                    {
+                            <img id="false" name="@item.id" src="/images/mywell-selected.png" />
+                        }
+                        else
+                        {
+                            <img id="true" name="@item.id" src="/images/mywell-disable.png" />
+                        }
+                    </td>
+                    <td>@item.name</td>
+                    <td class="text-center">@item.location</td>
+                    <td class="text-center">@item.activeTaskCount</td>
+                    <td class="text-center">@item.latitude</td>
+                    <td class="text-center">@item.longitude</td>
+                    <td class="text-center">@item.isFavorite</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

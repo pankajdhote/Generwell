@@ -13,6 +13,7 @@ using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Modules.Management.PictureManagement;
 using System.Collections.Generic;
+using Generwell.Modules.Management.FacilityManagement;
 
 namespace Generwell.Web
 {
@@ -69,6 +70,10 @@ namespace Generwell.Web
             services.AddSingleton<PictureModel>();
             services.AddSingleton<AlbumModel>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IFacilityManagement, FacilityManagement>();
+            services.AddSingleton<FacilityModel>();
+            services.AddSingleton<List<FacilityModel>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
