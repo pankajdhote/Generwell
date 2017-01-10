@@ -84,6 +84,7 @@ var mapPage = {
         if (locations != null) {
             for (var i = 0; i < locations.length; i++) {
                 debugger;
+
                 var latLngLocations = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
 
                 var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
@@ -93,15 +94,17 @@ var mapPage = {
                 //Validate Location
                 var isValidate = mapPage.validateLocation(latitudeCheck, longitudeCheck);
                 if ((!lngVal.test(locations[i].latitude)) || (!lngVal.test(locations[i].longitude))) {
-                    if ((previousPageValue.toLowerCase() == "welllinereports" ||
-                        previousPageValue.toLowerCase() == "welldetails" || 
-                        previousPageValue.toLowerCase() == "facilitylinereport" || 
-                        previousPageValue.toLowerCase() == "facilitydetails")
-                        && !isValidate) {
-                        swal("Asset Location", "No valid location information available for this asset. The map will only show your current location and followed wells.");
-                        mapPage.setZoomLevel();
+                    if ((!lngVal.test(latitudeCheck)) || (!lngVal.test(longitudeCheck))) {
+                        if ((previousPageValue == "2" ||
+                            previousPageValue == "3" ||
+                            previousPageValue == "15" ||
+                            previousPageValue == "16")
+                            && !isValidate) {
+                            swal("Asset Location", "No valid location information available for this asset. The map will only show your current location and followed wells.");
+                            mapPage.setZoomLevel();
+                        }
+                        continue;
                     }
-                    continue;
                 }
 
                 marker = new google.maps.Marker({ 'position': latLngLocations });
@@ -125,7 +128,15 @@ var mapPage = {
                 google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
                         debugger;
-                        infowindow.setContent('<b><a href="#" id="direction"><img src="/images/car-Icon.png" /></a> &nbsp; <a href="/WellLineReport/Index?wellId=' + Base64.encode(locations[i].id.toString()) + '&wellName=' + Base64.encode(locations[i].name.toString()) + '&isFollow=' + Base64.encode(locations[i].isFavorite.toString()) + '">' + locations[i].name) + '</a></b>';
+                        var moduleId = $('#moduleId').val();
+                        switch (moduleId) {
+                            case "1":                           
+                                infowindow.setContent('<b><a href="#" id="direction"><img src="/images/car-Icon.png" /></a> &nbsp; <a href="/WellLineReport/Index?wellId=' + Base64.encode(locations[i].id.toString()) + '&wellName=' + Base64.encode(locations[i].name.toString()) + '&isFollow=' + Base64.encode(locations[i].isFavorite.toString()) + '">' + locations[i].name) + '</a></b>';
+                                break;
+                            case "14":                          
+                                infowindow.setContent('<b><a href="#" id="direction"><img src="/images/car-Icon.png" /></a> &nbsp; <a href="/FacilityLineReport/Index?facilityId=' + Base64.encode(locations[i].id.toString()) + '&facilityName=' + Base64.encode(locations[i].name.toString()) + '&isFollow=' + Base64.encode(locations[i].isFavorite.toString()) + '">' + locations[i].name) + '</a></b>';
+                                break;
+                        }
                         infowindow.open(initialMap, marker);
                         $('#direction').click(function () {
                             debugger;
@@ -164,7 +175,7 @@ var mapPage = {
         //now fit the map to the newly inclusive bounds
         initialMap.fitBounds(bounds);
         debugger;
-        if (locations!=null && locations.length == 0) {
+        if (locations != null && locations.length == 0) {
             mapPage.showAlert();
         }
         mapPage.showNullAlert();
@@ -237,7 +248,15 @@ var mapPage = {
                 google.maps.event.addListener(pinB, 'click', (function (pinB) {
                     return function () {
                         debugger;
-                        infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + Base64.encode(location.id.toString()) + '&wellName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name) + '</a></b>';
+                        var moduleId = $('#moduleId').val();
+                        switch (moduleId) {
+                            case "1":
+                                infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + Base64.encode(location.id.toString()) + '&wellName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name) + '</a></b>';
+                                break;
+                            case "14":
+                                infowindow.setContent('<b><a href="/FacilityLineReport/Index?facilityId=' + Base64.encode(location.id.toString()) + '&facilityName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name) + '</a></b>';
+                                break;
+                        }                        
                         infowindow.open(initialMap, pinB);
                     }
                 })(pinB));
@@ -352,7 +371,15 @@ var mapPage = {
                 google.maps.event.addListener(pinB, 'click', (function (pinB) {
                     return function () {
                         debugger;
-                        infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + Base64.encode(location.id.toString()) + '&wellName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name.toString()) + '</a></b>';
+                        var moduleId = $('#moduleId').val();
+                        switch (moduleId) {
+                            case "1":
+                                infowindow.setContent('<b><a href="/WellLineReport/Index?wellId=' + Base64.encode(location.id.toString()) + '&wellName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name) + '</a></b>';
+                                break;
+                            case "14":
+                                infowindow.setContent('<b><a href="/FacilityLineReport/Index?facilityId=' + Base64.encode(location.id.toString()) + '&facilityName=' + Base64.encode(location.name.toString()) + '&isFollow=' + Base64.encode(location.isFavorite.toString()) + '">' + location.name) + '</a></b>';
+                                break;
+                        }
                         infowindow.open(initialMap, pinB);
                     }
                 })(pinB));
@@ -396,7 +423,7 @@ var mapPage = {
     },
     showFollowedAlert: function (locations) {
         var myAssets = $('#myAssets').val();
-        if (myAssets == "true" && locations!=null && locations.length == 0) {
+        if (myAssets == "true" && locations != null && locations.length == 0) {
             swal("Asset Location", "You are not following any wells yet. No location information available for this asset. The map will only show you current location.");
             mapPage.setZoomLevel();
         }

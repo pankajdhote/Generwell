@@ -1,5 +1,6 @@
 ﻿@model List<Generwell.Modules.ViewModels.MapViewModel>
 @using Microsoft.AspNetCore.Http;
+@using Generwell.Modules.GenerwellEnum;
 
 @{
     ViewBag.Title = "Map";
@@ -17,10 +18,11 @@
 @Html.Partial("_LoadingPopup")
 <!-- Modal ends Here -->
 
-<input id="previousPageValue" type="hidden" value="@Context.Session.GetString("previousPage")"/>
+<input id="previousPageValue" type="hidden" value="@((int)Enum.Parse(typeof(PageOrder), Context.Session.GetString("previousPage")))"/>
 <input id="latitude" type="hidden" value="@Context.Session.GetString("Latitude")" />
 <input id="longitude" type="hidden" value="@Context.Session.GetString("Longitude")" />
 <input id="myAssets" type="hidden" value="@Context.Session.GetString("myAssets")" />
+<input id="moduleId" type="hidden" value="@Context.Session.GetString("ModuleId")" />
 
 
 
