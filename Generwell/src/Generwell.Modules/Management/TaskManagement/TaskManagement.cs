@@ -103,11 +103,11 @@ namespace Generwell.Modules.Management
         /// Fetch all tasks from web api by wellId.
         /// </summary>
         /// <returns></returns>
-        public async Task<List<TaskModel>> GetTasksByWellId(string wellId, string accessToken, string tokenType)
+        public async Task<List<TaskModel>> GetTasksByAssetsId(string url, string Id, string accessToken, string tokenType)
         {
             try
             {
-                string taskRecord = await _generwellServices.GetWebApiDetails(_appSettings.Well + "/" + wellId + "/tasks", accessToken, tokenType);
+                string taskRecord = await _generwellServices.GetWebApiDetails(url + "/" + Id + "/tasks", accessToken, tokenType);
                 List<TaskModel> taskModelList = JsonConvert.DeserializeObject<List<TaskModel>>(taskRecord);
                 return taskModelList;
             }

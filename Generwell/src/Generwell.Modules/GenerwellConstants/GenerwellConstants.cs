@@ -16,5 +16,11 @@
         public const string uncheckedState = "unchecked";
         public const string logShortType = "short";
         public const string logFullType = "full";
+        public const string setLatitude = "bnVsbA==";
+        public const string setLongitude = "bnVsbA==";
+
+        public const string NullValue = "null";
+
+
     }
 }

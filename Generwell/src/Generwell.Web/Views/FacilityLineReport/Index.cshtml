@@ -1,0 +1,61 @@
+﻿@model List<Generwell.Modules.ViewModels.FacilityLineReportViewModel>
+@using Microsoft.AspNetCore.Http;
+@using Generwell.Modules.GenerwellConstants;
+
+@{
+    ViewBag.Title = "Facility Line Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var targetUrl = '/FacilityDetails/Index/';
+        facilityLineReportPage.initialize(targetUrl);
+    });
+</script>
+
+
+<!-- Loading Modal Start here-->
+@Html.Partial("_LoadingPopup")
+<!-- Modal ends Here -->
+
+<div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="float-right user-name"><label>Welcome &nbsp;</label>@Context.Session.GetString("UserName")</div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title border-bottom">
+                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Facility Reports</h4>
+                    <label>Facility: </label>  @Context.Session.GetString("FacilityName")
+                </div>
+                <div id="followCheckDiv" class="i-checks chk border-bottom pt-pb-20">
+                    <span class=""><input type="checkbox" id="followFacilityId" name="followFacility" class="ui-checkboxradio-checked" @Context.Session.GetString("IsFollow") value=""> Follow Facility<br></span>
+                </div>
+                <div class="row">
+                    <div class="ibox-content pt col-md-6 col-sm-12">
+                        <table id="facilityLineReportListTableId" class="dataTable table table-striped table-bordered table-hover facilityLineReportListDataTable" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id<i class="fa fa-fw fa-sort"></i></th>
+                                    <th>Facility Reports<i class="fa fa-fw fa-sort"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Count() > 0)
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="gradeU">
+                                            <td>@item.id</td>
+                                            <td>@item.name</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -81,73 +81,81 @@ var mapPage = {
         // Add the markers and infowindows to the map       
         var markers = [];
         //markers.push(markerCurrentLocation);
-        for (var i = 0; i < locations.length; i++) {
-            debugger;
-            var latLngLocations = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
+        if (locations != null) {
+            for (var i = 0; i < locations.length; i++) {
+                debugger;
+                var latLngLocations = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
 
-            var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
-            var previousPageValue = $('#previousPageValue').val();
-            var latitudeCheck = $('#latitude').val();
-            var longitudeCheck = $('#longitude').val();
-            //Validate Location
-            var isValidate = mapPage.validateLocation(latitudeCheck, longitudeCheck);
-            if ((!lngVal.test(locations[i].latitude)) || (!lngVal.test(locations[i].longitude))) {
-                if ((previousPageValue.toLowerCase() == "welllinereports" || previousPageValue.toLowerCase() == "welldetails") && !isValidate) {
-                    swal("Asset Location", "No valid location information available for this asset. The map will only show your current location and followed wells.");
-                    mapPage.setZoomLevel();
+                var lngVal = /^-?((1?[0-7]?|[0-9]?)[0-9]|180)\.[0-9]{1,6}$/;
+                var previousPageValue = $('#previousPageValue').val();
+                var latitudeCheck = $('#latitude').val();
+                var longitudeCheck = $('#longitude').val();
+                //Validate Location
+                var isValidate = mapPage.validateLocation(latitudeCheck, longitudeCheck);
+                if ((!lngVal.test(locations[i].latitude)) || (!lngVal.test(locations[i].longitude))) {
+                    if ((previousPageValue.toLowerCase() == "welllinereports" ||
+                        previousPageValue.toLowerCase() == "welldetails" || 
+                        previousPageValue.toLowerCase() == "facilitylinereport" || 
+                        previousPageValue.toLowerCase() == "facilitydetails")
+                        && !isValidate) {
+                        swal("Asset Location", "No valid location information available for this asset. The map will only show your current location and followed wells.");
+                        mapPage.setZoomLevel();
+                    }
+                    continue;
                 }
-                continue;
-            }
 
-            marker = new google.maps.Marker({ 'position': latLngLocations });
-            if (locations[i].latitude != null) {
-                if (locations[i].isFavorite == true) {
-                    marker.setIcon('/images/favorite-location.png');
+                marker = new google.maps.Marker({ 'position': latLngLocations });
+                if (locations[i].latitude != null) {
+                    if (locations[i].isFavorite == true) {
+                        marker.setIcon('/images/favorite-location.png');
+                    }
+                    else {
+                        marker.setIcon('/images/location.png');
+                    }
                 }
-                else {
-                    marker.setIcon('/images/location.png');
+                var location = locations[i];
+                markers.push(marker);
+                //extend the bounds to include each marker's position
+                if (locations[0] == undefined) {
+                    mapPage.showAlert();
+                } else {
+                    bounds.extend(marker.position);
                 }
-            }
-            var location = locations[i];
-            markers.push(marker);
-            //extend the bounds to include each marker's position
-            if (locations[0] == undefined) {
-                mapPage.showAlert();
-            } else {
-                bounds.extend(marker.position);
-            }
 
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-                    debugger;
-                    infowindow.setContent('<b><a href="#" id="direction"><img src="/images/car-Icon.png" /></a> &nbsp; <a href="/WellLineReport/Index?wellId=' + Base64.encode(locations[i].id.toString()) + '&wellName=' + Base64.encode(locations[i].name.toString()) + '&isFollow=' + Base64.encode(locations[i].isFavorite.toString()) + '">' + locations[i].name) + '</a></b>';
-                    infowindow.open(initialMap, marker);
-                    $('#direction').click(function () {
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
                         debugger;
-                        mapPage.showDirection(locations[i]);
-                    });
-                }
-            })(marker, i));
-            google.maps.event.addListener(markerCurrentLocation, 'click', (function (markerCurrentLocation) {
-                return function () {
-                    debugger;
-                    infowindow.setContent('<b>Your Current Location</b>');
-                    infowindow.open(initialMap, markerCurrentLocation);
-                }
-            })(markerCurrentLocation));
-            // This is needed to set the zoom after fitbounds, 
-            google.maps.event.addListener(initialMap, 'zoom_changed', function () {
-                zoomChangeBoundsListener =
-                    google.maps.event.addListener(initialMap, 'bounds_changed', function (event) {
-                        if (this.getZoom() > 15 && this.initialZoom == true) {
-                            // Change max/min zoom here
-                            this.setZoom(20);
-                            this.initialZoom = false;
-                        }
-                        google.maps.event.removeListener(zoomChangeBoundsListener);
-                    });
-            });
-            initialMap.initialZoom = true;
+                        infowindow.setContent('<b><a href="#" id="direction"><img src="/images/car-Icon.png" /></a> &nbsp; <a href="/WellLineReport/Index?wellId=' + Base64.encode(locations[i].id.toString()) + '&wellName=' + Base64.encode(locations[i].name.toString()) + '&isFollow=' + Base64.encode(locations[i].isFavorite.toString()) + '">' + locations[i].name) + '</a></b>';
+                        infowindow.open(initialMap, marker);
+                        $('#direction').click(function () {
+                            debugger;
+                            mapPage.showDirection(locations[i]);
+                        });
+                    }
+                })(marker, i));
+                google.maps.event.addListener(markerCurrentLocation, 'click', (function (markerCurrentLocation) {
+                    return function () {
+                        debugger;
+                        infowindow.setContent('<b>Your Current Location</b>');
+                        infowindow.open(initialMap, markerCurrentLocation);
+                    }
+                })(markerCurrentLocation));
+                // This is needed to set the zoom after fitbounds, 
+                google.maps.event.addListener(initialMap, 'zoom_changed', function () {
+                    zoomChangeBoundsListener =
+                        google.maps.event.addListener(initialMap, 'bounds_changed', function (event) {
+                            if (this.getZoom() > 15 && this.initialZoom == true) {
+                                // Change max/min zoom here
+                                this.setZoom(20);
+                                this.initialZoom = false;
+                            }
+                            google.maps.event.removeListener(zoomChangeBoundsListener);
+                        });
+                });
+                initialMap.initialZoom = true;
+            }
+        } else {
+            mapPage.setZoomLevel();
         }
         var markerCluster = new MarkerClusterer(initialMap, markers, {
             imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
@@ -156,7 +164,7 @@ var mapPage = {
         //now fit the map to the newly inclusive bounds
         initialMap.fitBounds(bounds);
         debugger;
-        if (locations.length == 0) {
+        if (locations!=null && locations.length == 0) {
             mapPage.showAlert();
         }
         mapPage.showNullAlert();
@@ -253,6 +261,7 @@ var mapPage = {
 
             } else {
                 mapPage.showRouteAlert();
+                mapPage.createMap(null);
             }
         });
 
@@ -386,8 +395,8 @@ var mapPage = {
         }
     },
     showFollowedAlert: function (locations) {
-        var myWellCheck = $('#myWellCheck').val();
-        if (myWellCheck == "true" && locations.length == 0) {
+        var myAssets = $('#myAssets').val();
+        if (myAssets == "true" && locations!=null && locations.length == 0) {
             swal("Asset Location", "You are not following any wells yet. No location information available for this asset. The map will only show you current location.");
             mapPage.setZoomLevel();
         }
@@ -415,5 +424,4 @@ var mapPage = {
         }
         return true;
     }
-
 }

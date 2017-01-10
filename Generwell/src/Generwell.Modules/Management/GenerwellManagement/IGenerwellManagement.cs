@@ -1,4 +1,5 @@
 ﻿using Generwell.Core.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Generwell.Modules.Management.GenerwellManagement
@@ -12,6 +13,10 @@ namespace Generwell.Modules.Management.GenerwellManagement
         Task KeepLicenseAlive(string id, string accessToken, string tokenType);
         Task<LicenseModel> CreateLicense(string url, string accessToken, string tokenType);
         Task<string> ReleaseLicense(string id, string accessToken, string tokenType);
-
+        Task<string> SetFollowUnfollow(string url, string isFollow, string id, string accessToken, string tokenType);
+        Task<List<FilterModel>> GetFilters(string accessToken, string tokenType);
+        Task<LineReportsModel> GetWellDetailsByReportId(string reportId, string wellId, string accessToken, string tokenType);
+        Task<List<MapModel>> GetAssetsByFilterId(string url, string defaultFilter, string accessToken, string tokenType);
+        Task<List<MapModel>> GetAssetsWithoutFilterId(string url, string accessToken, string tokenType);
     }
 }

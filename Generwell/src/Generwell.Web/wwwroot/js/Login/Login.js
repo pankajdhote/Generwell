@@ -35,7 +35,7 @@ var loginPage = {
                     url: '/Map/SetGooleMapObjects',
                     async: false,
                     cache: false,
-                    data: { isMyWell: isMyWell, filterId: filterId },
+                    data: { isMyAssets: isMyWell, filterId: filterId },
                     success: function (data) {
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {

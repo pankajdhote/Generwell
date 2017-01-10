@@ -1,6 +1,6 @@
 ﻿@model List<Generwell.Modules.ViewModels.TaskViewModel>
 @using Microsoft.AspNetCore.Http;
-
+@using Generwell.Modules.GenerwellConstants;
 @{
     ViewBag.Title = "Task Listing";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -19,7 +19,7 @@
                     <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Listing</h4>
                 </div>
                 <div>
-                 @if (ViewBag.myTask == "Unchecked")
+                 @if (ViewBag.myTask == Constants.uncheckedState)
                  {
                     <div class="i-checks chk border-bottom pt-pb-20">
                         <span class=""><input type="checkbox" id="myTask" name="myTask" /><label class="ml-10">  My Tasks</label></span>

@@ -27,16 +27,25 @@
                     WellActive = string.Empty;
                     TaskActive = Active;
                     MapActive = string.Empty;
+                    FacilityActive = string.Empty;
                     break;
                 case "Well":
                     WellActive = Active;
                     TaskActive = string.Empty;
                     MapActive = string.Empty;
+                    FacilityActive = string.Empty;
                     break;
                 case "Map":
                     MapActive = Active;
                     TaskActive = string.Empty;
                     WellActive = string.Empty;
+                    FacilityActive = string.Empty;
+                    break;
+                case "Facility":
+                    FacilityActive = Active;
+                    TaskActive = string.Empty;
+                    WellActive = string.Empty;
+                    MapActive = string.Empty;
                     break;
                 default:
                     break;

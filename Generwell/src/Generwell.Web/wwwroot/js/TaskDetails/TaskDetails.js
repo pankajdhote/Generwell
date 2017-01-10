@@ -21,7 +21,7 @@ var TaskDetailsPage = {
             todayBtn: true
         }); //Initialise any date pickers
         $('.datetimepicker').datetimepicker({
-            format: 'MMM DD,YYYY HH:MM A',
+            format: 'MMM DD,YYYY hh:mm A',
         });
     },
     completeTask: function () {

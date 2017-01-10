@@ -73,6 +73,12 @@ namespace Generwell.Web
             services.AddSingleton<IFacilityManagement, FacilityManagement>();
             services.AddSingleton<FacilityModel>();
             services.AddSingleton<List<FacilityModel>>();
+            services.AddSingleton<FacilityLineReportModel>();
+            services.AddSingleton<List<FacilityLineReportModel>>();
+
+            
+
+
 
         }
 

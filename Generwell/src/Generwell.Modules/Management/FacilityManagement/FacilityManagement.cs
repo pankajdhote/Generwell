@@ -19,7 +19,7 @@ namespace Generwell.Modules.Management.FacilityManagement
         private readonly List<FacilityModel> _objFacilityList;
         private readonly FacilityModel _objFacility;
         private readonly List<MapModel> _objMapList;
-        private readonly List<WellLineReportModel> _objWellLineList;
+        private readonly List<FacilityLineReportModel> _objFacilityLineList;
         private readonly List<FilterModel> _objFilterList;
         private readonly LineReportsModel _objLineReport;
         public FacilityManagement(IOptions<AppSettingsModel> appSettings,
@@ -28,7 +28,7 @@ namespace Generwell.Modules.Management.FacilityManagement
             List<FacilityModel> objWellList,
             FacilityModel objWell,
             List<MapModel> objMapList,
-            List<WellLineReportModel> objWellLineList,
+            List<FacilityLineReportModel> objFacilityLineList,
             List<FilterModel> objFilterList,
             LineReportsModel objLineReport)
         {
@@ -38,7 +38,7 @@ namespace Generwell.Modules.Management.FacilityManagement
             _objFacilityList = objWellList;
             _objFacility = objWell;
             _objMapList = objMapList;
-            _objWellLineList = objWellLineList;
+            _objFacilityLineList = objFacilityLineList;
             _objFilterList = objFilterList;
             _objLineReport = objLineReport;
         }
@@ -52,7 +52,7 @@ namespace Generwell.Modules.Management.FacilityManagement
         {
             try
             {
-                if (!string.IsNullOrEmpty(id) && id != "null")
+                if (!string.IsNullOrEmpty(id) && id != Constants.NullValue)
                 {
                     string getFacilityList = await _generwellServices.GetWebApiDetails(_appSettings.FacilityFilter + "=" + id, accessToken, tokenType);
                     List<FacilityModel> facilityModel = JsonConvert.DeserializeObject<List<FacilityModel>>(getFacilityList);
@@ -72,40 +72,27 @@ namespace Generwell.Modules.Management.FacilityManagement
                 return _objFacilityList;
             }
         }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-01-12-2016
+        /// Fetch all well line reports from web api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<FacilityLineReportModel>> GetFacilityLineReports(string accessToken, string tokenType)
+        {
+            try
+            {
+                string facililtyLineReportResponse = await _generwellServices.GetWebApiDetails(_appSettings.FacilityLineReports, accessToken, tokenType);
+                List<FacilityLineReportModel> facilityLineReport = JsonConvert.DeserializeObject<List<FacilityLineReportModel>>(facililtyLineReportResponse);
+                return facilityLineReport;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellLineReports method.\"}";
+                await _generwellManagement.LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objFacilityLineList;
+            }
 
-        //public Task<List<MapModel>> GetFacilitiesByFilterId(string defaultFilter, string accessToken, string tokenType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<List<MapModel>> GetFacilitiesWithoutFilterId(string accessToken, string tokenType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<FacilityModel> GetFacilityById(string id, string accessToken, string tokenType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<LineReportsModel> GetFacilityDetailsByReportId(string reportId, string wellId, string accessToken, string tokenType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<List<WellLineReportModel>> GetFacilityLineReports(string accessToken, string tokenType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<List<FilterModel>> GetFilters(string accessToken, string tokenType)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<string> SetFollowUnfollow(string isFollow, string id, string accessToken, string tokenType)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        }
     }
 }

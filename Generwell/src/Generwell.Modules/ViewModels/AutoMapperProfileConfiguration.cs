@@ -39,6 +39,9 @@ namespace Generwell.Modules.ViewModels
 
             CreateMap<FieldsModel, FieldsViewModel>();
             CreateMap<FacilityModel, FacilityViewModel>();
+            CreateMap<FacilityLineReportModel, FacilityLineReportViewModel>();
+
+            
         }
     }
 }

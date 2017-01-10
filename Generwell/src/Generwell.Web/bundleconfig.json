@@ -347,5 +347,44 @@
     },
     // Optinally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/Facility/Facility.min.js",
+    "inputFiles": [
+      "wwwroot/js/Facility/Facility.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/FacilityLineReport/FacilityLineReport.min.js",
+    "inputFiles": [
+      "wwwroot/js/FacilityLineReport/FacilityLineReport.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/FacilityDetails/FacilityDetails.min.js",
+    "inputFiles": [
+      "wwwroot/js/FacilityDetails/FacilityDetails.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
   }
 ]

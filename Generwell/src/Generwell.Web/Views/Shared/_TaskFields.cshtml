@@ -23,19 +23,19 @@
 
 <table id="taskDetailsListTableId" class="dataTable table-striped table-bordered table-hover taskListDataTable" style="width:100%;">
     <thead>
-            <tr style="cursor:none;">
-                <th style="width:25%;">Field Description</th>
-                <th style="width:25%;">Display Value</th>
-                <th style="width:25%;">Field Description</th>
-                <th style="width:25%;">Display Value</th>
-            </tr>
+        <tr style="cursor:none;">
+            <th style="width:25%;">Field Description</th>
+            <th style="width:25%;">Display Value</th>
+            <th style="width:25%;">Field Description</th>
+            <th style="width:25%;">Display Value</th>
+        </tr>
     </thead>
 
     <tbody>
-    @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
-    @if (Model.fields.Count() >= 0)
-    {
-        int count = 1;
+        @*For Display Value field I took controls as per "fieldTypeId" value. just took for 2 values( text and look up(dropdown)*@
+        @if (Model.fields.Count() >= 0)
+        {
+            int count = 1;
 
             @foreach (var item in Model.fields)
             {
@@ -127,18 +127,27 @@
                                             <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionary" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
                                         }
                                     }
-                                    @:</td>
+                                @:</td>
                             }
                             @if (item.fieldTypeId == 3)
                             {
+                                int fieldValue;
+                                if (item.fieldDecimals == 0)
+                                {
+                                    fieldValue = (int)Math.Round(Convert.ToDecimal(item.value), 0);
+                                }
+                                else
+                                {
+                                    fieldValue = Convert.ToInt32(item.value);
+                                }
                                 <td class="displayValue1">
                                     @if (item.fieldControlType == 2 || item.permissionId == 1)
-                                {
-                                        <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control" />
+                                    {
+                                        <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.numberMin" max="@item.numberMax" name=@item.fieldDecimals asp-for="@fieldValue" class="form-control" />
                                     }
                                     else
                                     {
-                                        <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control clsedit" />
+                                        <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.numberMin" max="@item.numberMax" name=@item.fieldDecimals asp-for="@fieldValue" class="form-control clsedit" />
                                     }
                                 </td>
                             }
@@ -204,7 +213,7 @@
                             @if (item.fieldTypeId == 8)
                             {
                                 double ts = Convert.ToDouble(item.value);
-                                DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ts).ToLocalTime();
+                                DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ts);
                                 string date2 = dt.ToString("MMM dd,yyyy hh:mm tt");
                                 if (item.value == null)
                                 {
@@ -265,14 +274,14 @@
                                 }
                             }
 
-                        //Complete Td
-                        @if (Model.fields.Count() == count && Model.fields.Count() % 2 == 1)
-                        {
-                            <td class="displayValue1"></td>
-                            <td class="displayValue1"></td>
-                        }
+                            //Complete Td
+                            @if (Model.fields.Count() == count && Model.fields.Count() % 2 == 1)
+                            {
+                                <td class="displayValue1"></td>
+                                <td class="displayValue1"></td>
+                            }
 
-                    }
+                            }
                             @if (count % 2 == 0)
                             {
                                 <td><label>@item.fieldDesc</label></td>
@@ -359,18 +368,27 @@
                                                 <select id="@item.fieldId" asp-for="@item.displayValue" asp-items="@ViewBag.Dictionary" class="form-control btn button dropdown dropdown-toggle clsedit"><option>Please select one</option></select>
                                             }
                                         }
-                                        @:</td>
+                                    @:</td>
                                 }
                                 @if (item.fieldTypeId == 3)
                                 {
+                                    int fieldValue;
+                                    if (item.fieldDecimals == 0)
+                                    {
+                                        fieldValue = (int)Math.Round(Convert.ToDecimal(item.value), 0);
+                                    }
+                                    else
+                                    {
+                                        fieldValue = Convert.ToInt32(item.value);
+                                    }
                                     <td class="displayValue1">
                                         @if (item.fieldControlType == 2 || item.permissionId == 1)
                                         {
-                                            <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control" />
+                                            <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.numberMin" max="@item.numberMax" name=@item.fieldDecimals asp-for="@fieldValue" class="form-control" />
                                         }
                                         else
                                         {
-                                            <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.fieldMaxLength" max="@item.numberMax" name=@item.fieldDecimals asp-for="@item.value" class="form-control clsedit" />
+                                            <input type="number" id="@item.fieldId" onkeypress="return TaskDetailsPage.checkPeriod(event, value,this);" onInput="return TaskDetailsPage.check(event, value,this)" min="@item.numberMin" max="@item.numberMax" name=@item.fieldDecimals asp-for="@fieldValue" class="form-control clsedit" />
                                         }
                                     </td>
                                 }
@@ -437,7 +455,7 @@
                                 @if (item.fieldTypeId == 8)
                                 {
                                     double ts = Convert.ToDouble(item.value);
-                                    DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ts).ToLocalTime();
+                                    DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(ts);
                                     string date2 = dt.ToString("MMM dd,yyyy hh:mm tt");
                                     if (item.value == null)
                                     {
@@ -497,7 +515,7 @@
                                         </td>
                                     }
                                 }
-                                @:</tr>
+                           @: </tr>
                             }
                             }
                             count++;
@@ -506,7 +524,6 @@
                             }
                         </tbody>
                     </table>
-
                     <div id="ReactivatedTask" class="mt-20">
                         <button id="completeTask" type="submit" name="Complete" value="Complete" class="btn button taskdetailsbuttons">Complete</button>
                         <button id="savedDetails" type="submit" name="Save" value="Save" class="btn button taskdetailsbuttons">Save</button>

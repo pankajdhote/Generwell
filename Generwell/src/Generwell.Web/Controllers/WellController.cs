@@ -45,6 +45,7 @@ namespace Generwell.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> Index()
+
         {
             try
             {
@@ -57,7 +58,7 @@ namespace Generwell.Web.Controllers
                 //change active menu class
                 GlobalFields.SetMenu(Menu.Well.ToString());
                 //fill Filters dropdown list
-                List<FilterModel> filterModel = await _wellManagement.GetFilters(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                List<FilterModel> filterModel = await _generwellManagement.GetFilters(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<FilterViewModel> filterViewModel = _mapper.Map<List<FilterViewModel>>(filterModel);
 
                 //Create License for well
@@ -146,7 +147,7 @@ namespace Generwell.Web.Controllers
                 {
                     HttpContext.Session.SetString("IsFollow", Constants.uncheckedState);
                 }
-                string response = await _wellManagement.SetFollowUnfollow(isFollow, wellId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                string response = await _generwellManagement.SetFollowUnfollow(_appSettings.Well, isFollow, wellId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 //get filtered wells
                 List<WellModel> wellModel = await _wellManagement.GetWells(filterId, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                 List<WellViewModel> wellViewModelList = _mapper.Map<List<WellViewModel>>(wellModel);

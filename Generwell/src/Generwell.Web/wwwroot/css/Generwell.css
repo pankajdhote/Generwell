@@ -174,23 +174,17 @@ p {
     border-color: #1a355e !important;
 }
 
-table.dataTable {
-    /*border-collapse: collapse !important;
-    border-top: 1px solid !important;*/
-}
 
-table th {
+table.dataTable th {
     border: thin;
     background-color: #1a355e;
     color: #fff !important;
     border-color: #1a355e !important;
 }
 
-table tr td {
-    /*border-top: 1px solid !important;*/
+table.dataTable tr td {
     border-bottom: 1px solid !important;
     border-left: 1px solid !important;
-    /*border-right: 1px solid !important;*/
     border-color: #1a355e !important;
    
 }

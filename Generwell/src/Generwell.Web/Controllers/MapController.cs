@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Generwell.Modules.Management;
 using Generwell.Modules.Management.GenerwellManagement;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,11 +25,16 @@ namespace Generwell.Web.Controllers
         private readonly IWellManagement _wellManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
-        public MapController(IWellManagement wellManagement, IGenerwellManagement generwellManagement, IMapper mapper) : base(generwellManagement)
+        private readonly AppSettingsModel _appSettings;
+        public MapController(IWellManagement wellManagement,
+            IGenerwellManagement generwellManagement,
+            IOptions<AppSettingsModel> appSettings,
+            IMapper mapper) : base(generwellManagement)
         {
             _wellManagement = wellManagement;
             _generwellManagement = generwellManagement;
             _mapper = mapper;
+            _appSettings = appSettings.Value;
         }
         /// <summary>
         /// Added by pankaj
@@ -40,8 +46,8 @@ namespace Generwell.Web.Controllers
         public ActionResult Index()
         {
             //get previous page value for google map filteration
-            int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
-            if (previousPageValue == 12)
+            //int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
+            if (HttpContext.Session.GetString("previousPage") == PageOrder.Map.ToString())
             {
                 //set latitude for google map
                 HttpContext.Session.SetString("Latitude", "All");
@@ -70,36 +76,72 @@ namespace Generwell.Web.Controllers
                 int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.Map.ToString());
-                List<MapModel> wellForMapModel = new List<MapModel>();
+                List<MapModel> assetsForMapModel = new List<MapModel>();
+
+                string assetsUrlFilterId = string.Empty;
+                string assetsUrl = string.Empty;
+                int id = 0;
+                //Set assets url
+                switch (previousPageValue)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                        assetsUrlFilterId = _appSettings.Well + "?filterId";
+                        assetsUrl = _appSettings.Well;
+                        id = Convert.ToInt32(HttpContext.Session.GetString("WellId"));
+                        break;
+                    case 14:
+                    case 15:
+                    case 16:
+                        assetsUrlFilterId = _appSettings.Facilities + "?filterId";
+                        assetsUrl = _appSettings.Facilities;
+                        id = Convert.ToInt32(HttpContext.Session.GetString("FacilityId"));
+                        break;
+                    case 12:
+                        if (HttpContext.Session.GetString("ModuleId") == ((int)Enum.Parse(typeof(PageOrder), PageOrder.Welllisting.ToString())).ToString())
+                        {
+                            assetsUrl = _appSettings.Well;
+                        }
+                        else if (HttpContext.Session.GetString("ModuleId") == ((int)Enum.Parse(typeof(PageOrder), PageOrder.Facilitylisting.ToString())).ToString())
+                        {
+                            assetsUrl = _appSettings.Facilities;
+                        }
+                        id = Convert.ToInt32(HttpContext.Session.GetString("WellId"));
+                        break;
+                    default:
+                        break;
+                }
+
 
                 #region Get well data to display on map. 
                 switch (previousPageValue)
                 {
                     case 1:
-
-                        if (HttpContext.Session.GetString("myWellCheck") == Constants.trueState && (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter")) && HttpContext.Session.GetString("defaultFilter") != "null"))
+                    case 14:
+                        if (HttpContext.Session.GetString("myAssets") == Constants.trueState && (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter")) && HttpContext.Session.GetString("defaultFilter") != Constants.NullValue))
                         {
-                            wellForMapModel = await _wellManagement.GetWellsByFilterId(HttpContext.Session.GetString("defaultFilter"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                            if (wellForMapModel.Count() > 0)
+                            assetsForMapModel = await _generwellManagement.GetAssetsByFilterId(assetsUrlFilterId, HttpContext.Session.GetString("defaultFilter"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                            if (assetsForMapModel.Count() > 0)
                             {
-                                wellForMapModel = wellForMapModel.Where(w => w.isFavorite == Convert.ToBoolean(HttpContext.Session.GetString("myWellCheck"))).ToList();
+                                assetsForMapModel = assetsForMapModel.Where(w => w.isFavorite == Convert.ToBoolean(HttpContext.Session.GetString("myAssets"))).ToList();
                             }
                         }
-                        else if (HttpContext.Session.GetString("myWellCheck") == Constants.trueState)
+                        else if (HttpContext.Session.GetString("myAssets") == Constants.trueState)
                         {
-                            wellForMapModel = await _wellManagement.GetWellsWithoutFilterId(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                            if (wellForMapModel.Count() > 0)
+                            assetsForMapModel = await _generwellManagement.GetAssetsWithoutFilterId(assetsUrl, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                            if (assetsForMapModel.Count() > 0)
                             {
-                                wellForMapModel = wellForMapModel.Where(w => w.isFavorite == Convert.ToBoolean(HttpContext.Session.GetString("myWellCheck"))).ToList();
+                                assetsForMapModel = assetsForMapModel.Where(w => w.isFavorite == Convert.ToBoolean(HttpContext.Session.GetString("myAssets"))).ToList();
                             }
                         }
-                        else if (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter")) && HttpContext.Session.GetString("defaultFilter") != "null")
+                        else if (!string.IsNullOrEmpty(HttpContext.Session.GetString("defaultFilter")) && HttpContext.Session.GetString("defaultFilter") != Constants.NullValue)
                         {
-                            wellForMapModel = await _wellManagement.GetWellsByFilterId(HttpContext.Session.GetString("defaultFilter"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                            assetsForMapModel = await _generwellManagement.GetAssetsByFilterId(assetsUrlFilterId, HttpContext.Session.GetString("defaultFilter"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         }
                         else
                         {
-                            wellForMapModel = await _wellManagement.GetWellsWithoutFilterId(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                            assetsForMapModel = await _generwellManagement.GetAssetsWithoutFilterId(assetsUrl, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         }
 
                         if (mapViewModelList.Count == 0)
@@ -109,42 +151,44 @@ namespace Generwell.Web.Controllers
 
                         break;
                     case 2:
-                        wellForMapModel = await _wellManagement.GetWellsWithoutFilterId(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                        mapModelList = wellForMapModel.Where(w => w.isFavorite == true).ToList();
-                        bool isExist = mapModelList.Any(x => x.id == Convert.ToInt32(HttpContext.Session.GetString("WellId")));
+                    case 15:
+                        assetsForMapModel = await _generwellManagement.GetAssetsWithoutFilterId(assetsUrl, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        mapModelList = assetsForMapModel.Where(w => w.isFavorite == true).ToList();
+                        bool isExist = mapModelList.Any(x => x.id == id);
                         if (!isExist)
                         {
-                            wellForMapModel = wellForMapModel.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
+                            assetsForMapModel = assetsForMapModel.Where(w => w.id == id).ToList();
                         }
                         else
                         {
-                            wellForMapModel.Clear();
+                            assetsForMapModel.Clear();
                         }
-                        wellForMapModel.AddRange(mapModelList);
+                        assetsForMapModel.AddRange(mapModelList);
                         break;
                     case 3:
-                        wellForMapModel = await _wellManagement.GetWellsWithoutFilterId(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                        mapModelList = wellForMapModel.Where(w => w.isFavorite == true).ToList();
-                        wellForMapModel = wellForMapModel.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
-                        bool isExistCheck = mapModelList.Any(x => x.id == Convert.ToInt32(HttpContext.Session.GetString("WellId")));
+                    case 16:
+                        assetsForMapModel = await _generwellManagement.GetAssetsWithoutFilterId(assetsUrl, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        mapModelList = assetsForMapModel.Where(w => w.isFavorite == true).ToList();
+                        assetsForMapModel = assetsForMapModel.Where(w => w.id == id).ToList();
+                        bool isExistCheck = mapModelList.Any(x => x.id == id);
                         if (!isExistCheck)
                         {
-                            wellForMapModel = wellForMapModel.Where(w => w.id == Convert.ToInt32(HttpContext.Session.GetString("WellId"))).ToList();
+                            assetsForMapModel = assetsForMapModel.Where(w => w.id == id).ToList();
                         }
                         else
                         {
-                            wellForMapModel.Clear();
+                            assetsForMapModel.Clear();
                         }
-                        wellForMapModel.AddRange(mapModelList);
+                        assetsForMapModel.AddRange(mapModelList);
                         break;
                     case 4:
                     case 12:
-                        wellForMapModel = await _wellManagement.GetWellsWithoutFilterId(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        assetsForMapModel = await _generwellManagement.GetAssetsWithoutFilterId(assetsUrl, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         break;
                     default:
                         break;
                 }
-                mapViewModelList = _mapper.Map<List<MapViewModel>>(wellForMapModel);
+                mapViewModelList = _mapper.Map<List<MapViewModel>>(assetsForMapModel);
                 mapViewModelList = mapViewModelList.Where(w => w.latitude != null).ToList();
                 return Json(mapViewModelList);
             }
@@ -163,10 +207,10 @@ namespace Generwell.Web.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: /<controller>/
-        public JsonResult SetGooleMapObjects(string isMyWell, string filterId)
+        public JsonResult SetGooleMapObjects(string isMyAssets, string filterId)
         {
             //find out previous page url                
-            HttpContext.Session.SetString("myWellCheck", isMyWell);
+            HttpContext.Session.SetString("myAssets", isMyAssets);
             HttpContext.Session.SetString("defaultFilter", filterId != null ? filterId : string.Empty);
             return Json("success");
         }

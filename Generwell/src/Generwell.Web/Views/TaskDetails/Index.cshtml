@@ -1,6 +1,6 @@
 ﻿@model Generwell.Modules.ViewModels.TaskDetailsViewModel
 @using Microsoft.AspNetCore.Http;
-
+@using Generwell.Modules.GenerwellEnum;
 @{
     ViewBag.Title = "Task Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,6 +10,7 @@
 <!-- Modal ends Here -->
 
 <input id="wellId" type="hidden" value="@Context.Session.GetString("WellId")" />
+<input id="facilityId" type="hidden" value="@Context.Session.GetString("FacilityId")" />
 <input id="isFollow" type="hidden" value="@Context.Session.GetString("IsFollow")" />
 
 <div class="container wrapper wrapper-content animated fadeInRight mr-20 ml-20">
@@ -19,9 +20,17 @@
             <div class="ibox float-e-margins">
                 <div class="title ibox-title border-bottom">
                     <h4><img src="~/images/task-details-icon.png" class="pb-5" />&nbsp;Task Details</h4>
-                    <label>Well: </label>  @Context.Session.GetString("WellName")
+                   @if (!string.IsNullOrEmpty(Context.Session.GetString("WellId")))
+                   {
+                            <label>Well: </label>  @Context.Session.GetString("WellName")
+                   }
+                   else if (!string.IsNullOrEmpty(Context.Session.GetString("FacilityId")))
+                   {                     
+                        <label>Facility: </label>  @Context.Session.GetString("FacilityName")
+                   }
+                    
                 </div>
-               
+
                 <div class="row border-bottom pt-pb-20">
                     <div class="col-md-6 col-lg-6 col-sm-12 line">
                         <div id="taskDetailsTableDivId" class="ibox-content">
@@ -33,16 +42,16 @@
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.activatedDate));
                                 @date.ToString("MMM dd, yyyy")
-                            }                          
-                           <br/>
-                            <label>Forecast Date:</label>                          
+                            }
+                            <br />
+                            <label>Forecast Date:</label>
                             @if (@Model.forecastDate != null)
                             {
                                 DateTime startDate = new DateTime(1970, 1, 1);
                                 DateTime date = startDate.AddSeconds(Convert.ToDouble(@Model.forecastDate));
                                 @date.ToString("MMM dd, yyyy")
-                            }  
-                            <br/>
+                            }
+                            <br />
                             <label>Due Date:</label>
                             @if (@Model.expectedCompletionDate != null)
                             {
@@ -59,9 +68,11 @@
 
                     </div>
                 </div>
+
                 <div id="taskFieldsDiv">
                     @Html.Partial("_TaskFields", Model)
                 </div>
+
             </div>
         </div>
     </div>

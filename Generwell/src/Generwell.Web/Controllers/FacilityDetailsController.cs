@@ -1,40 +1,36 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Generwell.Modules.ViewModels;
-using Generwell.Modules.GenerwellEnum;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
-using Generwell.Modules.Management;
-using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.Management.GenerwellManagement;
-using Generwell.Core.Model;
+using Generwell.Modules.Management.FacilityManagement;
 using AutoMapper;
+using Generwell.Core.Model;
 using Microsoft.Extensions.Options;
-
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Generwell.Modules.GenerwellEnum;
+using Generwell.Modules.ViewModels;
+using Generwell.Modules.GenerwellConstants;
+using Generwell.Modules.Global;
 
 namespace Generwell.Web.Controllers
 {
     [Authorize(ActiveAuthenticationSchemes = "MyCookieMiddlewareInstance")]
-    public class WellDetailsController : BaseController
+    public class FacilityDetailsController : BaseController
     {
-        private readonly IWellManagement _wellManagement;
+        private readonly IFacilityManagement _facilityManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
         private readonly AppSettingsModel _appSettings;
-
-        public WellDetailsController(IWellManagement wellManagement, 
-            IGenerwellManagement generwellManagement, 
-            IMapper mapper, 
+        public FacilityDetailsController(IFacilityManagement facilityManagement,
+            IGenerwellManagement generwellManagement,
+            IMapper mapper,
             IOptions<AppSettingsModel> appSettings) : base(generwellManagement)
         {
-            _wellManagement = wellManagement;
+            _facilityManagement = facilityManagement;
             _generwellManagement = generwellManagement;
             _mapper = mapper;
             _appSettings = appSettings.Value;
-
         }
         /// <summary>
         /// Added by pankaj
@@ -48,17 +44,17 @@ namespace Generwell.Web.Controllers
             try
             {
                 int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
-                //Create License for well
+                //Create License for facility
                 if (HttpContext.Session.GetString("ModuleId") != previousPageValue.ToString())
                 {
-                    await ApplyLicense(_appSettings.Well);
+                    await ApplyLicense(_appSettings.Facilities);
                 }
 
                 //set previous page value for google map filteration
-                HttpContext.Session.SetString("previousPage", PageOrder.WellDetails.ToString());
-                LineReportsModel wellDetailsModel = await _generwellManagement.GetWellDetailsByReportId(reportId, HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
-                LineReportsViewModel wellDetailsViewModel = _mapper.Map<LineReportsViewModel>(wellDetailsModel);
-                return View(wellDetailsViewModel.fields);
+                HttpContext.Session.SetString("previousPage", PageOrder.FacilityDetails.ToString());
+                LineReportsModel facilityDetailsModel = await _generwellManagement.GetWellDetailsByReportId(reportId, HttpContext.Session.GetString("FacilityId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                LineReportsViewModel facilityDetailsViewModel = _mapper.Map<LineReportsViewModel>(facilityDetailsModel);
+                return View(facilityDetailsViewModel.fields);
             }
             catch (Exception ex)
             {
@@ -66,6 +62,6 @@ namespace Generwell.Web.Controllers
                 await _generwellManagement.LogError(Constants.logShortType, HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"), logContent);
                 return RedirectToAction("Error", "Accounts");
             }
-        }        
+        }
     }
 }

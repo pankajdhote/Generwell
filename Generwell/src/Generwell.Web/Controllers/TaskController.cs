@@ -12,6 +12,7 @@ using Generwell.Modules.GenerwellConstants;
 using Generwell.Modules.Management.GenerwellManagement;
 using Generwell.Core.Model;
 using AutoMapper;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,12 +24,16 @@ namespace Generwell.Web.Controllers
         private readonly ITaskManagement _taskManagement;
         private readonly IGenerwellManagement _generwellManagement;
         private readonly IMapper _mapper;
+        private readonly AppSettingsModel _appSettings;
         public TaskController(ITaskManagement taskManagement, 
-            IGenerwellManagement generwellManagement, IMapper mapper) : base(generwellManagement)
+            IGenerwellManagement generwellManagement,
+            IOptions<AppSettingsModel> appSettings,
+            IMapper mapper) : base(generwellManagement)
         {
             _taskManagement = taskManagement;
             _generwellManagement = generwellManagement;
             _mapper = mapper;
+            _appSettings = appSettings.Value;
         }
         /// <summary>
         /// Added by rohit
@@ -44,11 +49,9 @@ namespace Generwell.Web.Controllers
                 //Active menu on top for current selected tab
                 GlobalFields.SetMenu(Menu.Task.ToString());
                 int previousPageValue = (int)Enum.Parse(typeof(PageOrder), HttpContext.Session.GetString("previousPage"));
-                string checkboxStatus = "Unchecked";
-                if (previousPageValue > 1)
+                if (previousPageValue != (int)Enum.Parse(typeof(PageOrder), PageOrder.Welllisting.ToString()) && previousPageValue != (int)Enum.Parse(typeof(PageOrder), PageOrder.Facilitylisting.ToString()))
                 {
-                    ViewBag.myTask = checkboxStatus;
-                    //return View(new Index);
+                    ViewBag.myTask = Constants.uncheckedState;
                 }
                 //set previous page value for google map filteration
                 HttpContext.Session.SetString("previousPage", PageOrder.Tasklisting.ToString());
@@ -62,11 +65,16 @@ namespace Generwell.Web.Controllers
                     case 4:
                     case 5:
                     case 6:
+                    case 14:
                         taskModel = await _taskManagement.GetTasks(HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         break;
                     case 2:
-                    case 3:
-                        taskModel = await _taskManagement.GetTasksByWellId(HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                    case 3:                  
+                        taskModel = await _taskManagement.GetTasksByAssetsId(_appSettings.Well, HttpContext.Session.GetString("WellId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
+                        break;
+                    case 15:
+                    case 16:
+                        taskModel = await _taskManagement.GetTasksByAssetsId(_appSettings.Facilities, HttpContext.Session.GetString("FacilityId"), HttpContext.Session.GetString("AccessToken"), HttpContext.Session.GetString("TokenType"));
                         break;
                     default:
                         break;

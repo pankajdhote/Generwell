@@ -35,7 +35,24 @@
         Pipeline = 6,
         Project = 7,
         Map = 12,
-        Facilitylisting = 14
+        Facilitylisting = 14,
+        FacilityLineReport = 15,
+        FacilityDetails = 16
+    }
+
+    public enum AssetsInformation
+    {
+        Well = 1,
+        WellLineReports = 2,
+        WellDetails = 3,
+        Tasklisting = 4,
+        TaskDetails = 5,
+        Pipeline = 6,
+        Project = 7,
+        Map = 12,
+        Facilities = 14,
+        FacilityLineReport = 15,
+        FacilityDetails = 16
     }
 
 }

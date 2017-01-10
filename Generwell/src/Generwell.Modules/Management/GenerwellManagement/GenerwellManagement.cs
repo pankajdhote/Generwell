@@ -6,6 +6,9 @@ using Generwell.Modules.Services;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Generwell.Modules.GenerwellConstants;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Generwell.Modules.Management.GenerwellManagement
 {
@@ -14,13 +17,26 @@ namespace Generwell.Modules.Management.GenerwellManagement
         private readonly AppSettingsModel _appSettings;
         private readonly IGenerwellServices _generwellServices;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly List<FilterModel> _objFilterList;
+        private readonly LineReportsModel _objLineReport;
+        private readonly List<MapModel> _objMapList;
+
         private HttpContext _httpContext => _httpContextAccessor.HttpContext;
 
-        public GenerwellManagement(IHttpContextAccessor httpContextAccessor, IOptions<AppSettingsModel> appSettings, IGenerwellServices generwellServices, IMapper mapper)
+        public GenerwellManagement(List<FilterModel> objFilterList,
+            IHttpContextAccessor httpContextAccessor, 
+            IOptions<AppSettingsModel> appSettings, 
+            IGenerwellServices generwellServices,
+            LineReportsModel objLineReport,
+            List<MapModel> objMapList,
+            IMapper mapper)
         {
             _appSettings = appSettings.Value;
             _generwellServices = generwellServices;
             _httpContextAccessor = httpContextAccessor;
+            _objFilterList = objFilterList;
+            _objLineReport= objLineReport;
+            _objMapList = objMapList;
         }
         /// <summary>
         /// Added by pankaj
@@ -127,11 +143,126 @@ namespace Generwell.Modules.Management.GenerwellManagement
         /// Created for error logging using post api..
         /// </summary>
         /// <returns></returns>
-
         public async Task LogError(string param, string accessToken, string tokenType, string content)
         {
             await _generwellServices.PostWebApiData(_appSettings.LogError + "/" + param, accessToken, tokenType, content);
             _httpContext.Response.Redirect("/Accounts/Logout");
+        }
+
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-05-12-2016
+        /// Follow and UnFollow Wells.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> SetFollowUnfollow(string url, string isFollow, string id, string accessToken, string tokenType)
+        {
+            try
+            {
+                if (isFollow == Constants.trueState)
+                {
+                    string response = await _generwellServices.PostWebApiData(url + "/" + id + "/follow", accessToken, tokenType, string.Empty);
+                    return response;
+                }
+                else
+                {
+                    string response = await _generwellServices.DeleteWebApiData(url + "/" + id + "/unfollow", accessToken, tokenType);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetFilters method.\"}";
+                await LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return string.Empty;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-01-12-2016
+        /// Fetch all filters from web api.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<FilterModel>> GetFilters(string accessToken, string tokenType)
+        {
+            try
+            {
+                string filterList = await _generwellServices.GetWebApiDetails(_appSettings.Filters, accessToken, tokenType);
+                List<FilterModel> filterModel = JsonConvert.DeserializeObject<List<FilterModel>>(filterList);
+                return filterModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in GenerwellManagement GetFilters method.\"}";
+                await LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objFilterList;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-05-12-2016
+        ///Get well details from reportId.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<LineReportsModel> GetWellDetailsByReportId(string reportId, string wellId, string accessToken, string tokenType)
+        {
+            try
+            {
+                string wellDetailsList = await _generwellServices.GetWebApiWithTimeZone(_appSettings.Well + "/" + wellId + "/linereports/" + Encoding.UTF8.GetString(Convert.FromBase64String(reportId)), accessToken, tokenType);
+                LineReportsModel wellDetailsModel = JsonConvert.DeserializeObject<LineReportsModel>(wellDetailsList);
+                return wellDetailsModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellDetailsByReportId method.\"}";
+                await LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objLineReport;
+            }
+        }
+
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-01-12-2016
+        /// Fetch all well from web api by filterId.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<MapModel>> GetAssetsByFilterId(string url,string defaultFilter, string accessToken, string tokenType)
+        {
+            try
+            {
+                string recordByFilter = await _generwellServices.GetWebApiDetails(url + "=" + defaultFilter, accessToken, tokenType);
+                List<MapModel> mapModel = JsonConvert.DeserializeObject<List<MapModel>>(recordByFilter);
+                return mapModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellsByFilterId method.\"}";
+                await LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objMapList;
+            }
+        }
+        /// <summary>
+        /// Added by pankaj
+        /// Date:-01-12-2016
+        /// Fetch all well from web api by filterId.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<MapModel>> GetAssetsWithoutFilterId(string url,string accessToken, string tokenType)
+        {
+            try
+            {
+                string recordByFilter = await _generwellServices.GetWebApiDetails(url, accessToken, tokenType);
+                List<MapModel> mapModel = JsonConvert.DeserializeObject<List<MapModel>>(recordByFilter);
+                return mapModel;
+            }
+            catch (Exception ex)
+            {
+                string logContent = "{\"message\": \"" + ex.Message + "\", \"callStack\": \"" + ex.InnerException + "\",\"comments\": \"Error Comment:- Error Occured in WellManagement GetWellsWithoutFilterId method.\"}";
+                await LogError(Constants.logShortType, accessToken, tokenType, logContent);
+                return _objMapList;
+            }
+
         }
     }
 }

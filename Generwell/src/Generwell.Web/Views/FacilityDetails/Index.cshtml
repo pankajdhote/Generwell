@@ -2,13 +2,13 @@
 @using Microsoft.AspNetCore.Http;
 
 @{
-    ViewBag.Title = "Well Details";
+    ViewBag.Title = "Facility Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
     $(document).ready(function () {
-        wellDetailsPage.initialize();
+        facilityDetailsPage.initialize();
     });
 </script>
 
@@ -22,14 +22,14 @@
             <div class="float-right user-name"><label>Welcome &nbsp;</label>@Context.Session.GetString("UserName")</div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title border-bottom">
-                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Well Details</h4>
-                    <label>Well: </label>  @Context.Session.GetString("WellName")
+                    <h4><img src="~/images/welldetails-icon.png" class="pb-5" />&nbsp;Facility Details</h4>
+                    <label>Facility: </label>  @Context.Session.GetString("FacilityName")
                 </div>
                 <div id="followCheckDiv" class="i-checks chk border-bottom pt-pb-20">
-                    <span class=""><input type="checkbox" id="followWellId" name="followWell" class="ui-checkboxradio-checked" @Context.Session.GetString("IsFollow")  value=""> Followed Wells<br></span>
+                    <span class=""><input type="checkbox" id="followFacilityId" name="followFacility" class="ui-checkboxradio-checked" @Context.Session.GetString("IsFollow") value=""> Follow Facility<br></span>
                 </div>
                 <div class="ibox-content pt form-group">
-                    <table id="wellDetailsListTableId" class="dataTable table-striped table-bordered table-hover wellDetailsListTableDataTable" style="width:100%;">
+                    <table id="facilityDetailsListTableId" class="dataTable table-striped table-bordered table-hover facilityDetailsListTableDataTable" style="width:100%;">
                         <thead>
                             <tr>
                                 <th class="wd-width25">Id<i class="fa fa-fw fa-sort"></i></th>
@@ -55,7 +55,7 @@
                                     }
                                     @if (count % 2 == 0)
                                     {
-                                                <td>@item.id</td>
+                                        <td>@item.id</td>
                                                 <td>@item.description</td>
                                                 <td><label>@item.value</label></td>
                                             @:</tr>
@@ -64,9 +64,9 @@
                                 }
                             }
                         </tbody>
-                    </table>                                       
+                    </table>
                 </div>
-                <div class="float-right form-group"><img id="moveTop" src="~/images/back-to-top.png" class="h-fourty"/></div>
+                <div class="float-right form-group"><img id="moveTop" src="~/images/back-to-top.png" class="h-fourty" /></div>
             </div>
         </div>
     </div>

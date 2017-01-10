@@ -13,13 +13,13 @@ var facilityPage = {
         facilityPage.filterByCheckbox();
         facilityPage.filterDatatableByDropdown();
         facilityPage.redirectEvent(targetUrl);
-
+        
     },
     myFacilityFilter: function () {
         var oTable = $('#facilityListTableId').DataTable();
         if ($('.iCheck-helper').parent().attr("class").indexOf("checked") > -1) {
             oTable
-              .columns(8)
+              .columns(7)
               .search("^" + "True" + "$", true, false, false)
               .draw();
         } else {
@@ -83,7 +83,7 @@ var facilityPage = {
             $.ajax({
                 type: 'GET',
                 dataType: 'html',
-                url: '/Well/FilterFacility',
+                url: '/Facility/FilterFacility',
                 data: { id: filterId },
                 cache: false,
                 success: function (data) {
@@ -101,29 +101,29 @@ var facilityPage = {
             });
         });
     },
-    redirectWellLineReportPage: function (targetUrl, event) {
+    redirectFacilityLineReportPage: function (targetUrl, event) {
         debugger;
-        //On click of datatable row redirect to well line report page.
-        var oTable = $('#wellListTableId').DataTable();
+        //On click of datatable row redirect to facility line report page.
+        var oTable = $('#facilityListTableId').DataTable();
         var data = oTable.row($(event).parent()).data();
-        var url = targetUrl + '?wellId=' + Base64.encode(data[0]) + '&wellName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[8]) + '&latitude=' + Base64.encode(data[6]) + '&longitude=' + Base64.encode(data[7]);
+        var url = targetUrl + '?facilityId=' + Base64.encode(data[0]) + '&facilityName=' + Base64.encode(data[2]) + '&isFollow=' + Base64.encode(data[7]) + '&latitude=' + Base64.encode(data[5]) + '&longitude=' + Base64.encode(data[6]);
         window.location.href = url;
     },
     redirectEvent: function (targetUrl) {
-        //On click of datatable row redirect to well line report page.
-        $('#wellListTableId tbody').on('click', 'tr td', function (event) {
+        //On click of datatable row redirect to facility line report page.
+        $('#facilityListTableId tbody').on('click', 'tr td', function (event) {
             debugger;
             $('#myTask').prop('checked', false);
             $('#processing-modal').modal("show");
             if (event.currentTarget.children[0] != undefined) {
-                wellPage.wellFollowUnfollow(event);
+                facilityPage.facilityFollowUnfollow(event);
             } else {
-                wellPage.redirectWellLineReportPage(targetUrl, this);
+                facilityPage.redirectFacilityLineReportPage(targetUrl, this);
             }
         });
     },
-    wellFollowUnfollow: function (event) {
-        var wellId = parseInt(event.currentTarget.children[0].name);
+    facilityFollowUnfollow: function (event) {
+        var facilityId = parseInt(event.currentTarget.children[0].name);
         var followChecked = event.currentTarget.children[0].id;
         if (followChecked != undefined) {
             var filterId = $('#FilterList option:selected').val();
@@ -131,15 +131,15 @@ var facilityPage = {
             $.ajax({
                 type: 'GET',
                 dataType: 'html',
-                url: '/Well/SetFollowUnfollow',
-                data: { isFollow: followChecked, wellId: wellId, filterId: filterId },
+                url: '/Facility/SetFollowUnfollow',
+                data: { isFollow: followChecked, facilityId: facilityId, filterId: filterId },
                 cache: false,
                 success: function (response) {
                     debugger;
                     if (response != undefined || response != "") {
-                        $("#wellTableDivId").html(response);
+                        $("#facilityTableDivId").html(response);
                         //On checkbox click filter data tables rows
-                        wellPage.myWellFilter();
+                        facilityPage.myFacilityFilter();
                         $('#processing-modal').modal("hide");
                     }
                 },
